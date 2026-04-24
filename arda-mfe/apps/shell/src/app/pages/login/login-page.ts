@@ -37,6 +37,7 @@ export class LoginPage implements OnInit {
     { icon: 'pi-users', text: 'CRM, HRM, Finance trên một nền tảng' },
     { icon: 'pi-shield', text: 'Bảo mật chuẩn ngân hàng — RBAC + 2FA' },
     { icon: 'pi-building', text: 'Multi-tenant, phân quyền theo tổ chức' },
+    { icon: 'pi-bolt', text: 'Tối ưu hóa hiệu năng và trải nghiệm người dùng' },
   ];
 
   readonly badges = [

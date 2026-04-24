@@ -79,3 +79,4 @@ export const appRoutes: Route[] = [
   // Wildcard fallback → 404
   { path: '**', redirectTo: '404' },
 ];
+// Trigger CI/CD with new PAT scopes

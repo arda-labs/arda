@@ -39,6 +39,8 @@ target/
 *.war
 *.ear
 
+.env
+
 # Logs
 *.log
 arda-infra/

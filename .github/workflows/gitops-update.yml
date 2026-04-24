@@ -1,0 +1,45 @@
+name: GitOps Update
+
+on:
+  workflow_call:
+    inputs:
+      service_path:
+        description: 'Path to the service in arda-infra/apps/'
+        required: true
+        type: string
+      image_name:
+        description: 'Full image name (e.g. ghcr.io/arda-labs/iam-service)'
+        required: true
+        type: string
+      image_tag:
+        description: 'New image tag'
+        required: true
+        type: string
+    secrets:
+      GITOPS_PAT:
+        required: true
+
+jobs:
+  update-manifest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout arda-infra
+        uses: actions/checkout@v4
+        with:
+          repository: arda-labs/arda-infra
+          token: ${{ secrets.GITOPS_PAT }}
+          path: arda-infra
+
+      - name: Update Image Tag
+        run: |
+          cd arda-infra/apps/${{ inputs.service_path }}/overlays/dev
+          kustomize edit set image ${{ inputs.image_name }}=${{ inputs.image_name }}:${{ inputs.image_tag }}
+
+      - name: Commit and Push
+        run: |
+          cd arda-infra
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "chore: update ${{ inputs.image_name }} to ${{ inputs.image_tag }}" || echo "No changes to commit"
+          git push

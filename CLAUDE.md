@@ -40,8 +40,23 @@
 - **Sync**: Tự động đồng bộ từ branch `main` của infra repo.
 
 ### 🌐 API Gateway (APISIX)
-- **Domain**: `arda.io.vn`
+
+- **Domain chính**: `arda.io.vn`
+- **Identity (Zitadel)**: `auth.arda.io.vn`
 - **Admin API**: `10.43.150.100:9180`
+- **Network Flow**: `User -> Cloudflare Tunnel -> APISIX -> Internal Services`
+
+---
+
+## 🌐 Network Architecture
+
+| Hostname | Target Service | Path | Gateway |
+| --- | --- | --- | --- |
+| `arda.io.vn` | `mfe-shell` | `/*` | APISIX |
+| `auth.arda.io.vn` | `zitadel` | `/*` | Traefik |
+| `argocd.arda.io.vn` | `argocd-server` | `/*` | Cloudflare (Direct) |
+
+**Lưu ý**: `auth.arda.io.vn` được tách riêng qua Traefik để đảm bảo tính độc lập cho hệ thống Identity, không đi qua APISIX Gateway.
 
 ---
 

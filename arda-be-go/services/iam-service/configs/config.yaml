@@ -9,9 +9,9 @@ server:
 data:
   database:
     driver: postgres
-    source: "${DATABASE_URL}"
+    source: "postgres://iam:iam%40123@thinkcenter:5432/iam?sslmode=disable"
   redis:
-    addr: "${REDIS_ADDR}"
+    addr: "thinkcenter:6379"
     read_timeout: 0.2s
     write_timeout: 0.2s
     db: 0

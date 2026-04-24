@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 
-	"github.com/arda-labs/arda/services/iam-service/internal/biz"
+	"github.com/arda-labs/arda/arda-be-go/services/iam-service/internal/biz"
 	"github.com/jackc/pgx/v5"
 )
 

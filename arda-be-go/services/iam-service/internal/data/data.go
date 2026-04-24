@@ -9,15 +9,15 @@ import (
 	"github.com/golang-migrate/migrate/v4"
 	"github.com/golang-migrate/migrate/v4/database/postgres"
 	"github.com/golang-migrate/migrate/v4/source/iofs"
-	"github.com/arda-labs/arda/pkg/database"
-	"github.com/arda-labs/arda/pkg/redis"
+	"github.com/arda-labs/arda/arda-be-go/pkg/database"
+	"github.com/arda-labs/arda/arda-be-go/pkg/redis"
 
 	_ "github.com/jackc/pgx/v5/stdlib"
 
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/google/wire"
 
-	"github.com/arda-labs/arda/services/iam-service/internal/conf"
+	"github.com/arda-labs/arda/arda-be-go/services/iam-service/internal/conf"
 )
 
 //go:embed migrations/*.sql

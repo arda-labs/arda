@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/ngvgroup/arda/services/iam-service/internal/biz"
+	"github.com/arda-labs/arda/arda-be-go/services/iam-service/internal/biz"
 	"github.com/jackc/pgx/v5"
 )
 

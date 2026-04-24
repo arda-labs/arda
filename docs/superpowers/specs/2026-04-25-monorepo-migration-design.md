@@ -6,7 +6,7 @@
 - **Status**: Draft
 
 ## 1. Mục tiêu
-Hợp nhất các repo riêng lẻ của dự án Arda vào một Monorepo duy nhất trên GitHub tổ chức `arda-labs`, đồng thời chuyển đổi toàn bộ tham chiếu từ `ngvgroup` sang `arda-labs`.
+Hợp nhất các repo riêng lẻ của dự án Arda vào một Monorepo duy nhất trên GitHub tổ chức `arda-labs`, đồng thời chuyển đổi toàn bộ tham chiếu từ `arda-labs` sang `arda-labs`.
 
 ## 2. Cấu trúc đích (Arda Monorepo)
 Repo: `arda-labs/arda` (Public)
@@ -26,8 +26,8 @@ arda/
 ### Giai đoạn 1: Chuẩn bị Local & Đổi tên hàng loạt
 1.  **Xóa lịch sử cũ**: Tìm và xóa tất cả các thư mục `.git` bên trong các thư mục con (`arda-mfe`, `arda-be-go`, v.v.).
 2.  **Replace String**: Quét toàn bộ project và thay thế:
-    - `ngvgroup` -> `arda-labs`
-    - `github.com/ngvgroup` -> `github.com/arda-labs/arda` (cho các import Go)
+    - `arda-labs` -> `arda-labs`
+    - `github.com/arda-labs` -> `github.com/arda-labs/arda` (cho các import Go)
 3.  **Cập nhật cấu hình**:
     - Sửa `go.mod` trong các service Go để khớp với đường dẫn mới trong monorepo.
     - Cập nhật các file cấu hình Nx trong `arda-mfe`.
@@ -54,7 +54,7 @@ arda/
 - **Giải pháp**: Tạm thời disable các workflow cũ và migrate dần sang cấu trúc monorepo.
 
 ## 5. Tiêu chí hoàn thành
-- [ ] Không còn từ khóa `ngvgroup` trong toàn bộ codebase.
+- [ ] Không còn từ khóa `arda-labs` trong toàn bộ codebase.
 - [ ] Repo `arda-labs/arda` có đầy đủ code của MFE, BE Go, BE Java và Docs.
 - [ ] Các service Go có thể build local thành công với module path mới.
 - [ ] GitHub Org `arda-labs` đã được dọn dẹp sạch sẽ các repo cũ.

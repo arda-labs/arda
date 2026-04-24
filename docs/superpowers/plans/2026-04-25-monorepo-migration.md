@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Chuyển đổi cấu trúc project sang Monorepo duy nhất (`arda-labs/arda`) và đổi tên toàn bộ từ `ngvgroup` sang `arda-labs`.
+**Goal:** Chuyển đổi cấu trúc project sang Monorepo duy nhất (`arda-labs/arda`) và đổi tên toàn bộ từ `arda-labs` sang `arda-labs`.
 
 **Architecture:** 
 1. Hợp nhất `arda-mfe`, `arda-be-go`, `arda-be-java` và `docs` vào một git root duy nhất tại `d:/Github/arda`.
@@ -53,13 +53,13 @@ Run: `git init && git add . && git commit -m "initial: prepare monorepo structur
 ### Task 2: Đổi tên hàng loạt (Renaming)
 
 **Files:**
-- Modify: Tất cả các file chứa "ngvgroup"
+- Modify: Tất cả các file chứa "arda-labs"
 
-- [ ] **Step 1: Chạy script thay thế chuỗi "ngvgroup" thành "arda-labs"**
-Run: `grep -rli 'ngvgroup' . | xargs -i sed -i 's/ngvgroup/arda-labs/g' {}`
+- [ ] **Step 1: Chạy script thay thế chuỗi "arda-labs" thành "arda-labs"**
+Run: `grep -rli 'arda-labs' . | xargs -i sed -i 's/arda-labs/arda-labs/g' {}`
 
 - [ ] **Step 2: Kiểm tra lại các file quan trọng**
-Run: `grep -r "ngvgroup" .` (Kỳ vọng: Không còn kết quả)
+Run: `grep -r "arda-labs" .` (Kỳ vọng: Không còn kết quả)
 
 - [ ] **Step 3: Cập nhật Go Modules**
 Run: 
@@ -69,7 +69,7 @@ cd ../common-service && go mod edit -module github.com/arda-labs/arda/arda-be-go
 ```
 
 - [ ] **Step 4: Commit thay đổi renaming**
-Run: `git add . && git commit -m "refactor: rename ngvgroup to arda-labs across project"`
+Run: `git add . && git commit -m "refactor: rename arda-labs to arda-labs across project"`
 
 ---
 

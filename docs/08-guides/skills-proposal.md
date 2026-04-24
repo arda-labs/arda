@@ -569,7 +569,7 @@ Deploy lên K3s:
 /k3s-deploy "Tạo deployment manifest cho CRM service"
 
 Review code:
-/code-review "Review file be_loan/src/main/java/ngvgroup/com/loan/feature/loan_parameter/interest_process/"
+/code-review "Review file be_loan/src/main/java/arda-labs/com/loan/feature/loan_parameter/interest_process/"
 ```
 
 ---

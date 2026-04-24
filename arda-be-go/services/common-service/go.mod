@@ -1,4 +1,4 @@
-module github.com/arda-labs/arda/services/common-service
+module github.com/arda-labs/arda/arda-be-go/services/common-service
 
 go 1.25.0
 

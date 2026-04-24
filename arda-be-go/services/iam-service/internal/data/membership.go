@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/arda-labs/arda/pkg/middleware"
-	"github.com/arda-labs/arda/services/iam-service/internal/biz"
+	"github.com/arda-labs/arda/arda-be-go/pkg/middleware"
+	"github.com/arda-labs/arda/arda-be-go/services/iam-service/internal/biz"
 	"github.com/jackc/pgx/v5"
 )
 

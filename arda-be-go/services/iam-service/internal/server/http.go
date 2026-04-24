@@ -3,10 +3,10 @@ package server
 import (
 	stdlib "net/http"
 
-	"github.com/arda-labs/arda/pkg/middleware"
-	"github.com/arda-labs/arda/services/iam-service/internal/conf"
-	"github.com/arda-labs/arda/services/iam-service/internal/service"
-	pb "github.com/arda-labs/arda/services/iam-service/api/iam/v1"
+	"github.com/arda-labs/arda/arda-be-go/pkg/middleware"
+	"github.com/arda-labs/arda/arda-be-go/services/iam-service/internal/conf"
+	"github.com/arda-labs/arda/arda-be-go/services/iam-service/internal/service"
+	pb "github.com/arda-labs/arda/arda-be-go/services/iam-service/api/iam/v1"
 
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/go-kratos/kratos/v2/middleware/recovery"

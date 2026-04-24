@@ -4,11 +4,11 @@
 package main
 
 import (
-	"iam-service/internal/biz"
-	"iam-service/internal/conf"
-	"iam-service/internal/data"
-	"iam-service/internal/server"
-	"iam-service/internal/service"
+	"github.com/arda-labs/arda/arda-be-go/services/iam-service/internal/biz"
+	"github.com/arda-labs/arda/arda-be-go/services/iam-service/internal/conf"
+	"github.com/arda-labs/arda/arda-be-go/services/iam-service/internal/data"
+	"github.com/arda-labs/arda/arda-be-go/services/iam-service/internal/server"
+	"github.com/arda-labs/arda/arda-be-go/services/iam-service/internal/service"
 
 	"github.com/go-kratos/kratos/v2"
 	"github.com/go-kratos/kratos/v2/log"

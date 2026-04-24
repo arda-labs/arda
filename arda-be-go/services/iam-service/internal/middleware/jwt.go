@@ -9,7 +9,7 @@ import (
 	"sync"
 	"time"
 
-	"iam-service/internal/conf"
+	"github.com/arda-labs/arda/arda-be-go/services/iam-service/internal/conf"
 
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/go-kratos/kratos/v2/middleware"

@@ -102,7 +102,7 @@ jobs:
 
       - name: Update iam-service image tag
         run: |
-          cd apps/iam-service/overlays/dev
+          cd apps/github.com/arda-labs/arda/arda-be-go/services/iam-service/overlays/dev
           kustomize edit set image \
             ghcr.io/arda-labs/iam-service=ghcr.io/arda-labs/iam-service:${{ needs.build.outputs.git_sha }}
 
@@ -110,7 +110,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add apps/iam-service/overlays/dev/kustomization.yaml
+          git add apps/github.com/arda-labs/arda/arda-be-go/services/iam-service/overlays/dev/kustomization.yaml
           git diff --cached --quiet && echo "No changes" && exit 0
           git commit -m "chore(iam-service): update image to ${{ needs.build.outputs.git_sha }}"
           git push

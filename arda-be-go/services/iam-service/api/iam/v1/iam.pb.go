@@ -3023,7 +3023,7 @@ const file_api_iam_v1_iam_proto_rawDesc = "" +
 	"\x18RevokeResourcePermission\x12'.iam.v1.RevokeResourcePermissionRequest\x1a(.iam.v1.RevokeResourcePermissionResponse\"%\x82\xd3\xe4\x93\x02\x1f*\x1d/v1/resource-permissions/{id}\x12\x80\x01\n" +
 	"\x14ListPendingApprovals\x12#.iam.v1.ListPendingApprovalsRequest\x1a$.iam.v1.ListPendingApprovalsResponse\"\x1d\x82\xd3\xe4\x93\x02\x17\x12\x15/v1/approvals/pending\x12x\n" +
 	"\x11ApprovePermission\x12 .iam.v1.ApprovePermissionRequest\x1a\x1a.iam.v1.ResourcePermission\"%\x82\xd3\xe4\x93\x02\x1f:\x01*\"\x1a/v1/approvals/{id}/approve\x12u\n" +
-	"\x10RejectPermission\x12\x1f.iam.v1.RejectPermissionRequest\x1a\x1a.iam.v1.ResourcePermission\"$\x82\xd3\xe4\x93\x02\x1e:\x01*\"\x19/v1/approvals/{id}/rejectB\x1bZ\x19iam-service/api/iam/v1;v1b\x06proto3"
+	"\x10RejectPermission\x12\x1f.iam.v1.RejectPermissionRequest\x1a\x1a.iam.v1.ResourcePermission\"$\x82\xd3\xe4\x93\x02\x1e:\x01*\"\x19/v1/approvals/{id}/rejectB\x1bZ\x19github.com/arda-labs/arda/arda-be-go/services/iam-service/api/iam/v1;v1b\x06proto3"
 
 var (
 	file_api_iam_v1_iam_proto_rawDescOnce sync.Once

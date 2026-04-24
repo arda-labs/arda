@@ -98,7 +98,7 @@ const file_iam_v1_error_reason_proto_rawDesc = "" +
 	"\x0eROLE_NOT_FOUND\x10\x04\x12\x15\n" +
 	"\x11PERMISSION_DENIED\x10\x05\x12\x12\n" +
 	"\x0eALREADY_EXISTS\x10\x06\x12\x14\n" +
-	"\x10INVALID_ARGUMENT\x10\aB\x1bZ\x19iam-service/api/iam/v1;v1b\x06proto3"
+	"\x10INVALID_ARGUMENT\x10\aB\x1bZ\x19github.com/arda-labs/arda/arda-be-go/services/iam-service/api/iam/v1;v1b\x06proto3"
 
 var (
 	file_iam_v1_error_reason_proto_rawDescOnce sync.Once

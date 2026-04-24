@@ -11,10 +11,10 @@ import (
 	"sync"
 	"time"
 
+	"github.com/arda-labs/arda/arda-be-go/services/iam-service/internal/conf"
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/lestrrat-go/jwx/v2/jwk"
-	"github.com.arda_labss/arda/arda-be-go/services/iam-service/internal/conf"
 )
 
 type AuthUsecase struct {
@@ -27,10 +27,10 @@ type AuthUsecase struct {
 
 // jwkCache giữ bản cache JWKS set với TTL 1 giờ
 type jwkCache struct {
-	mu      sync.RWMutex
-	set     jwk.Set
-	cached  time.Time
-	ttl     time.Duration
+	mu       sync.RWMutex
+	set      jwk.Set
+	cached   time.Time
+	ttl      time.Duration
 	endpoint string
 }
 
@@ -193,8 +193,8 @@ func stringClaimVal(v interface{}) string {
 }
 
 type routeRule struct {
-	method  string
-	pattern *regexp.Regexp
+	method   string
+	pattern  *regexp.Regexp
 	resource string
 	action   string
 }

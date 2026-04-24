@@ -2,10 +2,9 @@ package data
 
 import (
 	"context"
-	"fmt"
 
-	"github.com.arda_labss/arda/arda-be-go/pkg/middleware"
-	"github.com.arda_labss/arda/arda-be-go/services/iam-service/internal/biz"
+	"github.com/arda-labs/arda/arda-be-go/pkg/middleware"
+	"github.com/arda-labs/arda/arda-be-go/services/iam-service/internal/biz"
 	"github.com/jackc/pgx/v5"
 )
 

@@ -10,7 +10,7 @@ WORKDIR /src
 RUN CGO_ENABLED=0 GOOS=linux go build \
     -ldflags "-X main.Version=$(git describe --tags --always 2>/dev/null || echo dev) -w -s" \
     -o ./bin/iam-service \
-    ./cmd/iam-service/
+    ./cmd/github.com/arda-labs/arda/arda-be-go/services/iam-service/
 
 # Runtime stage: distroless/static - không có shell, không có OS packages
 # Zero CVE từ OS layer, chỉ có binary và ca-certificates

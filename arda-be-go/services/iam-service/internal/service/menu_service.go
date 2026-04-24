@@ -3,8 +3,8 @@ package service
 import (
 	"context"
 
-	"github.com.arda_labss/arda/arda-be-go/services/iam-service/internal/biz"
-	"github.com.arda_labss/arda/arda-be-go/pkg/middleware"
+	"github.com/arda-labs/arda/arda-be-go/pkg/middleware"
+	"github.com/arda-labs/arda/arda-be-go/services/iam-service/internal/biz"
 
 	"github.com/go-kratos/kratos/v2/errors"
 	"github.com/go-kratos/kratos/v2/log"
@@ -31,12 +31,12 @@ type GetMenuResponse struct {
 }
 
 type MenuItem struct {
-	ID        string      `json:"id"`
-	Name      string      `json:"name"`
-	Icon      string      `json:"icon"`
-	Route     string      `json:"route"`
-	SortOrder int         `json:"sort_order"`
-	Children  []MenuItem  `json:"children"`
+	ID        string     `json:"id"`
+	Name      string     `json:"name"`
+	Icon      string     `json:"icon"`
+	Route     string     `json:"route"`
+	SortOrder int        `json:"sort_order"`
+	Children  []MenuItem `json:"children"`
 }
 
 type Menu struct {

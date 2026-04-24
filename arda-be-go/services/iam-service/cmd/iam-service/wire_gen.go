@@ -7,13 +7,13 @@
 package main
 
 import (
+	"github.com/arda-labs/arda/arda-be-go/services/iam-service/internal/biz"
+	"github.com/arda-labs/arda/arda-be-go/services/iam-service/internal/conf"
+	"github.com/arda-labs/arda/arda-be-go/services/iam-service/internal/data"
+	"github.com/arda-labs/arda/arda-be-go/services/iam-service/internal/server"
+	"github.com/arda-labs/arda/arda-be-go/services/iam-service/internal/service"
 	"github.com/go-kratos/kratos/v2"
 	"github.com/go-kratos/kratos/v2/log"
-	"iam-service/internal/biz"
-	"iam-service/internal/conf"
-	"iam-service/internal/data"
-	"iam-service/internal/server"
-	"iam-service/internal/service"
 )
 
 import (
@@ -41,12 +41,12 @@ func wireApp(confServer *conf.Server, confData *conf.Data, jwt *conf.JWT, zitade
 	permissionRepo := data.NewPermissionRepo(dataData)
 	permissionUsecase := biz.NewPermissionUsecase(roleRepo, permissionRepo, permissionCache, auditUsecase)
 	authUsecase := biz.NewAuthUsecase(zitadel, jwt, permissionUsecase, logger)
+	iamService := service.NewIAMService(userUsecase, tenantUsecase, membershipUsecase, roleUsecase, permissionUsecase, authUsecase, logger)
+	grpcServer := server.NewGRPCServer(confServer, iamService, logger)
 	menuRepo := data.NewMenuRepo(dataData, logger)
 	menuUsecase := biz.NewMenuUsecase(menuRepo, logger)
 	menuService := service.NewMenuService(menuUsecase, logger)
-	iamService := service.NewIAMService(userUsecase, tenantUsecase, membershipUsecase, roleUsecase, permissionUsecase, authUsecase, logger)
-	grpcServer := server.NewGRPCServer(confServer, jwt, iamService, logger)
-	httpServer := server.NewHTTPServer(confServer, jwt, iamService, menuService, logger)
+	httpServer := server.NewHTTPServer(confServer, iamService, menuService, logger)
 	app := newApp(logger, grpcServer, httpServer)
 	return app, func() {
 		cleanup()

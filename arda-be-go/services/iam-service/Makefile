@@ -47,7 +47,7 @@ api:
 .PHONY: build
 # build
 build:
-	mkdir -p bin/ && go build -ldflags "-X main.Version=$(VERSION)" -o ./bin/iam-service ./cmd/iam-service/
+	mkdir -p bin/ && go build -ldflags "-X main.Version=$(VERSION)" -o ./bin/iam-service ./cmd/github.com/arda-labs/arda/arda-be-go/services/iam-service/
 
 .PHONY: run
 # run

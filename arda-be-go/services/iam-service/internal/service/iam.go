@@ -3,9 +3,9 @@ package service
 import (
 	"context"
 
-	pb "github.com.arda_labss/arda/arda-be-go/services/iam-service/api/iam/v1"
-	"github.com.arda_labss/arda/arda-be-go/services/iam-service/internal/biz"
-	"github.com.arda_labss/arda/arda-be-go/pkg/middleware"
+	"github.com/arda-labs/arda/arda-be-go/pkg/middleware"
+	pb "github.com/arda-labs/arda/arda-be-go/services/iam-service/api/iam/v1"
+	"github.com/arda-labs/arda/arda-be-go/services/iam-service/internal/biz"
 
 	"github.com/go-kratos/kratos/v2/errors"
 	"github.com/go-kratos/kratos/v2/log"

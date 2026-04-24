@@ -4,7 +4,7 @@ import (
 	"flag"
 	"os"
 
-	"iam-service/internal/conf"
+	"github.com/arda-labs/arda/arda-be-go/services/iam-service/internal/conf"
 
 	"github.com/go-kratos/kratos/v2"
 	"github.com/go-kratos/kratos/v2/config"

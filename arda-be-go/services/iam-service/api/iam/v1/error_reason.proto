@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package iam.v1;
 
-option go_package = "iam-service/api/iam/v1;v1";
+option go_package = "github.com/arda-labs/arda/arda-be-go/services/iam-service/api/iam/v1;v1";
 
 enum ErrorReason {
   IAM_UNSPECIFIED = 0;

@@ -1,0 +1,91 @@
+syntax = "proto3";
+
+package iam.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "iam-service/api/iam/v1;v1";
+
+service IAMService {
+  // ... existing endpoints ...
+
+  // Menu
+  rpc GetMenu(GetMenuRequest) returns (GetMenuResponse) {
+    option (google.api.http) = { get: "/v1/me/menu" };
+  }
+  rpc ListMenus(ListMenusRequest) returns (ListMenusResponse) {
+    option (google.api.http) = { get: "/v1/menus" };
+  }
+  rpc CreateMenu(CreateMenuRequest) returns (Menu) {
+    option (google.api.http) = { post: "/v1/menus" body: "*" };
+  }
+  rpc UpdateMenu(UpdateMenuRequest) returns (Menu) {
+    option (google.api.http) = { put: "/v1/menus/{id}" body: "*" };
+  }
+  rpc DeleteMenu(DeleteMenuRequest) returns (DeleteMenuResponse) {
+    option (google.api.http) = { delete: "/v1/menus/{id}" };
+  }
+}
+
+// Menu messages
+message Menu {
+  string id = 1;
+  string tenant_id = 2;
+  string parent_id = 3;
+  string name = 4;
+  string slug = 5;
+  string icon = 6;
+  string route = 7;
+  int32 sort_order = 8;
+  bool enabled = 9;
+  google.protobuf.Timestamp created_at = 10;
+  google.protobuf.Timestamp updated_at = 11;
+}
+
+// Requests
+message GetMenuRequest {}
+message GetMenuResponse {
+  repeated MenuItem items = 1;
+}
+
+message MenuItem {
+  string id = 1;
+  string name = 2;
+  string icon = 3;
+  string route = 4;
+  int32 sort_order = 5;
+  repeated MenuItem children = 6;
+}
+
+message ListMenusRequest {
+  string tenant_id = 1;
+}
+message ListMenusResponse {
+  repeated Menu menus = 1;
+}
+
+message CreateMenuRequest {
+  string tenant_id = 1;
+  string parent_id = 2;
+  string name = 3;
+  string slug = 4;
+  string icon = 5;
+  string route = 6;
+  int32 sort_order = 7;
+  bool enabled = 8;
+}
+
+message UpdateMenuRequest {
+  string id = 1;
+  string parent_id = 2;
+  string name = 3;
+  string slug = 4;
+  string icon = 5;
+  string route = 6;
+  int32 sort_order = 7;
+  bool enabled = 8;
+}
+
+message DeleteMenuRequest { string id = 1; }
+message DeleteMenuResponse {}

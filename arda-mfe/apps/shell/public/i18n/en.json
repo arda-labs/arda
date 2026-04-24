@@ -1,0 +1,24 @@
+{
+  "COMMON": {
+    "SAVE": "Save",
+    "CANCEL": "Cancel",
+    "LOGIN": "Login",
+    "LOGOUT": "Logout",
+    "ERROR": {
+      "SYSTEM": "System Error",
+      "UNAUTHORIZED": "Session Expired",
+      "FORBIDDEN": "Access Denied",
+      "NOT_FOUND": "Not Found"
+    }
+  },
+  "PAGES": {
+    "LOGIN": {
+      "TITLE": "Welcome Back",
+      "SUBTITLE": "Please login to continue"
+    },
+    "SELECT_WORKSPACE": {
+      "TITLE": "Select workspace to continue",
+      "CREATE_FIRST": "Create First Workspace"
+    }
+  }
+}

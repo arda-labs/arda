@@ -1,0 +1,8 @@
+go 1.25.0
+
+use (
+	./pkg
+	./services/iam-service
+	./services/common-service
+	./services/crm-service
+)

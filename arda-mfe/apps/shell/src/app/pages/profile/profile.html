@@ -1,0 +1,38 @@
+<div class="max-w-2xl mx-auto p-6 space-y-6">
+  <h1 class="text-2xl font-bold text-surface-900 dark:text-white">Profile</h1>
+
+  @if (user(); as u) {
+  <!-- Avatar & Name Card -->
+  <div class="bg-surface-0 dark:bg-surface-900 rounded-xl border border-surface-200 dark:border-surface-800 p-6">
+    <div class="flex items-center gap-5">
+      <p-avatar [label]="initials()" shape="circle" class="bg-primary-500 text-white font-bold"
+        styleClass="!w-16 !h-16 !text-xl" />
+      <div>
+        <h2 class="text-lg font-semibold text-surface-900 dark:text-white">{{ u.name }}</h2>
+        <p class="text-sm text-surface-500">{{ u.email }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Details Card -->
+  <div
+    class="bg-surface-0 dark:bg-surface-900 rounded-xl border border-surface-200 dark:border-surface-800 p-6 space-y-4">
+    <h3 class="text-sm font-semibold text-surface-500 uppercase tracking-wider">Account Details</h3>
+    <div class="grid grid-cols-[120px_1fr] gap-y-3 text-sm">
+      <span class="text-surface-500">Email</span>
+      <span class="text-surface-900 dark:text-white font-medium">{{ u.email }}</span>
+      <span class="text-surface-500">Display Name</span>
+      <span class="text-surface-900 dark:text-white font-medium">{{ u.name }}</span>
+      <span class="text-surface-500">Tenant ID</span>
+      <span class="text-surface-900 dark:text-white font-mono text-xs">{{ u.tenant || '—' }}</span>
+    </div>
+  </div>
+  } @else {
+  <p class="text-surface-500">Loading profile...</p>
+  }
+
+  <div class="flex gap-3">
+    <a pButton label="Back to Dashboard" icon="pi pi-arrow-left" severity="secondary" routerLink="/app">
+    </a>
+  </div>
+</div>

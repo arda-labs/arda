@@ -1,0 +1,65 @@
+<nav class="flex flex-col gap-1.5">
+  @for (item of items(); track item.label) {
+  <!-- Level 1 Item -->
+  <div class="flex flex-col">
+    <a [routerLink]="item.routerLink"
+      routerLinkActive="bg-primary-50! text-primary-600! dark:bg-primary-500/10! dark:text-primary-400!"
+      [routerLinkActiveOptions]="{exact: item.routerLink?.includes('home') || item.label === 'Dashboard'}"
+      (click)="toggleMenuItem(item)"
+      class="group flex items-center px-3 py-2.5 rounded-xl transition-all duration-200 cursor-pointer hover:bg-surface-100 dark:hover:bg-surface-800 no-underline text-surface-700 dark:text-surface-300">
+
+      <i [class]="item.icon + ' text-lg mr-3 text-primary-500 transition-transform group-hover:scale-110'"></i>
+      <span class="text-sm font-bold flex-1">{{ item.label }}</span>
+
+      @if (item.items && item.items.length > 0) {
+      <i [class]="'pi pi-chevron-right text-surface-300/80 transition-transform duration-300 ' + (isExpanded(item.label) ? 'rotate-90' : '')"
+        style="margin-left: auto; font-size: 8px !important; width: 8px; height: 8px; display: flex; align-items: center; justify-content: center;"></i>
+      }
+    </a>
+
+    <!-- Level 2 Submenu -->
+    @if (item.items && item.items.length > 0 && isExpanded(item.label)) {
+    <div
+      class="flex flex-col ml-4 mt-1 pl-4 border-l border-surface-200 dark:border-surface-800 gap-1 animate-slide-down">
+      @for (subItem of item.items; track subItem.label) {
+      <div class="flex flex-col">
+        <a [routerLink]="subItem.routerLink"
+          routerLinkActive="text-primary-600! font-bold! bg-surface-100/50 dark:bg-surface-800/30"
+          (click)="toggleMenuItem(subItem)"
+          class="group flex items-center px-3 py-2 rounded-lg transition-all duration-200 cursor-pointer hover:bg-surface-100 dark:hover:bg-surface-800/50 no-underline text-surface-600 dark:text-surface-400">
+
+          @if (subItem.icon) {
+          <i [class]="subItem.icon + ' text-base mr-3 opacity-80'"></i>
+          } @else {
+          <span class="w-1.5 h-1.5 rounded-full bg-surface-300 dark:bg-surface-600 mr-3"></span>
+          }
+
+          <span class="text-[13px] font-semibold flex-1">{{ subItem.label }}</span>
+
+          @if (subItem.items && subItem.items.length > 0) {
+          <i [class]="'pi pi-chevron-right text-surface-300/80 transition-transform duration-200 ' + (isExpanded(subItem.label) ? 'rotate-90' : '')"
+            style="margin-left: auto; font-size: 7px !important; width: 7px; height: 7px; display: flex; align-items: center; justify-content: center;"></i>
+          }
+        </a>
+
+        <!-- Level 3 Submenu -->
+        @if (subItem.items && subItem.items.length > 0 && isExpanded(subItem.label)) {
+        <div
+          class="flex flex-col mt-1 gap-1 pl-4 border-l border-surface-100 dark:border-surface-800 animate-slide-down">
+          @for (deepItem of subItem.items; track deepItem.label) {
+          <a [routerLink]="deepItem.routerLink"
+            routerLinkActive="text-primary-500! font-bold! bg-primary-50/50 dark:bg-primary-500/5"
+            class="flex items-center px-3 py-1.5 rounded-md text-[12px] text-surface-500 dark:text-surface-500 hover:text-surface-900 dark:hover:text-surface-0 transition-colors no-underline">
+            <span class="w-1 h-1 rounded-full bg-surface-300 dark:bg-surface-700 mr-3"></span>
+            <span class="flex-1 truncate">{{ deepItem.label }}</span>
+          </a>
+          }
+        </div>
+        }
+      </div>
+      }
+    </div>
+    }
+  </div>
+  }
+</nav>

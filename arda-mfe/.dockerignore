@@ -1,0 +1,13 @@
+node_modules
+dist
+.git
+.nx
+.angular
+tmp
+*.md
+.github
+.claude
+.agents
+.gemini
+.cursor
+.vscode

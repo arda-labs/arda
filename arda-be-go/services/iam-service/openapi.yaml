@@ -1,0 +1,1094 @@
+# Generated with protoc-gen-openapi
+# https://github.com/google/gnostic/tree/master/cmd/protoc-gen-openapi
+
+openapi: 3.0.3
+info:
+    title: IAMService API
+    version: 0.0.1
+paths:
+    /v1/approvals/pending:
+        get:
+            tags:
+                - IAMService
+            description: Approvals (Maker-Checker)
+            operationId: IAMService_ListPendingApprovals
+            parameters:
+                - name: tenantId
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListPendingApprovalsResponse'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/approvals/{id}/approve:
+        post:
+            tags:
+                - IAMService
+            operationId: IAMService_ApprovePermission
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ApprovePermissionRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ResourcePermission'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/approvals/{id}/reject:
+        post:
+            tags:
+                - IAMService
+            operationId: IAMService_RejectPermission
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/RejectPermissionRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ResourcePermission'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/assign-role:
+        post:
+            tags:
+                - IAMService
+            operationId: IAMService_AssignRole
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/AssignRoleRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/UserRole'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/auth/forward:
+        post:
+            tags:
+                - IAMService
+            description: Forward Auth (Dành cho APISIX)
+            operationId: IAMService_ForwardAuth
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ForwardAuthRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ForwardAuthResponse'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/auth/login:
+        post:
+            tags:
+                - IAMService
+            description: Auth
+            operationId: IAMService_CustomLogin
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CustomLoginRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CustomLoginReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/me:
+        get:
+            tags:
+                - IAMService
+            description: Users
+            operationId: IAMService_GetCurrentUser
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/GetCurrentUserResponse'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/me/permissions:
+        get:
+            tags:
+                - IAMService
+            operationId: IAMService_GetCurrentUserPermissions
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListPermissionsResponse'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/me/tenants:
+        get:
+            tags:
+                - IAMService
+            operationId: IAMService_GetUserMemberships
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/GetUserMembershipsResponse'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/permissions:
+        get:
+            tags:
+                - IAMService
+            operationId: IAMService_ListPermissions
+            parameters:
+                - name: tenantId
+                  in: query
+                  schema:
+                    type: string
+                - name: roleId
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListPermissionsResponse'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/permissions/check:
+        get:
+            tags:
+                - IAMService
+            description: Permissions
+            operationId: IAMService_CheckPermission
+            parameters:
+                - name: userId
+                  in: query
+                  schema:
+                    type: string
+                - name: tenantId
+                  in: query
+                  schema:
+                    type: string
+                - name: resource
+                  in: query
+                  schema:
+                    type: string
+                - name: action
+                  in: query
+                  schema:
+                    type: string
+                - name: resourceId
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CheckPermissionResponse'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/resource-permissions:
+        post:
+            tags:
+                - IAMService
+            operationId: IAMService_GrantResourcePermission
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/GrantResourcePermissionRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ResourcePermission'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/resource-permissions/{id}:
+        delete:
+            tags:
+                - IAMService
+            operationId: IAMService_RevokeResourcePermission
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/RevokeResourcePermissionResponse'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/revoke-role:
+        post:
+            tags:
+                - IAMService
+            operationId: IAMService_RevokeRole
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/RevokeRoleRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/RevokeRoleResponse'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/roles:
+        get:
+            tags:
+                - IAMService
+            operationId: IAMService_ListRoles
+            parameters:
+                - name: tenantId
+                  in: query
+                  schema:
+                    type: string
+                - name: pageSize
+                  in: query
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pageToken
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListRolesResponse'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        post:
+            tags:
+                - IAMService
+            description: Roles
+            operationId: IAMService_CreateRole
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateRoleRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Role'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/roles/{id}:
+        get:
+            tags:
+                - IAMService
+            operationId: IAMService_GetRole
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Role'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        put:
+            tags:
+                - IAMService
+            operationId: IAMService_UpdateRole
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateRoleRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Role'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        delete:
+            tags:
+                - IAMService
+            operationId: IAMService_DeleteRole
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/DeleteRoleResponse'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/tenants:
+        post:
+            tags:
+                - IAMService
+            description: Tenants
+            operationId: IAMService_CreateTenant
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateTenantRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Tenant'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/tenants/{id}:
+        get:
+            tags:
+                - IAMService
+            operationId: IAMService_GetTenant
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Tenant'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        put:
+            tags:
+                - IAMService
+            operationId: IAMService_UpdateTenant
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateTenantRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Tenant'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        delete:
+            tags:
+                - IAMService
+            operationId: IAMService_DeleteTenant
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/DeleteTenantResponse'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/tenants/{tenantId}/invite:
+        post:
+            tags:
+                - IAMService
+            description: Membership
+            operationId: IAMService_InviteMember
+            parameters:
+                - name: tenantId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/InviteMemberRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Membership'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/tenants/{tenantId}/members:
+        get:
+            tags:
+                - IAMService
+            operationId: IAMService_ListMembers
+            parameters:
+                - name: tenantId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: pageSize
+                  in: query
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pageToken
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListMembersResponse'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/tenants/{tenantId}/members/{userId}:
+        delete:
+            tags:
+                - IAMService
+            operationId: IAMService_RemoveMember
+            parameters:
+                - name: tenantId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: userId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/RemoveMemberResponse'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/users:
+        get:
+            tags:
+                - IAMService
+            operationId: IAMService_ListUsers
+            parameters:
+                - name: tenantId
+                  in: query
+                  schema:
+                    type: string
+                - name: pageSize
+                  in: query
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pageToken
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListUsersResponse'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/users/{id}:
+        get:
+            tags:
+                - IAMService
+            operationId: IAMService_GetUser
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/User'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+components:
+    schemas:
+        ApprovePermissionRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+        AssignRoleRequest:
+            type: object
+            properties:
+                userId:
+                    type: string
+                roleId:
+                    type: string
+                tenantId:
+                    type: string
+        CheckPermissionResponse:
+            type: object
+            properties:
+                allowed:
+                    type: boolean
+                source:
+                    type: string
+        CreateRoleRequest:
+            type: object
+            properties:
+                tenantId:
+                    type: string
+                name:
+                    type: string
+                description:
+                    type: string
+                permissions:
+                    type: array
+                    items:
+                        type: string
+        CreateTenantRequest:
+            type: object
+            properties:
+                name:
+                    type: string
+                slug:
+                    type: string
+        CustomLoginReply:
+            type: object
+            properties:
+                callbackUrl:
+                    type: string
+        CustomLoginRequest:
+            type: object
+            properties:
+                email:
+                    type: string
+                password:
+                    type: string
+                authRequestId:
+                    type: string
+        DeleteRoleResponse:
+            type: object
+            properties: {}
+        DeleteTenantResponse:
+            type: object
+            properties: {}
+        ForwardAuthRequest:
+            type: object
+            properties:
+                method:
+                    type: string
+                path:
+                    type: string
+                token:
+                    type: string
+        ForwardAuthResponse:
+            type: object
+            properties:
+                allowed:
+                    type: boolean
+                userId:
+                    type: string
+                tenantId:
+                    type: string
+        GetCurrentUserResponse:
+            type: object
+            properties:
+                user:
+                    $ref: '#/components/schemas/User'
+                memberships:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/TenantMembership'
+        GetUserMembershipsResponse:
+            type: object
+            properties:
+                memberships:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/TenantMembership'
+        GoogleProtobufAny:
+            type: object
+            properties:
+                '@type':
+                    type: string
+                    description: The type of the serialized message.
+            additionalProperties: true
+            description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
+        GrantResourcePermissionRequest:
+            type: object
+            properties:
+                userId:
+                    type: string
+                tenantId:
+                    type: string
+                resource:
+                    type: string
+                action:
+                    type: string
+                resourceId:
+                    type: string
+                allowed:
+                    type: boolean
+        InviteMemberRequest:
+            type: object
+            properties:
+                tenantId:
+                    type: string
+                externalId:
+                    type: string
+                role:
+                    type: string
+        ListMembersResponse:
+            type: object
+            properties:
+                memberships:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Membership'
+                nextPageToken:
+                    type: string
+        ListPendingApprovalsResponse:
+            type: object
+            properties:
+                permissions:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/ResourcePermission'
+        ListPermissionsResponse:
+            type: object
+            properties:
+                permissions:
+                    type: array
+                    items:
+                        type: string
+        ListRolesResponse:
+            type: object
+            properties:
+                roles:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Role'
+                nextPageToken:
+                    type: string
+        ListUsersResponse:
+            type: object
+            properties:
+                users:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/User'
+                nextPageToken:
+                    type: string
+        Membership:
+            type: object
+            properties:
+                id:
+                    type: string
+                userId:
+                    type: string
+                tenantId:
+                    type: string
+                role:
+                    type: string
+                createdAt:
+                    type: string
+                    format: date-time
+        RejectPermissionRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                reason:
+                    type: string
+        RemoveMemberResponse:
+            type: object
+            properties: {}
+        ResourcePermission:
+            type: object
+            properties:
+                id:
+                    type: string
+                userId:
+                    type: string
+                tenantId:
+                    type: string
+                resource:
+                    type: string
+                action:
+                    type: string
+                resourceId:
+                    type: string
+                allowed:
+                    type: boolean
+                createdAt:
+                    type: string
+                    format: date-time
+        RevokeResourcePermissionResponse:
+            type: object
+            properties: {}
+        RevokeRoleRequest:
+            type: object
+            properties:
+                userId:
+                    type: string
+                roleId:
+                    type: string
+                tenantId:
+                    type: string
+        RevokeRoleResponse:
+            type: object
+            properties: {}
+        Role:
+            type: object
+            properties:
+                id:
+                    type: string
+                tenantId:
+                    type: string
+                name:
+                    type: string
+                description:
+                    type: string
+                permissions:
+                    type: array
+                    items:
+                        type: string
+                isSystem:
+                    type: boolean
+                createdAt:
+                    type: string
+                    format: date-time
+                updatedAt:
+                    type: string
+                    format: date-time
+        Status:
+            type: object
+            properties:
+                code:
+                    type: integer
+                    description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+                    format: int32
+                message:
+                    type: string
+                    description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+                details:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/GoogleProtobufAny'
+                    description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
+            description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
+        Tenant:
+            type: object
+            properties:
+                id:
+                    type: string
+                name:
+                    type: string
+                slug:
+                    type: string
+                ownerId:
+                    type: string
+                createdAt:
+                    type: string
+                    format: date-time
+                updatedAt:
+                    type: string
+                    format: date-time
+        TenantMembership:
+            type: object
+            properties:
+                tenantId:
+                    type: string
+                tenantName:
+                    type: string
+                tenantSlug:
+                    type: string
+                role:
+                    type: string
+        UpdateRoleRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                name:
+                    type: string
+                description:
+                    type: string
+                permissions:
+                    type: array
+                    items:
+                        type: string
+        UpdateTenantRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                name:
+                    type: string
+                slug:
+                    type: string
+        User:
+            type: object
+            properties:
+                id:
+                    type: string
+                externalId:
+                    type: string
+                email:
+                    type: string
+                displayName:
+                    type: string
+                createdAt:
+                    type: string
+                    format: date-time
+                updatedAt:
+                    type: string
+                    format: date-time
+            description: Messages
+        UserRole:
+            type: object
+            properties:
+                id:
+                    type: string
+                userId:
+                    type: string
+                roleId:
+                    type: string
+                tenantId:
+                    type: string
+                createdAt:
+                    type: string
+                    format: date-time
+tags:
+    - name: IAMService

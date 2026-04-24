@@ -1,0 +1,43 @@
+{
+  "name": "common",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "prefix": "app",
+  "sourceRoot": "apps/common/src",
+  "tags": [],
+  "targets": {
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "buildTarget": "common:build"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "serve-static": {
+      "continuous": true,
+      "executor": "@nx/web:file-server",
+      "defaultConfiguration": "production",
+      "options": {
+        "buildTarget": "common:build",
+        "port": 3001,
+        "watch": false
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "common:build:development"
+        },
+        "production": {
+          "buildTarget": "common:build:production"
+        }
+      }
+    },
+    "serve": {
+      "options": {
+        "port": 3001
+      },
+      "dependsOn": ["shell:serve"]
+    }
+  }
+}

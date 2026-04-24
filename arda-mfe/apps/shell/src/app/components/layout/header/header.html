@@ -1,0 +1,74 @@
+<header
+  class="h-16 flex items-center justify-between px-6 bg-surface-0/80 dark:bg-surface-900/80 backdrop-blur-md border-b border-surface-200 dark:border-surface-800 shrink-0 z-10">
+  <div class="flex items-center gap-4">
+    <!-- Re-open sidebar button (Visible ONLY when sidebar closed) -->
+    @if (!sidebarVisible()) {
+    <button pButton icon="pi pi-bars" [text]="true" rounded severity="secondary" (click)="onToggleSidebar()"
+      class="mr-2" aria-label="Open sidebar"></button>
+    }
+
+    <!-- Smart Breadcrumb -->
+    <nav class="hidden md:flex items-center text-xs font-medium space-x-2">
+      <span class="text-surface-400 hover:text-surface-600 transition-colors cursor-pointer">Arda</span>
+      <i class="pi pi-chevron-right text-[10px] text-surface-300"></i>
+      <span class="text-surface-400 hover:text-surface-600 transition-colors cursor-pointer">Settings</span>
+      <i class="pi pi-chevron-right text-[10px] text-surface-300"></i>
+      <span class="text-surface-900 dark:text-white font-semibold">Theme</span>
+    </nav>
+  </div>
+
+  <!-- Action Actions (Centered-ish Search & Icons) -->
+  <div class="flex items-center gap-4">
+    <!-- Modern "Command Bar" Search -->
+    <div class="relative group hidden sm:block">
+      <i
+        class="pi pi-search absolute left-3 top-1/2 -translate-y-1/2 text-surface-400 text-xs transition-colors group-focus-within:text-primary-500"></i>
+      <input type="text" placeholder="Search docs (⌘K)"
+        class="pl-9 pr-14 py-1.5 w-64 bg-surface-100 dark:bg-surface-800/50 border border-transparent focus:border-primary-500/50 rounded-lg text-xs transition-all outline-none text-surface-700 dark:text-surface-200 focus:bg-white dark:focus:bg-surface-800" />
+      <div
+        class="absolute right-2 top-1/2 -translate-y-1/2 px-1.5 py-0.5 rounded bg-surface-200 dark:bg-surface-700 text-[10px] text-surface-500 border border-surface-300 dark:border-surface-600 font-mono">
+        ⌘K</div>
+    </div>
+
+    <div class="flex items-center gap-1.5">
+      <app-tenant-switcher />
+      <button pButton icon="pi pi-bell" [text]="true" rounded severity="secondary" pTooltip="In-box"
+        tooltipPosition="bottom" aria-label="Notifications"></button>
+      <a pButton icon="pi pi-cog" [text]="true" rounded severity="secondary" routerLink="/settings" pTooltip="Settings"
+        tooltipPosition="bottom" aria-label="Settings"></a>
+
+      <div class="h-5 w-px bg-surface-200 dark:bg-surface-800 mx-1 hidden sm:block"></div>
+
+      <!-- Language Selector -->
+      <div class="flex items-center gap-1">
+        <button
+          (click)="changeLang('vi')"
+          [class.text-primary-500]="currentLang() === 'vi'"
+          class="text-[10px] font-bold hover:text-primary-400 transition-colors bg-transparent border-0 cursor-pointer p-1"
+        >
+          VI
+        </button>
+        <span class="text-surface-300 dark:text-surface-700 text-[10px]">/</span>
+        <button
+          (click)="changeLang('en')"
+          [class.text-primary-500]="currentLang() === 'en'"
+          class="text-[10px] font-bold hover:text-primary-400 transition-colors bg-transparent border-0 cursor-pointer p-1"
+        >
+          EN
+        </button>
+      </div>
+
+      <div class="h-5 w-px bg-surface-200 dark:bg-surface-800 mx-1 hidden sm:block"></div>
+
+      <!-- User Avatar with Menu -->
+      <div class="ml-2 flex items-center gap-2">
+        <span class="text-xs font-medium text-surface-600 dark:text-surface-400 hidden sm:block">
+          {{ userName()?.name ?? '' }}
+        </span>
+        <p-avatar [label]="userInitials()" shape="circle" class="bg-primary-500 text-white font-bold cursor-pointer"
+          (click)="userMenu.toggle($event)" />
+        <p-menu #userMenu [model]="userMenuItems" [popup]="true" appendTo="body" />
+      </div>
+    </div>
+  </div>
+</header>

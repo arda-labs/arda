@@ -1,0 +1,90 @@
+<div
+  class="flex h-screen w-full bg-surface-50 dark:bg-surface-950 text-surface-900 dark:text-surface-0 overflow-hidden font-[inherit] transition-colors duration-300"
+>
+  <!-- Sidebar Container -->
+  <aside
+    [ngClass]="sidebarVisible() ? 'w-72 translate-x-0' : 'w-0 -translate-x-full lg:w-0'"
+    class="fixed lg:relative z-20 flex flex-col h-full bg-surface-0 dark:bg-surface-900 border-r border-surface-200 dark:border-surface-800 transition-all duration-300 shrink-0 overflow-hidden group"
+  >
+    <!-- Sidebar Header (Modern Brand Area) -->
+    <div
+      class="h-16 flex items-center justify-between px-5 border-b border-surface-200 dark:border-surface-800 shrink-0 min-w-[18rem]"
+    >
+      <div class="flex items-center gap-3">
+        <div
+          class="w-8 h-8 rounded-lg bg-primary-500 flex items-center justify-center shadow-lg shadow-primary-500/20"
+        >
+          <i class="pi pi-bolt text-white text-lg font-bold"></i>
+        </div>
+        <span
+          class="font-bold text-lg tracking-tight text-surface-900 dark:text-white"
+          >Arda MFE</span
+        >
+      </div>
+
+      <!-- Collapse Sidebar Button (SaaS Trend) -->
+      <button
+        pButton
+        [text]="true"
+        rounded
+        severity="secondary"
+        icon="pi pi-chevron-left"
+        (click)="toggleSidebar()"
+        class="opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+        aria-label="Collapse sidebar"
+      ></button>
+    </div>
+
+    <!-- Sidebar Scrollable Content (Custom Menu Component) -->
+    <div class="flex-1 overflow-y-auto p-4 custom-scrollbar min-w-[18rem]">
+      <app-sidebar-menu [items]="menuItems()" />
+    </div>
+
+    <!-- Sidebar Footer (SaaS User Section) -->
+    <div
+      class="p-4 border-t border-surface-200 dark:border-surface-800 bg-surface-50/30 dark:bg-surface-900/30 shrink-0 min-w-[18rem]"
+    >
+      <div
+        class="flex items-center gap-3 p-2 rounded-xl transition-all hover:bg-surface-100 dark:hover:bg-surface-800 cursor-pointer"
+      >
+        <p-avatar
+          [label]="userInitials()"
+          shape="circle"
+          class="bg-primary-500 text-white font-bold"
+        />
+        <div class="flex-1 min-w-0">
+          <p class="text-sm font-semibold truncate">{{ currentUser()?.name ?? 'User' }}</p>
+          <p class="text-[10px] text-surface-500 truncate">{{ currentUser()?.email ?? '' }}</p>
+        </div>
+        <i class="pi pi-ellipsis-h text-surface-400 text-sm"></i>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Mobile Overlay -->
+  @if (sidebarVisible()) {
+  <div
+    (click)="toggleSidebar()"
+    (keydown.enter)="toggleSidebar()"
+    class="fixed inset-0 bg-surface-900/40 backdrop-blur-sm z-10 lg:hidden"
+    role="button"
+    tabindex="0"
+    aria-label="Close sidebar"
+  ></div>
+  }
+
+  <!-- Main Application Area -->
+  <div class="flex-1 flex flex-col min-w-0 overflow-hidden relative">
+    <app-header
+      [sidebarVisible]="sidebarVisible()"
+      (toggleSidebar)="toggleSidebar()"
+    />
+
+    <!-- Main Dynamic Content Workspace -->
+    <main
+      class="flex-1 overflow-y-auto custom-scrollbar bg-surface-50 dark:bg-surface-950"
+    >
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>

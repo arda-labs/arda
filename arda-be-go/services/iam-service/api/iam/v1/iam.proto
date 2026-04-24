@@ -1,0 +1,339 @@
+syntax = "proto3";
+
+package iam.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "iam-service/api/iam/v1;v1";
+
+service IAMService {
+  // Auth
+  rpc CustomLogin(CustomLoginRequest) returns (CustomLoginReply) {
+    option (google.api.http) = {
+      post: "/v1/auth/login",
+      body: "*"
+    };
+  }
+
+  // Users
+  rpc GetCurrentUser(GetCurrentUserRequest) returns (GetCurrentUserResponse) {
+    option (google.api.http) = { get: "/v1/me" };
+  }
+  rpc GetUser(GetUserRequest) returns (User) {
+    option (google.api.http) = { get: "/v1/users/{id}" };
+  }
+  rpc ListUsers(ListUsersRequest) returns (ListUsersResponse) {
+    option (google.api.http) = { get: "/v1/users" };
+  }
+
+  // Tenants
+  rpc CreateTenant(CreateTenantRequest) returns (Tenant) {
+    option (google.api.http) = { post: "/v1/tenants" body: "*" };
+  }
+  rpc GetTenant(GetTenantRequest) returns (Tenant) {
+    option (google.api.http) = { get: "/v1/tenants/{id}" };
+  }
+  rpc UpdateTenant(UpdateTenantRequest) returns (Tenant) {
+    option (google.api.http) = { put: "/v1/tenants/{id}" body: "*" };
+  }
+  rpc DeleteTenant(DeleteTenantRequest) returns (DeleteTenantResponse) {
+    option (google.api.http) = { delete: "/v1/tenants/{id}" };
+  }
+  rpc GetUserMemberships(GetUserMembershipsRequest) returns (GetUserMembershipsResponse) {
+    option (google.api.http) = { get: "/v1/me/tenants" };
+  }
+
+  // Membership
+  rpc InviteMember(InviteMemberRequest) returns (Membership) {
+    option (google.api.http) = { post: "/v1/tenants/{tenant_id}/invite" body: "*" };
+  }
+  rpc ListMembers(ListMembersRequest) returns (ListMembersResponse) {
+    option (google.api.http) = { get: "/v1/tenants/{tenant_id}/members" };
+  }
+  rpc RemoveMember(RemoveMemberRequest) returns (RemoveMemberResponse) {
+    option (google.api.http) = { delete: "/v1/tenants/{tenant_id}/members/{user_id}" };
+  }
+
+  // Roles
+  rpc CreateRole(CreateRoleRequest) returns (Role) {
+    option (google.api.http) = { post: "/v1/roles" body: "*" };
+  }
+  rpc GetRole(GetRoleRequest) returns (Role) {
+    option (google.api.http) = { get: "/v1/roles/{id}" };
+  }
+  rpc ListRoles(ListRolesRequest) returns (ListRolesResponse) {
+    option (google.api.http) = { get: "/v1/roles" };
+  }
+  rpc UpdateRole(UpdateRoleRequest) returns (Role) {
+    option (google.api.http) = { put: "/v1/roles/{id}" body: "*" };
+  }
+  rpc DeleteRole(DeleteRoleRequest) returns (DeleteRoleResponse) {
+    option (google.api.http) = { delete: "/v1/roles/{id}" };
+  }
+  rpc AssignRole(AssignRoleRequest) returns (UserRole) {
+    option (google.api.http) = { post: "/v1/assign-role" body: "*" };
+  }
+  rpc RevokeRole(RevokeRoleRequest) returns (RevokeRoleResponse) {
+    option (google.api.http) = { post: "/v1/revoke-role" body: "*" };
+  }
+
+  // Permissions
+  rpc CheckPermission(CheckPermissionRequest) returns (CheckPermissionResponse) {
+    option (google.api.http) = {
+      get: "/v1/permissions/check"
+    };
+  }
+  rpc GetCurrentUserPermissions(GetCurrentUserPermissionsRequest) returns (ListPermissionsResponse) {
+    option (google.api.http) = { get: "/v1/me/permissions" };
+  }
+
+  // Forward Auth (Dành cho APISIX)
+  rpc ForwardAuth(ForwardAuthRequest) returns (ForwardAuthResponse) {
+    option (google.api.http) = {
+      post: "/v1/auth/forward"
+      body: "*"
+    };
+  }
+  rpc ListPermissions(ListPermissionsRequest) returns (ListPermissionsResponse) {
+    option (google.api.http) = { get: "/v1/permissions" };
+  }
+  rpc GrantResourcePermission(GrantResourcePermissionRequest) returns (ResourcePermission) {
+    option (google.api.http) = { post: "/v1/resource-permissions" body: "*" };
+  }
+  rpc RevokeResourcePermission(RevokeResourcePermissionRequest) returns (RevokeResourcePermissionResponse) {
+    option (google.api.http) = { delete: "/v1/resource-permissions/{id}" };
+  }
+
+  // Approvals (Maker-Checker)
+  rpc ListPendingApprovals(ListPendingApprovalsRequest) returns (ListPendingApprovalsResponse) {
+    option (google.api.http) = { get: "/v1/approvals/pending" };
+  }
+  rpc ApprovePermission(ApprovePermissionRequest) returns (ResourcePermission) {
+    option (google.api.http) = { post: "/v1/approvals/{id}/approve" body: "*" };
+  }
+  rpc RejectPermission(RejectPermissionRequest) returns (ResourcePermission) {
+    option (google.api.http) = { post: "/v1/approvals/{id}/reject" body: "*" };
+  }
+}
+
+// Messages
+message User {
+  string id = 1;
+  string external_id = 2;
+  string email = 3;
+  string display_name = 4;
+  google.protobuf.Timestamp created_at = 5;
+  google.protobuf.Timestamp updated_at = 6;
+}
+
+message Tenant {
+  string id = 1;
+  string name = 2;
+  string slug = 3;
+  string owner_id = 4;
+  google.protobuf.Timestamp created_at = 5;
+  google.protobuf.Timestamp updated_at = 6;
+}
+
+message Membership {
+  string id = 1;
+  string user_id = 2;
+  string tenant_id = 3;
+  string role = 4;
+  google.protobuf.Timestamp created_at = 5;
+}
+
+message Role {
+  string id = 1;
+  string tenant_id = 2;
+  string name = 3;
+  string description = 4;
+  repeated string permissions = 5;
+  bool is_system = 6;
+  google.protobuf.Timestamp created_at = 7;
+  google.protobuf.Timestamp updated_at = 8;
+}
+
+message UserRole {
+  string id = 1;
+  string user_id = 2;
+  string role_id = 3;
+  string tenant_id = 4;
+  google.protobuf.Timestamp created_at = 5;
+}
+
+message ResourcePermission {
+  string id = 1;
+  string user_id = 2;
+  string tenant_id = 3;
+  string resource = 4;
+  string action = 5;
+  string resource_id = 6;
+  bool allowed = 7;
+  google.protobuf.Timestamp created_at = 8;
+}
+
+// Requests
+message GetCurrentUserRequest {}
+message GetCurrentUserResponse {
+  User user = 1;
+  repeated TenantMembership memberships = 2;
+}
+message GetUserRequest { string id = 1; }
+message ListUsersRequest {
+  string tenant_id = 1;
+  int32 page_size = 2;
+  string page_token = 3;
+}
+message ListUsersResponse {
+  repeated User users = 1;
+  string next_page_token = 2;
+}
+
+message CreateTenantRequest {
+  string name = 1;
+  string slug = 2;
+}
+message GetTenantRequest { string id = 1; }
+message UpdateTenantRequest {
+  string id = 1;
+  string name = 2;
+  string slug = 3;
+}
+message DeleteTenantRequest { string id = 1; }
+message DeleteTenantResponse {}
+
+message InviteMemberRequest {
+  string tenant_id = 1;
+  string external_id = 2;
+  string role = 3;
+}
+message ListMembersRequest {
+  string tenant_id = 1;
+  int32 page_size = 2;
+  string page_token = 3;
+}
+message ListMembersResponse {
+  repeated Membership memberships = 1;
+  string next_page_token = 2;
+}
+message RemoveMemberRequest {
+  string tenant_id = 1;
+  string user_id = 2;
+}
+message RemoveMemberResponse {}
+
+message CreateRoleRequest {
+  string tenant_id = 1;
+  string name = 2;
+  string description = 3;
+  repeated string permissions = 4;
+}
+message GetRoleRequest { string id = 1; }
+message ListRolesRequest {
+  string tenant_id = 1;
+  int32 page_size = 2;
+  string page_token = 3;
+}
+message ListRolesResponse {
+  repeated Role roles = 1;
+  string next_page_token = 2;
+}
+message UpdateRoleRequest {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  repeated string permissions = 4;
+}
+message DeleteRoleRequest { string id = 1; }
+message DeleteRoleResponse {}
+
+message AssignRoleRequest {
+  string user_id = 1;
+  string role_id = 2;
+  string tenant_id = 3;
+}
+message RevokeRoleRequest {
+  string user_id = 1;
+  string role_id = 2;
+  string tenant_id = 3;
+}
+message RevokeRoleResponse {}
+
+message CheckPermissionRequest {
+  string user_id = 1;
+  string tenant_id = 2;
+  string resource = 3;
+  string action = 4;
+  string resource_id = 5;
+}
+message CheckPermissionResponse {
+  bool allowed = 1;
+  string source = 2;
+}
+message ListPermissionsRequest {
+  string tenant_id = 1;
+  string role_id = 2;
+}
+message ListPermissionsResponse {
+  repeated string permissions = 1;
+}
+message GrantResourcePermissionRequest {
+  string user_id = 1;
+  string tenant_id = 2;
+  string resource = 3;
+  string action = 4;
+  string resource_id = 5;
+  bool allowed = 6;
+}
+message RevokeResourcePermissionRequest { string id = 1; }
+message RevokeResourcePermissionResponse {}
+
+message CustomLoginRequest {
+  string email = 1;
+  string password = 2;
+  string auth_request_id = 3;
+}
+
+message CustomLoginReply {
+  string callback_url = 1;
+}
+
+message ForwardAuthRequest {
+  string method = 1;
+  string path = 2;
+  string token = 3;
+}
+
+message ForwardAuthResponse {
+  bool allowed = 1;
+  string user_id = 2;
+  string tenant_id = 3;
+}
+
+message GetUserMembershipsRequest {}
+message TenantMembership {
+  string tenant_id = 1;
+  string tenant_name = 2;
+  string tenant_slug = 3;
+  string role = 4;
+}
+message GetUserMembershipsResponse {
+  repeated TenantMembership memberships = 1;
+}
+message GetCurrentUserPermissionsRequest {}
+
+message ListPendingApprovalsRequest {
+  string tenant_id = 1;
+}
+message ListPendingApprovalsResponse {
+  repeated ResourcePermission permissions = 1;
+}
+message ApprovePermissionRequest {
+  string id = 1;
+}
+message RejectPermissionRequest {
+  string id = 1;
+  string reason = 2;
+}

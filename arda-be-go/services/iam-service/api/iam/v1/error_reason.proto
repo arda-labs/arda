@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package iam.v1;
+
+option go_package = "iam-service/api/iam/v1;v1";
+
+enum ErrorReason {
+  IAM_UNSPECIFIED = 0;
+  USER_NOT_FOUND = 1;
+  TENANT_NOT_FOUND = 2;
+  MEMBERSHIP_NOT_FOUND = 3;
+  ROLE_NOT_FOUND = 4;
+  PERMISSION_DENIED = 5;
+  ALREADY_EXISTS = 6;
+  INVALID_ARGUMENT = 7;
+}

@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: accounting-service
+  r2dbc:
+    url: r2dbc:postgresql://${DB_HOST:localhost}:5432/${DB_NAME:arda_accounting}
+    username: ${DB_USER:postgres}
+    password: ${DB_PASS:postgres}
+    pool:
+      initial-size: 5
+      max-size: 20
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: always

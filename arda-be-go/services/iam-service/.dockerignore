@@ -1,0 +1,23 @@
+# Dependencies
+vendor/
+
+# Local config (chứa secrets thật - không được build vào image)
+configs/*.local.yaml
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.github/
+
+# Binaries (build trong container)
+bin/
+
+# Logs
+*.log

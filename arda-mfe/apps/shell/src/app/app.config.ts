@@ -112,3 +112,4 @@ export const appConfig: ApplicationConfig = {
     provideAppInitializer(initializeMenu),
   ],
 };
+// Trigger CI/CD refresh

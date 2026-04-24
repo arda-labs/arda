@@ -27,7 +27,7 @@ arda/
 1.  **Xóa lịch sử cũ**: Tìm và xóa tất cả các thư mục `.git` bên trong các thư mục con (`arda-mfe`, `arda-be-go`, v.v.).
 2.  **Replace String**: Quét toàn bộ project và thay thế:
     - `arda-labs` -> `arda-labs`
-    - `github.com/arda-labs` -> `github.com/arda-labs/arda` (cho các import Go)
+    - `github.com.arda_labss` -> `github.com.arda_labss/arda` (cho các import Go)
 3.  **Cập nhật cấu hình**:
     - Sửa `go.mod` trong các service Go để khớp với đường dẫn mới trong monorepo.
     - Cập nhật các file cấu hình Nx trong `arda-mfe`.

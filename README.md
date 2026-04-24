@@ -95,7 +95,7 @@ arda/
 
 ```bash
 # 1. Clone repository
-git clone https://github.com/arda-labs/arda.git
+git clone https://github.com.arda_labss/arda.git
 cd arda
 
 # 2. Deploy infrastructure

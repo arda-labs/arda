@@ -21,7 +21,7 @@ Mục đích: Hỗ trợ phát triển Java microservices (Core Banking Services
 ```
 arda-core/
 ├── services/[service-name]/
-│   └── src/main/kotlin/arda-labs/com/arda/[service]/
+│   └── src/main/kotlin/com.arda_labs.arda/[service]/
 │       ├── controller/    # Reactive REST Controllers
 │       ├── service/       # Business Logic
 │       ├── repository/    # R2DBC Repositories

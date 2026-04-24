@@ -1,11 +1,11 @@
 package server
 
 import (
-	pb "github.com/arda-labs/arda/arda-be-go/services/iam-service/api/iam/v1"
-	"github.com/arda-labs/arda/arda-be-go/services/iam-service/internal/conf"
-	"github.com/arda-labs/arda/arda-be-go/services/iam-service/internal/service"
+	pb "github.com.arda_labss/arda/arda-be-go/services/iam-service/api/iam/v1"
+	"github.com.arda_labss/arda/arda-be-go/services/iam-service/internal/conf"
+	"github.com.arda_labss/arda/arda-be-go/services/iam-service/internal/service"
 
-	"github.com/arda-labs/arda/arda-be-go/pkg/middleware"
+	"github.com.arda_labss/arda/arda-be-go/pkg/middleware"
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/go-kratos/kratos/v2/middleware/recovery"
 	"github.com/go-kratos/kratos/v2/transport/grpc"

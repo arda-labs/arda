@@ -163,12 +163,12 @@ argocd.arda.io.vn    → argocd-server.argocd.svc.cluster.local:443
 
 | Application | Repo | Path | Namespace | Sync Status |
 |-------------|------|------|-----------|-------------|
-| arda-root | github.com/arda-labs/arda-infra | argocd/apps | argocd | ✅ Synced |
-| apisix | github.com/arda-labs/arda-infra | apps/gateway/apisix/overlays/dev | gateway | ✅ Synced |
-| cloudflared | github.com/arda-labs/arda-infra | apps/ingress/cloudflared/overlays | infra | ✅ Synced |
-| iam-service-dev | github.com/arda-labs/arda-infra | apps/iam-service/overlays/dev | arda-dev | ✅ Synced |
-| mfe-common-dev | github.com/arda-labs/arda-infra | apps/mfe-common/overlays/dev | arda-dev | ✅ Synced |
-| mfe-shell-dev | github.com/arda-labs/arda-infra | apps/mfe-shell/overlays/dev | arda-dev | ⚠️ OutOfSync |
+| arda-root | github.com.arda_labss/arda-infra | argocd/apps | argocd | ✅ Synced |
+| apisix | github.com.arda_labss/arda-infra | apps/gateway/apisix/overlays/dev | gateway | ✅ Synced |
+| cloudflared | github.com.arda_labss/arda-infra | apps/ingress/cloudflared/overlays | infra | ✅ Synced |
+| iam-service-dev | github.com.arda_labss/arda-infra | apps/iam-service/overlays/dev | arda-dev | ✅ Synced |
+| mfe-common-dev | github.com.arda_labss/arda-infra | apps/mfe-common/overlays/dev | arda-dev | ✅ Synced |
+| mfe-shell-dev | github.com.arda_labss/arda-infra | apps/mfe-shell/overlays/dev | arda-dev | ⚠️ OutOfSync |
 
 **Observation**: `mfe-shell-dev` đang OutOfSync, cần sync lại.
 
@@ -214,7 +214,7 @@ resources: {}  # Empty - needs to be set
 **Fix Needed**: Install Prometheus + Grafana for monitoring.
 
 ### 6. ArgoCD Repo Structure Mismatch
-**Problem**: ArgoCD apps track `github.com/arda-labs/arda-infra` nhưng local repo có thể khác.
+**Problem**: ArgoCD apps track `github.com.arda_labss/arda-infra` nhưng local repo có thể khác.
 
 **Action**: Verify repo structure sync.
 

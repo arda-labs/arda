@@ -438,7 +438,7 @@ Content-Type: application/json
 
 ```java
 // SwaggerConfig.java
-package com.arda-labs.arda.accounting.config;
+package com.arda_labss.arda.accounting.config;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
@@ -481,7 +481,7 @@ public class SwaggerConfig {
 
 ```java
 // OpenApiGenerator.java
-package com.arda-labs.arda.accounting;
+package com.arda_labss.arda.accounting;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Contact;
@@ -572,7 +572,7 @@ type Journal struct {
 ### Java Annotations
 
 ```java
-package com.arda-labs.arda.accounting.controller;
+package com.arda_labss.arda.accounting.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

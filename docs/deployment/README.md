@@ -217,7 +217,7 @@ kubectl port-forward svc/argocd-server -n argocd 8080:443
 
 ```bash
 # Add GitHub repository
-argocd repo add https://github.com/arda-labs/arda-infra.git \
+argocd repo add https://github.com.arda_labss/arda-infra.git \
   --username <github-username> \
   --password <github-pat> \
   --insecure-skip-server-verify
@@ -236,7 +236,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/arda-labs/arda-infra.git
+    repoURL: https://github.com.arda_labss/arda-infra.git
     targetRevision: main
     path: apps
   destination:

@@ -36,7 +36,7 @@
 - **Context**: `thinkcenter` (192.168.100.5)
 
 ### 🚀 GitOps (ArgoCD)
-- **Repo**: `github.com/arda-labs/arda-infra`
+- **Repo**: `github.com.arda_labss/arda-infra`
 - **Sync**: Tự động đồng bộ từ branch `main` của infra repo.
 
 ### 🌐 API Gateway (APISIX)

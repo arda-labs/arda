@@ -52,9 +52,9 @@ git push (main) → GitHub Actions
 | **Security** | APISIX (Forward Auth) · Zitadel (OIDC/SAML) · Cloudflare ZT     |
 | **Infra**    | K3s · ArgoCD · Kustomize · APISIX · Cloudflare Tunnel           |
 
-## Repositories — [arda-labs](https://github.com/arda-labs)
+## Repositories — [arda-labs](https://github.com.arda_labss)
 
-### [arda](https://github.com/arda-labs/arda)
+### [arda](https://github.com.arda_labss/arda)
 
 The **Master Monorepo** containing all business logic, services, and shared libraries.
 
@@ -62,11 +62,11 @@ The **Master Monorepo** containing all business logic, services, and shared libr
 - `arda-be-go/`: Go workspace for Kratos microservices.
 - `arda-be-java/`: Gradle multi-project for Spring Boot core services.
 
-### [arda-infra](https://github.com/arda-labs/arda-infra)
+### [arda-infra](https://github.com.arda_labss/arda-infra)
 
 GitOps-managed Kubernetes manifests and environment configurations.
 
-### [arda-docs](https://github.com/arda-labs/arda-docs)
+### [arda-docs](https://github.com.arda_labss/arda-docs)
 
 System architecture, development guides, and business requirement documentation.
 
@@ -76,7 +76,7 @@ System architecture, development guides, and business requirement documentation.
 
 ```bash
 # 1. Clone the master monorepo
-git clone https://github.com/arda-labs/arda
+git clone https://github.com.arda_labss/arda
 cd arda
 
 # 2. Run Go services locally
@@ -93,4 +93,4 @@ npx nx serve shell
 
 - Website: [arda.io.vn](https://arda.io.vn)
 - Contact: **contact@arda.io.vn**
-- Organization: [github.com/arda-labs](https://github.com/arda-labs)
+- Organization: [github.com.arda_labss](https://github.com.arda_labss)

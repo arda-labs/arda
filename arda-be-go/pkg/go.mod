@@ -1,4 +1,4 @@
-module github.com/arda-labs/arda/arda-be-go/pkg
+module github.com.arda_labss/arda/arda-be-go/pkg
 
 go 1.25.0
 

@@ -59,7 +59,7 @@ jobs:
           SHORT_TAG=${TAG:0:7}
 
           docker build -t $IMAGE_NAME:$SHORT_TAG -t $IMAGE_NAME:latest \
-            -f arda-be-go/services/$SERVICE_NAME/Dockerfile arda-be-go/services/$SERVICE_NAME
+            -f arda-be-go/services/$SERVICE_NAME/Dockerfile arda-be-go
 
           docker push $IMAGE_NAME:$SHORT_TAG
           docker push $IMAGE_NAME:latest

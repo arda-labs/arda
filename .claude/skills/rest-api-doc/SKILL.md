@@ -2,8 +2,8 @@
 name: rest-api-doc
 description: Hỗ trợ tạo documentation cho REST APIs
 disable-model-invocation: false
-
 ---
+
 # REST API Documentation Skill
 
 Mục đích: Hỗ trợ tạo documentation cho REST APIs trong dự án Arda.
@@ -79,7 +79,7 @@ paths:
             enum: [DRAFT, POSTED, CANCELLED]
           description: Filter by status
       responses:
-        '200':
+        "200":
           description: Successful response
           content:
             application/json:
@@ -89,7 +89,7 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: '#/components/schemas/Journal'
+                      $ref: "#/components/schemas/Journal"
                   total_count:
                     type: integer
                     description: Total number of journals
@@ -100,10 +100,10 @@ paths:
                     type: integer
                     description: Page size
 
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '500':
-          $ref: '#/components/responses/InternalError'
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "500":
+          $ref: "#/components/responses/InternalError"
 
     post:
       summary: Create journal
@@ -116,19 +116,19 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/JournalCreateRequest'
+              $ref: "#/components/schemas/JournalCreateRequest"
       responses:
-        '201':
+        "201":
           description: Journal created
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Journal'
+                $ref: "#/components/schemas/Journal"
 
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
 
   /journals/{id}:
     get:
@@ -146,17 +146,17 @@ paths:
             format: uuid
           description: Journal ID
       responses:
-        '200':
+        "200":
           description: Successful response
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Journal'
+                $ref: "#/components/schemas/Journal"
 
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
 
     put:
       summary: Update journal
@@ -176,19 +176,19 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/JournalUpdateRequest'
+              $ref: "#/components/schemas/JournalUpdateRequest"
       responses:
-        '200':
+        "200":
           description: Journal updated
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Journal'
+                $ref: "#/components/schemas/Journal"
 
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '404':
-          $ref: '#/components/responses/NotFound'
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
 
     delete:
       summary: Delete journal
@@ -204,10 +204,10 @@ paths:
             type: string
             format: uuid
       responses:
-        '204':
+        "204":
           description: Journal deleted
-        '404':
-          $ref: '#/components/responses/NotFound'
+        "404":
+          $ref: "#/components/responses/NotFound"
 
 components:
   securitySchemes:
@@ -369,10 +369,12 @@ Requires Bearer token in Authorization header.
 
 **Headers:**
 ```
+
 Authorization: Bearer <token>
 X-Tenant-ID: <tenant-id>
 Content-Type: application/json
-```
+
+````
 
 **Body:**
 ```json
@@ -381,11 +383,12 @@ Content-Type: application/json
   "description": "Monthly closing journal",
   "journal_date": "2024-04-25"
 }
-```
+````
 
 ### Response
 
 **Success (201):**
+
 ```json
 {
   "id": "550e8400-e29b-41d4-a716-446655440000",
@@ -400,6 +403,7 @@ Content-Type: application/json
 ```
 
 **Error (400):**
+
 ```json
 {
   "code": 400,
@@ -414,6 +418,7 @@ Content-Type: application/json
 ```
 
 **Error (401):**
+
 ```json
 {
   "code": 401,
@@ -430,7 +435,8 @@ Content-Type: application/json
 - Journal number must be unique per tenant
 - Journal date must be in the past or today
 - Status defaults to DRAFT if not provided
-```
+
+````
 
 ## 📦 Using Swagger UI
 
@@ -438,7 +444,7 @@ Content-Type: application/json
 
 ```java
 // SwaggerConfig.java
-package com.arda_labss.arda.accounting.config;
+package com.arda_labs.arda.accounting.config;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
@@ -475,13 +481,13 @@ public class SwaggerConfig {
                         .bearerFormat("JWT")));
     }
 }
-```
+````
 
 ### Generate OpenAPI Spec
 
 ```java
 // OpenApiGenerator.java
-package com.arda_labss.arda.accounting;
+package com.arda_labs.arda.accounting;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Contact;
@@ -548,21 +554,21 @@ type Journal struct {
 	// ID of the journal
 	// @example 550e8400-e29b-41d4-a716-446655440000
 	ID string `json:"id" example:"550e8400-e29b-41d4-a716-446655440000"`
-	
+
 	// Tenant ID for multi-tenancy
 	// @example tenant-123
 	TenantID string `json:"tenant_id" example:"tenant-123"`
-	
+
 	// Journal number (unique per tenant)
 	// @required true
 	// @example JNL-2024-001
 	JournalNo string `json:"journal_no" binding:"required" example:"JNL-2024-001"`
-	
+
 	// Journal description
 	// @required true
 	// @example Monthly closing journal
 	Description string `json:"description" binding:"required" example:"Monthly closing journal"`
-	
+
 	// Journal status
 	// @example DRAFT
 	Status string `json:"status" example:"DRAFT"`
@@ -572,7 +578,7 @@ type Journal struct {
 ### Java Annotations
 
 ```java
-package com.arda_labss.arda.accounting.controller;
+package com.arda_labs.arda.accounting.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -603,10 +609,10 @@ public class JournalController {
     public ResponseEntity<PageResponse<JournalResponse>> getJournals(
         @Parameter(description = "Page number", example = "0")
         @RequestParam(defaultValue = "0") int page,
-        
+
         @Parameter(description = "Page size", example = "20")
         @RequestParam(defaultValue = "20") int size,
-        
+
         @Parameter(description = "Filter by status")
         @RequestParam(required = false) String status
     ) {
@@ -733,4 +739,5 @@ Sẽ:
 ```
 
 ---
-*Last Updated: 2026-04-25*
+
+_Last Updated: 2026-04-25_

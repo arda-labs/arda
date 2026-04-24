@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.11
 // 	protoc        v7.34.1
-// source: iam/v1/error_reason.proto
+// source: api/iam/v1/error_reason.proto
 
 package v1
 
@@ -69,11 +69,11 @@ func (x ErrorReason) String() string {
 }
 
 func (ErrorReason) Descriptor() protoreflect.EnumDescriptor {
-	return file_iam_v1_error_reason_proto_enumTypes[0].Descriptor()
+	return file_api_iam_v1_error_reason_proto_enumTypes[0].Descriptor()
 }
 
 func (ErrorReason) Type() protoreflect.EnumType {
-	return &file_iam_v1_error_reason_proto_enumTypes[0]
+	return &file_api_iam_v1_error_reason_proto_enumTypes[0]
 }
 
 func (x ErrorReason) Number() protoreflect.EnumNumber {
@@ -82,14 +82,14 @@ func (x ErrorReason) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use ErrorReason.Descriptor instead.
 func (ErrorReason) EnumDescriptor() ([]byte, []int) {
-	return file_iam_v1_error_reason_proto_rawDescGZIP(), []int{0}
+	return file_api_iam_v1_error_reason_proto_rawDescGZIP(), []int{0}
 }
 
-var File_iam_v1_error_reason_proto protoreflect.FileDescriptor
+var File_api_iam_v1_error_reason_proto protoreflect.FileDescriptor
 
-const file_iam_v1_error_reason_proto_rawDesc = "" +
+const file_api_iam_v1_error_reason_proto_rawDesc = "" +
 	"\n" +
-	"\x19iam/v1/error_reason.proto\x12\x06iam.v1*\xbb\x01\n" +
+	"\x1dapi/iam/v1/error_reason.proto\x12\x06iam.v1*\xbb\x01\n" +
 	"\vErrorReason\x12\x13\n" +
 	"\x0fIAM_UNSPECIFIED\x10\x00\x12\x12\n" +
 	"\x0eUSER_NOT_FOUND\x10\x01\x12\x14\n" +
@@ -98,25 +98,25 @@ const file_iam_v1_error_reason_proto_rawDesc = "" +
 	"\x0eROLE_NOT_FOUND\x10\x04\x12\x15\n" +
 	"\x11PERMISSION_DENIED\x10\x05\x12\x12\n" +
 	"\x0eALREADY_EXISTS\x10\x06\x12\x14\n" +
-	"\x10INVALID_ARGUMENT\x10\aB\x1bZ\x19github.com/arda-labs/arda/arda-be-go/services/iam-service/api/iam/v1;v1b\x06proto3"
+	"\x10INVALID_ARGUMENT\x10\aBIZGgithub.com/arda-labs/arda/arda-be-go/services/iam-service/api/iam/v1;v1b\x06proto3"
 
 var (
-	file_iam_v1_error_reason_proto_rawDescOnce sync.Once
-	file_iam_v1_error_reason_proto_rawDescData []byte
+	file_api_iam_v1_error_reason_proto_rawDescOnce sync.Once
+	file_api_iam_v1_error_reason_proto_rawDescData []byte
 )
 
-func file_iam_v1_error_reason_proto_rawDescGZIP() []byte {
-	file_iam_v1_error_reason_proto_rawDescOnce.Do(func() {
-		file_iam_v1_error_reason_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_iam_v1_error_reason_proto_rawDesc), len(file_iam_v1_error_reason_proto_rawDesc)))
+func file_api_iam_v1_error_reason_proto_rawDescGZIP() []byte {
+	file_api_iam_v1_error_reason_proto_rawDescOnce.Do(func() {
+		file_api_iam_v1_error_reason_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_api_iam_v1_error_reason_proto_rawDesc), len(file_api_iam_v1_error_reason_proto_rawDesc)))
 	})
-	return file_iam_v1_error_reason_proto_rawDescData
+	return file_api_iam_v1_error_reason_proto_rawDescData
 }
 
-var file_iam_v1_error_reason_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_iam_v1_error_reason_proto_goTypes = []any{
+var file_api_iam_v1_error_reason_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_api_iam_v1_error_reason_proto_goTypes = []any{
 	(ErrorReason)(0), // 0: iam.v1.ErrorReason
 }
-var file_iam_v1_error_reason_proto_depIdxs = []int32{
+var file_api_iam_v1_error_reason_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
 	0, // [0:0] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
@@ -124,26 +124,26 @@ var file_iam_v1_error_reason_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for field type_name
 }
 
-func init() { file_iam_v1_error_reason_proto_init() }
-func file_iam_v1_error_reason_proto_init() {
-	if File_iam_v1_error_reason_proto != nil {
+func init() { file_api_iam_v1_error_reason_proto_init() }
+func file_api_iam_v1_error_reason_proto_init() {
+	if File_api_iam_v1_error_reason_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_iam_v1_error_reason_proto_rawDesc), len(file_iam_v1_error_reason_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_iam_v1_error_reason_proto_rawDesc), len(file_api_iam_v1_error_reason_proto_rawDesc)),
 			NumEnums:      1,
 			NumMessages:   0,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
-		GoTypes:           file_iam_v1_error_reason_proto_goTypes,
-		DependencyIndexes: file_iam_v1_error_reason_proto_depIdxs,
-		EnumInfos:         file_iam_v1_error_reason_proto_enumTypes,
+		GoTypes:           file_api_iam_v1_error_reason_proto_goTypes,
+		DependencyIndexes: file_api_iam_v1_error_reason_proto_depIdxs,
+		EnumInfos:         file_api_iam_v1_error_reason_proto_enumTypes,
 	}.Build()
-	File_iam_v1_error_reason_proto = out.File
-	file_iam_v1_error_reason_proto_goTypes = nil
-	file_iam_v1_error_reason_proto_depIdxs = nil
+	File_api_iam_v1_error_reason_proto = out.File
+	file_api_iam_v1_error_reason_proto_goTypes = nil
+	file_api_iam_v1_error_reason_proto_depIdxs = nil
 }

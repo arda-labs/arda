@@ -7,7 +7,7 @@ import "google/protobuf/timestamp.proto";
 
 option go_package = "github.com/arda-labs/arda/arda-be-go/services/iam-service/api/iam/v1;v1";
 
-service IAMService {
+service MenuService {
   // ... existing endpoints ...
 
   // Menu

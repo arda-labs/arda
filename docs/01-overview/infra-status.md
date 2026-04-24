@@ -12,7 +12,7 @@
 - **RAM**: 16GB (planned upgrade to 32GB)
 - **OS**: Ubuntu 24.04.4 LTS
 - **Kernel**: 6.8.0-110-generic
-- **IP**: 192.168.100.5
+- **IP**: thinkcenter
 - **Container Runtime**: containerd 2.2.2
 
 **Note**: Server đang chạy 16 logical cores (8 cores physical với hyperthreading)
@@ -28,7 +28,7 @@ thinkcenter Ready    control-plane   5d    v1.34.6+k3s1
 
 - **K3s Version**: v1.34.6+k3s1
 - **Kubectl Version**: v1.34.1
-- **Node IP**: 192.168.100.5
+- **Node IP**: thinkcenter
 - **Single-node cluster** (control-plane + worker)
 
 ---
@@ -113,7 +113,7 @@ kube-node-lease   Active   5d
 ## 🔗 External Services (Bên ngoài K3s)
 
 ### PostgreSQL (Database)
-- **Host**: thinkcenter (192.168.100.5)
+- **Host**: thinkcenter (thinkcenter)
 - **Port**: 5432
 - **User**: iam
 - **Database**: iam
@@ -121,7 +121,7 @@ kube-node-lease   Active   5d
 - **Status**: ✅ Running (external to K3s)
 
 ### Redis
-- **Host**: thinkcenter (192.168.100.5)
+- **Host**: thinkcenter (thinkcenter)
 - **Port**: 6379
 - **Status**: ⚠️ Configured but not verified
 
@@ -163,12 +163,12 @@ argocd.arda.io.vn    → argocd-server.argocd.svc.cluster.local:443
 
 | Application | Repo | Path | Namespace | Sync Status |
 |-------------|------|------|-----------|-------------|
-| arda-root | github.com.arda_labss/arda-infra | argocd/apps | argocd | ✅ Synced |
-| apisix | github.com.arda_labss/arda-infra | apps/gateway/apisix/overlays/dev | gateway | ✅ Synced |
-| cloudflared | github.com.arda_labss/arda-infra | apps/ingress/cloudflared/overlays | infra | ✅ Synced |
-| iam-service-dev | github.com.arda_labss/arda-infra | apps/iam-service/overlays/dev | arda-dev | ✅ Synced |
-| mfe-common-dev | github.com.arda_labss/arda-infra | apps/mfe-common/overlays/dev | arda-dev | ✅ Synced |
-| mfe-shell-dev | github.com.arda_labss/arda-infra | apps/mfe-shell/overlays/dev | arda-dev | ⚠️ OutOfSync |
+| arda-root | github.com.arda_labs/arda-infra | argocd/apps | argocd | ✅ Synced |
+| apisix | github.com.arda_labs/arda-infra | apps/gateway/apisix/overlays/dev | gateway | ✅ Synced |
+| cloudflared | github.com.arda_labs/arda-infra | apps/ingress/cloudflared/overlays | infra | ✅ Synced |
+| iam-service-dev | github.com.arda_labs/arda-infra | apps/iam-service/overlays/dev | arda-dev | ✅ Synced |
+| mfe-common-dev | github.com.arda_labs/arda-infra | apps/mfe-common/overlays/dev | arda-dev | ✅ Synced |
+| mfe-shell-dev | github.com.arda_labs/arda-infra | apps/mfe-shell/overlays/dev | arda-dev | ⚠️ OutOfSync |
 
 **Observation**: `mfe-shell-dev` đang OutOfSync, cần sync lại.
 
@@ -214,7 +214,7 @@ resources: {}  # Empty - needs to be set
 **Fix Needed**: Install Prometheus + Grafana for monitoring.
 
 ### 6. ArgoCD Repo Structure Mismatch
-**Problem**: ArgoCD apps track `github.com.arda_labss/arda-infra` nhưng local repo có thể khác.
+**Problem**: ArgoCD apps track `github.com.arda_labs/arda-infra` nhưng local repo có thể khác.
 
 **Action**: Verify repo structure sync.
 

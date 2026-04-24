@@ -146,7 +146,7 @@ type permissionCache struct {
 }
 
 func NewPermissionCache(data *Data) biz.PermissionCache {
-	return &permissionCache{rdb: data.rdb}
+	return &permissionCache{rdb: data.rdb.Client}
 }
 
 func cacheKey(userID, tenantID, resource, action, resourceID string) string {

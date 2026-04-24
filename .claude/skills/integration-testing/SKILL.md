@@ -2,8 +2,8 @@
 name: integration-testing
 description: Hỗ trợ viết integration tests
 disable-model-invocation: false
-
 ---
+
 # Integration Testing Skill
 
 Mục đích: Hỗ trợ viết integration tests cho Go và Java services trong dự án Arda.
@@ -106,7 +106,7 @@ dependencies {
 ```
 
 ```java
-package com.arda_labss.arda.accounting;
+package com.arda_labs.arda.accounting;
 
 import org.junit.jupiter.api.*;
 import org.testcontainers.containers.PostgreSQLContainer;
@@ -400,7 +400,7 @@ func TestExternalAPICall(t *testing.T) {
 ### Java WireMock Test
 
 ```java
-package com.arda_labss.arda.accounting;
+package com.arda_labs.arda.accounting;
 
 import com.github.tomakehurst.wiremock.client.WireMockServer;
 import org.junit.jupiter.api.*;
@@ -542,7 +542,7 @@ func TestUserService_Integration(t *testing.T) {
 ### Java Integration Test
 
 ```java
-package com.arda_labss.arda.accounting;
+package com.arda_labs.arda.accounting;
 
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -719,7 +719,7 @@ spring.redis.host=localhost
 spring.redis.port=6379
 
 # Logging
-logging.level.com.arda_labss.arda=DEBUG
+logging.level.com.arda_labs.arda=DEBUG
 logging.level.org.testcontainers=INFO
 ```
 
@@ -789,4 +789,4 @@ Sẽ:
 
 ---
 
-*Last Updated: 2026-04-25*
+_Last Updated: 2026-04-25_

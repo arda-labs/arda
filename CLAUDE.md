@@ -33,10 +33,10 @@
 
 ### 🌐 Kubenetes (K3s)
 - **Namespace**: `arda-dev` (Development), `arda-prod` (Production)
-- **Context**: `thinkcenter` (192.168.100.5)
+- **Context**: `thinkcenter` (thinkcenter)
 
 ### 🚀 GitOps (ArgoCD)
-- **Repo**: `github.com.arda_labss/arda-infra`
+- **Repo**: `github.com.arda_labs/arda-infra`
 - **Sync**: Tự động đồng bộ từ branch `main` của infra repo.
 
 ### 🌐 API Gateway (APISIX)

@@ -64,8 +64,8 @@ Run: `grep -r "arda-labs" .` (Kỳ vọng: Không còn kết quả)
 - [ ] **Step 3: Cập nhật Go Modules**
 Run: 
 ```bash
-cd arda-be-go/services/iam-service && go mod edit -module github.com.arda_labss/arda/arda-be-go/services/iam-service && go mod tidy
-cd ../common-service && go mod edit -module github.com.arda_labss/arda/arda-be-go/services/common-service && go mod tidy
+cd arda-be-go/services/iam-service && go mod edit -module github.com.arda_labs/arda/arda-be-go/services/iam-service && go mod tidy
+cd ../common-service && go mod edit -module github.com.arda_labs/arda/arda-be-go/services/common-service && go mod tidy
 ```
 
 - [ ] **Step 4: Commit thay đổi renaming**
@@ -97,7 +97,7 @@ Run: `gh repo create arda-labs/arda --public --source=. --remote=origin --push`
 - Modify: `arda-infra/**/*.yaml`
 
 - [ ] **Step 1: Sửa file root-app.yaml hoặc các Application config**
-Thay thế `repoURL: https://github.com.arda_labss/iam-service` thành `repoURL: https://github.com.arda_labss/arda` và thêm `path: arda-be-go/services/iam-service`.
+Thay thế `repoURL: https://github.com.arda_labs/iam-service` thành `repoURL: https://github.com.arda_labs/arda` và thêm `path: arda-be-go/services/iam-service`.
 
 - [ ] **Step 2: Kiểm tra và Commit arda-infra**
 Run: `cd arda-infra && git add . && git commit -m "chore: update source repo paths to arda monorepo"`

@@ -594,7 +594,7 @@ const file_internal_conf_conf_proto_rawDesc = "" +
 	"\baudience\x18\x03 \x01(\tR\baudience\"9\n" +
 	"\aZitadel\x12\x1c\n" +
 	"\tauthority\x18\x01 \x01(\tR\tauthority\x12\x10\n" +
-	"\x03pat\x18\x02 \x01(\tR\x03patB Z\x1egithub.com/arda-labs/arda/arda-be-go/services/iam-service/internal/conf;confb\x06proto3"
+	"\x03pat\x18\x02 \x01(\tR\x03patBNZLgithub.com/arda-labs/arda/arda-be-go/services/iam-service/internal/conf;confb\x06proto3"
 
 var (
 	file_internal_conf_conf_proto_rawDescOnce sync.Once

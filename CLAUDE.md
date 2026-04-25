@@ -1,62 +1,61 @@
 # Arda Monorepo Guide
 
-> Quy trình phát triển và vận hành hệ thống Arda Platform
+> Quy trình phát triển và vận hành hệ thống Arda Platform (Monorepo)
 > Cập nhật: 2026-04-25
+
+---
+
+## 🏗️ Monorepo Structure
+
+```text
+arda/
+├── apps/
+│   ├── backend-go/      # Operational services (Kratos)
+│   ├── backend-java/    # Core Banking services (Spring Boot)
+│   └── frontend/        # Angular MFE (Nx Monorepo)
+├── libs/
+│   ├── go/              # Shared Go packages
+│   └── java/            # Shared Java libraries
+├── infra/               # Infrastructure & GitOps (arda-infra)
+├── .github/             # Centralized CI/CD Workflows
+└── docs/                # System Documentation
+```
 
 ---
 
 ## 🛠️ Build & Development
 
 ### 🎨 Frontend (Angular MFE)
-- **Cấu trúc**: `arda-mfe/` (Nx Monorepo)
-- **Lệnh Build**: `npm run build` (trong arda-mfe) hoặc `nx build [app-name]`
+
+- **Cấu trúc**: `apps/frontend/`
+- **Lệnh Build**: `npm run build` (trong apps/frontend) hoặc `nx build [app-name]`
 - **Lệnh Test**: `nx test [app-name]`
-- **Lệnh Lint**: `nx lint [app-name]`
-- **Cấu hình**: `nx.json`, `package.json`
 
 ### 🛠️ Backend Go (Operational)
-- **Cấu trúc**: `arda-be-go/` (Kratos services)
+
+- **Cấu trúc**: `apps/backend-go/`
 - **Lệnh Build**: `make build` (trong từng service)
-- **Lệnh Generate API**: `make api`
-- **Lệnh Wire DI**: `make generate` hoặc `wire ./...`
-- **Chạy local**: `./bin/[service] -conf ./configs`
+- **Lệnh Wire DI**: `wire ./...` (trong cmd)
 
 ### ☕ Backend Java (Core Banking)
-- **Cấu trúc**: `arda-be-java/` (Spring Boot + Gradle)
-- **Lệnh Build**: `./gradlew build`
-- **Lệnh Native Build**: `./gradlew nativeCompile`
-- **Chạy local**: `./gradlew bootRun`
+
+- **Cấu trúc**: `apps/backend-java/`
+- **Lệnh Build**: `./gradlew build` (từ root)
+- **Lệnh chạy cụ thể**: `./gradlew :apps:backend-java:accounting:bootRun`
 
 ---
 
 ## 🏗️ Infrastructure & Deployment
 
 ### 🌐 Kubenetes (K3s)
+
 - **Namespace**: `arda-dev` (Development), `arda-prod` (Production)
-- **Context**: `thinkcenter` (thinkcenter)
+- **Context**: `thinkcenter`
 
 ### 🚀 GitOps (ArgoCD)
-- **Repo**: `github.com.arda_labs/arda-infra`
+
+- **Repo**: `github.com/arda-labs/arda-infra`
 - **Sync**: Tự động đồng bộ từ branch `main` của infra repo.
-
-### 🌐 API Gateway (APISIX)
-
-- **Domain chính**: `arda.io.vn`
-- **Identity (Zitadel)**: `auth.arda.io.vn`
-- **Admin API**: `10.43.150.100:9180`
-- **Network Flow**: `User -> Cloudflare Tunnel -> APISIX -> Internal Services`
-
----
-
-## 🌐 Network Architecture
-
-| Hostname | Target Service | Path | Gateway |
-| --- | --- | --- | --- |
-| `arda.io.vn` | `mfe-shell` | `/*` | APISIX |
-| `auth.arda.io.vn` | `zitadel` | `/*` | Traefik |
-| `argocd.arda.io.vn` | `argocd-server` | `/*` | Cloudflare (Direct) |
-
-**Lưu ý**: `auth.arda.io.vn` được tách riêng qua Traefik để đảm bảo tính độc lập cho hệ thống Identity, không đi qua APISIX Gateway.
 
 ---
 
@@ -73,11 +72,8 @@
 
 ```bash
 # Xem logs service trong K8s
-kubectl logs -f deployment/iam-service -n arda-dev
+kubectl logs -f deployment/accounting-service -n arda-dev
 
-# Kiểm tra resource usage
-kubectl top pods -n arda-dev
-
-# Sync ArgoCD app thủ công
-argocd app sync iam-service-dev
+# Kiểm tra Redpanda (Kafka) trong cụm
+kubectl get pods -n arda-dev -l app=redpanda
 ```

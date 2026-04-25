@@ -7,10 +7,10 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":libs:common"))
-    implementation(project(":libs:database"))
-    implementation(project(":libs:security"))
-    implementation(project(":libs:messaging"))
+    implementation(project(":libs:java:common"))
+    implementation(project(":libs:java:database"))
+    implementation(project(":libs:java:security"))
+    implementation(project(":libs:java:messaging"))
 
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")

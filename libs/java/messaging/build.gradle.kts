@@ -4,7 +4,7 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":libs:common"))
+    implementation(project(":libs:java:common"))
     implementation("org.springframework.kafka:spring-kafka")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("io.cloudevents:cloudevents-kafka:2.5.0")

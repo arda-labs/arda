@@ -4,11 +4,11 @@ on:
   push:
     branches: [ main ]
     paths:
-      - 'arda-mfe/**'
+      - 'apps/frontend/**'
   pull_request:
     branches: [ main ]
     paths:
-      - 'arda-mfe/**'
+      - 'apps/frontend/**'
 
 jobs:
   build-and-push:
@@ -26,10 +26,10 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
-          cache-dependency-path: arda-mfe/package-lock.json
+          cache-dependency-path: apps/frontend/package-lock.json
 
       - name: Install dependencies
-        run: cd arda-mfe && npm install
+        run: cd apps/frontend && npm install
 
       - name: Derive appropriate SHAs for base and head for nx affected
         uses: nrwl/nx-set-shas@v4
@@ -39,7 +39,7 @@ jobs:
       - name: Get affected apps
         id: affected
         run: |
-          cd arda-mfe
+          cd apps/frontend
           APPS=$(npx nx show projects --affected --type app --json | jq -r '.[]' | tr '\n' ',' | sed 's/,$//')
           echo "apps=$APPS" >> $GITHUB_OUTPUT
 
@@ -61,25 +61,11 @@ jobs:
           for app in "${ADDR[@]}"; do
             IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/mfe-$app
 
-            # Giả định Dockerfile nằm ở arda-mfe/apps/$app/Dockerfile
+            # Build from root context to include shared assets if any
             docker build -t $IMAGE_NAME:$SHORT_TAG -t $IMAGE_NAME:latest \
               --build-arg PROJECT=$app \
-              -f arda-mfe/Dockerfile arda-mfe
+              -f apps/frontend/Dockerfile apps/frontend
 
             docker push $IMAGE_NAME:$SHORT_TAG
             docker push $IMAGE_NAME:latest
           done
-
-  deploy:
-    needs: build-and-push
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.build-and-push.outputs.apps != ''
-    strategy:
-      matrix:
-        app: ${{ fromJson(needs.build-and-push.outputs.apps_json) }} # Cần tối ưu lại logic output json
-    uses: ./.github/workflows/gitops-update.yml
-    with:
-      service_path: mfe-${{ matrix.app }}
-      image_name: ghcr.io/${{ github.repository_owner }}/mfe-${{ matrix.app }}
-      image_tag: ${{ github.sha }} # Dùng sha làm tag cho đồng bộ
-    secrets:
-      GITOPS_PAT: ${{ secrets.GITOPS_PAT }}

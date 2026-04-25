@@ -6,12 +6,12 @@ WORKDIR /app
 COPY . .
 
 # Build the application
-RUN gradle :services:accounting:build -x test
+RUN gradle :apps:backend-java:accounting:build -x test
 
 # Runtime stage
 FROM eclipse-temurin:21-jre-jammy
 WORKDIR /app
-COPY --from=build /app/services/accounting/build/libs/*.jar app.jar
+COPY --from=build /app/apps/backend-java/accounting/build/libs/*.jar app.jar
 
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]

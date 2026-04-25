@@ -4,11 +4,13 @@ on:
   push:
     branches: [ main ]
     paths:
-      - 'arda-be-go/**'
+      - 'apps/backend-go/**'
+      - 'libs/go/**'
   pull_request:
     branches: [ main ]
     paths:
-      - 'arda-be-go/**'
+      - 'apps/backend-go/**'
+      - 'libs/go/**'
 
 jobs:
   changes:
@@ -21,9 +23,9 @@ jobs:
         id: filter
         with:
           filters: |
-            iam-service: 'arda-be-go/services/iam-service/**'
-            crm-service: 'arda-be-go/services/crm-service/**'
-            common-service: 'arda-be-go/services/common-service/**'
+            iam-service: 'apps/backend-go/iam-service/**'
+            crm-service: 'apps/backend-go/crm-service/**'
+            common-service: 'apps/backend-go/common-service/**'
 
   build-and-push:
     needs: changes
@@ -51,21 +53,19 @@ jobs:
           password: ${{ secrets.GITOPS_PAT }}
 
       - name: Build and Push Docker Image
-        id: build
         run: |
           SERVICE_NAME=${{ matrix.service }}
           IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/$SERVICE_NAME
           TAG=${{ github.sha }}
           SHORT_TAG=${TAG:0:7}
 
+          # Correct path: apps/backend-go/$SERVICE_NAME
+          # We build from root to include libs/go
           docker build -t $IMAGE_NAME:$SHORT_TAG -t $IMAGE_NAME:latest \
-            -f arda-be-go/services/$SERVICE_NAME/Dockerfile arda-be-go/services/$SERVICE_NAME
+            -f apps/backend-go/$SERVICE_NAME/Dockerfile .
 
           docker push $IMAGE_NAME:$SHORT_TAG
           docker push $IMAGE_NAME:latest
-
-          echo "image_tag=$SHORT_TAG" >> $GITHUB_OUTPUT
-          echo "image_name=$IMAGE_NAME" >> $GITHUB_OUTPUT
 
   deploy:
     needs: [changes, build-and-push]
@@ -77,6 +77,6 @@ jobs:
     with:
       service_path: ${{ matrix.service }}
       image_name: ghcr.io/${{ github.repository_owner }}/${{ matrix.service }}
-      image_tag: ${{ needs.build-and-push.outputs.image_tag }} # Note: This needs careful handling for matrix
+      image_tag: ${{ github.sha }}
     secrets:
       GITOPS_PAT: ${{ secrets.GITOPS_PAT }}

@@ -4,11 +4,17 @@ on:
   push:
     branches: [ main ]
     paths:
-      - 'arda-be-java/**'
+      - 'apps/backend-java/**'
+      - 'libs/java/**'
+      - 'build.gradle.kts'
+      - 'settings.gradle.kts'
   pull_request:
     branches: [ main ]
     paths:
-      - 'arda-be-java/**'
+      - 'apps/backend-java/**'
+      - 'libs/java/**'
+      - 'build.gradle.kts'
+      - 'settings.gradle.kts'
 
 jobs:
   changes:
@@ -21,9 +27,7 @@ jobs:
         id: filter
         with:
           filters: |
-            accounting: 'arda-be-java/services/accounting/**'
-            loan: 'arda-be-java/services/loan/**'
-            deposit: 'arda-be-java/services/deposit/**'
+            accounting: 'apps/backend-java/accounting/**'
 
   build-and-push:
     needs: changes
@@ -55,15 +59,13 @@ jobs:
       - name: Build and Push Docker Image
         run: |
           SERVICE_NAME=${{ matrix.service }}
-          # The image name in GHCR will still be 'accounting-service' for consistency if you wish,
-          # but the directory path must be 'accounting'
           IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/$SERVICE_NAME-service
           TAG=${{ github.sha }}
           SHORT_TAG=${TAG:0:7}
 
-          # Correct path: arda-be-java/services/$SERVICE_NAME/Dockerfile
+          # Path: apps/backend-java/$SERVICE_NAME/Dockerfile
           docker build -t $IMAGE_NAME:$SHORT_TAG -t $IMAGE_NAME:latest \
-            -f arda-be-java/services/$SERVICE_NAME/Dockerfile arda-be-java
+            -f apps/backend-java/$SERVICE_NAME/Dockerfile .
 
           docker push $IMAGE_NAME:$SHORT_TAG
           docker push $IMAGE_NAME:latest

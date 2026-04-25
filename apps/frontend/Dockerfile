@@ -1,16 +1,16 @@
 FROM node:24-alpine AS builder
 
-ARG APP=shell
+ARG PROJECT=shell
 WORKDIR /app
 
 COPY package.json package-lock.json ./
 RUN npm ci
 
 COPY . .
-RUN npx nx build ${APP} --configuration=production
+RUN npx nx build ${PROJECT} --configuration=production
 
 # --- Shell Runtime ---
-FROM nginx:alpine AS shell-runtime
+FROM nginx:alpine AS mfe-shell-runtime
 
 ARG MF_COMMON_URL=https://arda.io.vn/common/mf-manifest.json
 ARG GIT_SHA=unknown
@@ -26,7 +26,7 @@ EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
 
 # --- Common Runtime ---
-FROM nginx:alpine AS common-runtime
+FROM nginx:alpine AS mfe-common-runtime
 
 COPY --from=builder /app/dist/apps/common/browser/ /usr/share/nginx/html/
 COPY apps/common/nginx.conf /etc/nginx/conf.d/default.conf

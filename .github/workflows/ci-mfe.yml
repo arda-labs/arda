@@ -5,10 +5,13 @@ on:
     branches: [ main ]
     paths:
       - 'apps/frontend/**'
+      - '.github/workflows/ci-mfe.yml'
   pull_request:
     branches: [ main ]
     paths:
       - 'apps/frontend/**'
+      - '.github/workflows/ci-mfe.yml'
+  workflow_dispatch:
 
 jobs:
   build-and-push:
@@ -47,7 +50,13 @@ jobs:
         id: affected
         run: |
           cd apps/frontend
-          APPS=$(npx nx show projects --affected --type app --json | jq -r '.[]' | tr '\n' ',' | sed 's/,$//')
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            echo "Manual trigger: building all apps"
+            APPS=$(npx nx show projects --type app --json | jq -r '.[]' | tr '\n' ',' | sed 's/,$//')
+          else
+            APPS=$(npx nx show projects --affected --type app --json | jq -r '.[]' | tr '\n' ',' | sed 's/,$//')
+          fi
+          echo "Affected apps: $APPS"
           echo "apps=$APPS" >> $GITHUB_OUTPUT
 
       - name: Login to GHCR

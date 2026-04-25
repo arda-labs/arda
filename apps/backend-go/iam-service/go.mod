@@ -54,4 +54,4 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
-replace github.com/arda-labs/arda/arda-be-go/pkg => ../../pkg
+replace github.com/arda-labs/arda/arda-be-go/pkg => ../../../libs/go/pkg

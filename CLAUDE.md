@@ -10,15 +10,27 @@
 ```text
 arda/
 ├── apps/
-│   ├── backend-go/      # Operational services (Kratos)
-│   ├── backend-java/    # Core Banking services (Spring Boot)
+│   ├── backend-go/      # Operational services (Kratos Monorepo with Go Workspace)
+│   │   ├── go.work      # Go workspace configuration
+│   │   ├── common-service/
+│   │   ├── crm-service/
+│   │   └── iam-service/
+│   ├── backend-java/    # Core Banking services (Gradle Multi-project Monorepo)
+│   │   ├── build.gradle.kts
+│   │   ├── settings.gradle.kts
+│   │   └── accounting/
 │   └── frontend/        # Angular MFE (Nx Monorepo)
 ├── libs/
 │   ├── go/              # Shared Go packages
+│   │   └── pkg/         # Common Go libraries (database, redis, middleware)
 │   └── java/            # Shared Java libraries
+│       ├── common/
+│       ├── database/
+│       └── ...
 ├── infra/               # Infrastructure & GitOps (arda-infra)
 ├── .github/             # Centralized CI/CD Workflows
-└── docs/                # System Documentation
+├── docs/                # System Documentation
+└── scripts/             # Utility scripts & Dev configs
 ```
 
 ---
@@ -29,19 +41,20 @@ arda/
 
 - **Cấu trúc**: `apps/frontend/`
 - **Lệnh Build**: `npm run build` (trong apps/frontend) hoặc `nx build [app-name]`
-- **Lệnh Test**: `nx test [app-name]`
 
 ### 🛠️ Backend Go (Operational)
 
 - **Cấu trúc**: `apps/backend-go/`
-- **Lệnh Build**: `make build` (trong từng service)
-- **Lệnh Wire DI**: `wire ./...` (trong cmd)
+- **Quản lý Workspace**: `go.work` gom tất cả services và `libs/go/pkg`.
+- **Lệnh Run**: `cd apps/backend-go/[service] && kratos run` hoặc `make run`.
+- **Lệnh Wire DI**: `wire ./...` (trong thư mục cmd của service).
 
 ### ☕ Backend Java (Core Banking)
 
 - **Cấu trúc**: `apps/backend-java/`
-- **Lệnh Build**: `./gradlew build` (từ root)
-- **Lệnh chạy cụ thể**: `./gradlew :apps:backend-java:accounting:bootRun`
+- **Quản lý Build**: Gradle monorepo độc lập trong `apps/backend-java`.
+- **Lệnh Build**: `./gradlew build` (từ thư mục apps/backend-java).
+- **Lệnh chạy cụ thể**: `./gradlew :accounting:bootRun`
 
 ---
 

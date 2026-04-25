@@ -21,7 +21,9 @@ jobs:
         id: filter
         with:
           filters: |
-            accounting-service: 'arda-be-java/services/accounting/**'
+            accounting: 'arda-be-java/services/accounting/**'
+            loan: 'arda-be-java/services/loan/**'
+            deposit: 'arda-be-java/services/deposit/**'
 
   build-and-push:
     needs: changes
@@ -53,11 +55,13 @@ jobs:
       - name: Build and Push Docker Image
         run: |
           SERVICE_NAME=${{ matrix.service }}
-          IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/$SERVICE_NAME
+          # The image name in GHCR will still be 'accounting-service' for consistency if you wish,
+          # but the directory path must be 'accounting'
+          IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/$SERVICE_NAME-service
           TAG=${{ github.sha }}
           SHORT_TAG=${TAG:0:7}
 
-          # Giả định Dockerfile nằm ở arda-be-java/services/$SERVICE_NAME/Dockerfile
+          # Correct path: arda-be-java/services/$SERVICE_NAME/Dockerfile
           docker build -t $IMAGE_NAME:$SHORT_TAG -t $IMAGE_NAME:latest \
             -f arda-be-java/services/$SERVICE_NAME/Dockerfile arda-be-java
 
@@ -72,8 +76,8 @@ jobs:
         service: ${{ fromJson(needs.changes.outputs.services) }}
     uses: ./.github/workflows/gitops-update.yml
     with:
-      service_path: ${{ matrix.service }}
-      image_name: ghcr.io/${{ github.repository_owner }}/${{ matrix.service }}
+      service_path: ${{ matrix.service }}-service
+      image_name: ghcr.io/${{ github.repository_owner }}/${{ matrix.service }}-service
       image_tag: ${{ github.sha }}
     secrets:
       GITOPS_PAT: ${{ secrets.GITOPS_PAT }}

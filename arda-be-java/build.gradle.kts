@@ -7,7 +7,7 @@ plugins {
 }
 
 allprojects {
-    group = "com.arda.labs"
+    group = "arda"
     version = "0.0.1-SNAPSHOT"
 
     repositories {

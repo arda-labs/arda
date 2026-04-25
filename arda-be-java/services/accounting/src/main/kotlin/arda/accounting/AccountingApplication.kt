@@ -1,4 +1,4 @@
-package com.arda.labs.accounting
+package arda.accounting
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

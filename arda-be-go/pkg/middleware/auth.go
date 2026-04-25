@@ -18,7 +18,7 @@ func Auth() middleware.Middleware {
 	return func(handler middleware.Handler) middleware.Handler {
 		return func(ctx context.Context, req interface{}) (interface{}, error) {
 			if tr, ok := transport.FromServerContext(ctx); ok {
-				userID := tr.RequestHeader().Get("X-User-ID")
+				userID := tr.RequestHeader().Get("X-User-Id")
 				if userID != "" {
 					ctx = context.WithValue(ctx, userIDKey, userID)
 					ctx = context.WithValue(ctx, userEmailKey, tr.RequestHeader().Get("X-User-Email"))

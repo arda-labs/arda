@@ -1,14 +1,31 @@
 spring:
   application:
     name: accounting-service
+
+  # R2DBC PostgreSQL Configuration
   r2dbc:
-    url: r2dbc:postgresql://${DB_HOST:localhost}:5432/${DB_NAME:arda_accounting}
+    url: r2dbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:arda_accounting}
     username: ${DB_USER:postgres}
     password: ${DB_PASS:postgres}
     pool:
-      initial-size: 5
+      initial-size: 10
       max-size: 20
 
+  # Kafka (Redpanda) Configuration
+  kafka:
+    bootstrap-servers: ${KAFKA_HOST:redpanda.arda-dev.svc.cluster.local}:${KAFKA_PORT:9092}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      acks: all # Ensuring Strong Consistency for Banking
+      retries: 3
+    consumer:
+      group-id: accounting-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+
+# Actuator for Monitoring
 management:
   endpoints:
     web:
@@ -17,3 +34,10 @@ management:
   endpoint:
     health:
       show-details: always
+
+# Logging Configuration referencing our common library
+logging:
+  config: classpath:logback-arda.xml
+  level:
+    arda: DEBUG
+    org.springframework.data.r2dbc: DEBUG

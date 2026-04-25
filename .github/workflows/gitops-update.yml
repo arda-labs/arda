@@ -42,4 +42,9 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add .
           git commit -m "chore: update ${{ inputs.image_name }} to ${{ inputs.image_tag }}" || echo "No changes to commit"
-          git push
+
+          # Retry push with rebase to handle concurrent updates
+          for i in {1..5}; do
+            git pull --rebase origin main && git push && exit 0 || sleep 5
+          done
+          exit 1

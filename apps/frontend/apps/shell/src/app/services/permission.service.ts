@@ -1,6 +1,7 @@
-import { Injectable, signal, computed, inject, effect } from '@angular/core';
+import { Injectable, signal, computed, inject, effect, untracked } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
+import { AuthService } from './auth.service';
 import { TenantService } from './tenant.service';
 
 interface ListPermissionsResponse {
@@ -10,6 +11,7 @@ interface ListPermissionsResponse {
 @Injectable({ providedIn: 'root' })
 export class PermissionService {
   private http = inject(HttpClient);
+  private authService = inject(AuthService);
   private tenantService = inject(TenantService);
   private apiUrl = (window as any).__env?.apiUrl ?? 'http://localhost:8000';
 
@@ -20,16 +22,24 @@ export class PermissionService {
   readonly permissionList = computed(() => [...this._permissions()]);
 
   constructor() {
-    // Tự động reload khi đổi tenant
+    // Tự động reload khi đổi tenant (và đã login)
     effect(() => {
+      const isAuthenticated = this.authService.isAuthenticated();
       const tenantId = this.tenantService.selectedTenantId();
-      if (tenantId) {
-        this.loadPermissions();
+
+      if (isAuthenticated && tenantId) {
+        untracked(() => this.loadPermissions());
+      } else if (!isAuthenticated) {
+        untracked(() => this._permissions.set(new Set()));
       }
     });
   }
 
   async loadPermissions(): Promise<void> {
+    if (!this.authService.isAuthenticated()) {
+      return;
+    }
+
     this.isLoading.set(true);
     try {
       const resp = await firstValueFrom(

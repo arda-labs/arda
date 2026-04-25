@@ -1,8 +1,9 @@
-import { Injectable, signal, computed, inject } from '@angular/core';
+import { Injectable, signal, computed, inject, effect, untracked } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { TenantService } from './tenant.service';
 import { PermissionService } from './permission.service';
+import { AuthService } from './auth.service';
 
 export interface MenuItem {
   id: string;
@@ -29,6 +30,7 @@ interface MenuResponse {
 @Injectable({ providedIn: 'root' })
 export class MenuService {
   private http = inject(HttpClient);
+  private authService = inject(AuthService);
   private tenantService = inject(TenantService);
   private permService = inject(PermissionService);
 
@@ -48,7 +50,23 @@ export class MenuService {
       .filter(Boolean) as MenuItem[];
   });
 
+  constructor() {
+    // Tự động reload khi đổi tenant (và đã login)
+    effect(() => {
+      const isAuthenticated = this.authService.isAuthenticated();
+      const tenantId = this.tenantService.selectedTenantId();
+
+      if (isAuthenticated && tenantId) {
+        untracked(() => this.loadMenu());
+      } else if (!isAuthenticated) {
+        untracked(() => this._menuItems.set([]));
+      }
+    });
+  }
+
   async loadMenu(): Promise<void> {
+    if (!this.authService.isAuthenticated()) return;
+
     const tenantId = this.tenantService.selectedTenantId();
     if (!tenantId) return;
 

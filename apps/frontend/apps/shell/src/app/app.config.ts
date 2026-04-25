@@ -51,7 +51,7 @@ function getInitialPreset() {
 
 function initializeAuth(): Promise<void> {
   const oidc = inject(OidcSecurityService);
-  return firstValueFrom(oidc.checkAuth()).then(() => { /* auth check */ });
+  return firstValueFrom(oidc.checkAuth()).then(() => { /* auth check complete */ });
 }
 
 function initializeLanguage(): Promise<void> {
@@ -61,23 +61,42 @@ function initializeLanguage(): Promise<void> {
 
 function initializeTenants(): Promise<void> {
   const tenantService = inject(TenantService);
-  return tenantService.loadTenants();
+  const oidc = inject(OidcSecurityService);
+
+  return firstValueFrom(oidc.isAuthenticated$).then(({ isAuthenticated }) => {
+    if (isAuthenticated) {
+      return tenantService.loadTenants();
+    }
+    return Promise.resolve();
+  });
 }
 
 function initializePermissions(): Promise<void> {
   const permService = inject(PermissionService);
-  return permService.loadPermissions();
+  const oidc = inject(OidcSecurityService);
+
+  return firstValueFrom(oidc.isAuthenticated$).then(({ isAuthenticated }) => {
+    if (isAuthenticated) {
+      return permService.loadPermissions();
+    }
+    return Promise.resolve();
+  });
 }
 
 function initializeMenu(): Promise<void> {
   const menuService = inject(MenuService);
   const tenantService = inject(TenantService);
-  // Menu depends on tenant being selected — load once tenant is ready
-  const tenantId = tenantService.selectedTenantId();
-  if (tenantId) {
-    return menuService.loadMenu();
-  }
-  return Promise.resolve();
+  const oidc = inject(OidcSecurityService);
+
+  return firstValueFrom(oidc.isAuthenticated$).then(({ isAuthenticated }) => {
+    if (isAuthenticated) {
+      const tenantId = tenantService.selectedTenantId();
+      if (tenantId) {
+        return menuService.loadMenu();
+      }
+    }
+    return Promise.resolve();
+  });
 }
 
 export const appConfig: ApplicationConfig = {

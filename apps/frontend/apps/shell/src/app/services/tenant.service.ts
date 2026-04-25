@@ -1,6 +1,7 @@
 import { Injectable, signal, computed, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
+import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { getEnv } from '@arda-mfe/shared-config';
 import { TenantProvider } from '@arda-mfe/shared-api';
 
@@ -24,6 +25,7 @@ interface TenantMembershipResponse {
 export class TenantService implements TenantProvider {
   private static STORAGE_KEY = 'arda-selected-tenant';
   private http = inject(HttpClient);
+  private oidc = inject(OidcSecurityService);
   private apiUrl = getEnv().apiUrl;
 
   readonly tenants = signal<Tenant[]>([]);
@@ -42,6 +44,12 @@ export class TenantService implements TenantProvider {
   }
 
   async loadTenants(): Promise<void> {
+    const { isAuthenticated } = await firstValueFrom(this.oidc.isAuthenticated$);
+    if (!isAuthenticated) {
+      console.log('TenantService: Not authenticated, skipping loadTenants');
+      return;
+    }
+
     this.isLoading.set(true);
     try {
       console.log('TenantService: Loading tenants from', `${this.apiUrl}/v1/me/tenants`);

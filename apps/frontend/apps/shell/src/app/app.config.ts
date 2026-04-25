@@ -99,6 +99,7 @@ function initializeMenu(): Promise<void> {
   });
 }
 
+// Trigger CI/CD: fix premature API calls and update GitOps workflow
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),

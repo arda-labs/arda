@@ -16,6 +16,8 @@ jobs:
     permissions:
       contents: read
       packages: write
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -69,3 +71,29 @@ jobs:
             docker push $IMAGE_NAME:$SHORT_TAG
             docker push $IMAGE_NAME:latest
           done
+      - name: Create matrix
+        id: set-matrix
+        run: |
+          # Chuyển chuỗi "shell,common" thành JSON array ["mfe-shell", "mfe-common"]
+          IFS=',' read -ra ADDR <<< "${{ steps.affected.outputs.apps }}"
+          JSON="["
+          for i in "${!ADDR[@]}"; do
+            JSON+="\"mfe-${ADDR[$i]}\""
+            if [ $i -lt $((${#ADDR[@]} - 1)) ]; then JSON+=","; fi
+          done
+          JSON+="]"
+          echo "matrix=$JSON" >> $GITHUB_OUTPUT
+
+  deploy:
+    needs: build-and-push
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.build-and-push.outputs.matrix != '[]'
+    strategy:
+      matrix:
+        service: ${{ fromJson(needs.build-and-push.outputs.matrix) }}
+    uses: ./.github/workflows/gitops-update.yml
+    with:
+      service_path: ${{ matrix.service }}
+      image_name: ghcr.io/${{ github.repository_owner }}/${{ matrix.service }}
+      image_tag: ${{ github.sha }}
+    secrets:
+      GITOPS_PAT: ${{ secrets.GITOPS_PAT }}

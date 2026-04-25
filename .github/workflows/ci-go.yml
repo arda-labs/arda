@@ -24,7 +24,6 @@ jobs:
         with:
           filters: |
             iam-service: 'apps/backend-go/iam-service/**'
-            crm-service: 'apps/backend-go/crm-service/**'
             common-service: 'apps/backend-go/common-service/**'
 
   build-and-push:

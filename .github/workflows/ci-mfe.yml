@@ -101,7 +101,7 @@ jobs:
 
   deploy:
     needs: build-and-push
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.build-and-push.outputs.matrix != '[]'
+    if: (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main' && needs.build-and-push.outputs.matrix != '[]'
     strategy:
       matrix:
         service: ${{ fromJson(needs.build-and-push.outputs.matrix) }}

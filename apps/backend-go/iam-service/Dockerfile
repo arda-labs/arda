@@ -5,30 +5,26 @@ RUN apt-get update && apt-get install -y --no-install-recommends git make && rm 
 
 WORKDIR /src
 
-# Thiết lập GOTOOLCHAIN để tự động tải version nếu cần
-ENV GOTOOLCHAIN=auto
-
-# Docker context là thư mục gốc của monorepo (arda/)
-# Chép file quản lý workspace và thư viện chung
-COPY apps/backend-go/go.work apps/backend-go/go.work.sum ./apps/backend-go/
+# 1. Chép thư viện dùng chung (Bắt buộc)
 COPY libs/go/pkg ./libs/go/pkg
 
-# Chép mã nguồn của iam-service
+# 2. Chép mã nguồn của iam-service
 COPY apps/backend-go/iam-service ./apps/backend-go/iam-service
 
-# Thiết lập môi trường để build đúng context workspace
-WORKDIR /src/apps/backend-go
+# 3. Build độc lập (Tắt GOWORK)
+# Chúng ta sẽ di chuyển vào thư mục service và build trực tiếp
+WORKDIR /src/apps/backend-go/iam-service
 
-# Build iam-service sử dụng go.work đã được copy
-RUN CGO_ENABLED=0 GOOS=linux go build \
+# Tắt GOWORK để không bị phụ thuộc vào các service khác trong workspace
+# Go sẽ tự tìm các dependency thông qua go.mod (nếu có replace directive)
+RUN CGO_ENABLED=0 GOOS=linux GOWORK=off go build \
     -ldflags "-X main.Version=$(git describe --tags --always 2>/dev/null || echo dev) -w -s" \
     -o /src/bin/iam-service \
-    ./iam-service/cmd/iam-service/
+    ./cmd/iam-service/
 
 # Runtime stage: distroless/static
 FROM gcr.io/distroless/static-debian12:nonroot
 
-# Copy configs từ đúng đường dẫn
 COPY --from=builder /src/apps/backend-go/iam-service/configs /data/conf
 COPY --from=builder /src/bin/iam-service /app/iam-service
 

@@ -24,7 +24,7 @@ func (r *menuRepo) GetByTenant(ctx context.Context, tenantID string) ([]*biz.Men
 	var list []*biz.Menu
 	err := r.data.DB(ctx).ExecInTransaction(ctx, tenantID, func(ctx context.Context, tx pgx.Tx) error {
 		query := `
-			SELECT id, tenant_id, parent_id, name, slug, icon, route, sort_order, enabled, created_at, updated_at
+			SELECT id, tenant_id, parent_id, name, slug, icon, route, sort_order, enabled, permission_slug, created_at, updated_at
 			FROM menus
 			WHERE tenant_id = $1
 			ORDER BY sort_order ASC
@@ -37,8 +37,8 @@ func (r *menuRepo) GetByTenant(ctx context.Context, tenantID string) ([]*biz.Men
 
 		for rows.Next() {
 			var m biz.Menu
-			var parentID, icon, route *string
-			if err := rows.Scan(&m.ID, &m.TenantID, &parentID, &m.Name, &m.Slug, &icon, &route, &m.SortOrder, &m.Enabled, &m.CreatedAt, &m.UpdatedAt); err != nil {
+			var parentID, icon, route, permSlug *string
+			if err := rows.Scan(&m.ID, &m.TenantID, &parentID, &m.Name, &m.Slug, &icon, &route, &m.SortOrder, &m.Enabled, &permSlug, &m.CreatedAt, &m.UpdatedAt); err != nil {
 				return err
 			}
 			if parentID != nil {
@@ -49,6 +49,9 @@ func (r *menuRepo) GetByTenant(ctx context.Context, tenantID string) ([]*biz.Men
 			}
 			if route != nil {
 				m.Route = *route
+			}
+			if permSlug != nil {
+				m.PermissionSlug = *permSlug
 			}
 			list = append(list, &m)
 		}
@@ -66,13 +69,13 @@ func (r *menuRepo) GetByID(ctx context.Context, id string) (*biz.Menu, error) {
 	tenantID := middleware.GetTenantID(ctx)
 	err := r.data.DB(ctx).ExecInTransaction(ctx, tenantID, func(ctx context.Context, tx pgx.Tx) error {
 		query := `
-			SELECT id, tenant_id, parent_id, name, slug, icon, route, sort_order, enabled, created_at, updated_at
+			SELECT id, tenant_id, parent_id, name, slug, icon, route, sort_order, enabled, permission_slug, created_at, updated_at
 			FROM menus
 			WHERE id = $1
 		`
-		var parentID, icon, route *string
+		var parentID, icon, route, permSlug *string
 		err := tx.QueryRow(ctx, query, id).Scan(
-			&m.ID, &m.TenantID, &parentID, &m.Name, &m.Slug, &icon, &route, &m.SortOrder, &m.Enabled, &m.CreatedAt, &m.UpdatedAt,
+			&m.ID, &m.TenantID, &parentID, &m.Name, &m.Slug, &icon, &route, &m.SortOrder, &m.Enabled, &permSlug, &m.CreatedAt, &m.UpdatedAt,
 		)
 		if err == pgx.ErrNoRows {
 			return biz.ErrMenuNotFound
@@ -89,6 +92,9 @@ func (r *menuRepo) GetByID(ctx context.Context, id string) (*biz.Menu, error) {
 		if route != nil {
 			m.Route = *route
 		}
+		if permSlug != nil {
+			m.PermissionSlug = *permSlug
+		}
 		return nil
 	})
 	if err != nil {
@@ -101,11 +107,11 @@ func (r *menuRepo) Create(ctx context.Context, m *biz.Menu) (*biz.Menu, error) {
 	tenantID := middleware.GetTenantID(ctx)
 	err := r.data.DB(ctx).ExecInTransaction(ctx, tenantID, func(ctx context.Context, tx pgx.Tx) error {
 		query := `
-			INSERT INTO menus (tenant_id, parent_id, name, slug, icon, route, sort_order, enabled)
-			VALUES ($1, NULLIF($2, ''), $3, $4, NULLIF($5, ''), NULLIF($6, ''), $7, $8)
+			INSERT INTO menus (tenant_id, parent_id, name, slug, icon, route, sort_order, enabled, permission_slug)
+			VALUES ($1, NULLIF($2, ''), $3, $4, NULLIF($5, ''), NULLIF($6, ''), $7, $8, NULLIF($9, ''))
 			RETURNING id, created_at, updated_at
 		`
-		return tx.QueryRow(ctx, query, m.TenantID, m.ParentID, m.Name, m.Slug, m.Icon, m.Route, m.SortOrder, m.Enabled).
+		return tx.QueryRow(ctx, query, m.TenantID, m.ParentID, m.Name, m.Slug, m.Icon, m.Route, m.SortOrder, m.Enabled, m.PermissionSlug).
 			Scan(&m.ID, &m.CreatedAt, &m.UpdatedAt)
 	})
 	if err != nil {
@@ -120,11 +126,11 @@ func (r *menuRepo) Update(ctx context.Context, m *biz.Menu) (*biz.Menu, error) {
 		query := `
 			UPDATE menus
 			SET parent_id = NULLIF($2, ''), name = $3, slug = $4, icon = NULLIF($5, ''),
-			    route = NULLIF($6, ''), sort_order = $7, enabled = $8, updated_at = NOW()
+			    route = NULLIF($6, ''), sort_order = $7, enabled = $8, permission_slug = NULLIF($9, ''), updated_at = NOW()
 			WHERE id = $1
 			RETURNING updated_at
 		`
-		err := tx.QueryRow(ctx, query, m.ID, m.ParentID, m.Name, m.Slug, m.Icon, m.Route, m.SortOrder, m.Enabled).
+		err := tx.QueryRow(ctx, query, m.ID, m.ParentID, m.Name, m.Slug, m.Icon, m.Route, m.SortOrder, m.Enabled, m.PermissionSlug).
 			Scan(&m.UpdatedAt)
 		if err == pgx.ErrNoRows {
 			return biz.ErrMenuNotFound

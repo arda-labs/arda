@@ -39,8 +39,9 @@ message Menu {
   string route = 7;
   int32 sort_order = 8;
   bool enabled = 9;
-  google.protobuf.Timestamp created_at = 10;
-  google.protobuf.Timestamp updated_at = 11;
+  string permission_slug = 10;
+  google.protobuf.Timestamp created_at = 11;
+  google.protobuf.Timestamp updated_at = 12;
 }
 
 // Requests
@@ -74,6 +75,7 @@ message CreateMenuRequest {
   string route = 6;
   int32 sort_order = 7;
   bool enabled = 8;
+  string permission_slug = 9;
 }
 
 message UpdateMenuRequest {
@@ -85,6 +87,7 @@ message UpdateMenuRequest {
   string route = 6;
   int32 sort_order = 7;
   bool enabled = 8;
+  string permission_slug = 9;
 }
 
 message DeleteMenuRequest { string id = 1; }

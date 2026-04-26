@@ -39,11 +39,11 @@ export class CallbackPage {
 
       if (tenants.length === 0) {
         // Chưa có workspace → vào app, hiển thị empty state
-        this.router.navigate(['/app']);
+        this.router.navigate(['/home']);
       } else if (tenants.length === 1) {
         // Chỉ 1 tenant → chọn luôn, vào thẳng app
         this.tenantService.selectTenant(tenants[0].id);
-        this.router.navigate(['/app']);
+        this.router.navigate(['/home']);
       } else {
         // Nhiều tenant → cho user chọn workspace
         this.router.navigate(['/select-workspace']);

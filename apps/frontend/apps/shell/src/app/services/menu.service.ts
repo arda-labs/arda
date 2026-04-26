@@ -89,7 +89,7 @@ export class MenuService {
       id: item.id,
       label: item.name ?? '',
       icon: item.icon ?? '',
-      routerLink: item.route ? ['/app' + item.route] : [],
+      routerLink: item.route ? [item.route] : [],
       items: item.children ? this.mapBackendToFrontend(item.children) : [],
     }));
   }

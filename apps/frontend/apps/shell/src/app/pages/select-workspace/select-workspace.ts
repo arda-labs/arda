@@ -38,7 +38,7 @@ export class SelectWorkspace {
 
   select(tenantId: string): void {
     this.tenantService.selectTenant(tenantId);
-    this.router.navigate(['/app']);
+    this.router.navigate(['/home']);
   }
 
   async createFirstWorkspace(): Promise<void> {

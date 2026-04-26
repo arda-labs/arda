@@ -31,24 +31,26 @@ type GetMenuResponse struct {
 }
 
 type MenuItem struct {
-	ID        string     `json:"id"`
-	Name      string     `json:"name"`
-	Icon      string     `json:"icon"`
-	Route     string     `json:"route"`
-	SortOrder int        `json:"sort_order"`
-	Children  []MenuItem `json:"children"`
+	ID             string     `json:"id"`
+	Name           string     `json:"name"`
+	Icon           string     `json:"icon"`
+	Route          string     `json:"route"`
+	SortOrder      int        `json:"sort_order"`
+	PermissionSlug string     `json:"permission_slug"`
+	Children       []MenuItem `json:"children"`
 }
 
 type Menu struct {
-	ID        string `json:"id"`
-	TenantID  string `json:"tenant_id"`
-	ParentID  string `json:"parent_id"`
-	Name      string `json:"name"`
-	Slug      string `json:"slug"`
-	Icon      string `json:"icon"`
-	Route     string `json:"route"`
-	SortOrder int    `json:"sort_order"`
-	Enabled   bool   `json:"enabled"`
+	ID             string `json:"id"`
+	TenantID       string `json:"tenant_id"`
+	ParentID       string `json:"parent_id"`
+	Name           string `json:"name"`
+	Slug           string `json:"slug"`
+	Icon           string `json:"icon"`
+	Route          string `json:"route"`
+	SortOrder      int    `json:"sort_order"`
+	Enabled        bool   `json:"enabled"`
+	PermissionSlug string `json:"permission_slug"`
 }
 
 type ListMenusRequest struct {
@@ -60,25 +62,27 @@ type ListMenusResponse struct {
 }
 
 type CreateMenuRequest struct {
-	TenantID  string `json:"tenant_id"`
-	ParentID  string `json:"parent_id"`
-	Name      string `json:"name"`
-	Slug      string `json:"slug"`
-	Icon      string `json:"icon"`
-	Route     string `json:"route"`
-	SortOrder int    `json:"sort_order"`
-	Enabled   bool   `json:"enabled"`
+	TenantID       string `json:"tenant_id"`
+	ParentID       string `json:"parent_id"`
+	Name           string `json:"name"`
+	Slug           string `json:"slug"`
+	Icon           string `json:"icon"`
+	Route          string `json:"route"`
+	SortOrder      int    `json:"sort_order"`
+	Enabled        bool   `json:"enabled"`
+	PermissionSlug string `json:"permission_slug"`
 }
 
 type UpdateMenuRequest struct {
-	ID        string `json:"id"`
-	ParentID  string `json:"parent_id"`
-	Name      string `json:"name"`
-	Slug      string `json:"slug"`
-	Icon      string `json:"icon"`
-	Route     string `json:"route"`
-	SortOrder int    `json:"sort_order"`
-	Enabled   bool   `json:"enabled"`
+	ID             string `json:"id"`
+	ParentID       string `json:"parent_id"`
+	Name           string `json:"name"`
+	Slug           string `json:"slug"`
+	Icon           string `json:"icon"`
+	Route          string `json:"route"`
+	SortOrder      int    `json:"sort_order"`
+	Enabled        bool   `json:"enabled"`
+	PermissionSlug string `json:"permission_slug"`
 }
 
 type DeleteMenuRequest struct {
@@ -91,11 +95,12 @@ type DeleteMenuResponse struct{}
 
 func (s *MenuService) GetMenu(ctx context.Context, req *GetMenuRequest) (*GetMenuResponse, error) {
 	tenantID := middleware.GetTenantID(ctx)
+	userID := middleware.GetUserID(ctx)
 	if tenantID == "" {
 		return nil, errors.Forbidden("MISSING_TENANT", "tenant context is required")
 	}
 
-	menus, err := s.menuUsecase.GetUserMenu(ctx, "", tenantID)
+	menus, err := s.menuUsecase.GetUserMenu(ctx, userID, tenantID)
 	if err != nil {
 		return nil, err
 	}
@@ -133,7 +138,7 @@ func (s *MenuService) CreateMenu(ctx context.Context, req *CreateMenuRequest) (*
 		return nil, errors.Forbidden("MISSING_TENANT", "tenant context is required")
 	}
 
-	m, err := s.menuUsecase.CreateMenu(ctx, tenantID, req.ParentID, req.Name, req.Slug, req.Icon, req.Route, req.SortOrder, req.Enabled)
+	m, err := s.menuUsecase.CreateMenu(ctx, tenantID, req.ParentID, req.Name, req.Slug, req.Icon, req.Route, req.SortOrder, req.Enabled, req.PermissionSlug)
 	if err != nil {
 		return nil, err
 	}
@@ -142,7 +147,7 @@ func (s *MenuService) CreateMenu(ctx context.Context, req *CreateMenuRequest) (*
 }
 
 func (s *MenuService) UpdateMenu(ctx context.Context, req *UpdateMenuRequest) (*Menu, error) {
-	m, err := s.menuUsecase.UpdateMenu(ctx, req.ID, req.ParentID, req.Name, req.Slug, req.Icon, req.Route, req.SortOrder, req.Enabled)
+	m, err := s.menuUsecase.UpdateMenu(ctx, req.ID, req.ParentID, req.Name, req.Slug, req.Icon, req.Route, req.SortOrder, req.Enabled, req.PermissionSlug)
 	if err != nil {
 		return nil, err
 	}
@@ -163,12 +168,13 @@ func buildMenuTree(menus []*biz.Menu) []MenuItem {
 	itemMap := make(map[string]*MenuItem)
 	for _, m := range menus {
 		itemMap[m.ID] = &MenuItem{
-			ID:        m.ID,
-			Name:      m.Name,
-			Icon:      m.Icon,
-			Route:     m.Route,
-			SortOrder: m.SortOrder,
-			Children:  []MenuItem{},
+			ID:             m.ID,
+			Name:           m.Name,
+			Icon:           m.Icon,
+			Route:          m.Route,
+			SortOrder:      m.SortOrder,
+			PermissionSlug: m.PermissionSlug,
+			Children:       []MenuItem{},
 		}
 	}
 
@@ -187,14 +193,15 @@ func buildMenuTree(menus []*biz.Menu) []MenuItem {
 
 func toMenu(m *biz.Menu) Menu {
 	return Menu{
-		ID:        m.ID,
-		TenantID:  m.TenantID,
-		ParentID:  m.ParentID,
-		Name:      m.Name,
-		Slug:      m.Slug,
-		Icon:      m.Icon,
-		Route:     m.Route,
-		SortOrder: m.SortOrder,
-		Enabled:   m.Enabled,
+		ID:             m.ID,
+		TenantID:       m.TenantID,
+		ParentID:       m.ParentID,
+		Name:           m.Name,
+		Slug:           m.Slug,
+		Icon:           m.Icon,
+		Route:          m.Route,
+		SortOrder:      m.SortOrder,
+		Enabled:        m.Enabled,
+		PermissionSlug: m.PermissionSlug,
 	}
 }

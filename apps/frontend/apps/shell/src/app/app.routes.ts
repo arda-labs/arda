@@ -7,11 +7,11 @@ import { authGuard } from './guards/auth.guard';
 import { loadRemote } from '@module-federation/enhanced/runtime';
 
 export const appRoutes: Route[] = [
-  // Trang gốc → redirect sang /app (guard check xảy ra trên /app)
+  // Trang gốc → redirect sang dashboard/home (guard check xảy ra trên các route con)
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'app'
+    redirectTo: 'home'
   },
 
   // Login
@@ -37,13 +37,13 @@ export const appRoutes: Route[] = [
     canActivate: [authGuard],
   },
 
-  // Authenticated app
+  // Authenticated app (No /app prefix)
   {
-    path: 'app',
+    path: '',
     component: Layout,
     canActivate: [authGuard],
     children: [
-      { path: '', component: Home },
+      { path: 'home', component: Home },
       {
         path: 'common',
         loadChildren: () =>

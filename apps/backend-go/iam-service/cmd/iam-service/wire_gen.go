@@ -44,7 +44,7 @@ func wireApp(confServer *conf.Server, confData *conf.Data, jwt *conf.JWT, zitade
 	iamService := service.NewIAMService(userUsecase, tenantUsecase, membershipUsecase, roleUsecase, permissionUsecase, authUsecase, logger)
 	grpcServer := server.NewGRPCServer(confServer, iamService, logger)
 	menuRepo := data.NewMenuRepo(dataData, logger)
-	menuUsecase := biz.NewMenuUsecase(menuRepo, logger)
+	menuUsecase := biz.NewMenuUsecase(menuRepo, permissionUsecase, logger)
 	menuService := service.NewMenuService(menuUsecase, logger)
 	httpServer := server.NewHTTPServer(confServer, iamService, menuService, logger)
 	app := newApp(logger, grpcServer, httpServer)

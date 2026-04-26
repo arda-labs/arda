@@ -20,10 +20,11 @@ type Menu struct {
 	Slug      string
 	Icon      string
 	Route     string
-	SortOrder int
-	Enabled   bool
-	CreatedAt time.Time
-	UpdatedAt time.Time
+	SortOrder      int
+	Enabled        bool
+	PermissionSlug string
+	CreatedAt      time.Time
+	UpdatedAt      time.Time
 }
 
 type MenuRepo interface {
@@ -36,17 +37,55 @@ type MenuRepo interface {
 
 type MenuUsecase struct {
 	menuRepo MenuRepo
+	permUC   *PermissionUsecase
 	log      *log.Helper
 }
 
-func NewMenuUsecase(repo MenuRepo, logger log.Logger) *MenuUsecase {
-	return &MenuUsecase{menuRepo: repo, log: log.NewHelper(logger)}
+func NewMenuUsecase(repo MenuRepo, permUC *PermissionUsecase, logger log.Logger) *MenuUsecase {
+	return &MenuUsecase{
+		menuRepo: repo,
+		permUC:   permUC,
+		log:      log.NewHelper(logger),
+	}
 }
 
 // GetUserMenu returns the full menu tree for a user (filtered by their permissions).
-// Currently returns all enabled menus for the tenant; permission filtering is done on the frontend.
 func (uc *MenuUsecase) GetUserMenu(ctx context.Context, userID, tenantID string) ([]*Menu, error) {
-	return uc.menuRepo.GetByTenant(ctx, tenantID)
+	// 1. Get all enabled menus for the tenant
+	allMenus, err := uc.menuRepo.GetByTenant(ctx, tenantID)
+	if err != nil {
+		return nil, err
+	}
+
+	// 2. Get user permissions
+	userActivePerms, err := uc.permUC.GetUserPermissions(ctx, userID, tenantID)
+	if err != nil {
+		return nil, err
+	}
+
+	permMap := make(map[string]bool)
+	for _, p := range userActivePerms {
+		permMap[p.Resource+":"+p.Action] = true
+	}
+
+	// 3. Filter menus
+	var filtered []*Menu
+	for _, m := range allMenus {
+		if !m.Enabled {
+			continue
+		}
+		// If no permission required, allow it
+		if m.PermissionSlug == "" {
+			filtered = append(filtered, m)
+			continue
+		}
+		// Check if user has the required permission
+		if permMap[m.PermissionSlug] {
+			filtered = append(filtered, m)
+		}
+	}
+
+	return filtered, nil
 }
 
 // ListMenus returns flat list of menus for a tenant (admin view).
@@ -58,22 +97,23 @@ func (uc *MenuUsecase) GetMenu(ctx context.Context, id string) (*Menu, error) {
 	return uc.menuRepo.GetByID(ctx, id)
 }
 
-func (uc *MenuUsecase) CreateMenu(ctx context.Context, tenantID, parentID, name, slug, icon, route string, sortOrder int, enabled bool) (*Menu, error) {
+func (uc *MenuUsecase) CreateMenu(ctx context.Context, tenantID, parentID, name, slug, icon, route string, sortOrder int, enabled bool, permSlug string) (*Menu, error) {
 	m := &Menu{
-		ID:        "",
-		TenantID:  tenantID,
-		ParentID:  parentID,
-		Name:      name,
-		Slug:      slug,
-		Icon:      icon,
-		Route:     route,
-		SortOrder: sortOrder,
-		Enabled:   enabled,
+		ID:             "",
+		TenantID:       tenantID,
+		ParentID:       parentID,
+		Name:           name,
+		Slug:           slug,
+		Icon:           icon,
+		Route:          route,
+		SortOrder:      sortOrder,
+		Enabled:        enabled,
+		PermissionSlug: permSlug,
 	}
 	return uc.menuRepo.Create(ctx, m)
 }
 
-func (uc *MenuUsecase) UpdateMenu(ctx context.Context, id, parentID, name, slug, icon, route string, sortOrder int, enabled bool) (*Menu, error) {
+func (uc *MenuUsecase) UpdateMenu(ctx context.Context, id, parentID, name, slug, icon, route string, sortOrder int, enabled bool, permSlug string) (*Menu, error) {
 	existing, err := uc.menuRepo.GetByID(ctx, id)
 	if err != nil {
 		return nil, err
@@ -85,6 +125,7 @@ func (uc *MenuUsecase) UpdateMenu(ctx context.Context, id, parentID, name, slug,
 	existing.Route = route
 	existing.SortOrder = sortOrder
 	existing.Enabled = enabled
+	existing.PermissionSlug = permSlug
 	return uc.menuRepo.Update(ctx, existing)
 }
 

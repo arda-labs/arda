@@ -1,9 +1,12 @@
-# Build stage: golang:1.25 (Debian bookworm)
-FROM golang:1.25-bookworm AS builder
+# Build stage: golang:1.26 (Debian bookworm)
+FROM golang:1.26-bookworm AS builder
 
 RUN apt-get update && apt-get install -y --no-install-recommends git make && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /src
+
+# Thiết lập GOTOOLCHAIN để tự động tải version nếu cần
+ENV GOTOOLCHAIN=auto
 
 # Docker context là thư mục gốc của monorepo (arda/)
 # Chép file quản lý workspace và thư viện chung

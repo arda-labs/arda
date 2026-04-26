@@ -82,7 +82,7 @@
       @if (!authRequestId()) {
         <div class="flex items-center gap-3 py-8 justify-center text-surface-400">
           <i class="pi pi-spin pi-spinner text-primary-500"></i>
-          <span class="text-sm">Đang kết nối...</span>
+          <span class="text-sm">{{ 'COMMON.CONNECTING' | translate }}</span>
         </div>
       }
 
@@ -97,7 +97,7 @@
           <!-- Email -->
           <div class="space-y-1.5">
             <label for="loginName" class="text-sm font-medium text-surface-700 dark:text-surface-300">
-              Email
+              {{ 'PAGES.LOGIN.EMAIL' | translate }}
             </label>
             <input pInputText id="loginName" type="email"
               formControlName="loginName"
@@ -106,7 +106,7 @@
               class="w-full"
             />
             @if (form.controls.loginName.invalid && form.controls.loginName.touched) {
-              <span class="text-xs text-red-500">Email không hợp lệ.</span>
+              <span class="text-xs text-red-500">{{ 'PAGES.LOGIN.INVALID_EMAIL' | translate }}</span>
             }
           </div>
 
@@ -114,11 +114,11 @@
           <div class="space-y-1.5">
             <div class="flex items-center justify-between">
               <label for="password" class="text-sm font-medium text-surface-700 dark:text-surface-300">
-                Mật khẩu
+                {{ 'PAGES.LOGIN.PASSWORD' | translate }}
               </label>
               <a [href]="forgotPasswordUrl" target="_blank"
                 class="text-xs text-primary-500 hover:underline">
-                Quên mật khẩu?
+                {{ 'COMMON.FORGOT_PASSWORD' | translate }}
               </a>
             </div>
             <div class="relative">
@@ -131,12 +131,12 @@
               />
               <button type="button" (click)="togglePassword()"
                 class="absolute right-3 top-1/2 -translate-y-1/2 text-surface-400 hover:text-surface-600 transition-colors bg-transparent border-0 cursor-pointer p-0"
-                [attr.aria-label]="showPassword() ? 'Ẩn' : 'Hiện'">
+                [attr.aria-label]="(showPassword() ? 'COMMON.HIDE' : 'COMMON.SHOW') | translate">
                 <i [class]="showPassword() ? 'pi pi-eye-slash' : 'pi pi-eye'"></i>
               </button>
             </div>
             @if (form.controls.password.invalid && form.controls.password.touched) {
-              <span class="text-xs text-red-500">Vui lòng nhập mật khẩu.</span>
+              <span class="text-xs text-red-500">{{ 'PAGES.LOGIN.REQUIRED_PASSWORD' | translate }}</span>
             }
           </div>
 
@@ -145,7 +145,7 @@
             [loading]="isLoading()"
             [disabled]="isLoading()"
             class="w-full! font-semibold! py-2.5!">
-            @if (!isLoading()) { Đăng nhập }
+            @if (!isLoading()) { {{ 'COMMON.LOGIN' | translate }} }
           </button>
 
         </form>

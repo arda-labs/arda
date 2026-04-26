@@ -74,6 +74,7 @@ export const appConfig: ApplicationConfig = {
         useFactory: HttpLoaderFactory,
         deps: [HttpClient],
       },
+      lang: 'vi',
       fallbackLang: 'vi',
     }),
     provideAppInitializer(initializeAuth),

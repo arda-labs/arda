@@ -4,6 +4,10 @@
     "CANCEL": "Cancel",
     "LOGIN": "Login",
     "LOGOUT": "Logout",
+    "CONNECTING": "Connecting...",
+    "FORGOT_PASSWORD": "Forgot password?",
+    "HIDE": "Hide",
+    "SHOW": "Show",
     "ERROR": {
       "SYSTEM": "System Error",
       "UNAUTHORIZED": "Session Expired",
@@ -14,7 +18,14 @@
   "PAGES": {
     "LOGIN": {
       "TITLE": "Welcome Back",
-      "SUBTITLE": "Please login to continue"
+      "SUBTITLE": "Please login to continue",
+      "EMAIL": "Email",
+      "PASSWORD": "Password",
+      "INVALID_EMAIL": "Invalid email",
+      "REQUIRED_PASSWORD": "Password is required",
+      "LOGIN_FAILED": "Invalid email or password",
+      "ACCOUNT_NOT_FOUND": "Account not found",
+      "TOO_MANY_REQUESTS": "Too many attempts. Please try again later."
     },
     "SELECT_WORKSPACE": {
       "TITLE": "Select workspace to continue",

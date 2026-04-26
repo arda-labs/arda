@@ -20,9 +20,13 @@ export class LanguageService {
    */
   async init(): Promise<void> {
     const lang = this.currentLang();
+    // Đảm bảo có ngôn ngữ mặc định để fallback
+    this.translate.setDefaultLang('vi');
+
     try {
       await firstValueFrom(this.translate.use(lang));
       document.documentElement.lang = lang;
+      console.log(`LanguageService: Initialized with language "${lang}"`);
     } catch (err) {
       console.error('LanguageService: Could not load initial language', err);
     }

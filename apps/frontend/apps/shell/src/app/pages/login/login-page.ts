@@ -3,7 +3,7 @@ import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { MessageModule } from 'primeng/message';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { AuthService } from '../../services/auth.service';
 import { ZitadelSessionService } from '../../services/zitadel-session.service';
 import { LanguageService, getAuthConfig } from '@arda-mfe/shared-core';
@@ -20,6 +20,7 @@ export class LoginPage implements OnInit {
   private authService = inject(AuthService);
   private sessionService = inject(ZitadelSessionService);
   private langService = inject(LanguageService);
+  private translate = inject(TranslateService);
   private route = inject(ActivatedRoute);
   private fb = inject(FormBuilder);
 
@@ -93,10 +94,10 @@ export class LoginPage implements OnInit {
   private parseError(err: unknown): string {
     if (err && typeof err === 'object' && 'status' in err) {
       const s = (err as { status: number }).status;
-      if (s === 400 || s === 401) return 'Email hoặc mật khẩu không đúng.';
-      if (s === 404) return 'Tài khoản không tồn tại.';
-      if (s === 429) return 'Quá nhiều lần thử. Vui lòng đợi vài phút.';
+      if (s === 400 || s === 401) return this.translate.instant('PAGES.LOGIN.LOGIN_FAILED');
+      if (s === 404) return this.translate.instant('PAGES.LOGIN.ACCOUNT_NOT_FOUND');
+      if (s === 429) return this.translate.instant('PAGES.LOGIN.TOO_MANY_REQUESTS');
     }
-    return 'Đã có lỗi xảy ra. Vui lòng thử lại.';
+    return this.translate.instant('COMMON.ERROR.SYSTEM');
   }
 }

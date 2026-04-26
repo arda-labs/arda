@@ -100,7 +100,7 @@
         placeholder="Tìm và chọn người dùng" class="w-full" appendTo="body" display="chip" [filter]="true">
         <ng-template let-user pTemplate="item">
           <div class="flex items-center gap-2">
-            <p-avatar [label]="getInitials(user.displayName)" shape="circle" size="small" />
+            <p-avatar [label]="getInitials(user.displayName)" shape="circle" />
             <div class="flex flex-col">
               <span class="text-sm font-medium">{{ user.displayName }}</span>
               <span class="text-[10px] text-surface-400">{{ user.email }}</span>

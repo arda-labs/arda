@@ -23,8 +23,6 @@ export class LanguageService {
     // Đảm bảo có ngôn ngữ mặc định để fallback
     this.translate.setDefaultLang('vi');
 
-    console.log(`LanguageService: Initializing with language "${lang}"...`);
-
     try {
       // Đảm bảo load bản dịch trước khi ứng dụng render
       const translations = await firstValueFrom(this.translate.use(lang));
@@ -32,11 +30,6 @@ export class LanguageService {
       if (translations) {
         // Force set translation để đảm bảo store được cập nhật
         this.translate.setTranslation(lang, translations as any, true);
-        console.log(`LanguageService: Successfully loaded language "${lang}"`, Object.keys(translations as any));
-
-        // Kiểm tra xem instant có lấy được giá trị không
-        const testVal = this.translate.instant('PAGES.LOGIN.TITLE');
-        console.log(`LanguageService: Validation check for 'PAGES.LOGIN.TITLE': ${testVal}`);
       }
 
       document.documentElement.lang = lang;
@@ -46,7 +39,7 @@ export class LanguageService {
       try {
         await firstValueFrom(this.translate.use('vi'));
       } catch (e) {
-        console.error('LanguageService: Fallback to "vi" failed as well', e);
+        /* ignore fallback failure */
       }
     }
   }

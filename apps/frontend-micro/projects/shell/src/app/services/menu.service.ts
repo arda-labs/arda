@@ -1,0 +1,126 @@
+import { Injectable, signal, computed, inject, effect, untracked } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable, firstValueFrom } from 'rxjs';
+import { TenantService } from './tenant.service';
+import { PermissionService } from './permission.service';
+import { AuthService } from './auth.service';
+
+export interface MenuItem {
+  id: string;
+  label: string;
+  icon: string;
+  routerLink: string[];
+  items: MenuItem[];
+}
+
+/** Raw response from backend before transformation */
+interface BackendMenuItem {
+  id: string;
+  name: string;
+  icon: string;
+  route: string;
+  sort_order: number;
+  children: BackendMenuItem[];
+}
+
+interface MenuResponse {
+  items: BackendMenuItem[];
+}
+
+@Injectable({ providedIn: 'root' })
+export class MenuService {
+  private http = inject(HttpClient);
+  private authService = inject(AuthService);
+  private tenantService = inject(TenantService);
+  private permService = inject(PermissionService);
+
+  private _menuItems = signal<MenuItem[]>([]);
+  readonly isLoading = signal(false);
+
+  readonly menuItems = computed(() => {
+    const items = this._menuItems();
+    if (items.length === 0) return [];
+
+    // Once permissions are loaded, filter items
+    const loaded = this.permService.permissionList().length > 0;
+    if (!loaded) return items;
+
+    return items
+      .map(item => this.filterByPermission(item))
+      .filter(Boolean) as MenuItem[];
+  });
+
+  constructor() {
+    // Tự động reload khi đổi tenant (và đã login)
+    effect(() => {
+      const isAuthenticated = this.authService.isAuthenticated();
+      const tenantId = this.tenantService.selectedTenantId();
+
+      if (isAuthenticated && tenantId) {
+        untracked(() => this.loadMenu());
+      } else if (!isAuthenticated) {
+        untracked(() => this._menuItems.set([]));
+      }
+    });
+  }
+
+  fetchMenu(): Observable<MenuResponse> {
+    return this.http.get<MenuResponse>(`/api/v1/me/menu`);
+  }
+
+  async loadMenu(): Promise<void> {
+    if (!this.authService.isAuthenticated()) return;
+
+    const tenantId = this.tenantService.selectedTenantId();
+    if (!tenantId) return;
+
+    this.isLoading.set(true);
+    try {
+      const resp = await firstValueFrom(this.fetchMenu());
+      this._menuItems.set(this.mapBackendToFrontend(resp.items ?? []));
+    } catch (err) {
+      console.error('Failed to load menu', err);
+      this._menuItems.set([]);
+    } finally {
+      this.isLoading.set(false);
+    }
+  }
+
+  private mapBackendToFrontend(items: BackendMenuItem[]): MenuItem[] {
+    return items.map(item => {
+      let route = item.route ?? '';
+      if (route.startsWith('/app/')) {
+        route = route.replace('/app/', '/');
+      } else if (route === '/app') {
+        route = '/home';
+      }
+
+      return {
+        id: item.id,
+        label: item.name ?? '',
+        icon: item.icon ?? '',
+        routerLink: route ? [route] : [],
+        items: item.children ? this.mapBackendToFrontend(item.children) : [],
+      };
+    });
+  }
+
+  private filterByPermission(item: MenuItem): MenuItem | null {
+    if (item.items.length > 0) {
+      const filteredChildren = item.items
+        .map(child => this.filterByPermission(child))
+        .filter(Boolean) as MenuItem[];
+
+      return filteredChildren.length > 0
+        ? { ...item, items: filteredChildren }
+        : null;
+    }
+
+    // Items without route are category headers — always visible
+    if (!item.routerLink || item.routerLink.length === 0) {
+      return item;
+    }
+
+    return item;
+  }
+}

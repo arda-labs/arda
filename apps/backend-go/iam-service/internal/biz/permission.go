@@ -55,6 +55,18 @@ func NewPermissionUsecase(roleRepo RoleRepo, permRepo PermissionRepo, cache Perm
 }
 
 func (uc *PermissionUsecase) CheckPermission(ctx context.Context, userID, tenantID, resource, action, resourceID string) (bool, string, error) {
+	// 0. Always allow self-service resources if authenticated
+	if resource == "me" {
+		return true, "self_service", nil
+	}
+
+	// 0.1 Super Admin Bypass (For bootstrapping or emergency)
+	// You can add your Zitadel User ID or Email here
+	// admin@zitadel.auth.arda.io.vn (sub: 369593749817000033)
+	if userID == "369593749817000033" || userID == "00000000-0000-0000-0000-000000000099" {
+		return true, "super_admin", nil
+	}
+
 	cached, ok := uc.cache.Get(ctx, userID, tenantID, resource, action, resourceID)
 	if ok {
 		return cached.Allowed, cached.Source, nil

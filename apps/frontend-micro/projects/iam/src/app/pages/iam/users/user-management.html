@@ -1,0 +1,162 @@
+<p-toast />
+
+<div class="p-6 space-y-6">
+  <div class="flex items-center justify-between">
+    <div>
+      <h1 class="text-2xl font-bold text-surface-900 dark:text-white">Quản lý người dùng</h1>
+      <p class="text-surface-500 text-sm">Xem danh sách và gán vai trò cho các thành viên trong tổ chức</p>
+    </div>
+    <div class="flex gap-2">
+      <p-button label="Làm mới" icon="pi pi-refresh" severity="secondary"
+        (onClick)="usersResource.reload(); rolesResource.reload()" />
+      <p-button label="Mời TV" icon="pi pi-user-plus" severity="secondary" (onClick)="openInviteDialog()" />
+      <p-button label="Tạo người dùng" icon="pi pi-plus" (onClick)="openCreateDialog()" />
+    </div>
+  </div>
+
+  <div
+    class="bg-surface-0 dark:bg-surface-900 rounded-xl border border-surface-200 dark:border-surface-800 overflow-hidden">
+    <p-table [value]="usersResource.value() || []" [loading]="usersResource.isLoading()" [rows]="10" [paginator]="true"
+      class="p-datatable-sm" responsiveLayout="scroll">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Người dùng</th>
+          <th>ID</th>
+          <th>Ngày gia nhập</th>
+          <th class="text-right">Hành động</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-user>
+        <tr>
+          <td>
+            <div class="flex items-center gap-3">
+              <p-avatar [label]="getInitials(user.displayName)" shape="circle"
+                class="bg-primary-100 text-primary-700 font-bold" />
+              <div class="flex flex-col">
+                <span class="font-semibold text-surface-900 dark:text-white">{{ user.displayName }}</span>
+                <span class="text-xs text-surface-500">{{ user.email }}</span>
+              </div>
+            </div>
+          </td>
+          <td>
+            <span class="text-xs font-mono text-surface-400">{{ user.id }}</span>
+          </td>
+          <td>
+            <span class="text-sm text-surface-600">{{ user.createdAt | date:'dd/MM/yyyy' }}</span>
+          </td>
+          <td class="text-right">
+            <p-button icon="pi pi-shield" label="Gán Role" severity="primary" size="small" variant="outlined"
+              (onClick)="openRoleDialog(user)" />
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="4" class="text-center p-8 text-surface-500">
+            <i class="pi pi-users text-4xl mb-3 block opacity-20"></i>
+            Không tìm thấy người dùng nào.
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+<!-- Dialog Gán Role -->
+<p-dialog [(visible)]="displayRoleDialog" [header]="'Gán vai trò: ' + selectedUser()?.displayName" [modal]="true"
+  [style]="{width: '400px'}" [draggable]="false" [resizable]="false">
+
+  <div class="flex flex-col gap-4 py-4">
+    <p class="text-sm text-surface-500 mb-2">Chọn một vai trò hệ thống để áp dụng cho người dùng này.</p>
+
+    <div class="flex flex-col gap-2">
+      <label for="roleSelect" class="text-sm font-medium">Danh sách vai trò</label>
+      <p-select id="roleSelect" [options]="rolesResource.value() || []" [formControl]="selectedRoleControl"
+        optionLabel="name" optionValue="id" placeholder="Chọn một Role" class="w-full" appendTo="body">
+        <ng-template let-role pTemplate="item">
+          <div class="flex flex-col">
+            <span class="font-medium text-sm">{{ role.name }}</span>
+            <span class="text-[10px] text-surface-400">{{ role.description }}</span>
+          </div>
+        </ng-template>
+      </p-select>
+    </div>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <p-button label="Hủy" icon="pi pi-times" severity="secondary" variant="text"
+      (onClick)="displayRoleDialog.set(false)" />
+    <p-button label="Xác nhận" icon="pi pi-check" [loading]="isSaving()" [disabled]="selectedRoleControl.invalid"
+      (onClick)="saveRoleAssignment()" />
+  </ng-template>
+</p-dialog>
+
+<!-- Dialog Mời Thành Viên -->
+<p-dialog [(visible)]="displayInviteDialog" header="Mời thành viên mới" [modal]="true" [style]="{width: '450px'}"
+  [draggable]="false" [resizable]="false">
+
+  <div [formGroup]="inviteForm" class="flex flex-col gap-4 py-4">
+    <p class="text-sm text-surface-500 mb-2">Nhập Zitadel User ID để mời họ tham gia vào Workspace này.</p>
+
+    <div class="flex flex-col gap-2">
+      <label for="inviteExternalId" class="text-sm font-medium">Zitadel User ID (External ID) <span
+          class="text-red-500">*</span></label>
+      <input pInputText id="inviteExternalId" type="text" formControlName="externalId" placeholder="VD: 247851..."
+        class="w-full" />
+      @if (inviteForm.get('externalId')?.touched && inviteForm.get('externalId')?.invalid) {
+      <small class="text-red-500">Vui lòng nhập User ID</small>
+      }
+    </div>
+
+    <div class="flex flex-col gap-2">
+      <label for="inviteRole" class="text-sm font-medium">Vai trò ban đầu</label>
+      <p-select id="inviteRole" [options]="['ADMIN', 'MEMBER', 'VIEWER']" formControlName="role"
+        placeholder="Chọn vai trò" class="w-full" appendTo="body" />
+    </div>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <p-button label="Hủy" icon="pi pi-times" severity="secondary" variant="text"
+      (onClick)="displayInviteDialog.set(false)" />
+    <p-button label="Gửi lời mời" icon="pi pi-send" [loading]="isSaving()" [disabled]="inviteForm.invalid"
+      (onClick)="sendInvite()" />
+  </ng-template>
+</p-dialog>
+
+<!-- Dialog Tạo Người Dùng -->
+<p-dialog [(visible)]="displayCreateDialog" header="Tạo người dùng mới" [modal]="true" [style]="{width: '450px'}"
+  [draggable]="false" [resizable]="false">
+
+  <div [formGroup]="createForm" class="flex flex-col gap-4 py-4">
+    <div class="flex flex-col gap-2">
+      <label for="createEmail" class="text-sm font-medium">Email <span class="text-red-500">*</span></label>
+      <input pInputText id="createEmail" type="email" formControlName="email" placeholder="VD: user@example.com"
+        class="w-full" />
+      @if (createForm.get('email')?.touched && createForm.get('email')?.invalid) {
+      <small class="text-red-500">Email không hợp lệ</small>
+      }
+    </div>
+
+    <div class="flex flex-col gap-2">
+      <label for="createDisplayName" class="text-sm font-medium">Họ tên</label>
+      <input pInputText id="createDisplayName" type="text" formControlName="displayName" placeholder="VD: Nguyễn Văn A"
+        class="w-full" />
+    </div>
+
+    <div class="flex flex-col gap-2">
+      <label for="createPassword" class="text-sm font-medium">Mật khẩu <span class="text-red-500">*</span></label>
+      <input pInputText id="createPassword" type="password" formControlName="password" placeholder="Nhập mật khẩu"
+        class="w-full" />
+      @if (createForm.get('password')?.touched && createForm.get('password')?.invalid) {
+      <small class="text-red-500">Mật khẩu tối thiểu 6 ký tự</small>
+      }
+    </div>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <p-button label="Hủy" icon="pi pi-times" severity="secondary" variant="text"
+      (onClick)="displayCreateDialog.set(false)" />
+    <p-button label="Tạo tài khoản" icon="pi pi-check" [loading]="isSaving()" [disabled]="createForm.invalid"
+      (click)="createUser()" />
+  </ng-template>
+</p-dialog>

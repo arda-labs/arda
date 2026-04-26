@@ -1,0 +1,70 @@
+{
+  "COMMON": {
+    "SAVE": "Save",
+    "CANCEL": "Cancel",
+    "LOGIN": "Login",
+    "LOGOUT": "Logout",
+    "CONNECTING": "Connecting...",
+    "FORGOT_PASSWORD": "Forgot password?",
+    "HIDE": "Hide",
+    "SHOW": "Show",
+    "ERROR": {
+      "SYSTEM": "System Error",
+      "UNAUTHORIZED": "Session Expired",
+      "FORBIDDEN": "Access Denied",
+      "NOT_FOUND": "Not Found"
+    }
+  },
+  "PAGES": {
+    "LOGIN": {
+      "TITLE": "Welcome Back",
+      "SUBTITLE": "Please login to continue",
+      "EMAIL": "Email",
+      "PASSWORD": "Password",
+      "INVALID_EMAIL": "Invalid email",
+      "REQUIRED_PASSWORD": "Password is required",
+      "LOGIN_FAILED": "Invalid email or password",
+      "ACCOUNT_NOT_FOUND": "Account not found",
+      "TOO_MANY_REQUESTS": "Too many attempts. Please try again later."
+    },
+    "SELECT_WORKSPACE": {
+      "TITLE": "Select workspace to continue",
+      "CREATE_FIRST": "Create First Workspace"
+    },
+    "LANDING": {
+      "TITLE": "Project & Business Management Platform",
+      "HERO": {
+        "HEADING": "Run your business <br> on a single system",
+        "SUBHEADING": "Arda helps you manage CRM, HR, and finance on a modern modular platform — flexible and scalable for your needs.",
+        "CTA_LOGIN": "Get Started",
+        "CTA_DASHBOARD": "Go to Dashboard",
+        "CTA_LEARN_MORE": "Learn More"
+      },
+      "FEATURES": {
+        "TITLE": "Explore Modules",
+        "SUBTITLE": "Built on modern Micro-Frontend architecture",
+        "CRM": {
+          "TITLE": "CRM & Sales",
+          "DESC": "Manage customers, sales pipelines, and automatic lead scoring."
+        },
+        "HRM": {
+          "TITLE": "HR Management",
+          "DESC": "HR, attendance, and payroll integrated into one platform."
+        },
+        "FINANCE": {
+          "TITLE": "Finance & Accounting",
+          "DESC": "Accounting, debt tracking, and real-time financial reporting."
+        },
+        "MFE": {
+          "TITLE": "MFE Architecture",
+          "DESC": "Unlimited scalability with Micro-Frontend architecture."
+        }
+      },
+      "CTA": {
+        "TITLE": "Ready to get started?",
+        "SUBTITLE": "Log in to experience Arda today — completely free for demo workspaces.",
+        "BUTTON_TRIAL": "Free Trial"
+      }
+    }
+  }
+}

@@ -1,4 +1,0 @@
-{
-  "common": "http://localhost:3001/mf-manifest.json",
-  "iam": "http://localhost:4201/mf-manifest.json"
-}

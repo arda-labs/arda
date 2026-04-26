@@ -2,15 +2,15 @@ name: CI Angular MFE
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
     paths:
-      - 'apps/frontend/**'
-      - '.github/workflows/ci-mfe.yml'
+      - "apps/frontend-micro/**"
+      - ".github/workflows/ci-mfe.yml"
   pull_request:
-    branches: [ main ]
+    branches: [main]
     paths:
-      - 'apps/frontend/**'
-      - '.github/workflows/ci-mfe.yml'
+      - "apps/frontend-micro/**"
+      - ".github/workflows/ci-mfe.yml"
   workflow_dispatch:
 
 jobs:
@@ -34,22 +34,22 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
-          cache-dependency-path: apps/frontend/package-lock.json
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: apps/frontend-micro/package-lock.json
 
       - name: Install dependencies
-        run: cd apps/frontend && npm install
+        run: cd apps/frontend-micro && npm install
 
       - name: Derive appropriate SHAs for base and head for nx affected
         uses: nrwl/nx-set-shas@v4
         with:
-          main-branch-name: 'main'
+          main-branch-name: "main"
 
       - name: Get affected apps
         id: affected
         run: |
-          cd apps/frontend
+          cd apps/frontend-micro
           if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
             echo "Manual trigger: building all apps"
             APPS=$(npx nx show projects --type app --json | jq -r '.[]' | tr '\n' ',' | sed 's/,$//')
@@ -81,7 +81,7 @@ jobs:
             docker build -t $IMAGE_NAME:$SHORT_TAG -t $IMAGE_NAME:latest \
               --target mfe-${app}-runtime \
               --build-arg PROJECT=$app \
-              -f apps/frontend/Dockerfile apps/frontend
+              -f apps/frontend-micro/Dockerfile apps/frontend-micro
 
             docker push $IMAGE_NAME:$SHORT_TAG
             docker push $IMAGE_NAME:latest

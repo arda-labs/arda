@@ -1,0 +1,70 @@
+/* Landing page scoped styles */
+.landing-root {
+  scroll-behavior: smooth;
+}
+
+/* Custom shadows for a more premium feel */
+.shadow-3xl {
+  box-shadow: 0 35px 60px -15px rgba(0, 0, 0, 0.3);
+}
+
+.dark .shadow-3xl {
+  box-shadow: 0 35px 60px -15px rgba(0, 0, 0, 0.6);
+}
+
+/* Glassmorphism utility */
+.glass {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.dark .glass {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Smooth gradients for hero background */
+.bg-mesh {
+  background-image: 
+    radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
+    radial-gradient(at 50% 0%, hsla(225,39%,30%,1) 0, transparent 50%), 
+    radial-gradient(at 100% 0%, hsla(339,49%,30%,1) 0, transparent 50%);
+}
+
+/* Text stroke for large headings if needed */
+.text-stroke {
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.1);
+}
+
+/* Animation utilities */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Custom PrimeNG component overrides for landing page */
+:host ::ng-deep {
+  .p-select.p-component.p-select-sm {
+    border-radius: 0.75rem;
+    background: transparent;
+    border-color: rgba(var(--p-surface-200), 0.5);
+  }
+
+  .dark .p-select.p-component.p-select-sm {
+    border-color: rgba(var(--p-surface-700), 0.5);
+  }
+  
+  .p-button-outlined.p-button-secondary {
+    border-color: var(--p-surface-200);
+  }
+
+  .dark .p-button-outlined.p-button-secondary {
+    border-color: var(--p-surface-700);
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "COMMON": {
+    "SAVE": "Lưu",
+    "CANCEL": "Hủy",
+    "LOGIN": "Đăng nhập",
+    "LOGOUT": "Đăng xuất",
+    "CONNECTING": "Đang kết nối...",
+    "FORGOT_PASSWORD": "Quên mật khẩu?",
+    "HIDE": "Ẩn",
+    "SHOW": "Hiện",
+    "ERROR": {
+      "SYSTEM": "Lỗi hệ thống",
+      "UNAUTHORIZED": "Hết phiên làm việc",
+      "FORBIDDEN": "Từ chối truy cập",
+      "NOT_FOUND": "Không tìm thấy"
+    }
+  },
+  "PAGES": {
+    "LOGIN": {
+      "TITLE": "Chào mừng trở lại",
+      "SUBTITLE": "Vui lòng đăng nhập để tiếp tục",
+      "EMAIL": "Email",
+      "PASSWORD": "Mật khẩu",
+      "INVALID_EMAIL": "Email không hợp lệ",
+      "REQUIRED_PASSWORD": "Vui lòng nhập mật khẩu",
+      "LOGIN_FAILED": "Email hoặc mật khẩu không đúng",
+      "ACCOUNT_NOT_FOUND": "Tài khoản không tồn tại",
+      "TOO_MANY_REQUESTS": "Quá nhiều lần thử. Vui lòng đợi vài phút."
+    },
+    "SELECT_WORKSPACE": {
+      "TITLE": "Chọn workspace để tiếp tục",
+      "CREATE_FIRST": "Tạo Workspace đầu tiên"
+    },
+    "LANDING": {
+      "TITLE": "Nền tảng quản lý dự án & doanh nghiệp",
+      "HERO": {
+        "HEADING": "Điều hành doanh nghiệp <br> trên một hệ thống duy nhất",
+        "SUBHEADING": "Arda giúp bạn quản lý CRM, nhân sự, tài chính trên một nền tảng module hóa hiện đại — linh hoạt và mở rộng theo nhu cầu.",
+        "CTA_LOGIN": "Trải nghiệm ngay",
+        "CTA_DASHBOARD": "Vào Dashboard",
+        "CTA_LEARN_MORE": "Tìm hiểu thêm"
+      },
+      "FEATURES": {
+        "TITLE": "Khám phá các Modules",
+        "SUBTITLE": "Được xây dựng trên kiến trúc Micro-Frontend hiện đại",
+        "CRM": {
+          "TITLE": "CRM & Sales",
+          "DESC": "Quản lý khách hàng, pipeline bán hàng và lead scoring tự động."
+        },
+        "HRM": {
+          "TITLE": "Quản trị Nhân sự",
+          "DESC": "Nhân sự, chấm công, bảng lương tích hợp trên một nền tảng."
+        },
+        "FINANCE": {
+          "TITLE": "Tài chính Kế toán",
+          "DESC": "Kế toán, công nợ, báo cáo tài chính real-time."
+        },
+        "MFE": {
+          "TITLE": "Kiến trúc MFE",
+          "DESC": "Khả năng mở rộng không giới hạn với Micro-Frontend."
+        }
+      },
+      "CTA": {
+        "TITLE": "Sẵn sàng để bắt đầu?",
+        "SUBTITLE": "Đăng nhập để trải nghiệm nền tảng Arda ngay hôm nay — hoàn toàn miễn phí cho workspace demo.",
+        "BUTTON_TRIAL": "Dùng thử miễn phí"
+      }
+    }
+  }
+}

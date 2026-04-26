@@ -1,0 +1,7 @@
+.bg-primary {
+  background-color: var(--p-primary-500);
+}
+
+.text-primary {
+  color: var(--p-primary-500);
+}

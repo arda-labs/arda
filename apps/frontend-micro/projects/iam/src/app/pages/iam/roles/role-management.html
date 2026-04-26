@@ -1,0 +1,108 @@
+<p-toast />
+<p-confirmDialog />
+
+<div class="p-6 space-y-6">
+  <div class="flex items-center justify-between">
+    <div>
+      <h1 class="text-2xl font-bold text-surface-900 dark:text-white">Quản lý vai trò (Roles)</h1>
+      <p class="text-surface-500 text-sm">Định nghĩa các vai trò hệ thống và quyền hạn tương ứng</p>
+    </div>
+    <div class="flex gap-2">
+      <p-button label="Làm mới" icon="pi pi-refresh" severity="secondary" (onClick)="rolesResource.reload()" />
+      <p-button label="Thêm mới" icon="pi pi-plus" (onClick)="openNew()" />
+    </div>
+  </div>
+
+  <div
+    class="bg-surface-0 dark:bg-surface-900 rounded-xl border border-surface-200 dark:border-surface-800 overflow-hidden">
+    <p-table [value]="rolesResource.value() || []" [loading]="rolesResource.isLoading()" [rows]="10" [paginator]="true"
+      class="p-datatable-sm" responsiveLayout="scroll">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Tên vai trò</th>
+          <th>Mô tả</th>
+          <th>Quyền hạn</th>
+          <th class="text-right">Hành động</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-role>
+        <tr>
+          <td>
+            <div class="flex items-center gap-2">
+              <span class="font-semibold text-surface-900 dark:text-white">{{ role.name }}</span>
+              @if (role.isSystem) {
+              <p-tag value="System" severity="info" class="text-[10px]" />
+              }
+            </div>
+          </td>
+          <td>
+            <span class="text-sm text-surface-600">{{ role.description }}</span>
+          </td>
+          <td>
+            <div class="flex flex-wrap gap-1">
+              @for (perm of role.permissions?.slice(0, 3); track perm) {
+              <p-tag [value]="perm" severity="secondary" class="text-[10px]" />
+              }
+              @if ((role.permissions?.length ?? 0) > 3) {
+              <span class="text-xs text-surface-400">+{{ (role.permissions?.length ?? 0) - 3 }}</span>
+              }
+              @if (!role.permissions?.length) {
+              <span class="text-xs text-surface-400 italic">Chưa gán quyền</span>
+              }
+            </div>
+          </td>
+          <td class="text-right">
+            <div class="flex justify-end gap-2">
+              <p-button icon="pi pi-pencil" size="small" variant="text" (onClick)="editRole(role)" />
+              <p-button icon="pi pi-trash" severity="danger" size="small" variant="text" (onClick)="deleteRole(role)" />
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="4" class="text-center p-8 text-surface-500">
+            <i class="pi pi-shield text-4xl mb-3 block opacity-20"></i>
+            Không tìm thấy vai trò nào.
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+<!-- Dialog Thêm/Sửa Role -->
+<p-dialog [(visible)]="displayDialog" [header]="selectedRole() ? 'Cập nhật vai trò' : 'Thêm vai trò mới'" [modal]="true"
+  [style]="{width: '450px'}" [draggable]="false" [resizable]="false">
+
+  <div [formGroup]="roleForm" class="flex flex-col gap-4 py-4">
+    <div class="flex flex-col gap-2">
+      <label for="roleName" class="text-sm font-medium">Tên vai trò <span class="text-red-500">*</span></label>
+      <input pInputText id="roleName" type="text" formControlName="name" placeholder="VD: Admin, Manager,..."
+        class="w-full" />
+      @if (roleForm.get('name')?.touched && roleForm.get('name')?.invalid) {
+      <small class="text-red-500">Tên vai trò tối thiểu 3 ký tự</small>
+      }
+    </div>
+
+    <div class="flex flex-col gap-2">
+      <label for="roleDesc" class="text-sm font-medium">Mô tả</label>
+      <textarea pTextarea id="roleDesc" formControlName="description" rows="3"
+        placeholder="Mô tả ngắn gọn về vai trò này..." class="w-full"></textarea>
+    </div>
+
+    <div class="flex flex-col gap-2">
+      <label for="permSelect" class="text-sm font-medium">Quyền hạn (Permissions)</label>
+      <p-multiSelect id="permSelect" [options]="permissionsResource.value() || []" [ngModel]="selectedPermissions()"
+        (ngModelChange)="selectedPermissions.set($event)" [ngModelOptions]="{standalone: true}"
+        placeholder="Chọn các quyền" display="chip" class="w-full" appendTo="body" />
+      <small class="text-surface-500 text-xs">Các quyền được định nghĩa theo Resource:Action</small>
+    </div>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <p-button label="Hủy" icon="pi pi-times" severity="secondary" variant="text" (onClick)="displayDialog.set(false)" />
+    <p-button label="Lưu lại" icon="pi pi-check" [loading]="isSaving()" [disabled]="roleForm.invalid"
+      (onClick)="saveRole()" />
+  </ng-template>
+</p-dialog>

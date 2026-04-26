@@ -39,8 +39,8 @@ arda/
 
 ### 🎨 Frontend (Angular MFE)
 
-- **Cấu trúc**: `apps/frontend/`
-- **Lệnh Build**: `npm run build` (trong apps/frontend) hoặc `nx build [app-name]`
+- **Cấu trúc**: `apps/frontend-micro/`
+- **Lệnh Build**: `npm run build` (trong apps/frontend-micro) hoặc `nx build [app-name]`
 
 ### 🛠️ Backend Go (Operational)
 

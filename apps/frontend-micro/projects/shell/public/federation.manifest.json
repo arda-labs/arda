@@ -1,0 +1,4 @@
+{
+	"iam": "http://localhost:3002/remoteEntry.json",
+	"common": "http://localhost:3001/remoteEntry.json"
+}

@@ -1,0 +1,181 @@
+<!-- Landing Page -->
+<div
+  class="landing-root min-h-screen flex flex-col bg-surface-50 dark:bg-surface-950 text-surface-900 dark:text-surface-0 transition-colors duration-300">
+
+  <!-- ═══════════════ HEADER ═══════════════ -->
+  <header
+    class="sticky top-0 z-30 backdrop-blur-md bg-surface-0/70 dark:bg-surface-900/70 border-b border-surface-200/50 dark:border-surface-800/50">
+    <div class="mx-auto max-w-7xl flex items-center justify-between px-6 h-16">
+
+      <!-- Logo -->
+      <a routerLink="/" class="flex items-center gap-3 group">
+        <div
+          class="w-9 h-9 rounded-xl bg-linear-to-br from-primary-500 to-primary-600 flex items-center justify-center shadow-lg shadow-primary-500/25 transition-transform group-hover:scale-105">
+          <i class="pi pi-bolt text-white text-lg font-bold"></i>
+        </div>
+        <span class="font-extrabold text-xl tracking-tight">Arda</span>
+      </a>
+
+      <!-- Middle: Nav -->
+      <nav class="hidden md:flex items-center gap-8">
+        <a href="#features"
+          class="text-sm font-medium text-surface-600 hover:text-primary-500 dark:text-surface-400 dark:hover:text-primary-400 transition-colors">
+          {{ 'PAGES.LANDING.FEATURES.TITLE' | translate }}
+        </a>
+        <a href="#"
+          class="text-sm font-medium text-surface-600 hover:text-primary-500 dark:text-surface-400 dark:hover:text-primary-400 transition-colors">
+          About
+        </a>
+      </nav>
+
+      <!-- Right: Controls + Login -->
+      <div class="flex items-center gap-3">
+        <!-- Language Selector -->
+        <p-select [options]="langOptions" optionLabel="label" optionValue="value" [ngModel]="currentLang()"
+          (ngModelChange)="onLanguageChange($event)" class="w-32!" size="small" [filter]="false" appendTo="body" />
+
+        <!-- Dark Mode Toggle -->
+        <p-button [icon]="settings().darkMode ? 'pi pi-sun' : 'pi pi-moon'" [outlined]="true" severity="secondary"
+          (click)="toggleDarkMode()" styleClass="w-9 h-9 rounded-lg border-surface-200! dark:border-surface-700!" />
+
+        <div class="h-6 w-px bg-surface-200 dark:bg-surface-800 mx-1"></div>
+
+        @if (authService.isAuthenticated()) {
+        <p-button routerLink="/home" [label]="'PAGES.LANDING.HERO.CTA_DASHBOARD' | translate" icon="pi pi-arrow-right"
+          size="small" styleClass="rounded-lg px-5 font-semibold" />
+        } @else {
+        <p-button routerLink="/login" [label]="'COMMON.LOGIN' | translate" icon="pi pi-sign-in" size="small"
+          styleClass="rounded-lg px-5 font-semibold" />
+        }
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-1">
+    <!-- ═══════════════ HERO ═══════════════ -->
+    <section class="relative pt-20 pb-16 lg:pt-32 lg:pb-24 overflow-hidden">
+      <!-- Background elements -->
+      <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full pointer-events-none">
+        <div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary-500/10 blur-[120px] rounded-full"></div>
+        <div class="absolute bottom-[10%] right-[-10%] w-[30%] h-[30%] bg-indigo-500/10 blur-[120px] rounded-full">
+        </div>
+      </div>
+
+      <div class="relative z-10 max-w-7xl mx-auto px-6 text-center">
+        <!-- Badge -->
+        <div
+          class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-50 dark:bg-primary-500/10 text-primary-600 dark:text-primary-400 text-[10px] font-bold uppercase tracking-wider mb-8 border border-primary-200/50 dark:border-primary-500/20">
+          <i class="pi pi-sparkles text-[10px]"></i>
+          <span>Multi-Tenant Enterprise Platform</span>
+        </div>
+
+        <h1
+          class="text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.1] mb-8 text-surface-900 dark:text-white"
+          [innerHTML]="'PAGES.LANDING.HERO.HEADING' | translate">
+        </h1>
+
+        <p class="text-lg sm:text-xl text-surface-500 dark:text-surface-400 max-w-2xl mx-auto leading-relaxed mb-12">
+          {{ 'PAGES.LANDING.HERO.SUBHEADING' | translate }}
+        </p>
+
+        <!-- CTA Groups -->
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+          @if (authService.isAuthenticated()) {
+          <p-button routerLink="/home" [label]="'PAGES.LANDING.HERO.CTA_DASHBOARD' | translate" icon="pi pi-arrow-right"
+            iconPos="right" styleClass="rounded-xl px-10 py-4 text-lg font-bold shadow-2xl shadow-primary-500/20" />
+          } @else {
+          <p-button routerLink="/login" [label]="'PAGES.LANDING.HERO.CTA_LOGIN' | translate" icon="pi pi-arrow-right"
+            iconPos="right" styleClass="rounded-xl px-10 py-4 text-lg font-bold shadow-2xl shadow-primary-500/20" />
+          }
+          <p-button as="a" href="#features" [label]="'PAGES.LANDING.HERO.CTA_LEARN_MORE' | translate" [outlined]="true"
+            severity="secondary"
+            styleClass="rounded-xl px-10 py-4 text-lg font-semibold border-surface-200! dark:border-surface-700!" />
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════ FEATURES ═══════════════ -->
+    <section id="features" class="py-24 relative">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-20">
+          <h2 class="text-3xl lg:text-4xl font-extrabold text-surface-900 dark:text-white mb-4">
+            {{ 'PAGES.LANDING.FEATURES.TITLE' | translate }}
+          </h2>
+          <p class="text-surface-500 dark:text-surface-400 text-lg max-w-xl mx-auto font-medium">
+            {{ 'PAGES.LANDING.FEATURES.SUBTITLE' | translate }}
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          @for (feat of features; track feat.title) {
+          <div
+            class="group p-8 rounded-3xl bg-surface-0 dark:bg-surface-900 border border-surface-200/60 dark:border-surface-800/60 transition-all duration-500 hover:border-primary-500/50 hover:shadow-2xl hover:shadow-primary-500/5 hover:-translate-y-2">
+            <div
+              class="w-14 h-14 rounded-2xl bg-surface-50 dark:bg-surface-800 flex items-center justify-center mb-8 group-hover:bg-primary-500 group-hover:text-white transition-all duration-500 shadow-inner">
+              <i [class]="feat.icon + ' text-2xl text-primary-500 group-hover:text-white transition-colors'"></i>
+            </div>
+            <h3 class="font-bold text-xl mb-4 text-surface-900 dark:text-white">{{ feat.title | translate }}</h3>
+            <p class="text-surface-500 dark:text-surface-400 leading-relaxed font-medium">
+              {{ feat.desc | translate }}
+            </p>
+          </div>
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════ CTA SECTION ═══════════════ -->
+    <section class="py-24">
+      <div class="max-w-5xl mx-auto px-6">
+        <div
+          class="relative overflow-hidden rounded-[2.5rem] bg-linear-to-br from-primary-600 to-indigo-700 p-12 lg:p-20 text-center shadow-3xl shadow-primary-500/30">
+          <!-- Abstract shapes -->
+          <div
+            class="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none">
+          </div>
+          <div
+            class="absolute bottom-0 left-0 w-64 h-64 bg-primary-400/20 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2 pointer-events-none">
+          </div>
+
+          <h2 class="relative z-10 text-4xl lg:text-5xl font-extrabold text-white mb-6">
+            {{ 'PAGES.LANDING.CTA.TITLE' | translate }}
+          </h2>
+          <p
+            class="relative z-10 text-primary-100 text-lg lg:text-xl max-w-2xl mx-auto mb-10 leading-relaxed font-medium">
+            {{ 'PAGES.LANDING.CTA.SUBTITLE' | translate }}
+          </p>
+
+          <div class="relative z-10 flex flex-col sm:flex-row items-center justify-center gap-5">
+            <p-button routerLink="/login" [label]="'COMMON.LOGIN' | translate" icon="pi pi-sign-in" severity="contrast"
+              styleClass="rounded-2xl px-12 py-4 text-lg font-bold bg-white text-primary-600 border-none shadow-xl hover:bg-primary-50 transition-colors" />
+
+            <p-button routerLink="/login" [label]="'PAGES.LANDING.CTA.BUTTON_TRIAL' | translate" [outlined]="true"
+              styleClass="rounded-2xl px-12 py-4 text-lg font-bold border-white/40 text-white hover:bg-white/10 transition-colors" />
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ═══════════════ FOOTER ═══════════════ -->
+  <footer class="py-12 border-t border-surface-200/50 dark:border-surface-800/50 bg-surface-0 dark:bg-surface-900">
+    <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-8">
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-lg bg-primary-500 flex items-center justify-center shadow-lg shadow-primary-500/20">
+          <i class="pi pi-bolt text-white text-xs"></i>
+        </div>
+        <span class="font-bold text-lg text-surface-800 dark:text-surface-100">Arda</span>
+      </div>
+
+      <div class="flex items-center gap-8 text-sm font-medium text-surface-500">
+        <a href="#" class="hover:text-primary-500 transition-colors">Privacy Policy</a>
+        <a href="#" class="hover:text-primary-500 transition-colors">Terms of Service</a>
+        <a href="#" class="hover:text-primary-500 transition-colors">Contact Support</a>
+      </div>
+
+      <p class="text-sm text-surface-400 font-medium">
+        © 2026 Arda Platform. Built for the modern enterprise.
+      </p>
+    </div>
+  </footer>
+</div>

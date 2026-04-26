@@ -11,10 +11,21 @@ import (
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/go-kratos/kratos/v2/middleware/recovery"
 	khttp "github.com/go-kratos/kratos/v2/transport/http"
+	"github.com/gorilla/handlers"
 )
 
 func NewHTTPServer(c *conf.Server, iam *service.IAMService, menu *service.MenuService, logger log.Logger) *khttp.Server {
 	var opts = []khttp.ServerOption{
+		khttp.Filter(handlers.CORS(
+			handlers.AllowedOrigins([]string{
+				"http://localhost:3000", "http://127.0.0.1:3000",
+				"http://localhost:3001", "http://127.0.0.1:3001",
+				"http://localhost:3002", "http://127.0.0.1:3002",
+				"http://localhost:4200", "http://127.0.0.1:4200",
+			}),
+			handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE", "OPTIONS"}),
+			handlers.AllowedHeaders([]string{"Content-Type", "Authorization", "X-Tenant-ID", "X-Request-ID", "Accept-Language"}),
+		)),
 		khttp.Middleware(
 			recovery.Recovery(),
 			middleware.Logging(logger),

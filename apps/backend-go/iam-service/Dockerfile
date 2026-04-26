@@ -1,26 +1,24 @@
-# Build stage: golang:1.25 (Debian bookworm) - Go stdlib không có CVE
-# Alpine chưa có Go 1.25 image, dùng bookworm cho builder
+# Build stage: golang:1.25 (Debian bookworm)
 FROM golang:1.25-bookworm AS builder
 
 RUN apt-get update && apt-get install -y --no-install-recommends git make && rm -rf /var/lib/apt/lists/*
 
+# Chép toàn bộ backend workspace vào để hỗ trợ go.work
 COPY . /src
-WORKDIR /src/services/iam-service
+WORKDIR /src
 
+# Build iam-service từ root workspace
 RUN CGO_ENABLED=0 GOOS=linux go build \
     -ldflags "-X main.Version=$(git describe --tags --always 2>/dev/null || echo dev) -w -s" \
-    -o ./bin/iam-service \
-    ./cmd/iam-service/
+    -o /src/bin/iam-service \
+    ./iam-service/cmd/iam-service/
 
-# Runtime stage: distroless/static - không có shell, không có OS packages
-# Zero CVE từ OS layer, chỉ có binary và ca-certificates
+# Runtime stage: distroless/static
 FROM gcr.io/distroless/static-debian12:nonroot
 
-# configs chứa template với ${placeholders}
-# K8s: bị override bởi volume mount (initContainer envsubst)
-# Local Docker: mount config thật qua -v hoặc truyền env vars
-COPY --from=builder /src/services/iam-service/configs /data/conf
-COPY --from=builder /src/services/iam-service/bin/iam-service /app/iam-service
+# Copy configs từ thư mục service tương ứng
+COPY --from=builder /src/iam-service/configs /data/conf
+COPY --from=builder /src/bin/iam-service /app/iam-service
 
 EXPOSE 8000
 EXPOSE 9000

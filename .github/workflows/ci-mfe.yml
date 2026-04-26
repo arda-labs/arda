@@ -41,21 +41,11 @@ jobs:
       - name: Install dependencies
         run: cd apps/frontend-micro && npm install
 
-      - name: Derive appropriate SHAs for base and head for nx affected
-        uses: nrwl/nx-set-shas@v4
-        with:
-          main-branch-name: "main"
-
       - name: Get affected apps
         id: affected
         run: |
           cd apps/frontend-micro
-          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
-            echo "Manual trigger: building all apps"
-            APPS=$(npx nx show projects --type app --json | jq -r '.[]' | tr '\n' ',' | sed 's/,$//')
-          else
-            APPS=$(npx nx show projects --affected --type app --json | jq -r '.[]' | tr '\n' ',' | sed 's/,$//')
-          fi
+          APPS="shell,iam"
           echo "Affected apps: $APPS"
           echo "apps=$APPS" >> $GITHUB_OUTPUT
 

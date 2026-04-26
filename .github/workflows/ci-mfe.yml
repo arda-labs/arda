@@ -45,7 +45,47 @@ jobs:
         id: affected
         run: |
           cd apps/frontend-micro
-          APPS="shell,iam"
+
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            echo "Manual trigger: building all apps"
+            APPS="shell,iam"
+          else
+            # Get changes between previous commit and current
+            if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+              BASE_SHA=${{ github.event.pull_request.base.sha }}
+            else
+              BASE_SHA=${{ github.event.before }}
+              # Handle force pushes or first commits where before is 000000
+              if [[ "$BASE_SHA" == "0000000000000000000000000000000000000000" ]]; then
+                BASE_SHA="HEAD^"
+              fi
+            fi
+            
+            # Fetch base sha if necessary
+            git fetch origin $BASE_SHA || true
+            CHANGED_FILES=$(git diff --name-only $BASE_SHA ${{ github.sha }} || echo "all")
+            
+            echo "Changed files:"
+            echo "$CHANGED_FILES"
+            
+            # Smart detection logic
+            AFFECTED=()
+            
+            # If global config, root files, or core lib changed -> rebuild ALL
+            if echo "$CHANGED_FILES" | grep -E -q "package\.json|angular\.json|federation\.config\.js|Dockerfile|nginx\.conf|projects/core"; then
+              AFFECTED=("shell" "iam")
+            else
+              if echo "$CHANGED_FILES" | grep -q "projects/shell"; then
+                AFFECTED+=("shell")
+              fi
+              if echo "$CHANGED_FILES" | grep -q "projects/iam"; then
+                AFFECTED+=("iam")
+              fi
+            fi
+            
+            APPS=$(IFS=, ; echo "${AFFECTED[*]}")
+          fi
+
           echo "Affected apps: $APPS"
           echo "apps=$APPS" >> $GITHUB_OUTPUT
 

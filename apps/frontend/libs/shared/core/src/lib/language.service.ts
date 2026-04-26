@@ -23,12 +23,22 @@ export class LanguageService {
     // Đảm bảo có ngôn ngữ mặc định để fallback
     this.translate.setDefaultLang('vi');
 
+    console.log(`LanguageService: Initializing with language "${lang}"...`);
+
     try {
+      // Đảm bảo load bản dịch trước khi ứng dụng render
       await firstValueFrom(this.translate.use(lang));
+
       document.documentElement.lang = lang;
-      console.log(`LanguageService: Initialized with language "${lang}"`);
+      console.log(`LanguageService: Successfully loaded language "${lang}"`);
     } catch (err) {
       console.error('LanguageService: Could not load initial language', err);
+      // Fallback sang tiếng Việt nếu load thất bại
+      try {
+        await firstValueFrom(this.translate.use('vi'));
+      } catch (e) {
+        console.error('LanguageService: Fallback to "vi" failed as well', e);
+      }
     }
   }
 

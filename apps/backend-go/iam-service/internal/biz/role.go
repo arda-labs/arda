@@ -32,6 +32,7 @@ type RoleRepo interface {
 	AssignRole(ctx context.Context, userID, roleID, tenantID string) error
 	RevokeRole(ctx context.Context, userID, roleID, tenantID string) error
 	GetUserRoles(ctx context.Context, userID, tenantID string) ([]*Role, error)
+	GetGroupRoles(ctx context.Context, userID, tenantID string) ([]*Role, error)
 	GetRolePermissions(ctx context.Context, roleID string) ([]*Permission, error)
 	SetRolePermissions(ctx context.Context, roleID string, permIDs []string) error
 }

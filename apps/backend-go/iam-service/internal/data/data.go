@@ -33,6 +33,7 @@ var ProviderSet = wire.NewSet(
 	NewAuditRepo,
 	NewPermissionCache,
 	NewMenuRepo,
+	NewGroupRepo,
 )
 
 type Data struct {

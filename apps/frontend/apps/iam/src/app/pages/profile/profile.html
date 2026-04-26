@@ -1,0 +1,97 @@
+<p-toast />
+
+<div class="max-w-4xl mx-auto p-6 space-y-6">
+  <div class="flex items-center justify-between">
+    <h1 class="text-2xl font-bold text-surface-900 dark:text-white text-primary">Thông tin cá nhân</h1>
+    <a pButton label="Về trang chủ" icon="pi pi-arrow-left" severity="secondary" routerLink="/home" class="p-button-text">
+    </a>
+  </div>
+
+  @if (user(); as u) {
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <!-- Cột trái: Tóm tắt -->
+    <div class="md:col-span-1 space-y-6">
+      <div class="bg-surface-0 dark:bg-surface-900 rounded-xl border border-surface-200 dark:border-surface-800 p-6 flex flex-col items-center text-center">
+        <p-avatar [label]="initials()" shape="circle" class="bg-primary text-white font-bold mb-4 w-24 h-24 text-3xl" />
+        <h2 class="text-xl font-bold text-surface-900 dark:text-white">{{ u.name }}</h2>
+        <p class="text-sm text-surface-500 mb-4">{{ u.email }}</p>
+        <p-tag value="Thành viên hệ thống" severity="info" />
+      </div>
+
+      <div class="bg-surface-0 dark:bg-surface-900 rounded-xl border border-surface-200 dark:border-surface-800 p-6 space-y-3">
+        <h3 class="text-sm font-semibold text-surface-500 uppercase tracking-wider">Môi trường</h3>
+        <div class="flex flex-col gap-1">
+          <span class="text-xs text-surface-400">Tenant ID:</span>
+          <span class="text-xs font-mono break-all">{{ u.tenant || '—' }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cột phải: Form & Logs -->
+    <div class="md:col-span-2 space-y-6">
+      <!-- Edit Form -->
+      <div class="bg-surface-0 dark:bg-surface-900 rounded-xl border border-surface-200 dark:border-surface-800 p-6">
+        <h3 class="text-lg font-semibold mb-4">Cấu hình tài khoản</h3>
+        <form [formGroup]="profileForm" (ngSubmit)="saveProfile()" class="flex flex-col gap-4">
+          <div class="flex flex-col gap-2">
+            <label for="email" class="text-sm font-medium">Địa chỉ Email</label>
+            <input pInputText id="email" formControlName="email" class="w-full bg-surface-50" />
+          </div>
+
+          <div class="flex flex-col gap-2">
+            <label for="displayName" class="text-sm font-medium">Tên hiển thị</label>
+            <input pInputText id="displayName" formControlName="displayName" class="w-full" placeholder="Nhập tên của bạn" />
+            @if (profileForm.get('displayName')?.invalid && profileForm.get('displayName')?.touched) {
+              <small class="text-red-500">Tên hiển thị không được để trống (tối thiểu 3 ký tự)</small>
+            }
+          </div>
+
+          <div class="flex justify-end mt-2">
+            <button pButton type="submit" label="Lưu thay đổi" icon="pi pi-check"
+              [loading]="isSaving()" [disabled]="profileForm.invalid || profileForm.pristine">
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Audit Logs -->
+      <div class="bg-surface-0 dark:bg-surface-900 rounded-xl border border-surface-200 dark:border-surface-800 p-6">
+        <h3 class="text-lg font-semibold mb-4">Nhật ký hoạt động</h3>
+        <p-table [value]="auditLogs()" [rows]="5" [paginator]="true" [loading]="isLoadingLogs()"
+          class="p-datatable-sm">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Hành động</th>
+              <th>Đối tượng</th>
+              <th>Thời gian</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-log>
+            <tr>
+              <td>
+                <p-tag [value]="log.action" [severity]="getActionSeverity(log.action)" />
+              </td>
+              <td>
+                <span class="text-xs">{{ log.target_type }}</span>
+                <div class="text-[10px] text-surface-400 font-mono">{{ log.target_id }}</div>
+              </td>
+              <td>
+                <span class="text-xs text-surface-500">{{ log.created_at | date:'HH:mm dd/MM/yy' }}</span>
+              </td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <td colspan="3" class="text-center p-4 text-surface-400">Chưa có hoạt động nào được ghi lại.</td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </div>
+  } @else {
+    <div class="flex justify-center p-12">
+      <i class="pi pi-spin pi-spinner text-4xl text-primary"></i>
+    </div>
+  }
+</div>

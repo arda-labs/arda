@@ -21,8 +21,11 @@ const _ = grpc.SupportPackageIsVersion9
 const (
 	IAMService_CustomLogin_FullMethodName               = "/iam.v1.IAMService/CustomLogin"
 	IAMService_GetCurrentUser_FullMethodName            = "/iam.v1.IAMService/GetCurrentUser"
+	IAMService_UpdateProfile_FullMethodName             = "/iam.v1.IAMService/UpdateProfile"
+	IAMService_ListMyAuditLogs_FullMethodName           = "/iam.v1.IAMService/ListMyAuditLogs"
 	IAMService_GetUser_FullMethodName                   = "/iam.v1.IAMService/GetUser"
 	IAMService_ListUsers_FullMethodName                 = "/iam.v1.IAMService/ListUsers"
+	IAMService_CreateUser_FullMethodName                = "/iam.v1.IAMService/CreateUser"
 	IAMService_CreateTenant_FullMethodName              = "/iam.v1.IAMService/CreateTenant"
 	IAMService_GetTenant_FullMethodName                 = "/iam.v1.IAMService/GetTenant"
 	IAMService_UpdateTenant_FullMethodName              = "/iam.v1.IAMService/UpdateTenant"
@@ -47,6 +50,17 @@ const (
 	IAMService_ListPendingApprovals_FullMethodName      = "/iam.v1.IAMService/ListPendingApprovals"
 	IAMService_ApprovePermission_FullMethodName         = "/iam.v1.IAMService/ApprovePermission"
 	IAMService_RejectPermission_FullMethodName          = "/iam.v1.IAMService/RejectPermission"
+	IAMService_CreateGroup_FullMethodName               = "/iam.v1.IAMService/CreateGroup"
+	IAMService_GetGroup_FullMethodName                  = "/iam.v1.IAMService/GetGroup"
+	IAMService_UpdateGroup_FullMethodName               = "/iam.v1.IAMService/UpdateGroup"
+	IAMService_DeleteGroup_FullMethodName               = "/iam.v1.IAMService/DeleteGroup"
+	IAMService_ListGroups_FullMethodName                = "/iam.v1.IAMService/ListGroups"
+	IAMService_AddGroupMember_FullMethodName            = "/iam.v1.IAMService/AddGroupMember"
+	IAMService_RemoveGroupMember_FullMethodName         = "/iam.v1.IAMService/RemoveGroupMember"
+	IAMService_ListGroupMembers_FullMethodName          = "/iam.v1.IAMService/ListGroupMembers"
+	IAMService_AssignGroupRole_FullMethodName           = "/iam.v1.IAMService/AssignGroupRole"
+	IAMService_RevokeGroupRole_FullMethodName           = "/iam.v1.IAMService/RevokeGroupRole"
+	IAMService_ListGroupRoles_FullMethodName            = "/iam.v1.IAMService/ListGroupRoles"
 )
 
 // IAMServiceClient is the client API for IAMService service.
@@ -57,8 +71,11 @@ type IAMServiceClient interface {
 	CustomLogin(ctx context.Context, in *CustomLoginRequest, opts ...grpc.CallOption) (*CustomLoginReply, error)
 	// Users
 	GetCurrentUser(ctx context.Context, in *GetCurrentUserRequest, opts ...grpc.CallOption) (*GetCurrentUserResponse, error)
+	UpdateProfile(ctx context.Context, in *UpdateProfileRequest, opts ...grpc.CallOption) (*User, error)
+	ListMyAuditLogs(ctx context.Context, in *ListMyAuditLogsRequest, opts ...grpc.CallOption) (*ListAuditLogsResponse, error)
 	GetUser(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*User, error)
 	ListUsers(ctx context.Context, in *ListUsersRequest, opts ...grpc.CallOption) (*ListUsersResponse, error)
+	CreateUser(ctx context.Context, in *CreateUserRequest, opts ...grpc.CallOption) (*User, error)
 	// Tenants
 	CreateTenant(ctx context.Context, in *CreateTenantRequest, opts ...grpc.CallOption) (*Tenant, error)
 	GetTenant(ctx context.Context, in *GetTenantRequest, opts ...grpc.CallOption) (*Tenant, error)
@@ -89,6 +106,18 @@ type IAMServiceClient interface {
 	ListPendingApprovals(ctx context.Context, in *ListPendingApprovalsRequest, opts ...grpc.CallOption) (*ListPendingApprovalsResponse, error)
 	ApprovePermission(ctx context.Context, in *ApprovePermissionRequest, opts ...grpc.CallOption) (*ResourcePermission, error)
 	RejectPermission(ctx context.Context, in *RejectPermissionRequest, opts ...grpc.CallOption) (*ResourcePermission, error)
+	// Groups
+	CreateGroup(ctx context.Context, in *CreateGroupRequest, opts ...grpc.CallOption) (*Group, error)
+	GetGroup(ctx context.Context, in *GetGroupRequest, opts ...grpc.CallOption) (*Group, error)
+	UpdateGroup(ctx context.Context, in *UpdateGroupRequest, opts ...grpc.CallOption) (*Group, error)
+	DeleteGroup(ctx context.Context, in *DeleteGroupRequest, opts ...grpc.CallOption) (*DeleteGroupResponse, error)
+	ListGroups(ctx context.Context, in *ListGroupsRequest, opts ...grpc.CallOption) (*ListGroupsResponse, error)
+	AddGroupMember(ctx context.Context, in *AddGroupMemberRequest, opts ...grpc.CallOption) (*AddGroupMemberResponse, error)
+	RemoveGroupMember(ctx context.Context, in *RemoveGroupMemberRequest, opts ...grpc.CallOption) (*RemoveGroupMemberResponse, error)
+	ListGroupMembers(ctx context.Context, in *ListGroupMembersRequest, opts ...grpc.CallOption) (*ListGroupMembersResponse, error)
+	AssignGroupRole(ctx context.Context, in *AssignGroupRoleRequest, opts ...grpc.CallOption) (*AssignGroupRoleResponse, error)
+	RevokeGroupRole(ctx context.Context, in *RevokeGroupRoleRequest, opts ...grpc.CallOption) (*RevokeGroupRoleResponse, error)
+	ListGroupRoles(ctx context.Context, in *ListGroupRolesRequest, opts ...grpc.CallOption) (*ListGroupRolesResponse, error)
 }
 
 type iAMServiceClient struct {
@@ -119,6 +148,26 @@ func (c *iAMServiceClient) GetCurrentUser(ctx context.Context, in *GetCurrentUse
 	return out, nil
 }
 
+func (c *iAMServiceClient) UpdateProfile(ctx context.Context, in *UpdateProfileRequest, opts ...grpc.CallOption) (*User, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(User)
+	err := c.cc.Invoke(ctx, IAMService_UpdateProfile_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *iAMServiceClient) ListMyAuditLogs(ctx context.Context, in *ListMyAuditLogsRequest, opts ...grpc.CallOption) (*ListAuditLogsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListAuditLogsResponse)
+	err := c.cc.Invoke(ctx, IAMService_ListMyAuditLogs_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *iAMServiceClient) GetUser(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*User, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(User)
@@ -133,6 +182,16 @@ func (c *iAMServiceClient) ListUsers(ctx context.Context, in *ListUsersRequest, 
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ListUsersResponse)
 	err := c.cc.Invoke(ctx, IAMService_ListUsers_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *iAMServiceClient) CreateUser(ctx context.Context, in *CreateUserRequest, opts ...grpc.CallOption) (*User, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(User)
+	err := c.cc.Invoke(ctx, IAMService_CreateUser_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -379,6 +438,116 @@ func (c *iAMServiceClient) RejectPermission(ctx context.Context, in *RejectPermi
 	return out, nil
 }
 
+func (c *iAMServiceClient) CreateGroup(ctx context.Context, in *CreateGroupRequest, opts ...grpc.CallOption) (*Group, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Group)
+	err := c.cc.Invoke(ctx, IAMService_CreateGroup_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *iAMServiceClient) GetGroup(ctx context.Context, in *GetGroupRequest, opts ...grpc.CallOption) (*Group, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Group)
+	err := c.cc.Invoke(ctx, IAMService_GetGroup_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *iAMServiceClient) UpdateGroup(ctx context.Context, in *UpdateGroupRequest, opts ...grpc.CallOption) (*Group, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Group)
+	err := c.cc.Invoke(ctx, IAMService_UpdateGroup_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *iAMServiceClient) DeleteGroup(ctx context.Context, in *DeleteGroupRequest, opts ...grpc.CallOption) (*DeleteGroupResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteGroupResponse)
+	err := c.cc.Invoke(ctx, IAMService_DeleteGroup_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *iAMServiceClient) ListGroups(ctx context.Context, in *ListGroupsRequest, opts ...grpc.CallOption) (*ListGroupsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListGroupsResponse)
+	err := c.cc.Invoke(ctx, IAMService_ListGroups_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *iAMServiceClient) AddGroupMember(ctx context.Context, in *AddGroupMemberRequest, opts ...grpc.CallOption) (*AddGroupMemberResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(AddGroupMemberResponse)
+	err := c.cc.Invoke(ctx, IAMService_AddGroupMember_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *iAMServiceClient) RemoveGroupMember(ctx context.Context, in *RemoveGroupMemberRequest, opts ...grpc.CallOption) (*RemoveGroupMemberResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(RemoveGroupMemberResponse)
+	err := c.cc.Invoke(ctx, IAMService_RemoveGroupMember_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *iAMServiceClient) ListGroupMembers(ctx context.Context, in *ListGroupMembersRequest, opts ...grpc.CallOption) (*ListGroupMembersResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListGroupMembersResponse)
+	err := c.cc.Invoke(ctx, IAMService_ListGroupMembers_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *iAMServiceClient) AssignGroupRole(ctx context.Context, in *AssignGroupRoleRequest, opts ...grpc.CallOption) (*AssignGroupRoleResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(AssignGroupRoleResponse)
+	err := c.cc.Invoke(ctx, IAMService_AssignGroupRole_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *iAMServiceClient) RevokeGroupRole(ctx context.Context, in *RevokeGroupRoleRequest, opts ...grpc.CallOption) (*RevokeGroupRoleResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(RevokeGroupRoleResponse)
+	err := c.cc.Invoke(ctx, IAMService_RevokeGroupRole_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *iAMServiceClient) ListGroupRoles(ctx context.Context, in *ListGroupRolesRequest, opts ...grpc.CallOption) (*ListGroupRolesResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListGroupRolesResponse)
+	err := c.cc.Invoke(ctx, IAMService_ListGroupRoles_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // IAMServiceServer is the server API for IAMService service.
 // All implementations must embed UnimplementedIAMServiceServer
 // for forward compatibility.
@@ -387,8 +556,11 @@ type IAMServiceServer interface {
 	CustomLogin(context.Context, *CustomLoginRequest) (*CustomLoginReply, error)
 	// Users
 	GetCurrentUser(context.Context, *GetCurrentUserRequest) (*GetCurrentUserResponse, error)
+	UpdateProfile(context.Context, *UpdateProfileRequest) (*User, error)
+	ListMyAuditLogs(context.Context, *ListMyAuditLogsRequest) (*ListAuditLogsResponse, error)
 	GetUser(context.Context, *GetUserRequest) (*User, error)
 	ListUsers(context.Context, *ListUsersRequest) (*ListUsersResponse, error)
+	CreateUser(context.Context, *CreateUserRequest) (*User, error)
 	// Tenants
 	CreateTenant(context.Context, *CreateTenantRequest) (*Tenant, error)
 	GetTenant(context.Context, *GetTenantRequest) (*Tenant, error)
@@ -419,6 +591,18 @@ type IAMServiceServer interface {
 	ListPendingApprovals(context.Context, *ListPendingApprovalsRequest) (*ListPendingApprovalsResponse, error)
 	ApprovePermission(context.Context, *ApprovePermissionRequest) (*ResourcePermission, error)
 	RejectPermission(context.Context, *RejectPermissionRequest) (*ResourcePermission, error)
+	// Groups
+	CreateGroup(context.Context, *CreateGroupRequest) (*Group, error)
+	GetGroup(context.Context, *GetGroupRequest) (*Group, error)
+	UpdateGroup(context.Context, *UpdateGroupRequest) (*Group, error)
+	DeleteGroup(context.Context, *DeleteGroupRequest) (*DeleteGroupResponse, error)
+	ListGroups(context.Context, *ListGroupsRequest) (*ListGroupsResponse, error)
+	AddGroupMember(context.Context, *AddGroupMemberRequest) (*AddGroupMemberResponse, error)
+	RemoveGroupMember(context.Context, *RemoveGroupMemberRequest) (*RemoveGroupMemberResponse, error)
+	ListGroupMembers(context.Context, *ListGroupMembersRequest) (*ListGroupMembersResponse, error)
+	AssignGroupRole(context.Context, *AssignGroupRoleRequest) (*AssignGroupRoleResponse, error)
+	RevokeGroupRole(context.Context, *RevokeGroupRoleRequest) (*RevokeGroupRoleResponse, error)
+	ListGroupRoles(context.Context, *ListGroupRolesRequest) (*ListGroupRolesResponse, error)
 	mustEmbedUnimplementedIAMServiceServer()
 }
 
@@ -435,11 +619,20 @@ func (UnimplementedIAMServiceServer) CustomLogin(context.Context, *CustomLoginRe
 func (UnimplementedIAMServiceServer) GetCurrentUser(context.Context, *GetCurrentUserRequest) (*GetCurrentUserResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetCurrentUser not implemented")
 }
+func (UnimplementedIAMServiceServer) UpdateProfile(context.Context, *UpdateProfileRequest) (*User, error) {
+	return nil, status.Error(codes.Unimplemented, "method UpdateProfile not implemented")
+}
+func (UnimplementedIAMServiceServer) ListMyAuditLogs(context.Context, *ListMyAuditLogsRequest) (*ListAuditLogsResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListMyAuditLogs not implemented")
+}
 func (UnimplementedIAMServiceServer) GetUser(context.Context, *GetUserRequest) (*User, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetUser not implemented")
 }
 func (UnimplementedIAMServiceServer) ListUsers(context.Context, *ListUsersRequest) (*ListUsersResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method ListUsers not implemented")
+}
+func (UnimplementedIAMServiceServer) CreateUser(context.Context, *CreateUserRequest) (*User, error) {
+	return nil, status.Error(codes.Unimplemented, "method CreateUser not implemented")
 }
 func (UnimplementedIAMServiceServer) CreateTenant(context.Context, *CreateTenantRequest) (*Tenant, error) {
 	return nil, status.Error(codes.Unimplemented, "method CreateTenant not implemented")
@@ -513,6 +706,39 @@ func (UnimplementedIAMServiceServer) ApprovePermission(context.Context, *Approve
 func (UnimplementedIAMServiceServer) RejectPermission(context.Context, *RejectPermissionRequest) (*ResourcePermission, error) {
 	return nil, status.Error(codes.Unimplemented, "method RejectPermission not implemented")
 }
+func (UnimplementedIAMServiceServer) CreateGroup(context.Context, *CreateGroupRequest) (*Group, error) {
+	return nil, status.Error(codes.Unimplemented, "method CreateGroup not implemented")
+}
+func (UnimplementedIAMServiceServer) GetGroup(context.Context, *GetGroupRequest) (*Group, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetGroup not implemented")
+}
+func (UnimplementedIAMServiceServer) UpdateGroup(context.Context, *UpdateGroupRequest) (*Group, error) {
+	return nil, status.Error(codes.Unimplemented, "method UpdateGroup not implemented")
+}
+func (UnimplementedIAMServiceServer) DeleteGroup(context.Context, *DeleteGroupRequest) (*DeleteGroupResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method DeleteGroup not implemented")
+}
+func (UnimplementedIAMServiceServer) ListGroups(context.Context, *ListGroupsRequest) (*ListGroupsResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListGroups not implemented")
+}
+func (UnimplementedIAMServiceServer) AddGroupMember(context.Context, *AddGroupMemberRequest) (*AddGroupMemberResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method AddGroupMember not implemented")
+}
+func (UnimplementedIAMServiceServer) RemoveGroupMember(context.Context, *RemoveGroupMemberRequest) (*RemoveGroupMemberResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method RemoveGroupMember not implemented")
+}
+func (UnimplementedIAMServiceServer) ListGroupMembers(context.Context, *ListGroupMembersRequest) (*ListGroupMembersResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListGroupMembers not implemented")
+}
+func (UnimplementedIAMServiceServer) AssignGroupRole(context.Context, *AssignGroupRoleRequest) (*AssignGroupRoleResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method AssignGroupRole not implemented")
+}
+func (UnimplementedIAMServiceServer) RevokeGroupRole(context.Context, *RevokeGroupRoleRequest) (*RevokeGroupRoleResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method RevokeGroupRole not implemented")
+}
+func (UnimplementedIAMServiceServer) ListGroupRoles(context.Context, *ListGroupRolesRequest) (*ListGroupRolesResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListGroupRoles not implemented")
+}
 func (UnimplementedIAMServiceServer) mustEmbedUnimplementedIAMServiceServer() {}
 func (UnimplementedIAMServiceServer) testEmbeddedByValue()                    {}
 
@@ -570,6 +796,42 @@ func _IAMService_GetCurrentUser_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _IAMService_UpdateProfile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateProfileRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(IAMServiceServer).UpdateProfile(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: IAMService_UpdateProfile_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(IAMServiceServer).UpdateProfile(ctx, req.(*UpdateProfileRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _IAMService_ListMyAuditLogs_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListMyAuditLogsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(IAMServiceServer).ListMyAuditLogs(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: IAMService_ListMyAuditLogs_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(IAMServiceServer).ListMyAuditLogs(ctx, req.(*ListMyAuditLogsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _IAMService_GetUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetUserRequest)
 	if err := dec(in); err != nil {
@@ -602,6 +864,24 @@ func _IAMService_ListUsers_Handler(srv interface{}, ctx context.Context, dec fun
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(IAMServiceServer).ListUsers(ctx, req.(*ListUsersRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _IAMService_CreateUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateUserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(IAMServiceServer).CreateUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: IAMService_CreateUser_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(IAMServiceServer).CreateUser(ctx, req.(*CreateUserRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1038,6 +1318,204 @@ func _IAMService_RejectPermission_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _IAMService_CreateGroup_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateGroupRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(IAMServiceServer).CreateGroup(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: IAMService_CreateGroup_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(IAMServiceServer).CreateGroup(ctx, req.(*CreateGroupRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _IAMService_GetGroup_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetGroupRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(IAMServiceServer).GetGroup(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: IAMService_GetGroup_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(IAMServiceServer).GetGroup(ctx, req.(*GetGroupRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _IAMService_UpdateGroup_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateGroupRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(IAMServiceServer).UpdateGroup(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: IAMService_UpdateGroup_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(IAMServiceServer).UpdateGroup(ctx, req.(*UpdateGroupRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _IAMService_DeleteGroup_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteGroupRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(IAMServiceServer).DeleteGroup(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: IAMService_DeleteGroup_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(IAMServiceServer).DeleteGroup(ctx, req.(*DeleteGroupRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _IAMService_ListGroups_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListGroupsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(IAMServiceServer).ListGroups(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: IAMService_ListGroups_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(IAMServiceServer).ListGroups(ctx, req.(*ListGroupsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _IAMService_AddGroupMember_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddGroupMemberRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(IAMServiceServer).AddGroupMember(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: IAMService_AddGroupMember_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(IAMServiceServer).AddGroupMember(ctx, req.(*AddGroupMemberRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _IAMService_RemoveGroupMember_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RemoveGroupMemberRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(IAMServiceServer).RemoveGroupMember(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: IAMService_RemoveGroupMember_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(IAMServiceServer).RemoveGroupMember(ctx, req.(*RemoveGroupMemberRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _IAMService_ListGroupMembers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListGroupMembersRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(IAMServiceServer).ListGroupMembers(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: IAMService_ListGroupMembers_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(IAMServiceServer).ListGroupMembers(ctx, req.(*ListGroupMembersRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _IAMService_AssignGroupRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AssignGroupRoleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(IAMServiceServer).AssignGroupRole(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: IAMService_AssignGroupRole_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(IAMServiceServer).AssignGroupRole(ctx, req.(*AssignGroupRoleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _IAMService_RevokeGroupRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RevokeGroupRoleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(IAMServiceServer).RevokeGroupRole(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: IAMService_RevokeGroupRole_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(IAMServiceServer).RevokeGroupRole(ctx, req.(*RevokeGroupRoleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _IAMService_ListGroupRoles_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListGroupRolesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(IAMServiceServer).ListGroupRoles(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: IAMService_ListGroupRoles_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(IAMServiceServer).ListGroupRoles(ctx, req.(*ListGroupRolesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // IAMService_ServiceDesc is the grpc.ServiceDesc for IAMService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -1054,12 +1532,24 @@ var IAMService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _IAMService_GetCurrentUser_Handler,
 		},
 		{
+			MethodName: "UpdateProfile",
+			Handler:    _IAMService_UpdateProfile_Handler,
+		},
+		{
+			MethodName: "ListMyAuditLogs",
+			Handler:    _IAMService_ListMyAuditLogs_Handler,
+		},
+		{
 			MethodName: "GetUser",
 			Handler:    _IAMService_GetUser_Handler,
 		},
 		{
 			MethodName: "ListUsers",
 			Handler:    _IAMService_ListUsers_Handler,
+		},
+		{
+			MethodName: "CreateUser",
+			Handler:    _IAMService_CreateUser_Handler,
 		},
 		{
 			MethodName: "CreateTenant",
@@ -1156,6 +1646,50 @@ var IAMService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RejectPermission",
 			Handler:    _IAMService_RejectPermission_Handler,
+		},
+		{
+			MethodName: "CreateGroup",
+			Handler:    _IAMService_CreateGroup_Handler,
+		},
+		{
+			MethodName: "GetGroup",
+			Handler:    _IAMService_GetGroup_Handler,
+		},
+		{
+			MethodName: "UpdateGroup",
+			Handler:    _IAMService_UpdateGroup_Handler,
+		},
+		{
+			MethodName: "DeleteGroup",
+			Handler:    _IAMService_DeleteGroup_Handler,
+		},
+		{
+			MethodName: "ListGroups",
+			Handler:    _IAMService_ListGroups_Handler,
+		},
+		{
+			MethodName: "AddGroupMember",
+			Handler:    _IAMService_AddGroupMember_Handler,
+		},
+		{
+			MethodName: "RemoveGroupMember",
+			Handler:    _IAMService_RemoveGroupMember_Handler,
+		},
+		{
+			MethodName: "ListGroupMembers",
+			Handler:    _IAMService_ListGroupMembers_Handler,
+		},
+		{
+			MethodName: "AssignGroupRole",
+			Handler:    _IAMService_AssignGroupRole_Handler,
+		},
+		{
+			MethodName: "RevokeGroupRole",
+			Handler:    _IAMService_RevokeGroupRole_Handler,
+		},
+		{
+			MethodName: "ListGroupRoles",
+			Handler:    _IAMService_ListGroupRoles_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

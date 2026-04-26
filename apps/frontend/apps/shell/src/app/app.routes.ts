@@ -1,7 +1,6 @@
 import { Route } from '@angular/router';
 import { Layout } from './components/layout/layout';
 import { Home } from './pages/home/home';
-import { LoginPage } from './pages/login/login-page';
 import { CallbackPage } from './pages/auth/callback-page';
 import { authGuard } from './guards/auth.guard';
 import { loadRemote } from '@module-federation/enhanced/runtime';
@@ -11,7 +10,7 @@ export const appRoutes: Route[] = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'home'
+    redirectTo: 'home',
   },
 
   // Login
@@ -57,9 +56,11 @@ export const appRoutes: Route[] = [
           import('./pages/settings/settings').then((m) => m.Settings),
       },
       {
-        path: 'profile',
-        loadComponent: () =>
-          import('./pages/profile/profile').then((m) => m.Profile),
+        path: 'iam',
+        loadChildren: () =>
+          loadRemote<typeof import('iam/Routes')>('iam/Routes').then(
+            (m) => m!.remoteRoutes,
+          ),
       },
     ],
   },

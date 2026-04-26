@@ -22,6 +22,8 @@ type IAMService struct {
 	roles   *biz.RoleUsecase
 	perms   *biz.PermissionUsecase
 	auth    *biz.AuthUsecase
+	audit   *biz.AuditUsecase
+	groups  *biz.GroupUsecase
 	log     *log.Helper
 }
 
@@ -32,6 +34,8 @@ func NewIAMService(
 	roles *biz.RoleUsecase,
 	perms *biz.PermissionUsecase,
 	auth *biz.AuthUsecase,
+	audit *biz.AuditUsecase,
+	groups *biz.GroupUsecase,
 	logger log.Logger,
 ) *IAMService {
 	return &IAMService{
@@ -41,6 +45,8 @@ func NewIAMService(
 		roles:   roles,
 		perms:   perms,
 		auth:    auth,
+		audit:   audit,
+		groups:  groups,
 		log:     log.NewHelper(logger),
 	}
 }
@@ -201,6 +207,55 @@ func (s *IAMService) GetCurrentUser(ctx context.Context, _ *pb.GetCurrentUserReq
 	}, nil
 }
 
+func (s *IAMService) UpdateProfile(ctx context.Context, req *pb.UpdateProfileRequest) (*pb.User, error) {
+	extID := middleware.GetUserID(ctx)
+	if extID == "" {
+		return nil, errors.Forbidden("UNAUTHORIZED", "missing subject")
+	}
+
+	user, err := s.users.GetOrCreateUser(ctx, extID, "", "")
+	if err != nil {
+		return nil, err
+	}
+
+	updated, err := s.users.UpdateProfile(ctx, user.ID, req.DisplayName)
+	if err != nil {
+		return nil, err
+	}
+
+	return toProtoUser(updated), nil
+}
+
+func (s *IAMService) ListMyAuditLogs(ctx context.Context, req *pb.ListMyAuditLogsRequest) (*pb.ListAuditLogsResponse, error) {
+	extID := middleware.GetUserID(ctx)
+	if extID == "" {
+		return nil, errors.Forbidden("UNAUTHORIZED", "missing subject")
+	}
+
+	user, err := s.users.GetOrCreateUser(ctx, extID, "", "")
+	if err != nil {
+		return nil, err
+	}
+
+	logs, next, err := s.audit.ListMyLogs(ctx, user.ID, int(req.PageSize), req.PageToken)
+	if err != nil {
+		return nil, err
+	}
+
+	resp := &pb.ListAuditLogsResponse{NextPageToken: next}
+	for _, l := range logs {
+		resp.Logs = append(resp.Logs, &pb.AuditLog{
+			Id:         l.ID,
+			ActorId:    l.ActorID,
+			Action:     l.Action,
+			TargetType: l.TargetType,
+			TargetId:   l.TargetID,
+			CreatedAt:  timestamppb.New(l.CreatedAt),
+		})
+	}
+	return resp, nil
+}
+
 func (s *IAMService) GetUser(ctx context.Context, req *pb.GetUserRequest) (*pb.User, error) {
 	user, err := s.users.GetUser(ctx, req.Id)
 	if err != nil {
@@ -219,6 +274,14 @@ func (s *IAMService) ListUsers(ctx context.Context, req *pb.ListUsersRequest) (*
 		resp.Users = append(resp.Users, toProtoUser(u))
 	}
 	return resp, nil
+}
+
+func (s *IAMService) CreateUser(ctx context.Context, req *pb.CreateUserRequest) (*pb.User, error) {
+	user, err := s.users.CreateUser(ctx, req.Email, req.DisplayName, req.Password, req.TenantId)
+	if err != nil {
+		return nil, err
+	}
+	return toProtoUser(user), nil
 }
 
 // Tenants
@@ -333,6 +396,92 @@ func (s *IAMService) AssignRole(ctx context.Context, req *pb.AssignRoleRequest) 
 func (s *IAMService) RevokeRole(ctx context.Context, req *pb.RevokeRoleRequest) (*pb.RevokeRoleResponse, error) {
 	actorID := middleware.GetUserID(ctx)
 	return &pb.RevokeRoleResponse{}, s.roles.RevokeRole(ctx, req.UserId, req.RoleId, req.TenantId, actorID)
+}
+
+// Groups
+
+func (s *IAMService) CreateGroup(ctx context.Context, req *pb.CreateGroupRequest) (*pb.Group, error) {
+	g, err := s.groups.CreateGroup(ctx, req.TenantId, req.Name, req.Description)
+	if err != nil {
+		return nil, err
+	}
+	return toProtoGroup(g), nil
+}
+
+func (s *IAMService) GetGroup(ctx context.Context, req *pb.GetGroupRequest) (*pb.Group, error) {
+	g, err := s.groups.GetGroup(ctx, req.Id)
+	if err != nil {
+		return nil, err
+	}
+	return toProtoGroup(g), nil
+}
+
+func (s *IAMService) UpdateGroup(ctx context.Context, req *pb.UpdateGroupRequest) (*pb.Group, error) {
+	g, err := s.groups.UpdateGroup(ctx, req.Id, req.Name, req.Description)
+	if err != nil {
+		return nil, err
+	}
+	return toProtoGroup(g), nil
+}
+
+func (s *IAMService) DeleteGroup(ctx context.Context, req *pb.DeleteGroupRequest) (*pb.DeleteGroupResponse, error) {
+	return &pb.DeleteGroupResponse{}, s.groups.DeleteGroup(ctx, req.Id)
+}
+
+func (s *IAMService) ListGroups(ctx context.Context, req *pb.ListGroupsRequest) (*pb.ListGroupsResponse, error) {
+	list, next, err := s.groups.ListGroups(ctx, req.TenantId, int(req.PageSize), req.PageToken)
+	if err != nil {
+		return nil, err
+	}
+	resp := &pb.ListGroupsResponse{NextPageToken: next}
+	for _, g := range list {
+		resp.Groups = append(resp.Groups, toProtoGroup(g))
+	}
+	return resp, nil
+}
+
+func (s *IAMService) AddGroupMember(ctx context.Context, req *pb.AddGroupMemberRequest) (*pb.AddGroupMemberResponse, error) {
+	actorID := middleware.GetUserID(ctx)
+	return &pb.AddGroupMemberResponse{}, s.groups.AddMember(ctx, req.GroupId, req.UserId, actorID)
+}
+
+func (s *IAMService) RemoveGroupMember(ctx context.Context, req *pb.RemoveGroupMemberRequest) (*pb.RemoveGroupMemberResponse, error) {
+	actorID := middleware.GetUserID(ctx)
+	return &pb.RemoveGroupMemberResponse{}, s.groups.RemoveMember(ctx, req.GroupId, req.UserId, actorID)
+}
+
+func (s *IAMService) ListGroupMembers(ctx context.Context, req *pb.ListGroupMembersRequest) (*pb.ListGroupMembersResponse, error) {
+	users, err := s.groups.ListMembers(ctx, req.GroupId)
+	if err != nil {
+		return nil, err
+	}
+	resp := &pb.ListGroupMembersResponse{}
+	for _, u := range users {
+		resp.Users = append(resp.Users, toProtoUser(u))
+	}
+	return resp, nil
+}
+
+func (s *IAMService) AssignGroupRole(ctx context.Context, req *pb.AssignGroupRoleRequest) (*pb.AssignGroupRoleResponse, error) {
+	actorID := middleware.GetUserID(ctx)
+	return &pb.AssignGroupRoleResponse{}, s.groups.AssignRole(ctx, req.GroupId, req.RoleId, actorID)
+}
+
+func (s *IAMService) RevokeGroupRole(ctx context.Context, req *pb.RevokeGroupRoleRequest) (*pb.RevokeGroupRoleResponse, error) {
+	actorID := middleware.GetUserID(ctx)
+	return &pb.RevokeGroupRoleResponse{}, s.groups.RevokeRole(ctx, req.GroupId, req.RoleId, actorID)
+}
+
+func (s *IAMService) ListGroupRoles(ctx context.Context, req *pb.ListGroupRolesRequest) (*pb.ListGroupRolesResponse, error) {
+	roles, err := s.groups.ListRoles(ctx, req.GroupId)
+	if err != nil {
+		return nil, err
+	}
+	resp := &pb.ListGroupRolesResponse{}
+	for _, r := range roles {
+		resp.Roles = append(resp.Roles, toProtoRole(r))
+	}
+	return resp, nil
 }
 
 // Permissions
@@ -482,5 +631,16 @@ func toProtoResourcePermission(rp *biz.ResourcePermission) *pb.ResourcePermissio
 		ResourceId: rp.ResourceID,
 		Allowed:    rp.Allowed,
 		CreatedAt:  timestamppb.New(rp.CreatedAt),
+	}
+}
+
+func toProtoGroup(g *biz.Group) *pb.Group {
+	return &pb.Group{
+		Id:          g.ID,
+		TenantId:    g.TenantID,
+		Name:        g.Name,
+		Description: g.Description,
+		CreatedAt:   timestamppb.New(g.CreatedAt),
+		UpdatedAt:   timestamppb.New(g.UpdatedAt),
 	}
 }

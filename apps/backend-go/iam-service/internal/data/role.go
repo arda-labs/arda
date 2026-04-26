@@ -137,6 +137,31 @@ func (r *roleRepo) GetUserRoles(ctx context.Context, userID, tenantID string) ([
 	return roles, err
 }
 
+func (r *roleRepo) GetGroupRoles(ctx context.Context, userID, tenantID string) ([]*biz.Role, error) {
+	var roles []*biz.Role
+	err := r.data.DB(ctx).ExecInTransaction(ctx, tenantID, func(ctx context.Context, tx pgx.Tx) error {
+		rows, err := tx.Query(ctx,
+			`SELECT r.id, r.tenant_id, r.name, r.description, r.is_system, r.created_at, r.updated_at
+			 FROM roles r
+			 JOIN group_roles gr ON r.id = gr.role_id
+			 JOIN group_members gm ON gr.group_id = gm.group_id
+			 WHERE gm.user_id = $1 AND gr.tenant_id = $2 AND r.deleted_at IS NULL`, userID, tenantID)
+		if err != nil {
+			return err
+		}
+		defer rows.Close()
+		for rows.Next() {
+			role := &biz.Role{}
+			if err := rows.Scan(&role.ID, &role.TenantID, &role.Name, &role.Description, &role.IsSystem, &role.CreatedAt, &role.UpdatedAt); err != nil {
+				return err
+			}
+			roles = append(roles, role)
+		}
+		return rows.Err()
+	})
+	return roles, err
+}
+
 func (r *roleRepo) GetRolePermissions(ctx context.Context, roleID string) ([]*biz.Permission, error) {
 	var perms []*biz.Permission
 	tenantID := middleware.GetTenantID(ctx)

@@ -20,11 +20,26 @@ service IAMService {
   rpc GetCurrentUser(GetCurrentUserRequest) returns (GetCurrentUserResponse) {
     option (google.api.http) = { get: "/v1/me" };
   }
+  rpc UpdateProfile(UpdateProfileRequest) returns (User) {
+    option (google.api.http) = {
+      put: "/v1/me",
+      body: "*"
+    };
+  }
+  rpc ListMyAuditLogs(ListMyAuditLogsRequest) returns (ListAuditLogsResponse) {
+    option (google.api.http) = { get: "/v1/me/audit-logs" };
+  }
   rpc GetUser(GetUserRequest) returns (User) {
     option (google.api.http) = { get: "/v1/users/{id}" };
   }
   rpc ListUsers(ListUsersRequest) returns (ListUsersResponse) {
     option (google.api.http) = { get: "/v1/users" };
+  }
+  rpc CreateUser(CreateUserRequest) returns (User) {
+    option (google.api.http) = {
+      post: "/v1/users",
+      body: "*"
+    };
   }
 
   // Tenants
@@ -115,6 +130,41 @@ service IAMService {
   rpc RejectPermission(RejectPermissionRequest) returns (ResourcePermission) {
     option (google.api.http) = { post: "/v1/approvals/{id}/reject" body: "*" };
   }
+
+  // Groups
+  rpc CreateGroup(CreateGroupRequest) returns (Group) {
+    option (google.api.http) = { post: "/v1/groups" body: "*" };
+  }
+  rpc GetGroup(GetGroupRequest) returns (Group) {
+    option (google.api.http) = { get: "/v1/groups/{id}" };
+  }
+  rpc UpdateGroup(UpdateGroupRequest) returns (Group) {
+    option (google.api.http) = { put: "/v1/groups/{id}" body: "*" };
+  }
+  rpc DeleteGroup(DeleteGroupRequest) returns (DeleteGroupResponse) {
+    option (google.api.http) = { delete: "/v1/groups/{id}" };
+  }
+  rpc ListGroups(ListGroupsRequest) returns (ListGroupsResponse) {
+    option (google.api.http) = { get: "/v1/groups" };
+  }
+  rpc AddGroupMember(AddGroupMemberRequest) returns (AddGroupMemberResponse) {
+    option (google.api.http) = { post: "/v1/groups/{group_id}/members" body: "*" };
+  }
+  rpc RemoveGroupMember(RemoveGroupMemberRequest) returns (RemoveGroupMemberResponse) {
+    option (google.api.http) = { delete: "/v1/groups/{group_id}/members/{user_id}" };
+  }
+  rpc ListGroupMembers(ListGroupMembersRequest) returns (ListGroupMembersResponse) {
+    option (google.api.http) = { get: "/v1/groups/{group_id}/members" };
+  }
+  rpc AssignGroupRole(AssignGroupRoleRequest) returns (AssignGroupRoleResponse) {
+    option (google.api.http) = { post: "/v1/groups/{group_id}/roles" body: "*" };
+  }
+  rpc RevokeGroupRole(RevokeGroupRoleRequest) returns (RevokeGroupRoleResponse) {
+    option (google.api.http) = { delete: "/v1/groups/{group_id}/roles/{role_id}" };
+  }
+  rpc ListGroupRoles(ListGroupRolesRequest) returns (ListGroupRolesResponse) {
+    option (google.api.http) = { get: "/v1/groups/{group_id}/roles" };
+  }
 }
 
 // Messages
@@ -181,6 +231,13 @@ message GetCurrentUserResponse {
   repeated TenantMembership memberships = 2;
 }
 message GetUserRequest { string id = 1; }
+message CreateUserRequest {
+  string email = 1;
+  string display_name = 2;
+  string password = 3;
+  string tenant_id = 4;
+}
+
 message ListUsersRequest {
   string tenant_id = 1;
   int32 page_size = 2;
@@ -323,6 +380,105 @@ message GetUserMembershipsResponse {
   repeated TenantMembership memberships = 1;
 }
 message GetCurrentUserPermissionsRequest {}
+
+message UpdateProfileRequest {
+  string display_name = 1;
+}
+
+message ListMyAuditLogsRequest {
+  int32 page_size = 1;
+  string page_token = 2;
+}
+
+message AuditLog {
+  string id = 1;
+  string actor_id = 2;
+  string action = 3;
+  string target_type = 4;
+  string target_id = 5;
+  string metadata = 6; // JSON string
+  google.protobuf.Timestamp created_at = 7;
+}
+
+message ListAuditLogsResponse {
+  repeated AuditLog logs = 1;
+  string next_page_token = 2;
+}
+
+message Group {
+  string id = 1;
+  string tenant_id = 2;
+  string name = 3;
+  string description = 4;
+  google.protobuf.Timestamp created_at = 5;
+  google.protobuf.Timestamp updated_at = 6;
+}
+
+message CreateGroupRequest {
+  string tenant_id = 1;
+  string name = 2;
+  string description = 3;
+}
+
+message GetGroupRequest { string id = 1; }
+
+message UpdateGroupRequest {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+}
+
+message DeleteGroupRequest { string id = 1; }
+message DeleteGroupResponse {}
+
+message ListGroupsRequest {
+  string tenant_id = 1;
+  int32 page_size = 2;
+  string page_token = 3;
+}
+
+message ListGroupsResponse {
+  repeated Group groups = 1;
+  string next_page_token = 2;
+}
+
+message AddGroupMemberRequest {
+  string group_id = 1;
+  string user_id = 2;
+}
+message AddGroupMemberResponse {}
+
+message RemoveGroupMemberRequest {
+  string group_id = 1;
+  string user_id = 2;
+}
+message RemoveGroupMemberResponse {}
+
+message ListGroupMembersRequest {
+  string group_id = 1;
+}
+message ListGroupMembersResponse {
+  repeated User users = 1;
+}
+
+message AssignGroupRoleRequest {
+  string group_id = 1;
+  string role_id = 2;
+}
+message AssignGroupRoleResponse {}
+
+message RevokeGroupRoleRequest {
+  string group_id = 1;
+  string role_id = 2;
+}
+message RevokeGroupRoleResponse {}
+
+message ListGroupRolesRequest {
+  string group_id = 1;
+}
+message ListGroupRolesResponse {
+  repeated Role roles = 1;
+}
 
 message ListPendingApprovalsRequest {
   string tenant_id = 1;

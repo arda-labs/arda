@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.11
 // 	protoc        v7.34.1
-// source: api/iam/v1/menu.proto
+// source: iam/v1/menu.proto
 
 package v1
 
@@ -25,25 +25,26 @@ const (
 
 // Menu messages
 type Menu struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	TenantId      string                 `protobuf:"bytes,2,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
-	ParentId      string                 `protobuf:"bytes,3,opt,name=parent_id,json=parentId,proto3" json:"parent_id,omitempty"`
-	Name          string                 `protobuf:"bytes,4,opt,name=name,proto3" json:"name,omitempty"`
-	Slug          string                 `protobuf:"bytes,5,opt,name=slug,proto3" json:"slug,omitempty"`
-	Icon          string                 `protobuf:"bytes,6,opt,name=icon,proto3" json:"icon,omitempty"`
-	Route         string                 `protobuf:"bytes,7,opt,name=route,proto3" json:"route,omitempty"`
-	SortOrder     int32                  `protobuf:"varint,8,opt,name=sort_order,json=sortOrder,proto3" json:"sort_order,omitempty"`
-	Enabled       bool                   `protobuf:"varint,9,opt,name=enabled,proto3" json:"enabled,omitempty"`
-	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,10,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Id             string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	TenantId       string                 `protobuf:"bytes,2,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
+	ParentId       string                 `protobuf:"bytes,3,opt,name=parent_id,json=parentId,proto3" json:"parent_id,omitempty"`
+	Name           string                 `protobuf:"bytes,4,opt,name=name,proto3" json:"name,omitempty"`
+	Slug           string                 `protobuf:"bytes,5,opt,name=slug,proto3" json:"slug,omitempty"`
+	Icon           string                 `protobuf:"bytes,6,opt,name=icon,proto3" json:"icon,omitempty"`
+	Route          string                 `protobuf:"bytes,7,opt,name=route,proto3" json:"route,omitempty"`
+	SortOrder      int32                  `protobuf:"varint,8,opt,name=sort_order,json=sortOrder,proto3" json:"sort_order,omitempty"`
+	Enabled        bool                   `protobuf:"varint,9,opt,name=enabled,proto3" json:"enabled,omitempty"`
+	PermissionSlug string                 `protobuf:"bytes,10,opt,name=permission_slug,json=permissionSlug,proto3" json:"permission_slug,omitempty"`
+	CreatedAt      *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt      *timestamppb.Timestamp `protobuf:"bytes,12,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *Menu) Reset() {
 	*x = Menu{}
-	mi := &file_api_iam_v1_menu_proto_msgTypes[0]
+	mi := &file_iam_v1_menu_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -55,7 +56,7 @@ func (x *Menu) String() string {
 func (*Menu) ProtoMessage() {}
 
 func (x *Menu) ProtoReflect() protoreflect.Message {
-	mi := &file_api_iam_v1_menu_proto_msgTypes[0]
+	mi := &file_iam_v1_menu_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -68,7 +69,7 @@ func (x *Menu) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Menu.ProtoReflect.Descriptor instead.
 func (*Menu) Descriptor() ([]byte, []int) {
-	return file_api_iam_v1_menu_proto_rawDescGZIP(), []int{0}
+	return file_iam_v1_menu_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *Menu) GetId() string {
@@ -134,6 +135,13 @@ func (x *Menu) GetEnabled() bool {
 	return false
 }
 
+func (x *Menu) GetPermissionSlug() string {
+	if x != nil {
+		return x.PermissionSlug
+	}
+	return ""
+}
+
 func (x *Menu) GetCreatedAt() *timestamppb.Timestamp {
 	if x != nil {
 		return x.CreatedAt
@@ -157,7 +165,7 @@ type GetMenuRequest struct {
 
 func (x *GetMenuRequest) Reset() {
 	*x = GetMenuRequest{}
-	mi := &file_api_iam_v1_menu_proto_msgTypes[1]
+	mi := &file_iam_v1_menu_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -169,7 +177,7 @@ func (x *GetMenuRequest) String() string {
 func (*GetMenuRequest) ProtoMessage() {}
 
 func (x *GetMenuRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_iam_v1_menu_proto_msgTypes[1]
+	mi := &file_iam_v1_menu_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -182,7 +190,7 @@ func (x *GetMenuRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetMenuRequest.ProtoReflect.Descriptor instead.
 func (*GetMenuRequest) Descriptor() ([]byte, []int) {
-	return file_api_iam_v1_menu_proto_rawDescGZIP(), []int{1}
+	return file_iam_v1_menu_proto_rawDescGZIP(), []int{1}
 }
 
 type GetMenuResponse struct {
@@ -194,7 +202,7 @@ type GetMenuResponse struct {
 
 func (x *GetMenuResponse) Reset() {
 	*x = GetMenuResponse{}
-	mi := &file_api_iam_v1_menu_proto_msgTypes[2]
+	mi := &file_iam_v1_menu_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -206,7 +214,7 @@ func (x *GetMenuResponse) String() string {
 func (*GetMenuResponse) ProtoMessage() {}
 
 func (x *GetMenuResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_api_iam_v1_menu_proto_msgTypes[2]
+	mi := &file_iam_v1_menu_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -219,7 +227,7 @@ func (x *GetMenuResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetMenuResponse.ProtoReflect.Descriptor instead.
 func (*GetMenuResponse) Descriptor() ([]byte, []int) {
-	return file_api_iam_v1_menu_proto_rawDescGZIP(), []int{2}
+	return file_iam_v1_menu_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *GetMenuResponse) GetItems() []*MenuItem {
@@ -243,7 +251,7 @@ type MenuItem struct {
 
 func (x *MenuItem) Reset() {
 	*x = MenuItem{}
-	mi := &file_api_iam_v1_menu_proto_msgTypes[3]
+	mi := &file_iam_v1_menu_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -255,7 +263,7 @@ func (x *MenuItem) String() string {
 func (*MenuItem) ProtoMessage() {}
 
 func (x *MenuItem) ProtoReflect() protoreflect.Message {
-	mi := &file_api_iam_v1_menu_proto_msgTypes[3]
+	mi := &file_iam_v1_menu_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -268,7 +276,7 @@ func (x *MenuItem) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use MenuItem.ProtoReflect.Descriptor instead.
 func (*MenuItem) Descriptor() ([]byte, []int) {
-	return file_api_iam_v1_menu_proto_rawDescGZIP(), []int{3}
+	return file_iam_v1_menu_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *MenuItem) GetId() string {
@@ -322,7 +330,7 @@ type ListMenusRequest struct {
 
 func (x *ListMenusRequest) Reset() {
 	*x = ListMenusRequest{}
-	mi := &file_api_iam_v1_menu_proto_msgTypes[4]
+	mi := &file_iam_v1_menu_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -334,7 +342,7 @@ func (x *ListMenusRequest) String() string {
 func (*ListMenusRequest) ProtoMessage() {}
 
 func (x *ListMenusRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_iam_v1_menu_proto_msgTypes[4]
+	mi := &file_iam_v1_menu_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -347,7 +355,7 @@ func (x *ListMenusRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListMenusRequest.ProtoReflect.Descriptor instead.
 func (*ListMenusRequest) Descriptor() ([]byte, []int) {
-	return file_api_iam_v1_menu_proto_rawDescGZIP(), []int{4}
+	return file_iam_v1_menu_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *ListMenusRequest) GetTenantId() string {
@@ -366,7 +374,7 @@ type ListMenusResponse struct {
 
 func (x *ListMenusResponse) Reset() {
 	*x = ListMenusResponse{}
-	mi := &file_api_iam_v1_menu_proto_msgTypes[5]
+	mi := &file_iam_v1_menu_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -378,7 +386,7 @@ func (x *ListMenusResponse) String() string {
 func (*ListMenusResponse) ProtoMessage() {}
 
 func (x *ListMenusResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_api_iam_v1_menu_proto_msgTypes[5]
+	mi := &file_iam_v1_menu_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -391,7 +399,7 @@ func (x *ListMenusResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListMenusResponse.ProtoReflect.Descriptor instead.
 func (*ListMenusResponse) Descriptor() ([]byte, []int) {
-	return file_api_iam_v1_menu_proto_rawDescGZIP(), []int{5}
+	return file_iam_v1_menu_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *ListMenusResponse) GetMenus() []*Menu {
@@ -402,22 +410,23 @@ func (x *ListMenusResponse) GetMenus() []*Menu {
 }
 
 type CreateMenuRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	TenantId      string                 `protobuf:"bytes,1,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
-	ParentId      string                 `protobuf:"bytes,2,opt,name=parent_id,json=parentId,proto3" json:"parent_id,omitempty"`
-	Name          string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
-	Slug          string                 `protobuf:"bytes,4,opt,name=slug,proto3" json:"slug,omitempty"`
-	Icon          string                 `protobuf:"bytes,5,opt,name=icon,proto3" json:"icon,omitempty"`
-	Route         string                 `protobuf:"bytes,6,opt,name=route,proto3" json:"route,omitempty"`
-	SortOrder     int32                  `protobuf:"varint,7,opt,name=sort_order,json=sortOrder,proto3" json:"sort_order,omitempty"`
-	Enabled       bool                   `protobuf:"varint,8,opt,name=enabled,proto3" json:"enabled,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	TenantId       string                 `protobuf:"bytes,1,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
+	ParentId       string                 `protobuf:"bytes,2,opt,name=parent_id,json=parentId,proto3" json:"parent_id,omitempty"`
+	Name           string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
+	Slug           string                 `protobuf:"bytes,4,opt,name=slug,proto3" json:"slug,omitempty"`
+	Icon           string                 `protobuf:"bytes,5,opt,name=icon,proto3" json:"icon,omitempty"`
+	Route          string                 `protobuf:"bytes,6,opt,name=route,proto3" json:"route,omitempty"`
+	SortOrder      int32                  `protobuf:"varint,7,opt,name=sort_order,json=sortOrder,proto3" json:"sort_order,omitempty"`
+	Enabled        bool                   `protobuf:"varint,8,opt,name=enabled,proto3" json:"enabled,omitempty"`
+	PermissionSlug string                 `protobuf:"bytes,9,opt,name=permission_slug,json=permissionSlug,proto3" json:"permission_slug,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *CreateMenuRequest) Reset() {
 	*x = CreateMenuRequest{}
-	mi := &file_api_iam_v1_menu_proto_msgTypes[6]
+	mi := &file_iam_v1_menu_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -429,7 +438,7 @@ func (x *CreateMenuRequest) String() string {
 func (*CreateMenuRequest) ProtoMessage() {}
 
 func (x *CreateMenuRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_iam_v1_menu_proto_msgTypes[6]
+	mi := &file_iam_v1_menu_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -442,7 +451,7 @@ func (x *CreateMenuRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateMenuRequest.ProtoReflect.Descriptor instead.
 func (*CreateMenuRequest) Descriptor() ([]byte, []int) {
-	return file_api_iam_v1_menu_proto_rawDescGZIP(), []int{6}
+	return file_iam_v1_menu_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *CreateMenuRequest) GetTenantId() string {
@@ -501,23 +510,31 @@ func (x *CreateMenuRequest) GetEnabled() bool {
 	return false
 }
 
+func (x *CreateMenuRequest) GetPermissionSlug() string {
+	if x != nil {
+		return x.PermissionSlug
+	}
+	return ""
+}
+
 type UpdateMenuRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	ParentId      string                 `protobuf:"bytes,2,opt,name=parent_id,json=parentId,proto3" json:"parent_id,omitempty"`
-	Name          string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
-	Slug          string                 `protobuf:"bytes,4,opt,name=slug,proto3" json:"slug,omitempty"`
-	Icon          string                 `protobuf:"bytes,5,opt,name=icon,proto3" json:"icon,omitempty"`
-	Route         string                 `protobuf:"bytes,6,opt,name=route,proto3" json:"route,omitempty"`
-	SortOrder     int32                  `protobuf:"varint,7,opt,name=sort_order,json=sortOrder,proto3" json:"sort_order,omitempty"`
-	Enabled       bool                   `protobuf:"varint,8,opt,name=enabled,proto3" json:"enabled,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Id             string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	ParentId       string                 `protobuf:"bytes,2,opt,name=parent_id,json=parentId,proto3" json:"parent_id,omitempty"`
+	Name           string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
+	Slug           string                 `protobuf:"bytes,4,opt,name=slug,proto3" json:"slug,omitempty"`
+	Icon           string                 `protobuf:"bytes,5,opt,name=icon,proto3" json:"icon,omitempty"`
+	Route          string                 `protobuf:"bytes,6,opt,name=route,proto3" json:"route,omitempty"`
+	SortOrder      int32                  `protobuf:"varint,7,opt,name=sort_order,json=sortOrder,proto3" json:"sort_order,omitempty"`
+	Enabled        bool                   `protobuf:"varint,8,opt,name=enabled,proto3" json:"enabled,omitempty"`
+	PermissionSlug string                 `protobuf:"bytes,9,opt,name=permission_slug,json=permissionSlug,proto3" json:"permission_slug,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *UpdateMenuRequest) Reset() {
 	*x = UpdateMenuRequest{}
-	mi := &file_api_iam_v1_menu_proto_msgTypes[7]
+	mi := &file_iam_v1_menu_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -529,7 +546,7 @@ func (x *UpdateMenuRequest) String() string {
 func (*UpdateMenuRequest) ProtoMessage() {}
 
 func (x *UpdateMenuRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_iam_v1_menu_proto_msgTypes[7]
+	mi := &file_iam_v1_menu_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -542,7 +559,7 @@ func (x *UpdateMenuRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateMenuRequest.ProtoReflect.Descriptor instead.
 func (*UpdateMenuRequest) Descriptor() ([]byte, []int) {
-	return file_api_iam_v1_menu_proto_rawDescGZIP(), []int{7}
+	return file_iam_v1_menu_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *UpdateMenuRequest) GetId() string {
@@ -601,6 +618,13 @@ func (x *UpdateMenuRequest) GetEnabled() bool {
 	return false
 }
 
+func (x *UpdateMenuRequest) GetPermissionSlug() string {
+	if x != nil {
+		return x.PermissionSlug
+	}
+	return ""
+}
+
 type DeleteMenuRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -610,7 +634,7 @@ type DeleteMenuRequest struct {
 
 func (x *DeleteMenuRequest) Reset() {
 	*x = DeleteMenuRequest{}
-	mi := &file_api_iam_v1_menu_proto_msgTypes[8]
+	mi := &file_iam_v1_menu_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -622,7 +646,7 @@ func (x *DeleteMenuRequest) String() string {
 func (*DeleteMenuRequest) ProtoMessage() {}
 
 func (x *DeleteMenuRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_iam_v1_menu_proto_msgTypes[8]
+	mi := &file_iam_v1_menu_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -635,7 +659,7 @@ func (x *DeleteMenuRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteMenuRequest.ProtoReflect.Descriptor instead.
 func (*DeleteMenuRequest) Descriptor() ([]byte, []int) {
-	return file_api_iam_v1_menu_proto_rawDescGZIP(), []int{8}
+	return file_iam_v1_menu_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *DeleteMenuRequest) GetId() string {
@@ -653,7 +677,7 @@ type DeleteMenuResponse struct {
 
 func (x *DeleteMenuResponse) Reset() {
 	*x = DeleteMenuResponse{}
-	mi := &file_api_iam_v1_menu_proto_msgTypes[9]
+	mi := &file_iam_v1_menu_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -665,7 +689,7 @@ func (x *DeleteMenuResponse) String() string {
 func (*DeleteMenuResponse) ProtoMessage() {}
 
 func (x *DeleteMenuResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_api_iam_v1_menu_proto_msgTypes[9]
+	mi := &file_iam_v1_menu_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -678,14 +702,14 @@ func (x *DeleteMenuResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteMenuResponse.ProtoReflect.Descriptor instead.
 func (*DeleteMenuResponse) Descriptor() ([]byte, []int) {
-	return file_api_iam_v1_menu_proto_rawDescGZIP(), []int{9}
+	return file_iam_v1_menu_proto_rawDescGZIP(), []int{9}
 }
 
-var File_api_iam_v1_menu_proto protoreflect.FileDescriptor
+var File_iam_v1_menu_proto protoreflect.FileDescriptor
 
-const file_api_iam_v1_menu_proto_rawDesc = "" +
+const file_iam_v1_menu_proto_rawDesc = "" +
 	"\n" +
-	"\x15api/iam/v1/menu.proto\x12\x06iam.v1\x1a\x1cgoogle/api/annotations.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xd1\x02\n" +
+	"\x11iam/v1/menu.proto\x12\x06iam.v1\x1a\x1cgoogle/api/annotations.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xfa\x02\n" +
 	"\x04Menu\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1b\n" +
 	"\ttenant_id\x18\x02 \x01(\tR\btenantId\x12\x1b\n" +
@@ -696,12 +720,13 @@ const file_api_iam_v1_menu_proto_rawDesc = "" +
 	"\x05route\x18\a \x01(\tR\x05route\x12\x1d\n" +
 	"\n" +
 	"sort_order\x18\b \x01(\x05R\tsortOrder\x12\x18\n" +
-	"\aenabled\x18\t \x01(\bR\aenabled\x129\n" +
+	"\aenabled\x18\t \x01(\bR\aenabled\x12'\n" +
+	"\x0fpermission_slug\x18\n" +
+	" \x01(\tR\x0epermissionSlug\x129\n" +
 	"\n" +
-	"created_at\x18\n" +
-	" \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
+	"created_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
 	"\n" +
-	"updated_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\"\x10\n" +
+	"updated_at\x18\f \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\"\x10\n" +
 	"\x0eGetMenuRequest\"9\n" +
 	"\x0fGetMenuResponse\x12&\n" +
 	"\x05items\x18\x01 \x03(\v2\x10.iam.v1.MenuItemR\x05items\"\xa5\x01\n" +
@@ -716,7 +741,7 @@ const file_api_iam_v1_menu_proto_rawDesc = "" +
 	"\x10ListMenusRequest\x12\x1b\n" +
 	"\ttenant_id\x18\x01 \x01(\tR\btenantId\"7\n" +
 	"\x11ListMenusResponse\x12\"\n" +
-	"\x05menus\x18\x01 \x03(\v2\f.iam.v1.MenuR\x05menus\"\xd8\x01\n" +
+	"\x05menus\x18\x01 \x03(\v2\f.iam.v1.MenuR\x05menus\"\x81\x02\n" +
 	"\x11CreateMenuRequest\x12\x1b\n" +
 	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12\x1b\n" +
 	"\tparent_id\x18\x02 \x01(\tR\bparentId\x12\x12\n" +
@@ -726,7 +751,8 @@ const file_api_iam_v1_menu_proto_rawDesc = "" +
 	"\x05route\x18\x06 \x01(\tR\x05route\x12\x1d\n" +
 	"\n" +
 	"sort_order\x18\a \x01(\x05R\tsortOrder\x12\x18\n" +
-	"\aenabled\x18\b \x01(\bR\aenabled\"\xcb\x01\n" +
+	"\aenabled\x18\b \x01(\bR\aenabled\x12'\n" +
+	"\x0fpermission_slug\x18\t \x01(\tR\x0epermissionSlug\"\xf4\x01\n" +
 	"\x11UpdateMenuRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1b\n" +
 	"\tparent_id\x18\x02 \x01(\tR\bparentId\x12\x12\n" +
@@ -736,7 +762,8 @@ const file_api_iam_v1_menu_proto_rawDesc = "" +
 	"\x05route\x18\x06 \x01(\tR\x05route\x12\x1d\n" +
 	"\n" +
 	"sort_order\x18\a \x01(\x05R\tsortOrder\x12\x18\n" +
-	"\aenabled\x18\b \x01(\bR\aenabled\"#\n" +
+	"\aenabled\x18\b \x01(\bR\aenabled\x12'\n" +
+	"\x0fpermission_slug\x18\t \x01(\tR\x0epermissionSlug\"#\n" +
 	"\x11DeleteMenuRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\"\x14\n" +
 	"\x12DeleteMenuResponse2\xaf\x03\n" +
@@ -751,19 +778,19 @@ const file_api_iam_v1_menu_proto_rawDesc = "" +
 	"DeleteMenu\x12\x19.iam.v1.DeleteMenuRequest\x1a\x1a.iam.v1.DeleteMenuResponse\"\x16\x82\xd3\xe4\x93\x02\x10*\x0e/v1/menus/{id}BIZGgithub.com/arda-labs/arda/arda-be-go/services/iam-service/api/iam/v1;v1b\x06proto3"
 
 var (
-	file_api_iam_v1_menu_proto_rawDescOnce sync.Once
-	file_api_iam_v1_menu_proto_rawDescData []byte
+	file_iam_v1_menu_proto_rawDescOnce sync.Once
+	file_iam_v1_menu_proto_rawDescData []byte
 )
 
-func file_api_iam_v1_menu_proto_rawDescGZIP() []byte {
-	file_api_iam_v1_menu_proto_rawDescOnce.Do(func() {
-		file_api_iam_v1_menu_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_api_iam_v1_menu_proto_rawDesc), len(file_api_iam_v1_menu_proto_rawDesc)))
+func file_iam_v1_menu_proto_rawDescGZIP() []byte {
+	file_iam_v1_menu_proto_rawDescOnce.Do(func() {
+		file_iam_v1_menu_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_iam_v1_menu_proto_rawDesc), len(file_iam_v1_menu_proto_rawDesc)))
 	})
-	return file_api_iam_v1_menu_proto_rawDescData
+	return file_iam_v1_menu_proto_rawDescData
 }
 
-var file_api_iam_v1_menu_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
-var file_api_iam_v1_menu_proto_goTypes = []any{
+var file_iam_v1_menu_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
+var file_iam_v1_menu_proto_goTypes = []any{
 	(*Menu)(nil),                  // 0: iam.v1.Menu
 	(*GetMenuRequest)(nil),        // 1: iam.v1.GetMenuRequest
 	(*GetMenuResponse)(nil),       // 2: iam.v1.GetMenuResponse
@@ -776,7 +803,7 @@ var file_api_iam_v1_menu_proto_goTypes = []any{
 	(*DeleteMenuResponse)(nil),    // 9: iam.v1.DeleteMenuResponse
 	(*timestamppb.Timestamp)(nil), // 10: google.protobuf.Timestamp
 }
-var file_api_iam_v1_menu_proto_depIdxs = []int32{
+var file_iam_v1_menu_proto_depIdxs = []int32{
 	10, // 0: iam.v1.Menu.created_at:type_name -> google.protobuf.Timestamp
 	10, // 1: iam.v1.Menu.updated_at:type_name -> google.protobuf.Timestamp
 	3,  // 2: iam.v1.GetMenuResponse.items:type_name -> iam.v1.MenuItem
@@ -799,26 +826,26 @@ var file_api_iam_v1_menu_proto_depIdxs = []int32{
 	0,  // [0:5] is the sub-list for field type_name
 }
 
-func init() { file_api_iam_v1_menu_proto_init() }
-func file_api_iam_v1_menu_proto_init() {
-	if File_api_iam_v1_menu_proto != nil {
+func init() { file_iam_v1_menu_proto_init() }
+func file_iam_v1_menu_proto_init() {
+	if File_iam_v1_menu_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_iam_v1_menu_proto_rawDesc), len(file_api_iam_v1_menu_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_iam_v1_menu_proto_rawDesc), len(file_iam_v1_menu_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   10,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_api_iam_v1_menu_proto_goTypes,
-		DependencyIndexes: file_api_iam_v1_menu_proto_depIdxs,
-		MessageInfos:      file_api_iam_v1_menu_proto_msgTypes,
+		GoTypes:           file_iam_v1_menu_proto_goTypes,
+		DependencyIndexes: file_iam_v1_menu_proto_depIdxs,
+		MessageInfos:      file_iam_v1_menu_proto_msgTypes,
 	}.Build()
-	File_api_iam_v1_menu_proto = out.File
-	file_api_iam_v1_menu_proto_goTypes = nil
-	file_api_iam_v1_menu_proto_depIdxs = nil
+	File_iam_v1_menu_proto = out.File
+	file_iam_v1_menu_proto_goTypes = nil
+	file_iam_v1_menu_proto_depIdxs = nil
 }

@@ -19,7 +19,8 @@
       "@arda-mfe/shared-theme": ["libs/shared/theme/src/index.ts"],
       "@arda-mfe/shared-config": ["libs/shared/config/src/index.ts"],
       "@arda-mfe/shared-api": ["libs/shared/api/src/index.ts"],
-      "@arda-mfe/shared-core": ["libs/shared/core/src/index.ts"]
+      "@arda-mfe/shared-core": ["libs/shared/core/src/index.ts"],
+      "iam/Routes": ["apps/iam/src/app/remote-entry/entry.routes.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

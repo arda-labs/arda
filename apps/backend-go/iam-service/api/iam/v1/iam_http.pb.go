@@ -19,46 +19,66 @@ var _ = binding.EncodeURL
 
 const _ = http.SupportPackageIsVersion1
 
+const OperationIAMServiceAddGroupMember = "/iam.v1.IAMService/AddGroupMember"
 const OperationIAMServiceApprovePermission = "/iam.v1.IAMService/ApprovePermission"
+const OperationIAMServiceAssignGroupRole = "/iam.v1.IAMService/AssignGroupRole"
 const OperationIAMServiceAssignRole = "/iam.v1.IAMService/AssignRole"
 const OperationIAMServiceCheckPermission = "/iam.v1.IAMService/CheckPermission"
+const OperationIAMServiceCreateGroup = "/iam.v1.IAMService/CreateGroup"
 const OperationIAMServiceCreateRole = "/iam.v1.IAMService/CreateRole"
 const OperationIAMServiceCreateTenant = "/iam.v1.IAMService/CreateTenant"
+const OperationIAMServiceCreateUser = "/iam.v1.IAMService/CreateUser"
 const OperationIAMServiceCustomLogin = "/iam.v1.IAMService/CustomLogin"
+const OperationIAMServiceDeleteGroup = "/iam.v1.IAMService/DeleteGroup"
 const OperationIAMServiceDeleteRole = "/iam.v1.IAMService/DeleteRole"
 const OperationIAMServiceDeleteTenant = "/iam.v1.IAMService/DeleteTenant"
 const OperationIAMServiceForwardAuth = "/iam.v1.IAMService/ForwardAuth"
 const OperationIAMServiceGetCurrentUser = "/iam.v1.IAMService/GetCurrentUser"
 const OperationIAMServiceGetCurrentUserPermissions = "/iam.v1.IAMService/GetCurrentUserPermissions"
+const OperationIAMServiceGetGroup = "/iam.v1.IAMService/GetGroup"
 const OperationIAMServiceGetRole = "/iam.v1.IAMService/GetRole"
 const OperationIAMServiceGetTenant = "/iam.v1.IAMService/GetTenant"
 const OperationIAMServiceGetUser = "/iam.v1.IAMService/GetUser"
 const OperationIAMServiceGetUserMemberships = "/iam.v1.IAMService/GetUserMemberships"
 const OperationIAMServiceGrantResourcePermission = "/iam.v1.IAMService/GrantResourcePermission"
 const OperationIAMServiceInviteMember = "/iam.v1.IAMService/InviteMember"
+const OperationIAMServiceListGroupMembers = "/iam.v1.IAMService/ListGroupMembers"
+const OperationIAMServiceListGroupRoles = "/iam.v1.IAMService/ListGroupRoles"
+const OperationIAMServiceListGroups = "/iam.v1.IAMService/ListGroups"
 const OperationIAMServiceListMembers = "/iam.v1.IAMService/ListMembers"
+const OperationIAMServiceListMyAuditLogs = "/iam.v1.IAMService/ListMyAuditLogs"
 const OperationIAMServiceListPendingApprovals = "/iam.v1.IAMService/ListPendingApprovals"
 const OperationIAMServiceListPermissions = "/iam.v1.IAMService/ListPermissions"
 const OperationIAMServiceListRoles = "/iam.v1.IAMService/ListRoles"
 const OperationIAMServiceListUsers = "/iam.v1.IAMService/ListUsers"
 const OperationIAMServiceRejectPermission = "/iam.v1.IAMService/RejectPermission"
+const OperationIAMServiceRemoveGroupMember = "/iam.v1.IAMService/RemoveGroupMember"
 const OperationIAMServiceRemoveMember = "/iam.v1.IAMService/RemoveMember"
+const OperationIAMServiceRevokeGroupRole = "/iam.v1.IAMService/RevokeGroupRole"
 const OperationIAMServiceRevokeResourcePermission = "/iam.v1.IAMService/RevokeResourcePermission"
 const OperationIAMServiceRevokeRole = "/iam.v1.IAMService/RevokeRole"
+const OperationIAMServiceUpdateGroup = "/iam.v1.IAMService/UpdateGroup"
+const OperationIAMServiceUpdateProfile = "/iam.v1.IAMService/UpdateProfile"
 const OperationIAMServiceUpdateRole = "/iam.v1.IAMService/UpdateRole"
 const OperationIAMServiceUpdateTenant = "/iam.v1.IAMService/UpdateTenant"
 
 type IAMServiceHTTPServer interface {
+	AddGroupMember(context.Context, *AddGroupMemberRequest) (*AddGroupMemberResponse, error)
 	ApprovePermission(context.Context, *ApprovePermissionRequest) (*ResourcePermission, error)
+	AssignGroupRole(context.Context, *AssignGroupRoleRequest) (*AssignGroupRoleResponse, error)
 	AssignRole(context.Context, *AssignRoleRequest) (*UserRole, error)
 	// CheckPermission Permissions
 	CheckPermission(context.Context, *CheckPermissionRequest) (*CheckPermissionResponse, error)
+	// CreateGroup Groups
+	CreateGroup(context.Context, *CreateGroupRequest) (*Group, error)
 	// CreateRole Roles
 	CreateRole(context.Context, *CreateRoleRequest) (*Role, error)
 	// CreateTenant Tenants
 	CreateTenant(context.Context, *CreateTenantRequest) (*Tenant, error)
+	CreateUser(context.Context, *CreateUserRequest) (*User, error)
 	// CustomLogin Auth
 	CustomLogin(context.Context, *CustomLoginRequest) (*CustomLoginReply, error)
+	DeleteGroup(context.Context, *DeleteGroupRequest) (*DeleteGroupResponse, error)
 	DeleteRole(context.Context, *DeleteRoleRequest) (*DeleteRoleResponse, error)
 	DeleteTenant(context.Context, *DeleteTenantRequest) (*DeleteTenantResponse, error)
 	// ForwardAuth Forward Auth (Dành cho APISIX)
@@ -66,6 +86,7 @@ type IAMServiceHTTPServer interface {
 	// GetCurrentUser Users
 	GetCurrentUser(context.Context, *GetCurrentUserRequest) (*GetCurrentUserResponse, error)
 	GetCurrentUserPermissions(context.Context, *GetCurrentUserPermissionsRequest) (*ListPermissionsResponse, error)
+	GetGroup(context.Context, *GetGroupRequest) (*Group, error)
 	GetRole(context.Context, *GetRoleRequest) (*Role, error)
 	GetTenant(context.Context, *GetTenantRequest) (*Tenant, error)
 	GetUser(context.Context, *GetUserRequest) (*User, error)
@@ -73,16 +94,24 @@ type IAMServiceHTTPServer interface {
 	GrantResourcePermission(context.Context, *GrantResourcePermissionRequest) (*ResourcePermission, error)
 	// InviteMember Membership
 	InviteMember(context.Context, *InviteMemberRequest) (*Membership, error)
+	ListGroupMembers(context.Context, *ListGroupMembersRequest) (*ListGroupMembersResponse, error)
+	ListGroupRoles(context.Context, *ListGroupRolesRequest) (*ListGroupRolesResponse, error)
+	ListGroups(context.Context, *ListGroupsRequest) (*ListGroupsResponse, error)
 	ListMembers(context.Context, *ListMembersRequest) (*ListMembersResponse, error)
+	ListMyAuditLogs(context.Context, *ListMyAuditLogsRequest) (*ListAuditLogsResponse, error)
 	// ListPendingApprovals Approvals (Maker-Checker)
 	ListPendingApprovals(context.Context, *ListPendingApprovalsRequest) (*ListPendingApprovalsResponse, error)
 	ListPermissions(context.Context, *ListPermissionsRequest) (*ListPermissionsResponse, error)
 	ListRoles(context.Context, *ListRolesRequest) (*ListRolesResponse, error)
 	ListUsers(context.Context, *ListUsersRequest) (*ListUsersResponse, error)
 	RejectPermission(context.Context, *RejectPermissionRequest) (*ResourcePermission, error)
+	RemoveGroupMember(context.Context, *RemoveGroupMemberRequest) (*RemoveGroupMemberResponse, error)
 	RemoveMember(context.Context, *RemoveMemberRequest) (*RemoveMemberResponse, error)
+	RevokeGroupRole(context.Context, *RevokeGroupRoleRequest) (*RevokeGroupRoleResponse, error)
 	RevokeResourcePermission(context.Context, *RevokeResourcePermissionRequest) (*RevokeResourcePermissionResponse, error)
 	RevokeRole(context.Context, *RevokeRoleRequest) (*RevokeRoleResponse, error)
+	UpdateGroup(context.Context, *UpdateGroupRequest) (*Group, error)
+	UpdateProfile(context.Context, *UpdateProfileRequest) (*User, error)
 	UpdateRole(context.Context, *UpdateRoleRequest) (*Role, error)
 	UpdateTenant(context.Context, *UpdateTenantRequest) (*Tenant, error)
 }
@@ -91,8 +120,11 @@ func RegisterIAMServiceHTTPServer(s *http.Server, srv IAMServiceHTTPServer) {
 	r := s.Route("/")
 	r.POST("/v1/auth/login", _IAMService_CustomLogin0_HTTP_Handler(srv))
 	r.GET("/v1/me", _IAMService_GetCurrentUser0_HTTP_Handler(srv))
+	r.PUT("/v1/me", _IAMService_UpdateProfile0_HTTP_Handler(srv))
+	r.GET("/v1/me/audit-logs", _IAMService_ListMyAuditLogs0_HTTP_Handler(srv))
 	r.GET("/v1/users/{id}", _IAMService_GetUser0_HTTP_Handler(srv))
 	r.GET("/v1/users", _IAMService_ListUsers0_HTTP_Handler(srv))
+	r.POST("/v1/users", _IAMService_CreateUser0_HTTP_Handler(srv))
 	r.POST("/v1/tenants", _IAMService_CreateTenant0_HTTP_Handler(srv))
 	r.GET("/v1/tenants/{id}", _IAMService_GetTenant0_HTTP_Handler(srv))
 	r.PUT("/v1/tenants/{id}", _IAMService_UpdateTenant0_HTTP_Handler(srv))
@@ -117,6 +149,17 @@ func RegisterIAMServiceHTTPServer(s *http.Server, srv IAMServiceHTTPServer) {
 	r.GET("/v1/approvals/pending", _IAMService_ListPendingApprovals0_HTTP_Handler(srv))
 	r.POST("/v1/approvals/{id}/approve", _IAMService_ApprovePermission0_HTTP_Handler(srv))
 	r.POST("/v1/approvals/{id}/reject", _IAMService_RejectPermission0_HTTP_Handler(srv))
+	r.POST("/v1/groups", _IAMService_CreateGroup0_HTTP_Handler(srv))
+	r.GET("/v1/groups/{id}", _IAMService_GetGroup0_HTTP_Handler(srv))
+	r.PUT("/v1/groups/{id}", _IAMService_UpdateGroup0_HTTP_Handler(srv))
+	r.DELETE("/v1/groups/{id}", _IAMService_DeleteGroup0_HTTP_Handler(srv))
+	r.GET("/v1/groups", _IAMService_ListGroups0_HTTP_Handler(srv))
+	r.POST("/v1/groups/{group_id}/members", _IAMService_AddGroupMember0_HTTP_Handler(srv))
+	r.DELETE("/v1/groups/{group_id}/members/{user_id}", _IAMService_RemoveGroupMember0_HTTP_Handler(srv))
+	r.GET("/v1/groups/{group_id}/members", _IAMService_ListGroupMembers0_HTTP_Handler(srv))
+	r.POST("/v1/groups/{group_id}/roles", _IAMService_AssignGroupRole0_HTTP_Handler(srv))
+	r.DELETE("/v1/groups/{group_id}/roles/{role_id}", _IAMService_RevokeGroupRole0_HTTP_Handler(srv))
+	r.GET("/v1/groups/{group_id}/roles", _IAMService_ListGroupRoles0_HTTP_Handler(srv))
 }
 
 func _IAMService_CustomLogin0_HTTP_Handler(srv IAMServiceHTTPServer) func(ctx http.Context) error {
@@ -160,6 +203,47 @@ func _IAMService_GetCurrentUser0_HTTP_Handler(srv IAMServiceHTTPServer) func(ctx
 	}
 }
 
+func _IAMService_UpdateProfile0_HTTP_Handler(srv IAMServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in UpdateProfileRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationIAMServiceUpdateProfile)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.UpdateProfile(ctx, req.(*UpdateProfileRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*User)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _IAMService_ListMyAuditLogs0_HTTP_Handler(srv IAMServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in ListMyAuditLogsRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationIAMServiceListMyAuditLogs)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.ListMyAuditLogs(ctx, req.(*ListMyAuditLogsRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*ListAuditLogsResponse)
+		return ctx.Result(200, reply)
+	}
+}
+
 func _IAMService_GetUser0_HTTP_Handler(srv IAMServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in GetUserRequest
@@ -197,6 +281,28 @@ func _IAMService_ListUsers0_HTTP_Handler(srv IAMServiceHTTPServer) func(ctx http
 			return err
 		}
 		reply := out.(*ListUsersResponse)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _IAMService_CreateUser0_HTTP_Handler(srv IAMServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in CreateUserRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationIAMServiceCreateUser)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.CreateUser(ctx, req.(*CreateUserRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*User)
 		return ctx.Result(200, reply)
 	}
 }
@@ -726,17 +832,271 @@ func _IAMService_RejectPermission0_HTTP_Handler(srv IAMServiceHTTPServer) func(c
 	}
 }
 
+func _IAMService_CreateGroup0_HTTP_Handler(srv IAMServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in CreateGroupRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationIAMServiceCreateGroup)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.CreateGroup(ctx, req.(*CreateGroupRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*Group)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _IAMService_GetGroup0_HTTP_Handler(srv IAMServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in GetGroupRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationIAMServiceGetGroup)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.GetGroup(ctx, req.(*GetGroupRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*Group)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _IAMService_UpdateGroup0_HTTP_Handler(srv IAMServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in UpdateGroupRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationIAMServiceUpdateGroup)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.UpdateGroup(ctx, req.(*UpdateGroupRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*Group)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _IAMService_DeleteGroup0_HTTP_Handler(srv IAMServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in DeleteGroupRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationIAMServiceDeleteGroup)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.DeleteGroup(ctx, req.(*DeleteGroupRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*DeleteGroupResponse)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _IAMService_ListGroups0_HTTP_Handler(srv IAMServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in ListGroupsRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationIAMServiceListGroups)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.ListGroups(ctx, req.(*ListGroupsRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*ListGroupsResponse)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _IAMService_AddGroupMember0_HTTP_Handler(srv IAMServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in AddGroupMemberRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationIAMServiceAddGroupMember)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.AddGroupMember(ctx, req.(*AddGroupMemberRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*AddGroupMemberResponse)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _IAMService_RemoveGroupMember0_HTTP_Handler(srv IAMServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in RemoveGroupMemberRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationIAMServiceRemoveGroupMember)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.RemoveGroupMember(ctx, req.(*RemoveGroupMemberRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*RemoveGroupMemberResponse)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _IAMService_ListGroupMembers0_HTTP_Handler(srv IAMServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in ListGroupMembersRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationIAMServiceListGroupMembers)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.ListGroupMembers(ctx, req.(*ListGroupMembersRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*ListGroupMembersResponse)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _IAMService_AssignGroupRole0_HTTP_Handler(srv IAMServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in AssignGroupRoleRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationIAMServiceAssignGroupRole)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.AssignGroupRole(ctx, req.(*AssignGroupRoleRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*AssignGroupRoleResponse)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _IAMService_RevokeGroupRole0_HTTP_Handler(srv IAMServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in RevokeGroupRoleRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationIAMServiceRevokeGroupRole)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.RevokeGroupRole(ctx, req.(*RevokeGroupRoleRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*RevokeGroupRoleResponse)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _IAMService_ListGroupRoles0_HTTP_Handler(srv IAMServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in ListGroupRolesRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationIAMServiceListGroupRoles)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.ListGroupRoles(ctx, req.(*ListGroupRolesRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*ListGroupRolesResponse)
+		return ctx.Result(200, reply)
+	}
+}
+
 type IAMServiceHTTPClient interface {
+	AddGroupMember(ctx context.Context, req *AddGroupMemberRequest, opts ...http.CallOption) (rsp *AddGroupMemberResponse, err error)
 	ApprovePermission(ctx context.Context, req *ApprovePermissionRequest, opts ...http.CallOption) (rsp *ResourcePermission, err error)
+	AssignGroupRole(ctx context.Context, req *AssignGroupRoleRequest, opts ...http.CallOption) (rsp *AssignGroupRoleResponse, err error)
 	AssignRole(ctx context.Context, req *AssignRoleRequest, opts ...http.CallOption) (rsp *UserRole, err error)
 	// CheckPermission Permissions
 	CheckPermission(ctx context.Context, req *CheckPermissionRequest, opts ...http.CallOption) (rsp *CheckPermissionResponse, err error)
+	// CreateGroup Groups
+	CreateGroup(ctx context.Context, req *CreateGroupRequest, opts ...http.CallOption) (rsp *Group, err error)
 	// CreateRole Roles
 	CreateRole(ctx context.Context, req *CreateRoleRequest, opts ...http.CallOption) (rsp *Role, err error)
 	// CreateTenant Tenants
 	CreateTenant(ctx context.Context, req *CreateTenantRequest, opts ...http.CallOption) (rsp *Tenant, err error)
+	CreateUser(ctx context.Context, req *CreateUserRequest, opts ...http.CallOption) (rsp *User, err error)
 	// CustomLogin Auth
 	CustomLogin(ctx context.Context, req *CustomLoginRequest, opts ...http.CallOption) (rsp *CustomLoginReply, err error)
+	DeleteGroup(ctx context.Context, req *DeleteGroupRequest, opts ...http.CallOption) (rsp *DeleteGroupResponse, err error)
 	DeleteRole(ctx context.Context, req *DeleteRoleRequest, opts ...http.CallOption) (rsp *DeleteRoleResponse, err error)
 	DeleteTenant(ctx context.Context, req *DeleteTenantRequest, opts ...http.CallOption) (rsp *DeleteTenantResponse, err error)
 	// ForwardAuth Forward Auth (Dành cho APISIX)
@@ -744,6 +1104,7 @@ type IAMServiceHTTPClient interface {
 	// GetCurrentUser Users
 	GetCurrentUser(ctx context.Context, req *GetCurrentUserRequest, opts ...http.CallOption) (rsp *GetCurrentUserResponse, err error)
 	GetCurrentUserPermissions(ctx context.Context, req *GetCurrentUserPermissionsRequest, opts ...http.CallOption) (rsp *ListPermissionsResponse, err error)
+	GetGroup(ctx context.Context, req *GetGroupRequest, opts ...http.CallOption) (rsp *Group, err error)
 	GetRole(ctx context.Context, req *GetRoleRequest, opts ...http.CallOption) (rsp *Role, err error)
 	GetTenant(ctx context.Context, req *GetTenantRequest, opts ...http.CallOption) (rsp *Tenant, err error)
 	GetUser(ctx context.Context, req *GetUserRequest, opts ...http.CallOption) (rsp *User, err error)
@@ -751,16 +1112,24 @@ type IAMServiceHTTPClient interface {
 	GrantResourcePermission(ctx context.Context, req *GrantResourcePermissionRequest, opts ...http.CallOption) (rsp *ResourcePermission, err error)
 	// InviteMember Membership
 	InviteMember(ctx context.Context, req *InviteMemberRequest, opts ...http.CallOption) (rsp *Membership, err error)
+	ListGroupMembers(ctx context.Context, req *ListGroupMembersRequest, opts ...http.CallOption) (rsp *ListGroupMembersResponse, err error)
+	ListGroupRoles(ctx context.Context, req *ListGroupRolesRequest, opts ...http.CallOption) (rsp *ListGroupRolesResponse, err error)
+	ListGroups(ctx context.Context, req *ListGroupsRequest, opts ...http.CallOption) (rsp *ListGroupsResponse, err error)
 	ListMembers(ctx context.Context, req *ListMembersRequest, opts ...http.CallOption) (rsp *ListMembersResponse, err error)
+	ListMyAuditLogs(ctx context.Context, req *ListMyAuditLogsRequest, opts ...http.CallOption) (rsp *ListAuditLogsResponse, err error)
 	// ListPendingApprovals Approvals (Maker-Checker)
 	ListPendingApprovals(ctx context.Context, req *ListPendingApprovalsRequest, opts ...http.CallOption) (rsp *ListPendingApprovalsResponse, err error)
 	ListPermissions(ctx context.Context, req *ListPermissionsRequest, opts ...http.CallOption) (rsp *ListPermissionsResponse, err error)
 	ListRoles(ctx context.Context, req *ListRolesRequest, opts ...http.CallOption) (rsp *ListRolesResponse, err error)
 	ListUsers(ctx context.Context, req *ListUsersRequest, opts ...http.CallOption) (rsp *ListUsersResponse, err error)
 	RejectPermission(ctx context.Context, req *RejectPermissionRequest, opts ...http.CallOption) (rsp *ResourcePermission, err error)
+	RemoveGroupMember(ctx context.Context, req *RemoveGroupMemberRequest, opts ...http.CallOption) (rsp *RemoveGroupMemberResponse, err error)
 	RemoveMember(ctx context.Context, req *RemoveMemberRequest, opts ...http.CallOption) (rsp *RemoveMemberResponse, err error)
+	RevokeGroupRole(ctx context.Context, req *RevokeGroupRoleRequest, opts ...http.CallOption) (rsp *RevokeGroupRoleResponse, err error)
 	RevokeResourcePermission(ctx context.Context, req *RevokeResourcePermissionRequest, opts ...http.CallOption) (rsp *RevokeResourcePermissionResponse, err error)
 	RevokeRole(ctx context.Context, req *RevokeRoleRequest, opts ...http.CallOption) (rsp *RevokeRoleResponse, err error)
+	UpdateGroup(ctx context.Context, req *UpdateGroupRequest, opts ...http.CallOption) (rsp *Group, err error)
+	UpdateProfile(ctx context.Context, req *UpdateProfileRequest, opts ...http.CallOption) (rsp *User, err error)
 	UpdateRole(ctx context.Context, req *UpdateRoleRequest, opts ...http.CallOption) (rsp *Role, err error)
 	UpdateTenant(ctx context.Context, req *UpdateTenantRequest, opts ...http.CallOption) (rsp *Tenant, err error)
 }
@@ -773,11 +1142,37 @@ func NewIAMServiceHTTPClient(client *http.Client) IAMServiceHTTPClient {
 	return &IAMServiceHTTPClientImpl{client}
 }
 
+func (c *IAMServiceHTTPClientImpl) AddGroupMember(ctx context.Context, in *AddGroupMemberRequest, opts ...http.CallOption) (*AddGroupMemberResponse, error) {
+	var out AddGroupMemberResponse
+	pattern := "/v1/groups/{group_id}/members"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationIAMServiceAddGroupMember))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
 func (c *IAMServiceHTTPClientImpl) ApprovePermission(ctx context.Context, in *ApprovePermissionRequest, opts ...http.CallOption) (*ResourcePermission, error) {
 	var out ResourcePermission
 	pattern := "/v1/approvals/{id}/approve"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationIAMServiceApprovePermission))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *IAMServiceHTTPClientImpl) AssignGroupRole(ctx context.Context, in *AssignGroupRoleRequest, opts ...http.CallOption) (*AssignGroupRoleResponse, error) {
+	var out AssignGroupRoleResponse
+	pattern := "/v1/groups/{group_id}/roles"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationIAMServiceAssignGroupRole))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
 	if err != nil {
@@ -813,6 +1208,20 @@ func (c *IAMServiceHTTPClientImpl) CheckPermission(ctx context.Context, in *Chec
 	return &out, nil
 }
 
+// CreateGroup Groups
+func (c *IAMServiceHTTPClientImpl) CreateGroup(ctx context.Context, in *CreateGroupRequest, opts ...http.CallOption) (*Group, error) {
+	var out Group
+	pattern := "/v1/groups"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationIAMServiceCreateGroup))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
 // CreateRole Roles
 func (c *IAMServiceHTTPClientImpl) CreateRole(ctx context.Context, in *CreateRoleRequest, opts ...http.CallOption) (*Role, error) {
 	var out Role
@@ -841,6 +1250,19 @@ func (c *IAMServiceHTTPClientImpl) CreateTenant(ctx context.Context, in *CreateT
 	return &out, nil
 }
 
+func (c *IAMServiceHTTPClientImpl) CreateUser(ctx context.Context, in *CreateUserRequest, opts ...http.CallOption) (*User, error) {
+	var out User
+	pattern := "/v1/users"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationIAMServiceCreateUser))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
 // CustomLogin Auth
 func (c *IAMServiceHTTPClientImpl) CustomLogin(ctx context.Context, in *CustomLoginRequest, opts ...http.CallOption) (*CustomLoginReply, error) {
 	var out CustomLoginReply
@@ -849,6 +1271,19 @@ func (c *IAMServiceHTTPClientImpl) CustomLogin(ctx context.Context, in *CustomLo
 	opts = append(opts, http.Operation(OperationIAMServiceCustomLogin))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *IAMServiceHTTPClientImpl) DeleteGroup(ctx context.Context, in *DeleteGroupRequest, opts ...http.CallOption) (*DeleteGroupResponse, error) {
+	var out DeleteGroupResponse
+	pattern := "/v1/groups/{id}"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationIAMServiceDeleteGroup))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "DELETE", path, nil, &out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -914,6 +1349,19 @@ func (c *IAMServiceHTTPClientImpl) GetCurrentUserPermissions(ctx context.Context
 	pattern := "/v1/me/permissions"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationIAMServiceGetCurrentUserPermissions))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *IAMServiceHTTPClientImpl) GetGroup(ctx context.Context, in *GetGroupRequest, opts ...http.CallOption) (*Group, error) {
+	var out Group
+	pattern := "/v1/groups/{id}"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationIAMServiceGetGroup))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
 	if err != nil {
@@ -1001,11 +1449,63 @@ func (c *IAMServiceHTTPClientImpl) InviteMember(ctx context.Context, in *InviteM
 	return &out, nil
 }
 
+func (c *IAMServiceHTTPClientImpl) ListGroupMembers(ctx context.Context, in *ListGroupMembersRequest, opts ...http.CallOption) (*ListGroupMembersResponse, error) {
+	var out ListGroupMembersResponse
+	pattern := "/v1/groups/{group_id}/members"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationIAMServiceListGroupMembers))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *IAMServiceHTTPClientImpl) ListGroupRoles(ctx context.Context, in *ListGroupRolesRequest, opts ...http.CallOption) (*ListGroupRolesResponse, error) {
+	var out ListGroupRolesResponse
+	pattern := "/v1/groups/{group_id}/roles"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationIAMServiceListGroupRoles))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *IAMServiceHTTPClientImpl) ListGroups(ctx context.Context, in *ListGroupsRequest, opts ...http.CallOption) (*ListGroupsResponse, error) {
+	var out ListGroupsResponse
+	pattern := "/v1/groups"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationIAMServiceListGroups))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
 func (c *IAMServiceHTTPClientImpl) ListMembers(ctx context.Context, in *ListMembersRequest, opts ...http.CallOption) (*ListMembersResponse, error) {
 	var out ListMembersResponse
 	pattern := "/v1/tenants/{tenant_id}/members"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationIAMServiceListMembers))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *IAMServiceHTTPClientImpl) ListMyAuditLogs(ctx context.Context, in *ListMyAuditLogsRequest, opts ...http.CallOption) (*ListAuditLogsResponse, error) {
+	var out ListAuditLogsResponse
+	pattern := "/v1/me/audit-logs"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationIAMServiceListMyAuditLogs))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
 	if err != nil {
@@ -1080,11 +1580,37 @@ func (c *IAMServiceHTTPClientImpl) RejectPermission(ctx context.Context, in *Rej
 	return &out, nil
 }
 
+func (c *IAMServiceHTTPClientImpl) RemoveGroupMember(ctx context.Context, in *RemoveGroupMemberRequest, opts ...http.CallOption) (*RemoveGroupMemberResponse, error) {
+	var out RemoveGroupMemberResponse
+	pattern := "/v1/groups/{group_id}/members/{user_id}"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationIAMServiceRemoveGroupMember))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "DELETE", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
 func (c *IAMServiceHTTPClientImpl) RemoveMember(ctx context.Context, in *RemoveMemberRequest, opts ...http.CallOption) (*RemoveMemberResponse, error) {
 	var out RemoveMemberResponse
 	pattern := "/v1/tenants/{tenant_id}/members/{user_id}"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationIAMServiceRemoveMember))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "DELETE", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *IAMServiceHTTPClientImpl) RevokeGroupRole(ctx context.Context, in *RevokeGroupRoleRequest, opts ...http.CallOption) (*RevokeGroupRoleResponse, error) {
+	var out RevokeGroupRoleResponse
+	pattern := "/v1/groups/{group_id}/roles/{role_id}"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationIAMServiceRevokeGroupRole))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "DELETE", path, nil, &out, opts...)
 	if err != nil {
@@ -1113,6 +1639,32 @@ func (c *IAMServiceHTTPClientImpl) RevokeRole(ctx context.Context, in *RevokeRol
 	opts = append(opts, http.Operation(OperationIAMServiceRevokeRole))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *IAMServiceHTTPClientImpl) UpdateGroup(ctx context.Context, in *UpdateGroupRequest, opts ...http.CallOption) (*Group, error) {
+	var out Group
+	pattern := "/v1/groups/{id}"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationIAMServiceUpdateGroup))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "PUT", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *IAMServiceHTTPClientImpl) UpdateProfile(ctx context.Context, in *UpdateProfileRequest, opts ...http.CallOption) (*User, error) {
+	var out User
+	pattern := "/v1/me"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationIAMServiceUpdateProfile))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "PUT", path, in, &out, opts...)
 	if err != nil {
 		return nil, err
 	}

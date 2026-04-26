@@ -286,6 +286,35 @@ func (uc *AuthUsecase) finalizeAuthRequest(authRequestID, sessionID, sessionToke
 	return resp.CallbackURL, nil
 }
 
+type zitadelCreateUserResponse struct {
+	UserID string `json:"userId"`
+}
+
+func (uc *AuthUsecase) CreateZitadelUser(ctx context.Context, email, displayName, password string) (string, error) {
+	url := fmt.Sprintf("%s/v2/users/human", uc.conf.Authority)
+	body := map[string]any{
+		"username": email,
+		"profile": map[string]string{
+			"givenName":  displayName,
+			"familyName": "User", // Default
+		},
+		"email": map[string]any{
+			"email":           email,
+			"isEmailVerified": true,
+		},
+		"password": map[string]any{
+			"password":        password,
+			"changeRequired": false,
+		},
+	}
+
+	var resp zitadelCreateUserResponse
+	if err := uc.callZitadel(http.MethodPost, url, body, &resp); err != nil {
+		return "", err
+	}
+	return resp.UserID, nil
+}
+
 func (uc *AuthUsecase) callZitadel(method, url string, body any, result any) error {
 	jsonBody, _ := json.Marshal(body)
 	req, err := http.NewRequest(method, url, bytes.NewBuffer(jsonBody))

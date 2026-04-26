@@ -25,3 +25,39 @@ func (r *auditRepo) Create(ctx context.Context, log *biz.AuditLog) error {
 		return err
 	})
 }
+
+func (r *auditRepo) ListByActor(ctx context.Context, actorID string, pageSize int, cursor string) ([]*biz.AuditLog, string, error) {
+	var list []*biz.AuditLog
+	// Simple implementation without complex pagination for now
+	err := r.data.DB(ctx).ExecInTransaction(ctx, "", func(ctx context.Context, tx pgx.Tx) error {
+		query := `
+			SELECT id, actor_id, tenant_id, action, target_type, target_id, metadata, created_at
+			FROM audit_logs
+			WHERE actor_id = $1
+			ORDER BY created_at DESC
+			LIMIT $2
+		`
+		rows, err := tx.Query(ctx, query, actorID, pageSize)
+		if err != nil {
+			return err
+		}
+		defer rows.Close()
+
+		for rows.Next() {
+			var l biz.AuditLog
+			var meta []byte
+			if err := rows.Scan(&l.ID, &l.ActorID, &l.TenantID, &l.Action, &l.TargetType, &l.TargetID, &meta, &l.CreatedAt); err != nil {
+				return err
+			}
+			if len(meta) > 0 {
+				_ = json.Unmarshal(meta, &l.Metadata)
+			}
+			list = append(list, &l)
+		}
+		return rows.Err()
+	})
+	if err != nil {
+		return nil, "", err
+	}
+	return list, "", nil
+}

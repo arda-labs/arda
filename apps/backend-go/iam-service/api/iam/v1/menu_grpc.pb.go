@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.6.1
 // - protoc             v7.34.1
-// source: api/iam/v1/menu.proto
+// source: iam/v1/menu.proto
 
 package v1
 
@@ -271,5 +271,5 @@ var MenuService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "api/iam/v1/menu.proto",
+	Metadata: "iam/v1/menu.proto",
 }

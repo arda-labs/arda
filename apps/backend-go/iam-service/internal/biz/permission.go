@@ -132,14 +132,23 @@ func (uc *PermissionUsecase) RevokeResourcePermission(ctx context.Context, id, a
 }
 
 func (uc *PermissionUsecase) GetUserPermissions(ctx context.Context, userID, tenantID string) ([]*Permission, error) {
-	roles, err := uc.roleRepo.GetUserRoles(ctx, userID, tenantID)
+	// 1. Get direct roles
+	directRoles, err := uc.roleRepo.GetUserRoles(ctx, userID, tenantID)
 	if err != nil {
 		return nil, err
 	}
 
+	// 2. Get roles via groups
+	groupRoles, err := uc.roleRepo.GetGroupRoles(ctx, userID, tenantID)
+	if err != nil {
+		return nil, err
+	}
+
+	allRoles := append(directRoles, groupRoles...)
+
 	seen := make(map[string]bool)
 	var perms []*Permission
-	for _, role := range roles {
+	for _, role := range allRoles {
 		p, err := uc.roleRepo.GetRolePermissions(ctx, role.ID)
 		if err != nil {
 			continue

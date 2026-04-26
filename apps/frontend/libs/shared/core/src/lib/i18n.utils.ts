@@ -9,7 +9,7 @@ export class CustomTranslateLoader implements TranslateLoader {
     // Thêm tham số version để tránh cache nhầm khi deploy bản mới (Cache Busting)
     const env = getEnv();
     const v = env.version ?? Date.now().toString();
-    return this.http.get<any>(`/i18n/${lang}.json?v=${v}`);
+    return this.http.get<any>(`./i18n/${lang}.json?v=${v}`);
   }
 }
 

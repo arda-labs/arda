@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AvatarModule } from 'primeng/avatar';
 import { ButtonModule } from 'primeng/button';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslatePipe } from '@ngx-translate/core';
 import { AuthService } from '../../services/auth.service';
 import { TenantService } from '../../services/tenant.service';
 import { LanguageService } from '@arda-mfe/shared-core';
@@ -11,7 +11,7 @@ import { LanguageService } from '@arda-mfe/shared-core';
 @Component({
   selector: 'app-select-workspace',
   standalone: true,
-  imports: [CommonModule, AvatarModule, ButtonModule, TranslateModule],
+  imports: [CommonModule, AvatarModule, ButtonModule, TranslatePipe],
   templateUrl: './select-workspace.html',
   styleUrl: './select-workspace.css',
 })

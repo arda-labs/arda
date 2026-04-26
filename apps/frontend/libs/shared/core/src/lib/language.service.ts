@@ -27,10 +27,19 @@ export class LanguageService {
 
     try {
       // Đảm bảo load bản dịch trước khi ứng dụng render
-      await firstValueFrom(this.translate.use(lang));
+      const translations = await firstValueFrom(this.translate.use(lang));
+
+      if (translations) {
+        // Force set translation để đảm bảo store được cập nhật
+        this.translate.setTranslation(lang, translations as any, true);
+        console.log(`LanguageService: Successfully loaded language "${lang}"`, Object.keys(translations as any));
+
+        // Kiểm tra xem instant có lấy được giá trị không
+        const testVal = this.translate.instant('PAGES.LOGIN.TITLE');
+        console.log(`LanguageService: Validation check for 'PAGES.LOGIN.TITLE': ${testVal}`);
+      }
 
       document.documentElement.lang = lang;
-      console.log(`LanguageService: Successfully loaded language "${lang}"`);
     } catch (err) {
       console.error('LanguageService: Could not load initial language', err);
       // Fallback sang tiếng Việt nếu load thất bại

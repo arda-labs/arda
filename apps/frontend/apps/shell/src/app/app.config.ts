@@ -102,6 +102,15 @@ function initializeMenu(): Promise<void> {
 // Trigger CI/CD: fix premature API calls and update GitOps workflow
 export const appConfig: ApplicationConfig = {
   providers: [
+    provideTranslateService({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient],
+      },
+      lang: 'vi',
+      fallbackLang: 'vi',
+    }),
     provideBrowserGlobalErrorListeners(),
     provideRouter(appRoutes, withComponentInputBinding()),
     provideAuth({ config: getAuthConfig() }),
@@ -117,15 +126,6 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptors([apiInterceptor])),
     { provide: TENANT_PROVIDER, useExisting: TenantService },
     MessageService,
-    provideTranslateService({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
-        deps: [HttpClient],
-      },
-      lang: 'vi',
-      fallbackLang: 'vi',
-    }),
     provideAppInitializer(initializeAuth),
     provideAppInitializer(initializeLanguage),
     provideAppInitializer(initializeTenants),

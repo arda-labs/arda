@@ -7,6 +7,9 @@ const config: ModuleFederationConfig = {
     if (libraryName.startsWith('rxjs') || libraryName === 'tslib') {
       return { ...sharedConfig, eager: true };
     }
+    if (libraryName.startsWith('@ngx-translate')) {
+      return { ...sharedConfig, singleton: true, strictVersion: true };
+    }
     return sharedConfig;
   },
 };

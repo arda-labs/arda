@@ -3,7 +3,7 @@ import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { MessageModule } from 'primeng/message';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateModule, TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { AuthService } from '../../services/auth.service';
 import { ZitadelSessionService } from '../../services/zitadel-session.service';
 import { LanguageService, getAuthConfig } from '@arda-mfe/shared-core';
@@ -12,7 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-login-page',
   standalone: true,
-  imports: [ReactiveFormsModule, ButtonModule, InputTextModule, MessageModule, TranslateModule],
+  imports: [ReactiveFormsModule, ButtonModule, InputTextModule, MessageModule, TranslatePipe],
   templateUrl: './login-page.html',
   styleUrl: './login-page.css',
 })

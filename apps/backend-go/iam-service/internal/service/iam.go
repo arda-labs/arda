@@ -56,7 +56,8 @@ func NewIAMService(
 func (s *IAMService) CustomLogin(ctx context.Context, req *pb.CustomLoginRequest) (*pb.CustomLoginReply, error) {
 	callbackURL, err := s.auth.CustomLogin(ctx, req.Email, req.Password, req.AuthRequestId)
 	if err != nil {
-		return nil, err
+		s.log.Warnf("CustomLogin failed for auth request %s: %v", req.AuthRequestId, err)
+		return nil, errors.Unauthorized("LOGIN_FAILED", "login failed")
 	}
 	return &pb.CustomLoginReply{CallbackUrl: callbackURL}, nil
 }

@@ -71,7 +71,8 @@ export class LoginPage implements OnInit {
     this.showPassword.update((v) => !v);
   }
 
-  onSubmit(): void {
+  onSubmit(event?: Event): void {
+    event?.preventDefault();
     if (this.loginForm().invalid() || this.isLoading()) return;
     const authRequestId = this.authRequestId();
     if (!authRequestId) return;

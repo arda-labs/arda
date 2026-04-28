@@ -84,7 +84,7 @@
 
       <!-- Form -->
       @if (authRequestId()) {
-      <form novalidate (submit)="onSubmit()" class="space-y-5">
+      <form novalidate (submit)="onSubmit($event)" class="space-y-5">
 
         @if (errorMessage()) {
         <p-message severity="error" variant="simple" styleClass="w-full">{{ errorMessage() }}</p-message>

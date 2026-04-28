@@ -119,8 +119,13 @@ func (r *roleRepo) GetUserRoles(ctx context.Context, userID, tenantID string) ([
 	err := r.data.DB(ctx).ExecInTransaction(ctx, tenantID, func(ctx context.Context, tx pgx.Tx) error {
 		rows, err := tx.Query(ctx,
 			`SELECT r.id, r.tenant_id, r.name, r.description, r.is_system, r.created_at, r.updated_at
-			 FROM roles r JOIN user_roles ur ON r.id = ur.role_id
-			 WHERE ur.user_id = $1 AND ur.tenant_id = $2 AND r.deleted_at IS NULL`, userID, tenantID)
+			 FROM roles r
+			 JOIN user_roles ur ON r.id = ur.role_id
+			 JOIN users u ON u.id = ur.user_id
+			 WHERE (u.id::text = $1 OR u.external_id = $1 OR lower(u.username) = lower($1))
+			   AND ur.tenant_id = $2
+			   AND r.deleted_at IS NULL
+			   AND u.deleted_at IS NULL`, userID, tenantID)
 		if err != nil {
 			return err
 		}
@@ -145,7 +150,11 @@ func (r *roleRepo) GetGroupRoles(ctx context.Context, userID, tenantID string) (
 			 FROM roles r
 			 JOIN group_roles gr ON r.id = gr.role_id
 			 JOIN group_members gm ON gr.group_id = gm.group_id
-			 WHERE gm.user_id = $1 AND gr.tenant_id = $2 AND r.deleted_at IS NULL`, userID, tenantID)
+			 JOIN users u ON u.id = gm.user_id
+			 WHERE (u.id::text = $1 OR u.external_id = $1 OR lower(u.username) = lower($1))
+			   AND gr.tenant_id = $2
+			   AND r.deleted_at IS NULL
+			   AND u.deleted_at IS NULL`, userID, tenantID)
 		if err != nil {
 			return err
 		}

@@ -1,5 +1,8 @@
 # Arda Monorepo Migration & Renaming Implementation Plan
 
+> Outdated as of 2026-04-28.
+> Do not execute this plan as-is. The current GitHub organization already has `arda-labs/arda`, `arda-labs/arda-infra`, and `arda-labs/.github`; the active plan is now `docs/08-guides/repository-reorganization-plan.md`.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Chuyển đổi cấu trúc project sang Monorepo duy nhất (`arda-labs/arda`) và đổi tên toàn bộ từ `arda-labs` sang `arda-labs`.

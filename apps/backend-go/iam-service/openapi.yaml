@@ -3,7 +3,7 @@
 
 openapi: 3.0.3
 info:
-    title: IAMService API
+    title: ""
     version: 0.0.1
 paths:
     /v1/approvals/pending:
@@ -23,13 +23,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ListPendingApprovalsResponse'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
+                                $ref: '#/components/schemas/iam.v1.ListPendingApprovalsResponse'
     /v1/approvals/{id}/approve:
         post:
             tags:
@@ -45,7 +39,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/ApprovePermissionRequest'
+                            $ref: '#/components/schemas/iam.v1.ApprovePermissionRequest'
                 required: true
             responses:
                 "200":
@@ -53,13 +47,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ResourcePermission'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
+                                $ref: '#/components/schemas/iam.v1.ResourcePermission'
     /v1/approvals/{id}/reject:
         post:
             tags:
@@ -75,7 +63,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/RejectPermissionRequest'
+                            $ref: '#/components/schemas/iam.v1.RejectPermissionRequest'
                 required: true
             responses:
                 "200":
@@ -83,13 +71,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ResourcePermission'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
+                                $ref: '#/components/schemas/iam.v1.ResourcePermission'
     /v1/assign-role:
         post:
             tags:
@@ -99,7 +81,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/AssignRoleRequest'
+                            $ref: '#/components/schemas/iam.v1.AssignRoleRequest'
                 required: true
             responses:
                 "200":
@@ -107,13 +89,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/UserRole'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
+                                $ref: '#/components/schemas/iam.v1.UserRole'
     /v1/auth/forward:
         post:
             tags:
@@ -124,7 +100,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/ForwardAuthRequest'
+                            $ref: '#/components/schemas/iam.v1.ForwardAuthRequest'
                 required: true
             responses:
                 "200":
@@ -132,13 +108,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ForwardAuthResponse'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
+                                $ref: '#/components/schemas/iam.v1.ForwardAuthResponse'
     /v1/auth/login:
         post:
             tags:
@@ -149,7 +119,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/CustomLoginRequest'
+                            $ref: '#/components/schemas/iam.v1.CustomLoginRequest'
                 required: true
             responses:
                 "200":
@@ -157,13 +127,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/CustomLoginReply'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
+                                $ref: '#/components/schemas/iam.v1.CustomLoginReply'
     /v1/groups:
         get:
             tags:
@@ -189,13 +153,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ListGroupsResponse'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
+                                $ref: '#/components/schemas/iam.v1.ListGroupsResponse'
         post:
             tags:
                 - IAMService
@@ -205,7 +163,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/CreateGroupRequest'
+                            $ref: '#/components/schemas/iam.v1.CreateGroupRequest'
                 required: true
             responses:
                 "200":
@@ -213,13 +171,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/Group'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
+                                $ref: '#/components/schemas/iam.v1.Group'
     /v1/groups/{groupId}/members:
         get:
             tags:
@@ -237,13 +189,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ListGroupMembersResponse'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
+                                $ref: '#/components/schemas/iam.v1.ListGroupMembersResponse'
         post:
             tags:
                 - IAMService
@@ -258,7 +204,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/AddGroupMemberRequest'
+                            $ref: '#/components/schemas/iam.v1.AddGroupMemberRequest'
                 required: true
             responses:
                 "200":
@@ -266,13 +212,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/AddGroupMemberResponse'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
+                                $ref: '#/components/schemas/iam.v1.AddGroupMemberResponse'
     /v1/groups/{groupId}/members/{userId}:
         delete:
             tags:
@@ -295,13 +235,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/RemoveGroupMemberResponse'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
+                                $ref: '#/components/schemas/iam.v1.RemoveGroupMemberResponse'
     /v1/groups/{groupId}/roles:
         get:
             tags:
@@ -319,13 +253,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ListGroupRolesResponse'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
+                                $ref: '#/components/schemas/iam.v1.ListGroupRolesResponse'
         post:
             tags:
                 - IAMService
@@ -340,7 +268,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/AssignGroupRoleRequest'
+                            $ref: '#/components/schemas/iam.v1.AssignGroupRoleRequest'
                 required: true
             responses:
                 "200":
@@ -348,13 +276,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/AssignGroupRoleResponse'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
+                                $ref: '#/components/schemas/iam.v1.AssignGroupRoleResponse'
     /v1/groups/{groupId}/roles/{roleId}:
         delete:
             tags:
@@ -377,13 +299,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/RevokeGroupRoleResponse'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
+                                $ref: '#/components/schemas/iam.v1.RevokeGroupRoleResponse'
     /v1/groups/{id}:
         get:
             tags:
@@ -401,13 +317,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/Group'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
+                                $ref: '#/components/schemas/iam.v1.Group'
         put:
             tags:
                 - IAMService
@@ -422,7 +332,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/UpdateGroupRequest'
+                            $ref: '#/components/schemas/iam.v1.UpdateGroupRequest'
                 required: true
             responses:
                 "200":
@@ -430,13 +340,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/Group'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
+                                $ref: '#/components/schemas/iam.v1.Group'
         delete:
             tags:
                 - IAMService
@@ -453,13 +357,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/DeleteGroupResponse'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
+                                $ref: '#/components/schemas/iam.v1.DeleteGroupResponse'
     /v1/me:
         get:
             tags:
@@ -472,13 +370,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/GetCurrentUserResponse'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
+                                $ref: '#/components/schemas/iam.v1.GetCurrentUserResponse'
         put:
             tags:
                 - IAMService
@@ -487,7 +379,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/UpdateProfileRequest'
+                            $ref: '#/components/schemas/iam.v1.UpdateProfileRequest'
                 required: true
             responses:
                 "200":
@@ -495,13 +387,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/User'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
+                                $ref: '#/components/schemas/iam.v1.User'
     /v1/me/audit-logs:
         get:
             tags:
@@ -523,13 +409,20 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ListAuditLogsResponse'
-                default:
-                    description: Default error response
+                                $ref: '#/components/schemas/iam.v1.ListAuditLogsResponse'
+    /v1/me/menu:
+        get:
+            tags:
+                - MenuService
+            description: Menu
+            operationId: MenuService_GetMenu
+            responses:
+                "200":
+                    description: OK
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/Status'
+                                $ref: '#/components/schemas/iam.v1.GetMenuResponse'
     /v1/me/permissions:
         get:
             tags:
@@ -541,13 +434,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ListPermissionsResponse'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
+                                $ref: '#/components/schemas/iam.v1.ListPermissionsResponse'
     /v1/me/tenants:
         get:
             tags:
@@ -559,13 +446,82 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/GetUserMembershipsResponse'
-                default:
-                    description: Default error response
+                                $ref: '#/components/schemas/iam.v1.GetUserMembershipsResponse'
+    /v1/menus:
+        get:
+            tags:
+                - MenuService
+            operationId: MenuService_ListMenus
+            parameters:
+                - name: tenantId
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/Status'
+                                $ref: '#/components/schemas/iam.v1.ListMenusResponse'
+        post:
+            tags:
+                - MenuService
+            operationId: MenuService_CreateMenu
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/iam.v1.CreateMenuRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/iam.v1.Menu'
+    /v1/menus/{id}:
+        put:
+            tags:
+                - MenuService
+            operationId: MenuService_UpdateMenu
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/iam.v1.UpdateMenuRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/iam.v1.Menu'
+        delete:
+            tags:
+                - MenuService
+            operationId: MenuService_DeleteMenu
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/iam.v1.DeleteMenuResponse'
     /v1/permissions:
         get:
             tags:
@@ -586,13 +542,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ListPermissionsResponse'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
+                                $ref: '#/components/schemas/iam.v1.ListPermissionsResponse'
     /v1/permissions/check:
         get:
             tags:
@@ -626,13 +576,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/CheckPermissionResponse'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
+                                $ref: '#/components/schemas/iam.v1.CheckPermissionResponse'
     /v1/resource-permissions:
         post:
             tags:
@@ -642,7 +586,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/GrantResourcePermissionRequest'
+                            $ref: '#/components/schemas/iam.v1.GrantResourcePermissionRequest'
                 required: true
             responses:
                 "200":
@@ -650,13 +594,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ResourcePermission'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
+                                $ref: '#/components/schemas/iam.v1.ResourcePermission'
     /v1/resource-permissions/{id}:
         delete:
             tags:
@@ -674,13 +612,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/RevokeResourcePermissionResponse'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
+                                $ref: '#/components/schemas/iam.v1.RevokeResourcePermissionResponse'
     /v1/revoke-role:
         post:
             tags:
@@ -690,7 +622,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/RevokeRoleRequest'
+                            $ref: '#/components/schemas/iam.v1.RevokeRoleRequest'
                 required: true
             responses:
                 "200":
@@ -698,13 +630,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/RevokeRoleResponse'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
+                                $ref: '#/components/schemas/iam.v1.RevokeRoleResponse'
     /v1/roles:
         get:
             tags:
@@ -730,13 +656,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ListRolesResponse'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
+                                $ref: '#/components/schemas/iam.v1.ListRolesResponse'
         post:
             tags:
                 - IAMService
@@ -746,7 +666,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/CreateRoleRequest'
+                            $ref: '#/components/schemas/iam.v1.CreateRoleRequest'
                 required: true
             responses:
                 "200":
@@ -754,13 +674,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/Role'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
+                                $ref: '#/components/schemas/iam.v1.Role'
     /v1/roles/{id}:
         get:
             tags:
@@ -778,13 +692,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/Role'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
+                                $ref: '#/components/schemas/iam.v1.Role'
         put:
             tags:
                 - IAMService
@@ -799,7 +707,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/UpdateRoleRequest'
+                            $ref: '#/components/schemas/iam.v1.UpdateRoleRequest'
                 required: true
             responses:
                 "200":
@@ -807,13 +715,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/Role'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
+                                $ref: '#/components/schemas/iam.v1.Role'
         delete:
             tags:
                 - IAMService
@@ -830,13 +732,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/DeleteRoleResponse'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
+                                $ref: '#/components/schemas/iam.v1.DeleteRoleResponse'
     /v1/tenants:
         post:
             tags:
@@ -847,7 +743,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/CreateTenantRequest'
+                            $ref: '#/components/schemas/iam.v1.CreateTenantRequest'
                 required: true
             responses:
                 "200":
@@ -855,13 +751,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/Tenant'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
+                                $ref: '#/components/schemas/iam.v1.Tenant'
     /v1/tenants/{id}:
         get:
             tags:
@@ -879,13 +769,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/Tenant'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
+                                $ref: '#/components/schemas/iam.v1.Tenant'
         put:
             tags:
                 - IAMService
@@ -900,7 +784,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/UpdateTenantRequest'
+                            $ref: '#/components/schemas/iam.v1.UpdateTenantRequest'
                 required: true
             responses:
                 "200":
@@ -908,13 +792,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/Tenant'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
+                                $ref: '#/components/schemas/iam.v1.Tenant'
         delete:
             tags:
                 - IAMService
@@ -931,13 +809,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/DeleteTenantResponse'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
+                                $ref: '#/components/schemas/iam.v1.DeleteTenantResponse'
     /v1/tenants/{tenantId}/invite:
         post:
             tags:
@@ -954,7 +826,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/InviteMemberRequest'
+                            $ref: '#/components/schemas/iam.v1.InviteMemberRequest'
                 required: true
             responses:
                 "200":
@@ -962,13 +834,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/Membership'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
+                                $ref: '#/components/schemas/iam.v1.Membership'
     /v1/tenants/{tenantId}/members:
         get:
             tags:
@@ -995,13 +861,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ListMembersResponse'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
+                                $ref: '#/components/schemas/iam.v1.ListMembersResponse'
     /v1/tenants/{tenantId}/members/{userId}:
         delete:
             tags:
@@ -1024,13 +884,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/RemoveMemberResponse'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
+                                $ref: '#/components/schemas/iam.v1.RemoveMemberResponse'
     /v1/users:
         get:
             tags:
@@ -1056,13 +910,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ListUsersResponse'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
+                                $ref: '#/components/schemas/iam.v1.ListUsersResponse'
         post:
             tags:
                 - IAMService
@@ -1071,7 +919,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/CreateUserRequest'
+                            $ref: '#/components/schemas/iam.v1.CreateUserRequest'
                 required: true
             responses:
                 "200":
@@ -1079,13 +927,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/User'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
+                                $ref: '#/components/schemas/iam.v1.User'
     /v1/users/{id}:
         get:
             tags:
@@ -1103,41 +945,35 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/User'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
+                                $ref: '#/components/schemas/iam.v1.User'
 components:
     schemas:
-        AddGroupMemberRequest:
+        iam.v1.AddGroupMemberRequest:
             type: object
             properties:
                 groupId:
                     type: string
                 userId:
                     type: string
-        AddGroupMemberResponse:
+        iam.v1.AddGroupMemberResponse:
             type: object
             properties: {}
-        ApprovePermissionRequest:
+        iam.v1.ApprovePermissionRequest:
             type: object
             properties:
                 id:
                     type: string
-        AssignGroupRoleRequest:
+        iam.v1.AssignGroupRoleRequest:
             type: object
             properties:
                 groupId:
                     type: string
                 roleId:
                     type: string
-        AssignGroupRoleResponse:
+        iam.v1.AssignGroupRoleResponse:
             type: object
             properties: {}
-        AssignRoleRequest:
+        iam.v1.AssignRoleRequest:
             type: object
             properties:
                 userId:
@@ -1146,7 +982,7 @@ components:
                     type: string
                 tenantId:
                     type: string
-        AuditLog:
+        iam.v1.AuditLog:
             type: object
             properties:
                 id:
@@ -1164,14 +1000,14 @@ components:
                 createdAt:
                     type: string
                     format: date-time
-        CheckPermissionResponse:
+        iam.v1.CheckPermissionResponse:
             type: object
             properties:
                 allowed:
                     type: boolean
                 source:
                     type: string
-        CreateGroupRequest:
+        iam.v1.CreateGroupRequest:
             type: object
             properties:
                 tenantId:
@@ -1180,7 +1016,29 @@ components:
                     type: string
                 description:
                     type: string
-        CreateRoleRequest:
+        iam.v1.CreateMenuRequest:
+            type: object
+            properties:
+                tenantId:
+                    type: string
+                parentId:
+                    type: string
+                name:
+                    type: string
+                slug:
+                    type: string
+                icon:
+                    type: string
+                route:
+                    type: string
+                sortOrder:
+                    type: integer
+                    format: int32
+                enabled:
+                    type: boolean
+                permissionSlug:
+                    type: string
+        iam.v1.CreateRoleRequest:
             type: object
             properties:
                 tenantId:
@@ -1193,14 +1051,14 @@ components:
                     type: array
                     items:
                         type: string
-        CreateTenantRequest:
+        iam.v1.CreateTenantRequest:
             type: object
             properties:
                 name:
                     type: string
                 slug:
                     type: string
-        CreateUserRequest:
+        iam.v1.CreateUserRequest:
             type: object
             properties:
                 email:
@@ -1211,12 +1069,14 @@ components:
                     type: string
                 tenantId:
                     type: string
-        CustomLoginReply:
+                username:
+                    type: string
+        iam.v1.CustomLoginReply:
             type: object
             properties:
                 callbackUrl:
                     type: string
-        CustomLoginRequest:
+        iam.v1.CustomLoginRequest:
             type: object
             properties:
                 email:
@@ -1225,16 +1085,21 @@ components:
                     type: string
                 authRequestId:
                     type: string
-        DeleteGroupResponse:
+                loginName:
+                    type: string
+        iam.v1.DeleteGroupResponse:
             type: object
             properties: {}
-        DeleteRoleResponse:
+        iam.v1.DeleteMenuResponse:
             type: object
             properties: {}
-        DeleteTenantResponse:
+        iam.v1.DeleteRoleResponse:
             type: object
             properties: {}
-        ForwardAuthRequest:
+        iam.v1.DeleteTenantResponse:
+            type: object
+            properties: {}
+        iam.v1.ForwardAuthRequest:
             type: object
             properties:
                 method:
@@ -1243,7 +1108,9 @@ components:
                     type: string
                 token:
                     type: string
-        ForwardAuthResponse:
+                tenantId:
+                    type: string
+        iam.v1.ForwardAuthResponse:
             type: object
             properties:
                 allowed:
@@ -1252,31 +1119,30 @@ components:
                     type: string
                 tenantId:
                     type: string
-        GetCurrentUserResponse:
+        iam.v1.GetCurrentUserResponse:
             type: object
             properties:
                 user:
-                    $ref: '#/components/schemas/User'
+                    $ref: '#/components/schemas/iam.v1.User'
                 memberships:
                     type: array
                     items:
-                        $ref: '#/components/schemas/TenantMembership'
-        GetUserMembershipsResponse:
+                        $ref: '#/components/schemas/iam.v1.TenantMembership'
+        iam.v1.GetMenuResponse:
+            type: object
+            properties:
+                items:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/iam.v1.MenuItem'
+        iam.v1.GetUserMembershipsResponse:
             type: object
             properties:
                 memberships:
                     type: array
                     items:
-                        $ref: '#/components/schemas/TenantMembership'
-        GoogleProtobufAny:
-            type: object
-            properties:
-                '@type':
-                    type: string
-                    description: The type of the serialized message.
-            additionalProperties: true
-            description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
-        GrantResourcePermissionRequest:
+                        $ref: '#/components/schemas/iam.v1.TenantMembership'
+        iam.v1.GrantResourcePermissionRequest:
             type: object
             properties:
                 userId:
@@ -1291,7 +1157,7 @@ components:
                     type: string
                 allowed:
                     type: boolean
-        Group:
+        iam.v1.Group:
             type: object
             properties:
                 id:
@@ -1308,7 +1174,7 @@ components:
                 updatedAt:
                     type: string
                     format: date-time
-        InviteMemberRequest:
+        iam.v1.InviteMemberRequest:
             type: object
             properties:
                 tenantId:
@@ -1317,80 +1183,87 @@ components:
                     type: string
                 role:
                     type: string
-        ListAuditLogsResponse:
+        iam.v1.ListAuditLogsResponse:
             type: object
             properties:
                 logs:
                     type: array
                     items:
-                        $ref: '#/components/schemas/AuditLog'
+                        $ref: '#/components/schemas/iam.v1.AuditLog'
                 nextPageToken:
                     type: string
-        ListGroupMembersResponse:
+        iam.v1.ListGroupMembersResponse:
             type: object
             properties:
                 users:
                     type: array
                     items:
-                        $ref: '#/components/schemas/User'
-        ListGroupRolesResponse:
+                        $ref: '#/components/schemas/iam.v1.User'
+        iam.v1.ListGroupRolesResponse:
             type: object
             properties:
                 roles:
                     type: array
                     items:
-                        $ref: '#/components/schemas/Role'
-        ListGroupsResponse:
+                        $ref: '#/components/schemas/iam.v1.Role'
+        iam.v1.ListGroupsResponse:
             type: object
             properties:
                 groups:
                     type: array
                     items:
-                        $ref: '#/components/schemas/Group'
+                        $ref: '#/components/schemas/iam.v1.Group'
                 nextPageToken:
                     type: string
-        ListMembersResponse:
+        iam.v1.ListMembersResponse:
             type: object
             properties:
                 memberships:
                     type: array
                     items:
-                        $ref: '#/components/schemas/Membership'
+                        $ref: '#/components/schemas/iam.v1.Membership'
                 nextPageToken:
                     type: string
-        ListPendingApprovalsResponse:
+        iam.v1.ListMenusResponse:
+            type: object
+            properties:
+                menus:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/iam.v1.Menu'
+        iam.v1.ListPendingApprovalsResponse:
             type: object
             properties:
                 permissions:
                     type: array
                     items:
-                        $ref: '#/components/schemas/ResourcePermission'
-        ListPermissionsResponse:
+                        $ref: '#/components/schemas/iam.v1.ResourcePermission'
+        iam.v1.ListPermissionsResponse:
             type: object
             properties:
                 permissions:
                     type: array
                     items:
                         type: string
-        ListRolesResponse:
+        iam.v1.ListRolesResponse:
             type: object
             properties:
                 roles:
                     type: array
                     items:
-                        $ref: '#/components/schemas/Role'
+                        $ref: '#/components/schemas/iam.v1.Role'
                 nextPageToken:
                     type: string
-        ListUsersResponse:
+        iam.v1.ListUsersResponse:
             type: object
             properties:
                 users:
                     type: array
                     items:
-                        $ref: '#/components/schemas/User'
+                        $ref: '#/components/schemas/iam.v1.User'
                 nextPageToken:
                     type: string
-        Membership:
+        iam.v1.Membership:
             type: object
             properties:
                 id:
@@ -1404,20 +1277,69 @@ components:
                 createdAt:
                     type: string
                     format: date-time
-        RejectPermissionRequest:
+        iam.v1.Menu:
+            type: object
+            properties:
+                id:
+                    type: string
+                tenantId:
+                    type: string
+                parentId:
+                    type: string
+                name:
+                    type: string
+                slug:
+                    type: string
+                icon:
+                    type: string
+                route:
+                    type: string
+                sortOrder:
+                    type: integer
+                    format: int32
+                enabled:
+                    type: boolean
+                permissionSlug:
+                    type: string
+                createdAt:
+                    type: string
+                    format: date-time
+                updatedAt:
+                    type: string
+                    format: date-time
+            description: Menu messages
+        iam.v1.MenuItem:
+            type: object
+            properties:
+                id:
+                    type: string
+                name:
+                    type: string
+                icon:
+                    type: string
+                route:
+                    type: string
+                sortOrder:
+                    type: integer
+                    format: int32
+                children:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/iam.v1.MenuItem'
+        iam.v1.RejectPermissionRequest:
             type: object
             properties:
                 id:
                     type: string
                 reason:
                     type: string
-        RemoveGroupMemberResponse:
+        iam.v1.RemoveGroupMemberResponse:
             type: object
             properties: {}
-        RemoveMemberResponse:
+        iam.v1.RemoveMemberResponse:
             type: object
             properties: {}
-        ResourcePermission:
+        iam.v1.ResourcePermission:
             type: object
             properties:
                 id:
@@ -1437,13 +1359,13 @@ components:
                 createdAt:
                     type: string
                     format: date-time
-        RevokeGroupRoleResponse:
+        iam.v1.RevokeGroupRoleResponse:
             type: object
             properties: {}
-        RevokeResourcePermissionResponse:
+        iam.v1.RevokeResourcePermissionResponse:
             type: object
             properties: {}
-        RevokeRoleRequest:
+        iam.v1.RevokeRoleRequest:
             type: object
             properties:
                 userId:
@@ -1452,10 +1374,10 @@ components:
                     type: string
                 tenantId:
                     type: string
-        RevokeRoleResponse:
+        iam.v1.RevokeRoleResponse:
             type: object
             properties: {}
-        Role:
+        iam.v1.Role:
             type: object
             properties:
                 id:
@@ -1478,23 +1400,7 @@ components:
                 updatedAt:
                     type: string
                     format: date-time
-        Status:
-            type: object
-            properties:
-                code:
-                    type: integer
-                    description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
-                    format: int32
-                message:
-                    type: string
-                    description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
-                details:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/GoogleProtobufAny'
-                    description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
-            description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
-        Tenant:
+        iam.v1.Tenant:
             type: object
             properties:
                 id:
@@ -1511,7 +1417,7 @@ components:
                 updatedAt:
                     type: string
                     format: date-time
-        TenantMembership:
+        iam.v1.TenantMembership:
             type: object
             properties:
                 tenantId:
@@ -1522,7 +1428,7 @@ components:
                     type: string
                 role:
                     type: string
-        UpdateGroupRequest:
+        iam.v1.UpdateGroupRequest:
             type: object
             properties:
                 id:
@@ -1531,12 +1437,34 @@ components:
                     type: string
                 description:
                     type: string
-        UpdateProfileRequest:
+        iam.v1.UpdateMenuRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                parentId:
+                    type: string
+                name:
+                    type: string
+                slug:
+                    type: string
+                icon:
+                    type: string
+                route:
+                    type: string
+                sortOrder:
+                    type: integer
+                    format: int32
+                enabled:
+                    type: boolean
+                permissionSlug:
+                    type: string
+        iam.v1.UpdateProfileRequest:
             type: object
             properties:
                 displayName:
                     type: string
-        UpdateRoleRequest:
+        iam.v1.UpdateRoleRequest:
             type: object
             properties:
                 id:
@@ -1549,7 +1477,7 @@ components:
                     type: array
                     items:
                         type: string
-        UpdateTenantRequest:
+        iam.v1.UpdateTenantRequest:
             type: object
             properties:
                 id:
@@ -1558,7 +1486,7 @@ components:
                     type: string
                 slug:
                     type: string
-        User:
+        iam.v1.User:
             type: object
             properties:
                 id:
@@ -1575,8 +1503,10 @@ components:
                 updatedAt:
                     type: string
                     format: date-time
+                username:
+                    type: string
             description: Messages
-        UserRole:
+        iam.v1.UserRole:
             type: object
             properties:
                 id:
@@ -1592,3 +1522,4 @@ components:
                     format: date-time
 tags:
     - name: IAMService
+    - name: MenuService

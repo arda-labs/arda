@@ -7,6 +7,8 @@
 
 ## 📂 Danh mục Tài liệu
 
+- [Operating Model](./00-operating-model.md)
+
 ### [01. Tổng quan (Overview)](./01-overview/)
 
 - [Kiến trúc hệ thống (Architecture)](./01-overview/architecture.md)
@@ -49,6 +51,7 @@
 ### [08. Hướng dẫn (Guides)](./08-guides/)
 
 - [Đề xuất Skills chuyên biệt](./08-guides/skills-proposal.md)
+- [Kế hoạch tổ chức lại repository](./08-guides/repository-reorganization-plan.md)
 
 ---
 
@@ -56,6 +59,18 @@
 
 - [README Gốc dự án](../README.md)
 - [Quy trình phát triển (Git Workflow)](./08-guides/git-workflow.md)
+
+## Operating Model
+
+Tài liệu này nên được đọc theo thứ tự:
+
+1. `00-operating-model.md` để hiểu ranh giới giữa app repo, infra repo, local/dev/prod và APISIX.
+2. `01-overview` để hiểu hiện trạng thật của hệ thống.
+3. `05-infrastructure` để biết cluster và deploy chạy thế nào.
+4. `02-backend-go` và `03-backend-java` để theo dõi từng lớp service.
+5. `08-guides` để làm việc theo cùng một quy ước local/dev/prod.
+
+Nếu nội dung tài liệu mâu thuẫn với code hiện tại, ưu tiên code và `01-overview/infra-status.md`.
 
 ---
 

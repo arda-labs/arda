@@ -18,6 +18,7 @@ import (
 
 const (
 	userIDKey          contextKey = "user_id"
+	userUsernameKey    contextKey = "user_username"
 	userEmailKey       contextKey = "user_email"
 	userPermissionsKey contextKey = "user_permissions"
 )
@@ -64,6 +65,7 @@ func Auth(options ...AuthOption) middleware.Middleware {
 		return func(ctx context.Context, req interface{}) (interface{}, error) {
 			if tr, ok := transport.FromServerContext(ctx); ok {
 				userID := tr.RequestHeader().Get("X-User-Id")
+				username := tr.RequestHeader().Get("X-User-Username")
 				email := tr.RequestHeader().Get("X-User-Email")
 				perms := tr.RequestHeader().Get("X-User-Permissions")
 
@@ -76,7 +78,7 @@ func Auth(options ...AuthOption) middleware.Middleware {
 							return nil, errors.Unauthorized("UNAUTHORIZED", "invalid bearer token")
 						}
 						if claims != nil {
-							userID, email, perms = claimsToIdentity(claims)
+							userID, username, email, perms = claimsToIdentity(claims)
 							if tenantID := tr.RequestHeader().Get("X-Tenant-ID"); tenantID == "" {
 								setTenantHeaderFromClaims(tr, claims)
 							}
@@ -86,6 +88,7 @@ func Auth(options ...AuthOption) middleware.Middleware {
 
 				if userID != "" {
 					ctx = context.WithValue(ctx, userIDKey, userID)
+					ctx = context.WithValue(ctx, userUsernameKey, username)
 					ctx = context.WithValue(ctx, userEmailKey, email)
 					ctx = context.WithValue(ctx, userPermissionsKey, perms)
 				}
@@ -200,9 +203,16 @@ func fetchUserInfo(issuer, token string) (jwt.MapClaims, error) {
 	return claims, nil
 }
 
-func claimsToIdentity(claims jwt.MapClaims) (string, string, string) {
+func claimsToIdentity(claims jwt.MapClaims) (string, string, string, string) {
 	userID, _ := claims["sub"].(string)
+	username, _ := claims["preferred_username"].(string)
+	if username == "" {
+		username, _ = claims["username"].(string)
+	}
 	email, _ := claims["email"].(string)
+	if username == "" {
+		username = email
+	}
 
 	var permissions []string
 	if roles, ok := claims["urn:zitadel:iam:org:project:roles"].(map[string]any); ok {
@@ -217,7 +227,7 @@ func claimsToIdentity(claims jwt.MapClaims) (string, string, string) {
 		}
 	}
 
-	return userID, email, strings.Join(permissions, ",")
+	return userID, username, email, strings.Join(permissions, ",")
 }
 
 func setTenantHeaderFromClaims(tr transport.Transporter, claims jwt.MapClaims) {
@@ -239,6 +249,13 @@ func GetUserID(ctx context.Context) string {
 
 func GetEmail(ctx context.Context) string {
 	if v, ok := ctx.Value(userEmailKey).(string); ok {
+		return v
+	}
+	return ""
+}
+
+func GetUsername(ctx context.Context) string {
+	if v, ok := ctx.Value(userUsernameKey).(string); ok {
 		return v
 	}
 	return ""

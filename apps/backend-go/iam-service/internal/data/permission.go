@@ -3,6 +3,7 @@ package data
 import (
 	"context"
 	"fmt"
+	"strings"
 	"time"
 
 	"github.com/arda-labs/arda/arda-be-go/pkg/middleware"
@@ -20,12 +21,62 @@ func NewPermissionRepo(data *Data) biz.PermissionRepo {
 	return &permissionRepo{data: data}
 }
 
+func (r *permissionRepo) ResolveUserID(ctx context.Context, userID string) (string, error) {
+	if userID == "" {
+		return "", nil
+	}
+
+	var id string
+	tenantID := middleware.GetTenantID(ctx)
+	err := r.data.DB(ctx).ExecInTransaction(ctx, tenantID, func(ctx context.Context, tx pgx.Tx) error {
+		err := tx.QueryRow(ctx,
+			`SELECT id::text
+			 FROM users
+			 WHERE (id::text = $1 OR external_id = $1 OR lower(username) = lower($1))
+			   AND deleted_at IS NULL
+			 LIMIT 1`, userID,
+		).Scan(&id)
+		if err == pgx.ErrNoRows {
+			return nil
+		}
+		return err
+	})
+	return id, err
+}
+
+func (r *permissionRepo) IsPlatformAdmin(ctx context.Context, userID string) (bool, error) {
+	if userID == "" {
+		return false, nil
+	}
+
+	var exists bool
+	tenantID := middleware.GetTenantID(ctx)
+	err := r.data.DB(ctx).ExecInTransaction(ctx, tenantID, func(ctx context.Context, tx pgx.Tx) error {
+		return tx.QueryRow(ctx,
+			`SELECT EXISTS(
+				SELECT 1
+				FROM platform_admins pa
+				JOIN users u ON u.id = pa.user_id
+				WHERE pa.revoked_at IS NULL
+				  AND u.deleted_at IS NULL
+				  AND (u.id::text = $1 OR u.external_id = $1 OR lower(u.username) = lower($1))
+			)`, userID,
+		).Scan(&exists)
+	})
+	return exists, err
+}
+
 func (r *permissionRepo) CheckByRole(ctx context.Context, userID, tenantID, resource, action string) (bool, error) {
 	var exists bool
 	err := r.data.DB(ctx).ExecInTransaction(ctx, tenantID, func(ctx context.Context, tx pgx.Tx) error {
 		return tx.QueryRow(ctx,
-			`WITH RECURSIVE role_tree AS (
-				SELECT role_id FROM user_roles WHERE user_id = $1 AND tenant_id = $2
+			`WITH RECURSIVE actor AS (
+				SELECT id FROM users
+				WHERE (id::text = $1 OR external_id = $1 OR lower(username) = lower($1))
+				  AND deleted_at IS NULL
+				LIMIT 1
+			), role_tree AS (
+				SELECT role_id FROM user_roles WHERE user_id = (SELECT id FROM actor) AND tenant_id = $2
 				UNION
 				SELECT rh.parent_role_id FROM role_hierarchy rh
 				JOIN role_tree rt ON rh.child_role_id = rt.role_id
@@ -45,9 +96,15 @@ func (r *permissionRepo) GetResourceOverride(ctx context.Context, userID, tenant
 	rp := &biz.ResourcePermission{}
 	err := r.data.DB(ctx).ExecInTransaction(ctx, tenantID, func(ctx context.Context, tx pgx.Tx) error {
 		err := tx.QueryRow(ctx,
-			`SELECT id, user_id, tenant_id, resource, action, resource_id, allowed, created_at
-			 FROM resource_permissions
-			 WHERE user_id = $1 AND tenant_id = $2 AND resource = $3 AND action = $4 AND resource_id = $5`,
+			`SELECT rp.id, rp.user_id, rp.tenant_id, rp.resource, rp.action, rp.resource_id, rp.allowed, rp.created_at
+			 FROM resource_permissions rp
+			 JOIN users u ON u.id = rp.user_id
+			 WHERE (u.id::text = $1 OR u.external_id = $1 OR lower(u.username) = lower($1))
+			   AND rp.tenant_id = $2
+			   AND rp.resource = $3
+			   AND rp.action = $4
+			   AND rp.resource_id = $5
+			   AND u.deleted_at IS NULL`,
 			userID, tenantID, resource, action, resourceID,
 		).Scan(&rp.ID, &rp.UserID, &rp.TenantID, &rp.Resource, &rp.Action, &rp.ResourceID, &rp.Allowed, &rp.CreatedAt)
 		if err == pgx.ErrNoRows {
@@ -158,8 +215,11 @@ func (c *permissionCache) Get(ctx context.Context, userID, tenantID, resource, a
 	if err != nil {
 		return nil, false
 	}
-	allowed := val[0] == '1'
-	source := val[2:]
+	allowedText, source, ok := strings.Cut(val, ":")
+	if !ok {
+		return nil, false
+	}
+	allowed := allowedText == "true"
 	return &biz.CachedPermission{Allowed: allowed, Source: source}, true
 }
 

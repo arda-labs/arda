@@ -20,10 +20,12 @@
       "TITLE": "Chào mừng trở lại",
       "SUBTITLE": "Vui lòng đăng nhập để tiếp tục",
       "EMAIL": "Email",
+      "LOGIN_NAME": "Tên đăng nhập",
+      "REQUIRED_LOGIN_NAME": "Vui lòng nhập tên đăng nhập",
       "PASSWORD": "Mật khẩu",
       "INVALID_EMAIL": "Email không hợp lệ",
       "REQUIRED_PASSWORD": "Vui lòng nhập mật khẩu",
-      "LOGIN_FAILED": "Email hoặc mật khẩu không đúng",
+      "LOGIN_FAILED": "Tên đăng nhập hoặc mật khẩu không đúng",
       "ACCOUNT_NOT_FOUND": "Tài khoản không tồn tại",
       "TOO_MANY_REQUESTS": "Quá nhiều lần thử. Vui lòng đợi vài phút."
     },

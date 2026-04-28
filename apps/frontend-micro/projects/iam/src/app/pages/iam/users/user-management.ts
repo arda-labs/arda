@@ -71,6 +71,7 @@ export class UserManagement {
   });
 
   createForm = new FormGroup({
+    username: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
     email: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.email] }),
     displayName: new FormControl('', { nonNullable: true }),
     password: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.minLength(6)] })
@@ -88,7 +89,7 @@ export class UserManagement {
   }
 
   openCreateDialog() {
-    this.createForm.reset({ email: '', displayName: '', password: '' });
+    this.createForm.reset({ username: '', email: '', displayName: '', password: '' });
     this.displayCreateDialog.set(true);
   }
 
@@ -144,10 +145,10 @@ export class UserManagement {
     const tenantId = this.tenantService.selectedTenantId();
     if (!tenantId) return;
 
-    const { email, displayName, password } = this.createForm.getRawValue();
+    const { username, email, displayName, password } = this.createForm.getRawValue();
     this.isSaving.set(true);
     this.userService.createUser(
-      { email, display_name: displayName, password },
+      { username, email, display_name: displayName, password },
       tenantId,
     ).subscribe({
       next: () => {

@@ -175,6 +175,7 @@ message User {
   string display_name = 4;
   google.protobuf.Timestamp created_at = 5;
   google.protobuf.Timestamp updated_at = 6;
+  string username = 7;
 }
 
 message Tenant {
@@ -236,6 +237,7 @@ message CreateUserRequest {
   string display_name = 2;
   string password = 3;
   string tenant_id = 4;
+  string username = 5;
 }
 
 message ListUsersRequest {
@@ -348,9 +350,10 @@ message RevokeResourcePermissionRequest { string id = 1; }
 message RevokeResourcePermissionResponse {}
 
 message CustomLoginRequest {
-  string email = 1;
+  string email = 1; // Deprecated: use login_name.
   string password = 2;
   string auth_request_id = 3;
+  string login_name = 4;
 }
 
 message CustomLoginReply {
@@ -361,6 +364,7 @@ message ForwardAuthRequest {
   string method = 1;
   string path = 2;
   string token = 3;
+  string tenant_id = 4;
 }
 
 message ForwardAuthResponse {

@@ -87,11 +87,11 @@ type finalizeResponse struct {
  * 2. Xác thực password cho session dùng PAT của Login Client
  * 3. Finalize OIDC request dùng PAT của Login Client
  */
-func (uc *AuthUsecase) CustomLogin(ctx context.Context, email, password, authRequestID string) (string, error) {
-	uc.log.Infof("Login App: Starting auth for %s, request: %s", email, authRequestID)
+func (uc *AuthUsecase) CustomLogin(ctx context.Context, loginName, password, authRequestID string) (string, error) {
+	uc.log.Infof("Login App: Starting auth for %s, request: %s", loginName, authRequestID)
 
 	// 1. Create Session
-	session, err := uc.createSession(email, authRequestID)
+	session, err := uc.createSession(loginName, authRequestID)
 	if err != nil {
 		return "", err
 	}
@@ -118,7 +118,7 @@ func (uc *AuthUsecase) CustomLogin(ctx context.Context, email, password, authReq
  * 2. Trích xuất userID và tenantID từ claims
  * 3. (TODO) Kiểm tra quyền RBAC/ABAC trong DB
  */
-func (uc *AuthUsecase) ForwardAuth(ctx context.Context, method, path, token string) (bool, string, string, error) {
+func (uc *AuthUsecase) ForwardAuth(ctx context.Context, method, path, token, selectedTenantID string) (bool, string, string, error) {
 	// Strip "Bearer " prefix nếu có
 	if len(token) > 7 && token[:7] == "Bearer " {
 		token = token[7:]
@@ -134,7 +134,10 @@ func (uc *AuthUsecase) ForwardAuth(ctx context.Context, method, path, token stri
 	}
 
 	userID := stringClaimVal(claims["sub"])
-	tenantID := stringClaimVal(claims["tenant_id"])
+	tenantID := selectedTenantID
+	if tenantID == "" {
+		tenantID = stringClaimVal(claims["tenant_id"])
+	}
 	if tenantID == "" {
 		tenantID = stringClaimVal(claims["urn:zitadel:iam:org:id"])
 	}
@@ -347,10 +350,14 @@ type zitadelCreateUserResponse struct {
 	UserID string `json:"userId"`
 }
 
-func (uc *AuthUsecase) CreateZitadelUser(ctx context.Context, email, displayName, password string) (string, error) {
+func (uc *AuthUsecase) CreateZitadelUser(ctx context.Context, username, email, displayName, password string) (string, error) {
+	if username == "" {
+		username = email
+	}
+
 	url := fmt.Sprintf("%s/v2/users/human", uc.conf.Authority)
 	body := map[string]any{
-		"username": email,
+		"username": username,
 		"profile": map[string]string{
 			"givenName":  displayName,
 			"familyName": "User", // Default

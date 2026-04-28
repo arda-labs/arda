@@ -14,10 +14,10 @@ export class ZitadelSessionService {
   /**
    * Gọi backend (iam-service) để thực hiện flow login trọn gói với Zitadel
    */
-  login(email: string, password: string, authRequestId: string): Observable<LoginResponse> {
+  login(loginName: string, password: string, authRequestId: string): Observable<LoginResponse> {
     const url = `${this.apiUrl}/v1/auth/login`;
     return this.http.post<LoginResponse>(url, {
-      email,
+      login_name: loginName,
       password,
       auth_request_id: authRequestId,
     });

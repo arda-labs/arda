@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
-import { FormField, form, required, email } from '@angular/forms/signals';
+import { FormField, form, required } from '@angular/forms/signals';
 import { Button } from 'primeng/button';
 import { InputText } from 'primeng/inputtext';
 import { Message } from 'primeng/message';
@@ -32,8 +32,7 @@ export class LoginPage implements OnInit {
 
   loginModel = signal({ loginName: '', password: '' });
   loginForm = form(this.loginModel, (field) => {
-    required(field.loginName, { message: 'Email is required' });
-    email(field.loginName, { message: 'Invalid email' });
+    required(field.loginName, { message: this.translate.instant('PAGES.LOGIN.REQUIRED_LOGIN_NAME') });
     required(field.password, { message: 'Password is required' });
   });
 

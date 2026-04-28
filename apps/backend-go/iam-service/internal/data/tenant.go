@@ -82,6 +82,32 @@ func (r *tenantRepo) GetByIDs(ctx context.Context, ids []string) ([]*biz.Tenant,
 	return list, err
 }
 
+func (r *tenantRepo) ListAll(ctx context.Context) ([]*biz.Tenant, error) {
+	var list []*biz.Tenant
+	err := r.data.DB(ctx).ExecInTransaction(ctx, "", func(ctx context.Context, tx pgx.Tx) error {
+		rows, err := tx.Query(ctx,
+			`SELECT id, name, slug, owner_id, created_at, updated_at
+			 FROM tenants
+			 WHERE deleted_at IS NULL
+			 ORDER BY name ASC`,
+		)
+		if err != nil {
+			return err
+		}
+		defer rows.Close()
+
+		for rows.Next() {
+			t := &biz.Tenant{}
+			if err := rows.Scan(&t.ID, &t.Name, &t.Slug, &t.OwnerID, &t.CreatedAt, &t.UpdatedAt); err != nil {
+				return err
+			}
+			list = append(list, t)
+		}
+		return rows.Err()
+	})
+	return list, err
+}
+
 func (r *tenantRepo) GetBySlug(ctx context.Context, slug string) (*biz.Tenant, error) {
 	t := &biz.Tenant{}
 	err := r.data.DB(ctx).ExecInTransaction(ctx, "", func(ctx context.Context, tx pgx.Tx) error {

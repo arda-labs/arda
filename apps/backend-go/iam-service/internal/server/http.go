@@ -24,7 +24,7 @@ func NewHTTPServer(c *conf.Server, jwt *conf.JWT, iam *service.IAMService, menu 
 				"http://localhost:4200", "http://127.0.0.1:4200",
 			}),
 			handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE", "OPTIONS"}),
-			handlers.AllowedHeaders([]string{"Content-Type", "Authorization", "X-Tenant-ID", "X-Request-ID", "Accept-Language"}),
+			handlers.AllowedHeaders([]string{"Content-Type", "Authorization", "X-Tenant-ID", "X-Request-ID", "Accept-Language", "X-User-Username"}),
 		)),
 		khttp.Middleware(
 			recovery.Recovery(),

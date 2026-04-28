@@ -8,6 +8,7 @@ import (
 type User struct {
 	ID          string
 	ExternalID  string
+	Username    string
 	Email       string
 	DisplayName string
 	CreatedAt   time.Time
@@ -32,9 +33,13 @@ func NewUserUsecase(repo UserRepo, auth *AuthUsecase, members *MembershipUsecase
 	return &UserUsecase{repo: repo, auth: auth, members: members}
 }
 
-func (uc *UserUsecase) CreateUser(ctx context.Context, email, displayName, password, tenantID string) (*User, error) {
+func (uc *UserUsecase) CreateUser(ctx context.Context, username, email, displayName, password, tenantID string) (*User, error) {
+	if username == "" {
+		username = email
+	}
+
 	// 1. Gọi Zitadel để tạo Human User
-	externalID, err := uc.auth.CreateZitadelUser(ctx, email, displayName, password)
+	externalID, err := uc.auth.CreateZitadelUser(ctx, username, email, displayName, password)
 	if err != nil {
 		return nil, err
 	}
@@ -42,6 +47,7 @@ func (uc *UserUsecase) CreateUser(ctx context.Context, email, displayName, passw
 	// 2. Lưu vào DB nội bộ Arda
 	user, err := uc.repo.Create(ctx, &User{
 		ExternalID:  externalID,
+		Username:    username,
 		Email:       email,
 		DisplayName: displayName,
 	})
@@ -57,21 +63,33 @@ func (uc *UserUsecase) CreateUser(ctx context.Context, email, displayName, passw
 	return user, nil
 }
 
-func (uc *UserUsecase) GetOrCreateUser(ctx context.Context, externalID, email, displayName string) (*User, error) {
+func (uc *UserUsecase) GetOrCreateUser(ctx context.Context, externalID, username, email, displayName string) (*User, error) {
 	user, err := uc.repo.GetByExternalID(ctx, externalID)
 	if err != nil {
 		return nil, err
 	}
 	if user != nil {
-		if user.Email != email || user.DisplayName != displayName {
+		changed := false
+		if username != "" && user.Username != username {
+			user.Username = username
+			changed = true
+		}
+		if email != "" && user.Email != email {
 			user.Email = email
+			changed = true
+		}
+		if displayName != "" && user.DisplayName != displayName {
 			user.DisplayName = displayName
+			changed = true
+		}
+		if changed {
 			return uc.repo.Update(ctx, user)
 		}
 		return user, nil
 	}
 	return uc.repo.Create(ctx, &User{
 		ExternalID:  externalID,
+		Username:    username,
 		Email:       email,
 		DisplayName: displayName,
 	})

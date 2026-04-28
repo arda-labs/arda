@@ -17,6 +17,17 @@
 - **Multi-Tenancy**: Column-based với PostgreSQL Row-Level Security
 - **Fine-Grained Access Control**: RBAC/ABAC/ReBAC với Maker-Checker pattern
 
+## Repository Reality
+
+Thư mục gốc này đang chứa cả code ứng dụng lẫn hạ tầng triển khai. Trạng thái thực tế hiện nay là:
+
+- `apps/frontend-micro`: frontend Angular MFE đang chạy được
+- `apps/backend-go/iam-service`: backend IAM chính đang chạy được
+- `apps/backend-java/accounting_tmp`: prototype accounting, chưa phải service ổn định
+- `arda-infra`: repo GitOps/Kubernetes cho deploy
+
+Các service khác trong tài liệu vẫn đang ở mức roadmap hoặc skeleton.
+
 ---
 
 ## 🗂️ Monorepo Structure
@@ -80,6 +91,13 @@ arda/
 
 ## 🚀 Quick Start
 
+### Dev/Deploy Contract
+
+- Local dev nên đi qua APISIX khi kiểm tra auth, route, CORS, tenant header.
+- Deploy production cũng đi qua APISIX, khác nhau chủ yếu ở host và overlay config.
+- Frontend không gọi thẳng service nếu mục tiêu là parity với production.
+- IAM là nguồn sự thật cho login, tenant membership, permission và forward auth.
+
 ### Prerequisites
 - Ubuntu 24.04 LTS
 - 32GB RAM minimum
@@ -98,14 +116,17 @@ arda/
 git clone https://github.com.arda_labs/arda.git
 cd arda
 
-# 2. Deploy infrastructure
+# 2. Start with infra repo for cluster bootstrap
 cd arda-infra
-kubectl apply -f infrastructure/
+./scripts/bootstrap.sh
 
 # 3. Build and deploy services
-./scripts/deploy-all.sh
+# Use ArgoCD/GitOps for deploy; do not hand-edit live manifests
 
-# 4. Access applications
+# 4. For local dev, use APISIX tunnel to thinkcenter
+# ssh -N -L 9080:127.0.0.1:32459 hoan@thinkcenter
+
+# 5. Access applications
 # Frontend: https://arda.io.vn
 # API Gateway: https://api.arda.io.vn
 # Zitadel: https://auth.arda.io.vn

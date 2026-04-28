@@ -20,10 +20,12 @@
       "TITLE": "Welcome Back",
       "SUBTITLE": "Please login to continue",
       "EMAIL": "Email",
+      "LOGIN_NAME": "Username",
+      "REQUIRED_LOGIN_NAME": "Username is required",
       "PASSWORD": "Password",
       "INVALID_EMAIL": "Invalid email",
       "REQUIRED_PASSWORD": "Password is required",
-      "LOGIN_FAILED": "Invalid email or password",
+      "LOGIN_FAILED": "Invalid username or password",
       "ACCOUNT_NOT_FOUND": "Account not found",
       "TOO_MANY_REQUESTS": "Too many attempts. Please try again later."
     },

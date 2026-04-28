@@ -1,5 +1,8 @@
 # Spec: Arda Monorepo Migration & Renaming
 
+> Outdated as of 2026-04-28.
+> Do not use this as the current repository design. The active operating model is `docs/00-operating-model.md`, and the active reorganization plan is `docs/08-guides/repository-reorganization-plan.md`.
+
 - **Topic**: Monorepo Migration & Organization Renaming
 - **Date**: 2026-04-25
 - **Author**: Claude (Antigravity)

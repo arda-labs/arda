@@ -18,6 +18,7 @@ type TenantRepo interface {
 	Create(ctx context.Context, tenant *Tenant) (*Tenant, error)
 	GetByID(ctx context.Context, id string) (*Tenant, error)
 	GetByIDs(ctx context.Context, ids []string) ([]*Tenant, error)
+	ListAll(ctx context.Context) ([]*Tenant, error)
 	GetBySlug(ctx context.Context, slug string) (*Tenant, error)
 	Update(ctx context.Context, tenant *Tenant) (*Tenant, error)
 	SoftDelete(ctx context.Context, id string) error
@@ -34,6 +35,10 @@ func NewTenantUsecase(repo TenantRepo, members *MembershipUsecase) *TenantUsecas
 
 func (uc *TenantUsecase) GetTenantsByIDs(ctx context.Context, ids []string) ([]*Tenant, error) {
 	return uc.repo.GetByIDs(ctx, ids)
+}
+
+func (uc *TenantUsecase) ListTenants(ctx context.Context) ([]*Tenant, error) {
+	return uc.repo.ListAll(ctx)
 }
 
 func (uc *TenantUsecase) CreateTenant(ctx context.Context, name, slug, ownerID string) (*Tenant, error) {

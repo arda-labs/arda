@@ -4,6 +4,7 @@ import { Observable, map } from 'rxjs';
 
 export interface User {
   id: string;
+  username: string;
   email: string;
   displayName: string;
   createdAt: string;
@@ -35,6 +36,7 @@ export class UserService {
     return this.http.get<{ users: any[] }>(`/api/v1/users?tenant_id=${tenantId}`).pipe(
       map(resp => (resp.users || []).map(u => ({
         id: u.id,
+        username: u.username,
         email: u.email,
         displayName: u.display_name,
         createdAt: u.created_at
@@ -107,6 +109,7 @@ export class UserService {
     }).pipe(
       map(resp => ({
         id: resp.id,
+        username: resp.username,
         email: resp.email,
         displayName: resp.display_name,
         createdAt: resp.created_at
@@ -167,6 +170,7 @@ export class UserService {
     return this.http.get<{ users: any[] }>(`/api/v1/groups/${groupId}/members`).pipe(
       map(resp => (resp.users || []).map(u => ({
         id: u.id,
+        username: u.username,
         email: u.email,
         displayName: u.display_name,
         createdAt: u.created_at

@@ -32,6 +32,7 @@ type User struct {
 	DisplayName   string                 `protobuf:"bytes,4,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
 	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	Username      string                 `protobuf:"bytes,7,opt,name=username,proto3" json:"username,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -106,6 +107,13 @@ func (x *User) GetUpdatedAt() *timestamppb.Timestamp {
 		return x.UpdatedAt
 	}
 	return nil
+}
+
+func (x *User) GetUsername() string {
+	if x != nil {
+		return x.Username
+	}
+	return ""
 }
 
 type Tenant struct {
@@ -683,6 +691,7 @@ type CreateUserRequest struct {
 	DisplayName   string                 `protobuf:"bytes,2,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
 	Password      string                 `protobuf:"bytes,3,opt,name=password,proto3" json:"password,omitempty"`
 	TenantId      string                 `protobuf:"bytes,4,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
+	Username      string                 `protobuf:"bytes,5,opt,name=username,proto3" json:"username,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -741,6 +750,13 @@ func (x *CreateUserRequest) GetPassword() string {
 func (x *CreateUserRequest) GetTenantId() string {
 	if x != nil {
 		return x.TenantId
+	}
+	return ""
+}
+
+func (x *CreateUserRequest) GetUsername() string {
+	if x != nil {
+		return x.Username
 	}
 	return ""
 }
@@ -2271,9 +2287,10 @@ func (*RevokeResourcePermissionResponse) Descriptor() ([]byte, []int) {
 
 type CustomLoginRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Email         string                 `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty"`
+	Email         string                 `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty"` // Deprecated: use login_name.
 	Password      string                 `protobuf:"bytes,2,opt,name=password,proto3" json:"password,omitempty"`
 	AuthRequestId string                 `protobuf:"bytes,3,opt,name=auth_request_id,json=authRequestId,proto3" json:"auth_request_id,omitempty"`
+	LoginName     string                 `protobuf:"bytes,4,opt,name=login_name,json=loginName,proto3" json:"login_name,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2329,6 +2346,13 @@ func (x *CustomLoginRequest) GetAuthRequestId() string {
 	return ""
 }
 
+func (x *CustomLoginRequest) GetLoginName() string {
+	if x != nil {
+		return x.LoginName
+	}
+	return ""
+}
+
 type CustomLoginReply struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	CallbackUrl   string                 `protobuf:"bytes,1,opt,name=callback_url,json=callbackUrl,proto3" json:"callback_url,omitempty"`
@@ -2378,6 +2402,7 @@ type ForwardAuthRequest struct {
 	Method        string                 `protobuf:"bytes,1,opt,name=method,proto3" json:"method,omitempty"`
 	Path          string                 `protobuf:"bytes,2,opt,name=path,proto3" json:"path,omitempty"`
 	Token         string                 `protobuf:"bytes,3,opt,name=token,proto3" json:"token,omitempty"`
+	TenantId      string                 `protobuf:"bytes,4,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2429,6 +2454,13 @@ func (x *ForwardAuthRequest) GetPath() string {
 func (x *ForwardAuthRequest) GetToken() string {
 	if x != nil {
 		return x.Token
+	}
+	return ""
+}
+
+func (x *ForwardAuthRequest) GetTenantId() string {
+	if x != nil {
+		return x.TenantId
 	}
 	return ""
 }
@@ -4073,7 +4105,7 @@ var File_api_iam_v1_iam_proto protoreflect.FileDescriptor
 
 const file_api_iam_v1_iam_proto_rawDesc = "" +
 	"\n" +
-	"\x14api/iam/v1/iam.proto\x12\x06iam.v1\x1a\x1cgoogle/api/annotations.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xe6\x01\n" +
+	"\x14api/iam/v1/iam.proto\x12\x06iam.v1\x1a\x1cgoogle/api/annotations.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x82\x02\n" +
 	"\x04User\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1f\n" +
 	"\vexternal_id\x18\x02 \x01(\tR\n" +
@@ -4083,7 +4115,8 @@ const file_api_iam_v1_iam_proto_rawDesc = "" +
 	"\n" +
 	"created_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
 	"\n" +
-	"updated_at\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\"\xd1\x01\n" +
+	"updated_at\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x12\x1a\n" +
+	"\busername\x18\a \x01(\tR\busername\"\xd1\x01\n" +
 	"\x06Tenant\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x12\n" +
@@ -4135,12 +4168,13 @@ const file_api_iam_v1_iam_proto_rawDesc = "" +
 	"\x04user\x18\x01 \x01(\v2\f.iam.v1.UserR\x04user\x12:\n" +
 	"\vmemberships\x18\x02 \x03(\v2\x18.iam.v1.TenantMembershipR\vmemberships\" \n" +
 	"\x0eGetUserRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\"\x85\x01\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\"\xa1\x01\n" +
 	"\x11CreateUserRequest\x12\x14\n" +
 	"\x05email\x18\x01 \x01(\tR\x05email\x12!\n" +
 	"\fdisplay_name\x18\x02 \x01(\tR\vdisplayName\x12\x1a\n" +
 	"\bpassword\x18\x03 \x01(\tR\bpassword\x12\x1b\n" +
-	"\ttenant_id\x18\x04 \x01(\tR\btenantId\"k\n" +
+	"\ttenant_id\x18\x04 \x01(\tR\btenantId\x12\x1a\n" +
+	"\busername\x18\x05 \x01(\tR\busername\"k\n" +
 	"\x10ListUsersRequest\x12\x1b\n" +
 	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12\x1b\n" +
 	"\tpage_size\x18\x02 \x01(\x05R\bpageSize\x12\x1d\n" +
@@ -4235,17 +4269,20 @@ const file_api_iam_v1_iam_proto_rawDesc = "" +
 	"\aallowed\x18\x06 \x01(\bR\aallowed\"1\n" +
 	"\x1fRevokeResourcePermissionRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\"\"\n" +
-	" RevokeResourcePermissionResponse\"n\n" +
+	" RevokeResourcePermissionResponse\"\x8d\x01\n" +
 	"\x12CustomLoginRequest\x12\x14\n" +
 	"\x05email\x18\x01 \x01(\tR\x05email\x12\x1a\n" +
 	"\bpassword\x18\x02 \x01(\tR\bpassword\x12&\n" +
-	"\x0fauth_request_id\x18\x03 \x01(\tR\rauthRequestId\"5\n" +
+	"\x0fauth_request_id\x18\x03 \x01(\tR\rauthRequestId\x12\x1d\n" +
+	"\n" +
+	"login_name\x18\x04 \x01(\tR\tloginName\"5\n" +
 	"\x10CustomLoginReply\x12!\n" +
-	"\fcallback_url\x18\x01 \x01(\tR\vcallbackUrl\"V\n" +
+	"\fcallback_url\x18\x01 \x01(\tR\vcallbackUrl\"s\n" +
 	"\x12ForwardAuthRequest\x12\x16\n" +
 	"\x06method\x18\x01 \x01(\tR\x06method\x12\x12\n" +
 	"\x04path\x18\x02 \x01(\tR\x04path\x12\x14\n" +
-	"\x05token\x18\x03 \x01(\tR\x05token\"e\n" +
+	"\x05token\x18\x03 \x01(\tR\x05token\x12\x1b\n" +
+	"\ttenant_id\x18\x04 \x01(\tR\btenantId\"e\n" +
 	"\x13ForwardAuthResponse\x12\x18\n" +
 	"\aallowed\x18\x01 \x01(\bR\aallowed\x12\x17\n" +
 	"\auser_id\x18\x02 \x01(\tR\x06userId\x12\x1b\n" +

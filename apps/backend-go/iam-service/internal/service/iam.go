@@ -51,10 +51,30 @@ func NewIAMService(
 	}
 }
 
+func (s *IAMService) currentUser(ctx context.Context) (*biz.User, error) {
+	extID := middleware.GetUserID(ctx)
+	if extID == "" {
+		return nil, errors.Forbidden("UNAUTHORIZED", "missing subject")
+	}
+	return s.users.GetOrCreateUser(ctx, extID, middleware.GetUsername(ctx), middleware.GetEmail(ctx), "")
+}
+
+func (s *IAMService) currentUserID(ctx context.Context) (string, error) {
+	user, err := s.currentUser(ctx)
+	if err != nil {
+		return "", err
+	}
+	return user.ID, nil
+}
+
 // Auth
 
 func (s *IAMService) CustomLogin(ctx context.Context, req *pb.CustomLoginRequest) (*pb.CustomLoginReply, error) {
-	callbackURL, err := s.auth.CustomLogin(ctx, req.Email, req.Password, req.AuthRequestId)
+	loginName := req.LoginName
+	if loginName == "" {
+		loginName = req.Email
+	}
+	callbackURL, err := s.auth.CustomLogin(ctx, loginName, req.Password, req.AuthRequestId)
 	if err != nil {
 		s.log.Warnf("CustomLogin failed for auth request %s: %v", req.AuthRequestId, err)
 		return nil, errors.Unauthorized("LOGIN_FAILED", "login failed")
@@ -68,9 +88,30 @@ func (s *IAMService) GetUserMemberships(ctx context.Context, req *pb.GetUserMemb
 		return nil, errors.Forbidden("UNAUTHORIZED", "missing subject")
 	}
 
-	user, err := s.users.GetOrCreateUser(ctx, userID, middleware.GetEmail(ctx), "")
+	user, err := s.users.GetOrCreateUser(ctx, userID, middleware.GetUsername(ctx), middleware.GetEmail(ctx), "")
 	if err != nil {
 		return nil, err
+	}
+
+	isPlatformAdmin, err := s.perms.IsPlatformAdmin(ctx, user.ID)
+	if err != nil {
+		return nil, err
+	}
+	if isPlatformAdmin {
+		tenants, err := s.tenants.ListTenants(ctx)
+		if err != nil {
+			return nil, err
+		}
+		tenantMemberships := make([]*pb.TenantMembership, 0, len(tenants))
+		for _, t := range tenants {
+			tenantMemberships = append(tenantMemberships, &pb.TenantMembership{
+				TenantId:   t.ID,
+				TenantName: t.Name,
+				TenantSlug: t.Slug,
+				Role:       "super_admin",
+			})
+		}
+		return &pb.GetUserMembershipsResponse{Memberships: tenantMemberships}, nil
 	}
 
 	memberships, err := s.members.ListByUser(ctx, user.ID)
@@ -118,7 +159,7 @@ func (s *IAMService) GetCurrentUserPermissions(ctx context.Context, req *pb.GetC
 		return nil, errors.Forbidden("UNAUTHORIZED", "missing subject or tenant")
 	}
 
-	user, err := s.users.GetOrCreateUser(ctx, extID, "", "")
+	user, err := s.users.GetOrCreateUser(ctx, extID, middleware.GetUsername(ctx), middleware.GetEmail(ctx), "")
 	if err != nil {
 		return nil, err
 	}
@@ -137,13 +178,17 @@ func (s *IAMService) GetCurrentUserPermissions(ctx context.Context, req *pb.GetC
 
 func (s *IAMService) ForwardAuth(ctx context.Context, req *pb.ForwardAuthRequest) (*pb.ForwardAuthResponse, error) {
 	token := req.Token
-	if token == "" {
-		if tr, ok := transport.FromServerContext(ctx); ok {
+	tenantID := req.TenantId
+	if tr, ok := transport.FromServerContext(ctx); ok {
+		if token == "" {
 			token = tr.RequestHeader().Get("Authorization")
+		}
+		if tenantID == "" {
+			tenantID = tr.RequestHeader().Get("X-Tenant-ID")
 		}
 	}
 
-	allowed, userID, tenantID, err := s.auth.ForwardAuth(ctx, req.Method, req.Path, token)
+	allowed, userID, tenantID, err := s.auth.ForwardAuth(ctx, req.Method, req.Path, token, tenantID)
 	if err != nil {
 		return nil, err
 	}
@@ -162,9 +207,33 @@ func (s *IAMService) GetCurrentUser(ctx context.Context, _ *pb.GetCurrentUserReq
 		return nil, errors.Forbidden("UNAUTHORIZED", "missing subject")
 	}
 
-	user, err := s.users.GetOrCreateUser(ctx, extID, middleware.GetEmail(ctx), "")
+	user, err := s.users.GetOrCreateUser(ctx, extID, middleware.GetUsername(ctx), middleware.GetEmail(ctx), "")
 	if err != nil {
 		return nil, err
+	}
+
+	isPlatformAdmin, err := s.perms.IsPlatformAdmin(ctx, user.ID)
+	if err != nil {
+		return nil, err
+	}
+	if isPlatformAdmin {
+		tenants, err := s.tenants.ListTenants(ctx)
+		if err != nil {
+			return nil, err
+		}
+		tenantMemberships := make([]*pb.TenantMembership, 0, len(tenants))
+		for _, t := range tenants {
+			tenantMemberships = append(tenantMemberships, &pb.TenantMembership{
+				TenantId:   t.ID,
+				TenantName: t.Name,
+				TenantSlug: t.Slug,
+				Role:       "super_admin",
+			})
+		}
+		return &pb.GetCurrentUserResponse{
+			User:        toProtoUser(user),
+			Memberships: tenantMemberships,
+		}, nil
 	}
 
 	memberships, err := s.members.ListByUser(ctx, user.ID)
@@ -214,7 +283,7 @@ func (s *IAMService) UpdateProfile(ctx context.Context, req *pb.UpdateProfileReq
 		return nil, errors.Forbidden("UNAUTHORIZED", "missing subject")
 	}
 
-	user, err := s.users.GetOrCreateUser(ctx, extID, "", "")
+	user, err := s.users.GetOrCreateUser(ctx, extID, middleware.GetUsername(ctx), middleware.GetEmail(ctx), "")
 	if err != nil {
 		return nil, err
 	}
@@ -233,7 +302,7 @@ func (s *IAMService) ListMyAuditLogs(ctx context.Context, req *pb.ListMyAuditLog
 		return nil, errors.Forbidden("UNAUTHORIZED", "missing subject")
 	}
 
-	user, err := s.users.GetOrCreateUser(ctx, extID, "", "")
+	user, err := s.users.GetOrCreateUser(ctx, extID, middleware.GetUsername(ctx), middleware.GetEmail(ctx), "")
 	if err != nil {
 		return nil, err
 	}
@@ -278,7 +347,7 @@ func (s *IAMService) ListUsers(ctx context.Context, req *pb.ListUsersRequest) (*
 }
 
 func (s *IAMService) CreateUser(ctx context.Context, req *pb.CreateUserRequest) (*pb.User, error) {
-	user, err := s.users.CreateUser(ctx, req.Email, req.DisplayName, req.Password, req.TenantId)
+	user, err := s.users.CreateUser(ctx, req.Username, req.Email, req.DisplayName, req.Password, req.TenantId)
 	if err != nil {
 		return nil, err
 	}
@@ -288,8 +357,11 @@ func (s *IAMService) CreateUser(ctx context.Context, req *pb.CreateUserRequest) 
 // Tenants
 
 func (s *IAMService) CreateTenant(ctx context.Context, req *pb.CreateTenantRequest) (*pb.Tenant, error) {
-	sub := middleware.GetUserID(ctx)
-	t, err := s.tenants.CreateTenant(ctx, req.Name, req.Slug, sub)
+	ownerID, err := s.currentUserID(ctx)
+	if err != nil {
+		return nil, err
+	}
+	t, err := s.tenants.CreateTenant(ctx, req.Name, req.Slug, ownerID)
 	if err != nil {
 		return nil, err
 	}
@@ -319,7 +391,11 @@ func (s *IAMService) DeleteTenant(ctx context.Context, req *pb.DeleteTenantReque
 // Membership
 
 func (s *IAMService) InviteMember(ctx context.Context, req *pb.InviteMemberRequest) (*pb.Membership, error) {
-	m, err := s.members.InviteMember(ctx, req.TenantId, req.ExternalId, req.Role)
+	user, err := s.users.GetOrCreateUser(ctx, req.ExternalId, "", "", "")
+	if err != nil {
+		return nil, err
+	}
+	m, err := s.members.InviteMember(ctx, req.TenantId, user.ID, req.Role)
 	if err != nil {
 		return nil, err
 	}
@@ -387,7 +463,10 @@ func (s *IAMService) DeleteRole(ctx context.Context, req *pb.DeleteRoleRequest) 
 // Role assignment
 
 func (s *IAMService) AssignRole(ctx context.Context, req *pb.AssignRoleRequest) (*pb.UserRole, error) {
-	actorID := middleware.GetUserID(ctx)
+	actorID, err := s.currentUserID(ctx)
+	if err != nil {
+		return nil, err
+	}
 	if err := s.roles.AssignRole(ctx, req.UserId, req.RoleId, req.TenantId, actorID); err != nil {
 		return nil, err
 	}
@@ -395,7 +474,10 @@ func (s *IAMService) AssignRole(ctx context.Context, req *pb.AssignRoleRequest) 
 }
 
 func (s *IAMService) RevokeRole(ctx context.Context, req *pb.RevokeRoleRequest) (*pb.RevokeRoleResponse, error) {
-	actorID := middleware.GetUserID(ctx)
+	actorID, err := s.currentUserID(ctx)
+	if err != nil {
+		return nil, err
+	}
 	return &pb.RevokeRoleResponse{}, s.roles.RevokeRole(ctx, req.UserId, req.RoleId, req.TenantId, actorID)
 }
 
@@ -442,12 +524,18 @@ func (s *IAMService) ListGroups(ctx context.Context, req *pb.ListGroupsRequest) 
 }
 
 func (s *IAMService) AddGroupMember(ctx context.Context, req *pb.AddGroupMemberRequest) (*pb.AddGroupMemberResponse, error) {
-	actorID := middleware.GetUserID(ctx)
+	actorID, err := s.currentUserID(ctx)
+	if err != nil {
+		return nil, err
+	}
 	return &pb.AddGroupMemberResponse{}, s.groups.AddMember(ctx, req.GroupId, req.UserId, actorID)
 }
 
 func (s *IAMService) RemoveGroupMember(ctx context.Context, req *pb.RemoveGroupMemberRequest) (*pb.RemoveGroupMemberResponse, error) {
-	actorID := middleware.GetUserID(ctx)
+	actorID, err := s.currentUserID(ctx)
+	if err != nil {
+		return nil, err
+	}
 	return &pb.RemoveGroupMemberResponse{}, s.groups.RemoveMember(ctx, req.GroupId, req.UserId, actorID)
 }
 
@@ -464,12 +552,18 @@ func (s *IAMService) ListGroupMembers(ctx context.Context, req *pb.ListGroupMemb
 }
 
 func (s *IAMService) AssignGroupRole(ctx context.Context, req *pb.AssignGroupRoleRequest) (*pb.AssignGroupRoleResponse, error) {
-	actorID := middleware.GetUserID(ctx)
+	actorID, err := s.currentUserID(ctx)
+	if err != nil {
+		return nil, err
+	}
 	return &pb.AssignGroupRoleResponse{}, s.groups.AssignRole(ctx, req.GroupId, req.RoleId, actorID)
 }
 
 func (s *IAMService) RevokeGroupRole(ctx context.Context, req *pb.RevokeGroupRoleRequest) (*pb.RevokeGroupRoleResponse, error) {
-	actorID := middleware.GetUserID(ctx)
+	actorID, err := s.currentUserID(ctx)
+	if err != nil {
+		return nil, err
+	}
 	return &pb.RevokeGroupRoleResponse{}, s.groups.RevokeRole(ctx, req.GroupId, req.RoleId, actorID)
 }
 
@@ -508,7 +602,10 @@ func (s *IAMService) ListPermissions(ctx context.Context, req *pb.ListPermission
 }
 
 func (s *IAMService) GrantResourcePermission(ctx context.Context, req *pb.GrantResourcePermissionRequest) (*pb.ResourcePermission, error) {
-	actorID := middleware.GetUserID(ctx)
+	actorID, err := s.currentUserID(ctx)
+	if err != nil {
+		return nil, err
+	}
 	rp, err := s.perms.GrantResourcePermission(ctx, &biz.ResourcePermission{
 		UserID:     req.UserId,
 		TenantID:   req.TenantId,
@@ -524,7 +621,10 @@ func (s *IAMService) GrantResourcePermission(ctx context.Context, req *pb.GrantR
 }
 
 func (s *IAMService) RevokeResourcePermission(ctx context.Context, req *pb.RevokeResourcePermissionRequest) (*pb.RevokeResourcePermissionResponse, error) {
-	actorID := middleware.GetUserID(ctx)
+	actorID, err := s.currentUserID(ctx)
+	if err != nil {
+		return nil, err
+	}
 	return &pb.RevokeResourcePermissionResponse{}, s.perms.RevokeResourcePermission(ctx, req.Id, actorID)
 }
 
@@ -534,12 +634,12 @@ func (s *IAMService) ListPendingApprovals(ctx context.Context, req *pb.ListPendi
 }
 
 func (s *IAMService) ApprovePermission(ctx context.Context, req *pb.ApprovePermissionRequest) (*pb.ResourcePermission, error) {
-	checkerID := middleware.GetUserID(ctx)
-	if checkerID == "" {
-		return nil, errors.Forbidden("UNAUTHORIZED", "missing subject")
+	checkerID, err := s.currentUserID(ctx)
+	if err != nil {
+		return nil, err
 	}
 
-	err := s.perms.ApprovePermission(ctx, req.Id, checkerID)
+	err = s.perms.ApprovePermission(ctx, req.Id, checkerID)
 	if err != nil {
 		return nil, err
 	}
@@ -553,12 +653,12 @@ func (s *IAMService) ApprovePermission(ctx context.Context, req *pb.ApprovePermi
 }
 
 func (s *IAMService) RejectPermission(ctx context.Context, req *pb.RejectPermissionRequest) (*pb.ResourcePermission, error) {
-	checkerID := middleware.GetUserID(ctx)
-	if checkerID == "" {
-		return nil, errors.Forbidden("UNAUTHORIZED", "missing subject")
+	checkerID, err := s.currentUserID(ctx)
+	if err != nil {
+		return nil, err
 	}
 
-	err := s.perms.RejectPermission(ctx, req.Id, checkerID)
+	err = s.perms.RejectPermission(ctx, req.Id, checkerID)
 	if err != nil {
 		return nil, err
 	}
@@ -577,6 +677,7 @@ func toProtoUser(u *biz.User) *pb.User {
 	return &pb.User{
 		Id:          u.ID,
 		ExternalId:  u.ExternalID,
+		Username:    u.Username,
 		Email:       u.Email,
 		DisplayName: u.DisplayName,
 		CreatedAt:   timestamppb.New(u.CreatedAt),

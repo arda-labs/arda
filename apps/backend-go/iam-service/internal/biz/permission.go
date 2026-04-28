@@ -23,6 +23,8 @@ type ResourcePermission struct {
 }
 
 type PermissionRepo interface {
+	ResolveUserID(ctx context.Context, userID string) (string, error)
+	IsPlatformAdmin(ctx context.Context, userID string) (bool, error)
 	CheckByRole(ctx context.Context, userID, tenantID, resource, action string) (bool, error)
 	GetResourceOverride(ctx context.Context, userID, tenantID, resource, action, resourceID string) (*ResourcePermission, error)
 	GetResourcePermission(ctx context.Context, id string) (*ResourcePermission, error)
@@ -44,14 +46,18 @@ type PermissionCache interface {
 }
 
 type PermissionUsecase struct {
-	roleRepo  RoleRepo
-	permRepo  PermissionRepo
-	cache     PermissionCache
-	audit     *AuditUsecase
+	roleRepo RoleRepo
+	permRepo PermissionRepo
+	cache    PermissionCache
+	audit    *AuditUsecase
 }
 
 func NewPermissionUsecase(roleRepo RoleRepo, permRepo PermissionRepo, cache PermissionCache, audit *AuditUsecase) *PermissionUsecase {
 	return &PermissionUsecase{roleRepo: roleRepo, permRepo: permRepo, cache: cache, audit: audit}
+}
+
+func (uc *PermissionUsecase) IsPlatformAdmin(ctx context.Context, userID string) (bool, error) {
+	return uc.permRepo.IsPlatformAdmin(ctx, userID)
 }
 
 func (uc *PermissionUsecase) CheckPermission(ctx context.Context, userID, tenantID, resource, action, resourceID string) (bool, string, error) {
@@ -60,39 +66,48 @@ func (uc *PermissionUsecase) CheckPermission(ctx context.Context, userID, tenant
 		return true, "self_service", nil
 	}
 
-	// 0.1 Super Admin Bypass (For bootstrapping or emergency)
-	// You can add your Zitadel User ID or Email here
-	// admin@zitadel.auth.arda.io.vn (sub: 369593749817000033)
-	if userID == "369593749817000033" || userID == "00000000-0000-0000-0000-000000000099" {
-		return true, "super_admin", nil
+	isPlatformAdmin, err := uc.permRepo.IsPlatformAdmin(ctx, userID)
+	if err != nil {
+		return false, "", fmt.Errorf("checking platform admin: %w", err)
+	}
+	if isPlatformAdmin {
+		return true, "platform_admin", nil
 	}
 
-	cached, ok := uc.cache.Get(ctx, userID, tenantID, resource, action, resourceID)
+	canonicalUserID, err := uc.permRepo.ResolveUserID(ctx, userID)
+	if err != nil {
+		return false, "", fmt.Errorf("resolving user: %w", err)
+	}
+	if canonicalUserID == "" {
+		canonicalUserID = userID
+	}
+
+	cached, ok := uc.cache.Get(ctx, canonicalUserID, tenantID, resource, action, resourceID)
 	if ok {
 		return cached.Allowed, cached.Source, nil
 	}
 
 	if resourceID != "" {
-		override, err := uc.permRepo.GetResourceOverride(ctx, userID, tenantID, resource, action, resourceID)
+		override, err := uc.permRepo.GetResourceOverride(ctx, canonicalUserID, tenantID, resource, action, resourceID)
 		if err != nil {
 			return false, "", fmt.Errorf("checking resource override: %w", err)
 		}
 		if override != nil {
-			uc.cache.Set(ctx, userID, tenantID, resource, action, resourceID, override.Allowed, "resource_override")
+			uc.cache.Set(ctx, canonicalUserID, tenantID, resource, action, resourceID, override.Allowed, "resource_override")
 			return override.Allowed, "resource_override", nil
 		}
 	}
 
-	allowed, err := uc.permRepo.CheckByRole(ctx, userID, tenantID, resource, action)
+	allowed, err := uc.permRepo.CheckByRole(ctx, canonicalUserID, tenantID, resource, action)
 	if err != nil {
 		return false, "", fmt.Errorf("checking role permission: %w", err)
 	}
 	if allowed {
-		uc.cache.Set(ctx, userID, tenantID, resource, action, resourceID, true, "role")
+		uc.cache.Set(ctx, canonicalUserID, tenantID, resource, action, resourceID, true, "role")
 		return true, "role", nil
 	}
 
-	uc.cache.Set(ctx, userID, tenantID, resource, action, resourceID, false, "denied")
+	uc.cache.Set(ctx, canonicalUserID, tenantID, resource, action, resourceID, false, "denied")
 	return false, "denied", nil
 }
 
@@ -144,6 +159,14 @@ func (uc *PermissionUsecase) RevokeResourcePermission(ctx context.Context, id, a
 }
 
 func (uc *PermissionUsecase) GetUserPermissions(ctx context.Context, userID, tenantID string) ([]*Permission, error) {
+	isPlatformAdmin, err := uc.permRepo.IsPlatformAdmin(ctx, userID)
+	if err != nil {
+		return nil, err
+	}
+	if isPlatformAdmin {
+		return uc.permRepo.ListByTenant(ctx, tenantID, "")
+	}
+
 	// 1. Get direct roles
 	directRoles, err := uc.roleRepo.GetUserRoles(ctx, userID, tenantID)
 	if err != nil {

@@ -16,7 +16,7 @@ export interface ArdaAuthConfig {
 }
 
 export const getAuthConfig = (): ArdaAuthConfig => ({
-  authority: 'https://auth.arda.io.vn',
+  authority: getAuthAuthority(),
   redirectUrl: window.location.origin + '/auth/callback',
   postLogoutRedirectUri: window.location.origin,
   clientId: getClientId(),
@@ -29,6 +29,14 @@ export const getAuthConfig = (): ArdaAuthConfig => ({
   logLevel: LogLevel.Warn,
   secureRoutes: [getApiUrl()],
 });
+
+function getAuthAuthority(): string {
+  try {
+    return (window as any).__env?.authAuthority ?? 'https://auth.arda.io.vn';
+  } catch {
+    return 'https://auth.arda.io.vn';
+  }
+}
 
 function getClientId(): string {
   try {

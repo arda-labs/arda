@@ -25,6 +25,10 @@ export const routes: Routes = [
     component: LoginPage,
   },
   {
+    path: 'ui/v2/login/login',
+    component: LoginPage,
+  },
+  {
     path: 'auth/callback',
     component: CallbackPage,
   },

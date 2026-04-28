@@ -37,7 +37,7 @@ VALUES (
   '10000000-0000-0000-0000-000000000001',
   'admin'
 )
-ON CONFLICT (user_id, tenant_id) DO UPDATE SET role = 'admin';
+ON CONFLICT (user_id, tenant_id) WHERE deleted_at IS NULL DO UPDATE SET role = 'admin';
 
 -- 5. Gán Role Admin thực thụ cho User
 INSERT INTO user_roles (user_id, role_id, tenant_id)

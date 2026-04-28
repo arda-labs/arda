@@ -11,12 +11,12 @@ import (
 	"github.com/go-kratos/kratos/v2/transport/grpc"
 )
 
-func NewGRPCServer(c *conf.Server, iam *service.IAMService, logger log.Logger) *grpc.Server {
+func NewGRPCServer(c *conf.Server, jwt *conf.JWT, iam *service.IAMService, logger log.Logger) *grpc.Server {
 	var opts = []grpc.ServerOption{
 		grpc.Middleware(
 			recovery.Recovery(),
 			middleware.Logging(logger),
-			middleware.Auth(),
+			middleware.Auth(middleware.WithJWTValidation(jwt.JwksEndpoint, jwt.Issuer, jwt.Audience)),
 			middleware.Tenant(),
 		),
 	}

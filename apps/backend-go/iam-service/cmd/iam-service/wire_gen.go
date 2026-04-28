@@ -44,11 +44,11 @@ func wireApp(confServer *conf.Server, confData *conf.Data, jwt *conf.JWT, zitade
 	groupRepo := data.NewGroupRepo(dataData, logger)
 	groupUsecase := biz.NewGroupUsecase(groupRepo, permissionCache, auditUsecase)
 	iamService := service.NewIAMService(userUsecase, tenantUsecase, membershipUsecase, roleUsecase, permissionUsecase, authUsecase, auditUsecase, groupUsecase, logger)
-	grpcServer := server.NewGRPCServer(confServer, iamService, logger)
+	grpcServer := server.NewGRPCServer(confServer, jwt, iamService, logger)
 	menuRepo := data.NewMenuRepo(dataData, logger)
 	menuUsecase := biz.NewMenuUsecase(menuRepo, permissionUsecase, logger)
 	menuService := service.NewMenuService(menuUsecase, logger)
-	httpServer := server.NewHTTPServer(confServer, iamService, menuService, logger)
+	httpServer := server.NewHTTPServer(confServer, jwt, iamService, menuService, logger)
 	app := newApp(logger, grpcServer, httpServer)
 	return app, func() {
 		cleanup()

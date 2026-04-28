@@ -14,7 +14,7 @@ import (
 	"github.com/gorilla/handlers"
 )
 
-func NewHTTPServer(c *conf.Server, iam *service.IAMService, menu *service.MenuService, logger log.Logger) *khttp.Server {
+func NewHTTPServer(c *conf.Server, jwt *conf.JWT, iam *service.IAMService, menu *service.MenuService, logger log.Logger) *khttp.Server {
 	var opts = []khttp.ServerOption{
 		khttp.Filter(handlers.CORS(
 			handlers.AllowedOrigins([]string{
@@ -29,7 +29,7 @@ func NewHTTPServer(c *conf.Server, iam *service.IAMService, menu *service.MenuSe
 		khttp.Middleware(
 			recovery.Recovery(),
 			middleware.Logging(logger),
-			middleware.Auth(),
+			middleware.Auth(middleware.WithJWTValidation(jwt.JwksEndpoint, jwt.Issuer, jwt.Audience)),
 			middleware.Tenant(),
 		),
 	}

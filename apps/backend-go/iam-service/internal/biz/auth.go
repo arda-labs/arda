@@ -8,6 +8,7 @@ import (
 	"io"
 	"net/http"
 	"regexp"
+	"strings"
 	"sync"
 	"time"
 
@@ -113,7 +114,7 @@ func (uc *AuthUsecase) CustomLogin(ctx context.Context, email, password, authReq
 
 /**
  * ForwardAuth thực hiện kiểm tra quyền hạn cho APISIX Gateway:
- * 1. Verify JWT bằng JWKS từ Zitadel
+ * 1. Validate access token từ Zitadel
  * 2. Trích xuất userID và tenantID từ claims
  * 3. (TODO) Kiểm tra quyền RBAC/ABAC trong DB
  */
@@ -126,41 +127,17 @@ func (uc *AuthUsecase) ForwardAuth(ctx context.Context, method, path, token stri
 		return false, "", "", fmt.Errorf("missing token")
 	}
 
-	// Lấy JWKS set (từ cache hoặc fetch mới)
-	set, err := uc.jwks.getSet()
+	claims, err := uc.claimsFromAccessToken(token)
 	if err != nil {
-		uc.log.Errorf("ForwardAuth: cannot get JWKS: %v", err)
-		return false, "", "", err
-	}
-
-	// Verify JWT signature bằng JWKS
-	tok, err := jwt.Parse(token, func(t *jwt.Token) (interface{}, error) {
-		kid, ok := t.Header["kid"].(string)
-		if !ok {
-			return nil, fmt.Errorf("missing kid in JWT header")
-		}
-		key, found := set.LookupKeyID(kid)
-		if !found {
-			return nil, fmt.Errorf("key %s not found in JWKS", kid)
-		}
-		var raw interface{}
-		if err := key.Raw(&raw); err != nil {
-			return nil, err
-		}
-		return raw, nil
-	})
-	if err != nil || !tok.Valid {
 		uc.log.Warnf("ForwardAuth: invalid token for %s %s: %v", method, path, err)
-		return false, "", "", fmt.Errorf("invalid token: %w", err)
-	}
-
-	claims, ok := tok.Claims.(jwt.MapClaims)
-	if !ok {
-		return false, "", "", fmt.Errorf("invalid claims format")
+		return false, "", "", err
 	}
 
 	userID := stringClaimVal(claims["sub"])
 	tenantID := stringClaimVal(claims["tenant_id"])
+	if tenantID == "" {
+		tenantID = stringClaimVal(claims["urn:zitadel:iam:org:id"])
+	}
 
 	// Map Method+Path sang Resource+Action để kiểm tra quyền
 	resource, action := uc.mapPathToAction(method, path)
@@ -180,6 +157,86 @@ func (uc *AuthUsecase) ForwardAuth(ctx context.Context, method, path, token stri
 
 	uc.log.Infof("ForwardAuth: user=%s tenant=%s ALLOWED by %s", userID, tenantID, source)
 	return true, userID, tenantID, nil
+}
+
+func (uc *AuthUsecase) claimsFromAccessToken(token string) (jwt.MapClaims, error) {
+	if strings.HasPrefix(token, "V2_") || strings.Count(token, ".") != 2 {
+		return uc.fetchUserInfoClaims(token)
+	}
+
+	set, err := uc.jwks.getSet()
+	if err != nil {
+		return nil, err
+	}
+
+	parseOptions := []jwt.ParserOption{
+		jwt.WithExpirationRequired(),
+		jwt.WithValidMethods([]string{"RS256"}),
+	}
+	if uc.jwtConf.Issuer != "" {
+		parseOptions = append(parseOptions, jwt.WithIssuer(uc.jwtConf.Issuer))
+	}
+	if uc.jwtConf.Audience != "" {
+		parseOptions = append(parseOptions, jwt.WithAudience(uc.jwtConf.Audience))
+	}
+
+	// Verify JWT signature and standard claims with JWKS.
+	tok, err := jwt.Parse(token, func(t *jwt.Token) (interface{}, error) {
+		kid, ok := t.Header["kid"].(string)
+		if !ok {
+			return nil, fmt.Errorf("missing kid in JWT header")
+		}
+		key, found := set.LookupKeyID(kid)
+		if !found {
+			return nil, fmt.Errorf("key %s not found in JWKS", kid)
+		}
+		var raw interface{}
+		if err := key.Raw(&raw); err != nil {
+			return nil, err
+		}
+		return raw, nil
+	}, parseOptions...)
+	if err != nil || !tok.Valid {
+		return nil, fmt.Errorf("invalid token: %w", err)
+	}
+
+	claims, ok := tok.Claims.(jwt.MapClaims)
+	if !ok {
+		return nil, fmt.Errorf("invalid claims format")
+	}
+	return claims, nil
+}
+
+func (uc *AuthUsecase) fetchUserInfoClaims(token string) (jwt.MapClaims, error) {
+	issuer := strings.TrimRight(uc.jwtConf.Issuer, "/")
+	if issuer == "" {
+		issuer = strings.TrimRight(uc.conf.Authority, "/")
+	}
+	if issuer == "" {
+		return nil, fmt.Errorf("missing Zitadel issuer")
+	}
+
+	req, err := http.NewRequest(http.MethodGet, issuer+"/oidc/v1/userinfo", nil)
+	if err != nil {
+		return nil, err
+	}
+	req.Header.Set("Authorization", "Bearer "+token)
+
+	resp, err := (&http.Client{Timeout: 5 * time.Second}).Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("userinfo request failed with status %d", resp.StatusCode)
+	}
+
+	var claims jwt.MapClaims
+	if err := json.NewDecoder(resp.Body).Decode(&claims); err != nil {
+		return nil, err
+	}
+	return claims, nil
 }
 
 func stringClaimVal(v interface{}) string {
@@ -303,7 +360,7 @@ func (uc *AuthUsecase) CreateZitadelUser(ctx context.Context, email, displayName
 			"isEmailVerified": true,
 		},
 		"password": map[string]any{
-			"password":        password,
+			"password":       password,
 			"changeRequired": false,
 		},
 	}

@@ -32,9 +32,9 @@ export const getAuthConfig = (): ArdaAuthConfig => ({
 
 function getClientId(): string {
   try {
-    return (window as any).__env?.authClientId ?? 'ZITADEL_SPA_CLIENT_ID';
+    return (window as any).__env?.authClientId ?? '370596460112183382';
   } catch {
-    return 'ZITADEL_SPA_CLIENT_ID';
+    return '370596460112183382';
   }
 }
 

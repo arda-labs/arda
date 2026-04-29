@@ -106,8 +106,8 @@ export class UserManagement {
         this.refreshUsers();
         this.isSaving.set(false);
       },
-      error: () => {
-        this.messageService.add({ severity: 'error', summary: 'Lỗi', detail: 'Không thể gửi lời mời' });
+      error: (err) => {
+        this.messageService.add({ severity: 'error', summary: 'Lỗi', detail: this.errorDetail(err, 'Không thể gửi lời mời') });
         this.isSaving.set(false);
       }
     });
@@ -131,8 +131,8 @@ export class UserManagement {
         this.refreshUsers();
         this.isSaving.set(false);
       },
-      error: () => {
-        this.messageService.add({ severity: 'error', summary: 'Lỗi', detail: 'Không thể tạo người dùng' });
+      error: (err) => {
+        this.messageService.add({ severity: 'error', summary: 'Lỗi', detail: this.errorDetail(err, 'Không thể tạo người dùng') });
         this.isSaving.set(false);
       }
     });
@@ -173,5 +173,13 @@ export class UserManagement {
   getInitials(name: string): string {
     if (!name) return 'U';
     return name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
+  }
+
+  private errorDetail(err: unknown, fallback: string): string {
+    if (err && typeof err === 'object' && 'error' in err) {
+      const body = (err as { error?: { message?: string; reason?: string } }).error;
+      return body?.message || body?.reason || fallback;
+    }
+    return fallback;
   }
 }

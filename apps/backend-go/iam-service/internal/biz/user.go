@@ -41,6 +41,9 @@ func (uc *UserUsecase) CreateUser(ctx context.Context, username, email, displayN
 	if email == "" {
 		return nil, fmt.Errorf("email is required")
 	}
+	if !uc.auth.HasZitadelPAT() {
+		return nil, fmt.Errorf("zitadel PAT is required to create login users; set ZITADEL_PAT or ZITADEL_LOGIN_CLIENT_PAT")
+	}
 
 	user, err := uc.repo.GetByEmail(ctx, email)
 	if err != nil {
@@ -48,12 +51,9 @@ func (uc *UserUsecase) CreateUser(ctx context.Context, username, email, displayN
 	}
 	if user == nil {
 		identityUsername := email
-		externalID := localExternalID(email)
-		if uc.auth.HasZitadelPAT() {
-			externalID, err = uc.auth.CreateZitadelUser(ctx, identityUsername, email, displayName, password)
-			if err != nil {
-				return nil, err
-			}
+		externalID, err := uc.auth.CreateZitadelUser(ctx, identityUsername, email, displayName, password)
+		if err != nil {
+			return nil, err
 		}
 
 		user, err = uc.repo.Create(ctx, &User{
@@ -61,6 +61,19 @@ func (uc *UserUsecase) CreateUser(ctx context.Context, username, email, displayN
 			Email:       email,
 			DisplayName: displayName,
 		})
+		if err != nil {
+			return nil, err
+		}
+	} else if isLocalExternalID(user.ExternalID) {
+		externalID, err := uc.auth.CreateZitadelUser(ctx, email, email, displayName, password)
+		if err != nil {
+			return nil, err
+		}
+		user.ExternalID = externalID
+		if displayName != "" {
+			user.DisplayName = displayName
+		}
+		user, err = uc.repo.Update(ctx, user)
 		if err != nil {
 			return nil, err
 		}
@@ -124,6 +137,6 @@ func defaultTenantUsername(email string) string {
 	return local
 }
 
-func localExternalID(email string) string {
-	return "local:" + strings.ToLower(strings.TrimSpace(email))
+func isLocalExternalID(externalID string) bool {
+	return strings.HasPrefix(strings.ToLower(strings.TrimSpace(externalID)), "local:")
 }

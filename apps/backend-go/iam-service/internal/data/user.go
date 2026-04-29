@@ -97,8 +97,14 @@ func (r *userRepo) Update(ctx context.Context, user *biz.User) (*biz.User, error
 	tenantID := middleware.GetTenantID(ctx)
 	err := r.data.ExecInTenant(ctx, tenantID, func(ctx context.Context, tx pgx.Tx) error {
 		return tx.QueryRow(ctx,
-			`UPDATE users SET email = $2, display_name = $3, updated_at = now() WHERE id = $1 RETURNING updated_at`,
-			user.ID, user.Email, user.DisplayName,
+			`UPDATE users
+			 SET external_id = $2,
+			     email = $3,
+			     display_name = $4,
+			     updated_at = now()
+			 WHERE id = $1
+			 RETURNING updated_at`,
+			user.ID, user.ExternalID, user.Email, user.DisplayName,
 		).Scan(&user.UpdatedAt)
 	})
 	return user, err

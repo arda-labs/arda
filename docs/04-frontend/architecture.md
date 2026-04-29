@@ -1,88 +1,135 @@
-# Frontend Architecture (Angular MFE)
+# Frontend Architecture
 
-> Chi tiết kiến trúc Frontend sử dụng Angular 21, Nx Monorepo và Module Federation
-> Cập nhật: 2026-04-25
+Updated: 2026-04-30
 
----
+The current frontend is an Angular CLI workspace using Native Federation. It is
+not an Nx workspace, and it does not currently use Analog SSR or Rspack.
 
-## 📋 Overview
+## Workspace
 
-Frontend của Arda được thiết kế theo mô hình **Micro-Frontend (MFE)**, cho phép các team phát triển độc lập, deploy riêng biệt nhưng vẫn đảm bảo trải nghiệm người dùng nhất quán.
-
-## 🏗️ Technical Stack
-
-- **Framework**: Angular 21 (Standalone, Signals, Hydration)
-- **Monorepo Toolkit**: [Nx v22](https://nx.dev/)
-- **Bundler**: [Rspack 1.6](https://rspack.dev/) (Thay thế Webpack để build siêu tốc)
-- **UI Library**: [PrimeNG 21](https://primeng.org/)
-- **Styling**: Tailwind CSS 4.x
-- **State Management**: Angular Signals (Local) & NgRx Signal Store (Global)
-- **Auth**: Zitadel OIDC Client
-
-## 🗂️ Project Structure (arda-mfe)
-
-```
-arda-mfe/
-├── apps/
-│   ├── shell/             # Host Application (Điều phối chính)
-│   ├── common-mfe/        # Shared MFEs (Dashboard, Profile)
-│   ├── accounting-mfe/    # Accounting Domain
-│   ├── loan-mfe/          # Loan Domain
-│   └── crm-mfe/           # CRM Domain
-├── libs/
-│   ├── ui/                # Shared PrimeNG components (Design System)
-│   ├── auth/              # Zitadel/OIDC utilities
-│   ├── api/               # Generated gRPC-Web/REST clients
-│   └── shared/            # Utilities, Models, Pipes, Directives
-└── nx.json
+```text
+apps/frontend-micro/
+├── angular.json
+├── package.json
+├── Dockerfile
+├── nginx.conf
+└── projects/
+    ├── shell/
+    ├── iam/
+    ├── mdm/
+    └── core/
 ```
 
-## 🛡️ Key Patterns
+| Project | Type | Default dev port | Role |
+| --- | --- | --- | --- |
+| `shell` | Host app | `3000` | Login callback, layout, workspace selection, remote loading |
+| `iam` | Remote MFE | `3002` | IAM screens |
+| `mdm` | Remote MFE | `3001` | Master-data screens |
+| `core` | Library | N/A | Shared Angular library placeholder |
 
-### 1. Signals-Based Reactivity
-Angular 21 tập trung hoàn toàn vào Signals:
-- **Input/Output**: Sử dụng `input()` và `output()` signals.
-- **Computed**: Tối ưu hóa tính toán UI.
-- **Effect**: Xử lý side effects (logging, analytics).
+## Federation
 
-### 2. Module Federation (Federated Modules)
-- **Shell**: Chịu trách nhiệm load các Remote MFEs qua URL config.
-- **Remote**: Các ứng dụng con được expose các module cụ thể.
-- **Shared Libs**: Tự động chia sẻ version của Angular, PrimeNG giữa Host và Remote để tối ưu bundle size.
+The shell uses `@angular-architects/native-federation` and builds its manifest
+at runtime from `window.__env`.
 
-### 3. Server-Side Rendering (SSR) & Hydration
-Sử dụng **Analog.js** hoặc Angular Native SSR:
-- Cải thiện SEO và First Contentful Paint (FCP).
-- **Full Hydration**: Chuyển đổi từ HTML tĩnh sang ứng dụng tương tác mượt mà không bị nháy UI.
+```ts
+const federationManifest = {
+  iam: `${env.mfeIamUrl || 'http://localhost:3002'}/remoteEntry.json`,
+  mdm: `${env.mfeMdmUrl || 'http://localhost:3001'}/remoteEntry.json`
+};
+```
 
-### 4. PrimeNG Design System
-- Custom theme dựa trên Tailwind CSS.
-- Sử dụng các component phức tạp như `DataTable`, `TreeTable`, `OrgChart` để xử lý dữ liệu ngân hàng.
+Each remote exposes `./Routes` from its `federation.config.js`. The shell then
+loads them lazily:
 
-### 5. Enterprise Data Grid
+| Shell route | Remote |
+| --- | --- |
+| `/iam/*` | `iam` |
+| `/mdm/*` | `mdm` |
 
-Các màn hình nghiệp vụ và IAM sẽ có nhiều bảng. Chiến lược hiện tại là dùng PrimeNG `p-table` qua một convention/wrapper nội bộ trước, chuẩn hóa query contract cho pagination/sort/filter/column state. Nếu sau này phát sinh nhu cầu rất nặng như server-side row model, pivot, grouping, master/detail và Excel export nâng cao, AG Grid Enterprise sẽ được đánh giá riêng vì có chi phí license.
+In deployed or APISIX-local mode, remotes are served through:
 
-Chi tiết: [UI/UX và Data Grid Strategy](./ui-ux-data-grid.md).
+| Asset route | Service |
+| --- | --- |
+| `/mfe-iam/*` | `mfe-iam` |
+| `/mfe-mdm/*` | `mfe-mdm` |
 
-### 6. Tenant Creation
+## Runtime Configuration
 
-Shell owns workspace/tenant creation. The frontend exposes this via `/workspaces`, the tenant switcher `+` action, and `/select-workspace` for first-time users. IAM screens stay tenant-scoped and should not own tenant creation.
+`projects/shell/public/env.js` is loaded before Angular. For APISIX-local
+development, use:
 
-The frontend must create tenants with explicit deployment metadata:
+```js
+window.__env.apiUrl = 'http://localhost:9080/api';
+window.__env.apiPath = '/v1';
+window.__env.mfeIamUrl = 'http://localhost:9080/mfe-iam';
+window.__env.mfeMdmUrl = 'http://localhost:9080/mfe-mdm';
+```
 
-- normal onboarding: `deployment_mode = SHARED`, `auth_mode = SHARED_AUTH`;
-- enterprise provisioning later: `deployment_mode = DEDICATED`, `auth_mode = DEDICATED_AUTH`.
+This keeps browser traffic aligned with deployed route shapes.
 
-Chi tiết: [Frontend Tenant Creation Guide](./tenant-creation.md).
+## UI And State
 
-## 🚀 Development Workflow
+- Angular 21 standalone components.
+- PrimeNG 21 for enterprise controls.
+- Tailwind CSS 4 for layout and utility styling.
+- Signals for local state where they simplify the component.
+- Reactive forms for create/update dialogs and filter forms.
+- `p-table` is the default grid until requirements justify AG Grid Enterprise.
 
-1. **Create Library**: `nx g @nx/angular:lib [name]` cho logic dùng chung.
-2. **Create MFE**: `nx g @nx/angular:app [name] --mfe`.
-3. **Run Dev**: `nx serve shell` (Tự động load các remote đang chạy).
-4. **Build Affected**: `nx affected:build` (Chỉ build các phần code bị thay đổi).
+## Current Feature Ownership
 
----
+Shell owns:
 
-### Generated by Arda Documentation Bot
+- public landing route `/`;
+- login and auth callback routes;
+- tenant/workspace selection and creation;
+- shared layout, header, sidebar, and error pages;
+- loading remote MFEs.
+
+IAM remote owns:
+
+- IAM management screens and tenant-scoped IAM operations.
+
+MDM remote owns:
+
+- administrative geography;
+- area types and areas;
+- code sets and code items;
+- system parameters;
+- banking reference-data view.
+
+## Development
+
+```powershell
+cd apps\frontend-micro
+npm install
+npx ng serve shell
+npx ng serve iam
+npx ng serve mdm
+```
+
+Build:
+
+```powershell
+npx ng build shell
+npx ng build iam
+npx ng build mdm
+```
+
+Docker images are built from the shared `apps/frontend-micro/Dockerfile` using
+targets such as `mfe-shell-runtime`, `mfe-iam-runtime`, and `mfe-mdm-runtime`.
+
+## Design Rules
+
+- Keep the shell focused on navigation, auth, tenancy, and composition.
+- Keep domain screens in their remote MFE.
+- Prefer APISIX-local checks over direct service calls when testing browser
+  integration, auth headers, CORS, and path rewrites.
+- Do not introduce a shared UI abstraction until at least two MFEs need it and
+  the interaction contract is stable.
+
+See also:
+
+- [Tenant Creation](./tenant-creation.md)
+- [UI/UX Data Grid Strategy](./ui-ux-data-grid.md)

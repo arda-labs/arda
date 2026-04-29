@@ -1,93 +1,95 @@
 # Arda Monorepo Guide
 
-> Quy trình phát triển và vận hành hệ thống Arda Platform (Monorepo)
-> Cập nhật: 2026-04-25
+Updated: 2026-04-30
 
----
+This file is a quick orientation guide for contributors and coding agents.
+The source of truth for runtime manifests is the sibling repo `arda-infra`.
 
-## 🏗️ Monorepo Structure
+## Repository Layout
 
 ```text
 arda/
 ├── apps/
-│   ├── backend-go/      # Operational services (Kratos Monorepo with Go Workspace)
-│   │   ├── go.work      # Go workspace configuration
+│   ├── frontend-micro/
+│   │   ├── angular.json
+│   │   └── projects/
+│   │       ├── shell/
+│   │       ├── iam/
+│   │       ├── mdm/
+│   │       └── core/
+│   ├── backend-go/
+│   │   ├── go.work
 │   │   ├── iam-service/
 │   │   ├── mdm-service/
-│   │   ├── crm-service/
-│   │   └── hrm-service/
-│   ├── backend-java/    # Core Banking services (Gradle Multi-project Monorepo)
-│   │   ├── build.gradle.kts
-│   │   ├── settings.gradle.kts
-│   │   └── accounting/
-│   └── frontend/        # Angular MFE (Nx Monorepo)
+│   │   └── crm-service/
+│   └── backend-java/
+│       └── accounting_tmp/
 ├── libs/
-│   ├── go/              # Shared Go packages
-│   │   └── pkg/         # Common Go libraries (database, redis, middleware)
-│   └── java/            # Shared Java libraries
-│       ├── common/
-│       ├── database/
-│       └── ...
-├── infra/               # Infrastructure & GitOps (arda-infra)
-├── .github/             # Centralized CI/CD Workflows
-├── docs/                # System Documentation
-└── scripts/             # Utility scripts & Dev configs
+│   └── go/pkg/
+├── docs/
+└── .github/workflows/
 ```
 
----
+## Current Modules
 
-## 🛠️ Build & Development
+| Module | Status |
+| --- | --- |
+| `apps/frontend-micro/projects/shell` | Active host MFE |
+| `apps/frontend-micro/projects/iam` | Active IAM remote MFE |
+| `apps/frontend-micro/projects/mdm` | Active MDM remote MFE |
+| `apps/backend-go/iam-service` | Active Go service |
+| `apps/backend-go/mdm-service` | Active Go service |
+| `apps/backend-go/crm-service` | Skeleton / roadmap |
+| `apps/backend-java/accounting_tmp` | Prototype |
 
-### 🎨 Frontend (Angular MFE)
+## Frontend
 
-- **Cấu trúc**: `apps/frontend-micro/`
-- **Lệnh Build**: `npm run build` (trong apps/frontend-micro) hoặc `nx build [app-name]`
+- Workspace: `apps/frontend-micro`
+- Framework: Angular 21 with `@angular-architects/native-federation`
+- Projects: `shell`, `iam`, `mdm`, `core`
+- Runtime remote config: `projects/shell/public/env.js`
+- Build:
+  ```powershell
+  cd apps\frontend-micro
+  npx ng build shell
+  npx ng build iam
+  npx ng build mdm
+  ```
 
-### 🛠️ Backend Go (Operational)
+## Backend Go
 
-- **Cấu trúc**: `apps/backend-go/`
-- **Quản lý Workspace**: `go.work` gom tất cả services và `libs/go/pkg`.
-- **Lệnh Run**: `cd apps/backend-go/[service] && kratos run` hoặc `make run`.
-- **Lệnh Wire DI**: `wire ./...` (trong thư mục cmd của service).
+- Workspace: `apps/backend-go/go.work`
+- Shared Go package: `libs/go/pkg`
+- Run a service:
+  ```powershell
+  cd apps\backend-go\iam-service
+  kratos run
+  ```
+- Test:
+  ```powershell
+  go test ./...
+  ```
 
-### ☕ Backend Java (Core Banking)
+## Backend Java
 
-- **Cấu trúc**: `apps/backend-java/`
-- **Quản lý Build**: Gradle monorepo độc lập trong `apps/backend-java`.
-- **Lệnh Build**: `./gradlew build` (từ thư mục apps/backend-java).
-- **Lệnh chạy cụ thể**: `./gradlew :accounting:bootRun`
+- Workspace: `apps/backend-java`
+- Current prototype: `accounting_tmp`
+- CI still expects a future `apps/backend-java/accounting` module, so Java
+  pipeline and docs should be aligned before treating it as deployable.
 
----
+## Infrastructure
 
-## 🏗️ Infrastructure & Deployment
+- Repo: `arda-labs/arda-infra`
+- Runtime namespace for app workloads: `arda-apps`
+- Gateway namespace: `gateway`
+- Identity namespace: `identity`
+- Local APISIX config: `arda-infra/local/apisix`
 
-### 🌐 Kubenetes (K3s)
+## Coding Standards
 
-- **Namespace**: `arda-dev` (Development), `arda-prod` (Production)
-- **Context**: `thinkcenter`
-
-### 🚀 GitOps (ArgoCD)
-
-- **Repo**: `github.com/arda-labs/arda-infra`
-- **Sync**: Tự động đồng bộ từ branch `main` của infra repo.
-
----
-
-## 🛡️ Coding Standards
-
-- **Go**: Follow [Uber Go Style Guide](https://github.com/uber-go/guide).
-- **Java/Kotlin**: Follow [Google Java Style](https://google.github.io/styleguide/javaguide.html).
-- **Frontend**: Follow [Angular Style Guide](https://angular.io/guide/styleguide).
-- **Git**: [Conventional Commits](https://www.conventionalcommits.org/).
-
----
-
-## 📖 Useful Commands
-
-```bash
-# Xem logs service trong K8s
-kubectl logs -f deployment/accounting-service -n arda-dev
-
-# Kiểm tra Redpanda (Kafka) trong cụm
-kubectl get pods -n arda-dev -l app=redpanda
-```
+- Go: keep Kratos layering (`biz`, `data`, `service`, `server`) and run `gofmt`.
+- Frontend: use standalone Angular components, signals where useful, and
+  project-local conventions before adding new abstractions.
+- Docs: distinguish current implementation from roadmap. Do not describe
+  planned services as running services.
+- Git: use Conventional Commits.

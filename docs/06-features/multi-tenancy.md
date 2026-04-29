@@ -2,6 +2,7 @@
 
 > Cap nhat: 2026-04-29
 > Pham vi: tenant data isolation, tenant account, shared/dedicated deployment boundary.
+> Status: Active design, partially implemented in IAM tenant/workspace flows.
 
 ## Muc Tieu
 

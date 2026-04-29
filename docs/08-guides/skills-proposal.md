@@ -1,13 +1,13 @@
 # Skills Proposal — Các skill chuyên biệt cho Arda
 
 > Đề xuất các skill chuyên biệt để hỗ trợ phát triển dự án Arda
-> Cập nhật: 2026-04-24
+> Cập nhật: 2026-04-30
 
 ---
 
 ## 📋 Overview
 
-Dựa trên kiến trúc Arda (Frontend: Angular 21 + Nx, Backend: Go + Kratos + Java + Gradle, Infra: K3s + ArgoCD), tôi đề xuất các skill chuyên biệt theo từng nhóm nghiệp vụ.
+Dựa trên kiến trúc Arda hiện tại (Frontend: Angular 21 + Angular CLI + Native Federation, Backend: Go + Kratos, Java/Kotlin prototype + Gradle, Infra: K3s + APISIX + ArgoCD), tôi đề xuất các skill chuyên biệt theo từng nhóm nghiệp vụ.
 
 ---
 
@@ -29,19 +29,17 @@ Dựa trên kiến trúc Arda (Frontend: Angular 21 + Nx, Backend: Go + Kratos +
 
 **Tech stack**: Angular 21, TypeScript 5.9
 
-### 2. Nx Workspace Skill
-**Mục đích**: Hỗ trợ phát triển trong Nx monorepo
+### 2. Angular Workspace Skill
+**Mục đích**: Hỗ trợ phát triển trong Angular CLI workspace hiện tại
 
 **Chức năng chính**:
 - Tạo ứng dụng/library mới trong workspace
-- Build/tự động build affected apps
+- Build các app `shell`, `iam`, `mdm`
 - Tạo shared library
-- Xem dependency graph
-- Xử lý NX cache
 - Migrate ứng dụng sang workspace
-- Setup Module Federation
+- Setup Native Federation
 
-**Tech stack**: Nx 22, Rspack, Analog.js
+**Tech stack**: Angular CLI 21, Native Federation, esbuild
 
 ### 3. PrimeNG Components Skill
 **Mục đích**: Hỗ trợ tạo và sửa PrimeNG components
@@ -60,14 +58,14 @@ Dựa trên kiến trúc Arda (Frontend: Angular 21 + Nx, Backend: Go + Kratos +
 **Mục đích**: Hỗ trợ cấu hình Module Federation cho MFEs
 
 **Chức năng chính**:
-- Setup webpack.config.js cho host app
-- Setup webpack.config.js cho remote app
+- Setup `federation.config.js` cho host app
+- Setup `federation.config.js` cho remote app
 - Configure shared dependencies
 - Troubleshoot Module Federation issues
 - Setup lazy loading
 - Configure micro-frontend routing
 
-**Tech stack**: Angular 21, @angular-architects/module-federation
+**Tech stack**: Angular 21, @angular-architects/native-federation
 
 ---
 
@@ -491,7 +489,7 @@ Dựa trên kiến trúc Arda (Frontend: Angular 21 + Nx, Backend: Go + Kratos +
 ### Phase 1 (Foundation) — Priority: P0
 
 1. [Angular Development](#1-angular-development-skill) — Frontend base
-2. [Nx Workspace](#2-nx-workspace-skill) — Frontend monorepo
+2. [Angular Workspace](#2-angular-workspace-skill) — Frontend workspace
 3. [PostgreSQL](#21-postgresql-skill) — Database cơ bản
 4. [Docker/Container Management](#16-dockercontainer-management-skill) — Container base
 5. [K3s/Kubernetes](#14-k3skubernetes-skill) — K3s deployment
@@ -585,4 +583,4 @@ Review code:
 
 Bạn có muốn tôi tạo skill nào trước? Hoặc bạn có đề xuất về skills này?
 
-*Last Updated: 2026-04-24*
+*Last Updated: 2026-04-30*

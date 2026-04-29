@@ -1,51 +1,99 @@
-# Kratos Project Template
+# IAM Service
 
-## Install Kratos
-```
-go install github.com/go-kratos/kratos/cmd/kratos/v2@latest
-```
-## Create a service
-```
-# Create a template project
-kratos new server
+Identity and Access Management service for Arda.
 
-cd server
-# Add a proto template
-kratos proto add api/server/server.proto
-# Generate the proto code
-kratos proto client api/server/server.proto
-# Generate the source code of service by proto file
-kratos proto server api/server/server.proto -t internal/service
+## Responsibilities
 
-go generate ./...
-go build -o ./bin/ ./...
-./bin/server -conf ./configs
-```
-## Generate other auxiliary files by Makefile
-```
-# Download and update dependencies
-make init
-# Generate API files (include: pb.go, http, grpc, validate, swagger) by proto file
-make api
-# Generate all files
-make all
-```
-## Automated Initialization (wire)
-```
-# install wire
-go get github.com/google/wire/cmd/wire
+- Zitadel login integration.
+- Current-user profile and auth settings.
+- Tenant/workspace creation and membership.
+- Users, roles, groups, permissions, and resource permissions.
+- Menu management and tenant-aware menu output.
+- Forward-auth endpoint for APISIX integration.
 
-# generate wire
-cd cmd/server
+## Local Run
+
+The default local config uses:
+
+```text
+postgres://iam:iam%40123@thinkcenter:5432/iam?sslmode=disable
+```
+
+Start the service from this directory:
+
+```powershell
+kratos run
+```
+
+or:
+
+```powershell
+go run ./cmd/iam-service -conf ./configs
+```
+
+Local ports:
+
+- HTTP: `8000`
+- gRPC: `9000`
+
+## API
+
+Native HTTP routes are registered under `/v1/*`. APISIX exposes them as
+`/api/v1/*`.
+
+Important routes:
+
+- `/v1/auth/login`
+- `/v1/auth/settings`
+- `/v1/auth/forward`
+- `/v1/me`
+- `/v1/me/tenants`
+- `/v1/me/menu`
+- `/v1/users`
+- `/v1/tenants`
+- `/v1/roles`
+- `/v1/groups`
+- `/v1/permissions`
+
+## Database
+
+Migrations are embedded and run during startup from:
+
+```text
+internal/data/migrations
+```
+
+The current migrations create IAM schema, seed initial data, add fine-grained
+access-control tables, tenant deployment boundaries, workspace cleanup, and MDM
+menu entries.
+
+## Generate
+
+Regenerate protobuf outputs after editing proto files:
+
+```powershell
+protoc --proto_path=. --proto_path=./third_party --go_out=paths=source_relative:. --go-http_out=paths=source_relative:. --go-grpc_out=paths=source_relative:. api/iam/v1/iam.proto
+protoc --proto_path=. --proto_path=./third_party --go_out=paths=source_relative:. --go-http_out=paths=source_relative:. --go-grpc_out=paths=source_relative:. api/iam/v1/menu.proto
+protoc --proto_path=. --go_out=paths=source_relative:. internal/conf/conf.proto
+```
+
+Regenerate Wire DI from the command directory when providers change:
+
+```powershell
+cd cmd\iam-service
 wire
 ```
 
-## Docker
-```bash
-# build
-docker build -t <your-docker-image-name> .
+## Verify
 
-# run
-docker run --rm -p 8000:8000 -p 9000:9000 -v </path/to/your/configs>:/data/conf <your-docker-image-name>
+```powershell
+go test ./...
 ```
 
+## Docker
+
+From the repository root:
+
+```powershell
+docker build -f apps/backend-go/iam-service/Dockerfile -t ghcr.io/arda-labs/iam-service:dev .
+```

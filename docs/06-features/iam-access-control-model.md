@@ -2,6 +2,7 @@
 
 > Cap nhat: 2026-04-29
 > Pham vi: multi-tenant IAM, RBAC/ABAC, maker-checker, audit, UI quan tri quyen.
+> Status: Active design, partially implemented in `iam-service` and IAM MFE.
 
 ## Muc Tieu
 

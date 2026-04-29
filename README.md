@@ -1,236 +1,148 @@
-# Arda — Modern Financial Microservice Platform
+# Arda
 
-> Platform Microservices thế hệ mới chuyên biệt cho lĩnh vực Tài chính & Ngân hàng
-> Design: Domain-Driven Design (DDD), Event-Driven Architecture, Resource-Optimized
-> Infrastructure: K3s on Ubuntu 24.04 (Current: 16GB RAM → Target: 32GB RAM)
+Arda is the application monorepo for a financial and banking platform. It
+contains the frontend micro-frontends, Go operational services, Java/Kotlin
+core-banking prototypes, shared libraries, CI workflows, and documentation.
 
----
+Updated: 2026-04-30
 
-## 📋 Overview
+## Current Reality
 
-**Arda** là nền tảng microservices hiện đại được thiết kế để vận hành hệ thống tài chính quy mô lớn trên hạ tầng tài nguyên giới hạn. Hệ thống áp dụng các công nghệ tiên tiến như **GraalVM Native Image**, **Redpanda** và **Camunda 7** để tối ưu hóa hiệu suất và giảm tiêu thụ RAM.
+The active repositories are:
 
-### Key Characteristics
-- **Resource-Constrained Architecture**: Tối ưu cho 32GB RAM với headroom 40%
-- **Domain-Driven Design**: Services được phân rã theo domain nghiệp vụ
-- **Event-Driven**: Saga pattern với Outbox để đảm bảo consistency
-- **Multi-Tenancy**: Column-based với PostgreSQL Row-Level Security
-- **Fine-Grained Access Control**: RBAC/ABAC/ReBAC với Maker-Checker pattern
+| Repository | Owns |
+| --- | --- |
+| `arda-labs/arda` | Application code, shared libraries, docs, app CI |
+| `arda-labs/arda-infra` | Kubernetes manifests, APISIX routes, ArgoCD apps, runtime config |
+| `arda-labs/.github` | Organization profile and GitHub metadata |
 
-## Repository Reality
+There are no active split repos such as `arda-mfe`, `arda-be`, or
+`arda-core`. Those names appear only in older planning documents.
 
-Thư mục gốc này đang chứa cả code ứng dụng lẫn hạ tầng triển khai. Trạng thái thực tế hiện nay là:
+## Repository Structure
 
-- `apps/frontend-micro`: frontend Angular MFE đang chạy được
-- `apps/backend-go/iam-service`: backend IAM chính đang chạy được
-- `apps/backend-go/mdm-service`: backend Master Data Management cho dữ liệu nền dùng chung
-- `apps/backend-java/accounting_tmp`: prototype accounting, chưa phải service ổn định
-- `arda-infra`: repo GitOps/Kubernetes cho deploy
-
-Các service khác trong tài liệu vẫn đang ở mức roadmap hoặc skeleton.
-
----
-
-## 🗂️ Monorepo Structure
-
-```
+```text
 arda/
-├── docs/                          # Documentation (reorganized)
-│   ├── overview/            # Tổng quan kiến trúc & tech stack
-│   ├── features/            # Danh sách chức năng
-│   ├── frontend/            # Frontend architecture
-│   ├── backend-go/          # Go backend (Kratos)
-│   ├── backend-java/        # Java backend (Spring Boot + Gradle)
-│   ├── guides/             # Hướng dẫn setup
-│   └── migration/          # Migration từ EPAS
-│
-├── arda-infra/                    # Infrastructure as Code
-│   ├── apps/                      # ArgoCD applications
-│   ├── bootstrap/                 # ArgoCD bootstrap
-│   └── infrastructure/            # K3s setup
-│
-├── arda-be/                       # Go Backend (Operational Services)
-│   ├── api/                       # Shared .proto definitions
-│   ├── pkg/                       # Shared libraries
-│   ├── iam-service/               # Identity & Access Management
-│   ├── mdm-service/               # Master Data Management
-│   ├── crm-service/               # CRM & Member Management
-│   ├── hrm-service/               # Human Resource Management
-│   ├── notification-service/      # Notification Service
-│   ├── system-config-service/     # System Configuration
-│   └── bpm-service/               # BPM Engine Wrapper
-│
-├── arda-core/                     # Java Backend (Core Banking Services)
-│   ├── services/                  # Core services
-│   │   ├── accounting/            # Accounting Service
-│   │   ├── loan/                  # Loan Service
-│   │   ├── deposit/               # Deposit Service
-│   │   └── treasury/              # Treasury Service
-│   ├── libs/                      # Shared libraries
-│   ├── build.gradle.kts           # Gradle build config
-│   └── settings.gradle.kts        # Gradle settings
-│
-├── arda-mfe/                      # Frontend (Angular Nx Monorepo)
-│   ├── apps/
-│   │   ├── shell/                 # Host application
-│   │   ├── iam/                   # Identity & Access MFE
-│   │   ├── mdm/                   # Master Data Management MFE
-│   │   ├── accounting/            # Accounting MFE
-│   │   ├── loan/                  # Loan MFE
-│   │   ├── crm/                   # CRM MFE
-│   │   ├── hrm/                   # HRM MFE
-│   │   └── admin/                 # Admin Panel MFE
-│   ├── libs/
-│   │   ├── ui/                    # Shared UI components
-│   │   ├── auth/                  # Auth utilities
-│   │   └── shared/                # Shared utilities
-│   ├── nx.json                    # Nx configuration
-│   └── package.json               # Node dependencies
-│
-└── INFRA_STATUS.md              # Thực trạng deployment (thinkcenter)
+├── apps/
+│   ├── frontend-micro/          # Angular CLI workspace with Native Federation
+│   │   └── projects/
+│   │       ├── shell/           # Host app, layout, auth callback, workspace UI
+│   │       ├── iam/             # IAM remote MFE
+│   │       ├── mdm/             # MDM remote MFE
+│   │       └── core/            # Shared Angular library
+│   ├── backend-go/              # Go workspace for Kratos services
+│   │   ├── iam-service/         # Identity, tenants, menus, permissions
+│   │   ├── mdm-service/         # Master Data Management
+│   │   └── crm-service/         # Skeleton / roadmap service
+│   └── backend-java/            # Gradle workspace
+│       └── accounting_tmp/      # Accounting prototype
+├── libs/
+│   └── go/pkg/                  # Shared Go helpers
+├── docs/                        # Architecture, feature, and operating docs
+└── .github/workflows/           # CI and GitOps update workflows
 ```
 
----
+Runtime manifests live in the sibling repo `../arda-infra`.
 
-## 🚀 Quick Start
+## Implemented Modules
 
-### Dev/Deploy Contract
+| Area | Status |
+| --- | --- |
+| Shell MFE | Active, runs on port `3000`, loads remotes from runtime `env.js` |
+| IAM MFE | Active remote, runs on port `3002`, route `/app/iam/*` |
+| MDM MFE | Active remote, runs on port `3001`, route `/app/mdm/*` |
+| IAM service | Active Go/Kratos service, default HTTP `8000`, gRPC `9000` |
+| MDM service | Active Go/Kratos service, default HTTP `8001`, gRPC `9001` |
+| CRM service | Present in Go workspace as skeleton/roadmap |
+| Accounting Java | Prototype under `apps/backend-java/accounting_tmp` |
 
-- Local dev nên đi qua APISIX khi kiểm tra auth, route, CORS, tenant header.
-- Deploy production cũng đi qua APISIX, khác nhau chủ yếu ở host và overlay config.
-- Frontend không gọi thẳng service nếu mục tiêu là parity với production.
-- IAM là nguồn sự thật cho login, tenant membership, permission và forward auth.
+## Local Development
 
-### Prerequisites
-- Ubuntu 24.04 LTS
-- 32GB RAM minimum
-- K3s installed
-- kubectl configured
-- Helm 3.x
-- Go 1.25+
-- Java 21 + GraalVM CE 23+
-- Node.js 20+
-- Docker
+Use APISIX for integration checks so local traffic has the same path shape as
+deployed traffic.
 
-### Installation
-
-```bash
-# 1. Clone repository
-git clone https://github.com.arda_labs/arda.git
-cd arda
-
-# 2. Start with infra repo for cluster bootstrap
-cd arda-infra
-./scripts/bootstrap.sh
-
-# 3. Build and deploy services
-# Use ArgoCD/GitOps for deploy; do not hand-edit live manifests
-
-# 4. For local dev, use APISIX tunnel to thinkcenter
-# ssh -N -L 9080:127.0.0.1:32459 hoan@thinkcenter
-
-# 5. Access applications
-# Frontend: https://arda.io.vn
-# API Gateway: https://api.arda.io.vn
-# Zitadel: https://auth.arda.io.vn
+```powershell
+cd D:\Github\arda-labs\arda-infra\local\apisix
+docker compose up -d
 ```
 
----
+Run frontend remotes from `apps/frontend-micro`:
 
-## 📊 Technology Stack
-
-### Infrastructure
-| Component | Technology | Version | Purpose |
-|-----------|-----------|---------|---------|
-| OS | Ubuntu | 24.04 LTS | Base OS |
-| Container | K3s | Latest | Lightweight K8s |
-| Gateway | Apache APISIX | Latest | API Gateway |
-| Identity | Zitadel | Latest | IdP/OAuth2 |
-| Database | PostgreSQL | 16+ | Primary DB |
-| Cache | Redis | Latest | Session cache |
-| Messaging | Redpanda | Latest | Event broker |
-| BPM | Camunda | 7.x | Workflow engine |
-| Storage | Garage S3 | Latest | Object storage |
-| Ingress | Cloudflared | Latest | Tunnel to Cloudflare |
-| GitOps | ArgoCD | Latest | CD automation |
-
-### Backend (Go)
-| Component | Technology | Version | Purpose |
-|-----------|-----------|---------|---------|
-| Language | Go | 1.25+ | Runtime |
-| Framework | Kratos | v2.9 | Microservice framework |
-| DB Driver | pgx | v5 | PostgreSQL driver |
-| Cache | go-redis | v9 | Redis client |
-| gRPC | grpc-go | v1.74 | RPC framework |
-| DI | Wire | v0.6 | Dependency injection |
-
-### Backend (Java)
-| Component | Technology | Version | Purpose |
-|-----------|-----------|---------|---------|
-| Language | Java | 21 | Runtime |
-| Framework | Spring Boot | 3.x | Application framework |
-| Build | Gradle | 8.x | Build tool |
-| Native | GraalVM CE | 23+ | Native image compilation |
-| DB Driver | r2dbc-postgresql | Latest | Reactive DB driver |
-
-### Frontend
-| Component | Technology | Version | Purpose |
-|-----------|-----------|---------|---------|
-| Language | TypeScript | 5.9 | Type-safe JS |
-| Framework | Angular | 21.x | UI framework |
-| Build | Nx | 22.x | Monorepo toolkit |
-| Bundle | Rspack | 1.6 | Fast bundler |
-| SSR | Analog.js | 2.x | Angular SSR |
-| UI | PrimeNG | 21.x | UI component library |
-| Auth | angular-auth-oidc-client | 21.x | OIDC client |
-
----
-
-## 🎯 Resource Allocation (32GB RAM)
-
-```
-Infrastructure:     10GB  (PostgreSQL 4GB, Redis 1GB, Redpanda 2GB, Camunda 1GB, S3 0.5GB, System 1.5GB)
-Core Services:      2GB   (4 services × ~400MB + overhead)
-Operational:        1GB   (5 services × ~100MB + overhead)
-Frontend:           1GB   (Nx build cache, dev server)
-K3s/OS:             3GB   (K8s overhead, system)
-Reserved:           15GB  (Future services, buffer)
+```powershell
+npm install
+npx ng serve shell
+npx ng serve iam
+npx ng serve mdm
 ```
 
----
+Run Go services from `apps/backend-go`:
 
-## 📖 Documentation
+```powershell
+cd apps\backend-go\iam-service
+kratos run
 
-- [Documentation Hub](./docs/README.md) — Trung tâm tài liệu
-- [Architecture](./docs/01-overview/architecture.md) — Tổng quan kiến trúc
-- [Tech Stack](./docs/01-overview/tech-stack.md) — Công nghệ sử dụng
-- [Infrastructure Status](./docs/01-overview/infra-status.md) — Thực trạng deployment
-- [EPAS Migration Analysis](./docs/07-migration/epas-to-arda.md) — Migration từ EPAS
+cd ..\mdm-service
+kratos run
+```
 
-### Features Documentation
-- [Accounting Features](./docs/features/accounting.md) — Chức năng Kế toán
-- [Loan Features](./docs/features/loan.md) — Chức năng Cho vay
-- [CRM Features](./docs/features/crm.md) — Chức năng Khách hàng
-- [HRM Features](./docs/features/hrm.md) — Chức năng Nhân sự
-- [BPM Features](./docs/features/bpm.md) — Chức năng Quy trình
-- [Notification Features](./docs/features/notification.md) — Chức năng Thông báo
-- [System Config Features](./docs/features/system-config.md) — Chức năng Cấu hình
+Open the shell through APISIX:
 
-### Technical Documentation
-- [Frontend Architecture](./docs/frontend/architecture.md) — Chi tiết frontend
-- [Go Architecture](./docs/backend-go/architecture.md) — Chi tiết Go backend
-- [Java Architecture](./docs/backend-java/architecture.md) — Chi tiết Java backend
-- [Infrastructure](./docs/infrastructure/README.md) — Chi tiết hạ tầng
-- [Authorization](./docs/services/authorization.md) — Kiến trúc phân quyền
-- [MDM Features](./docs/06-features/mdm.md) — Dữ liệu nền và danh mục dùng chung
-- [Deployment Guide](./docs/deployment/README.md) — Hướng dẫn triển khai
+```text
+http://localhost:9080
+```
 
----
+Main local gateway routes:
 
-## 📜 License
+| Route | Target |
+| --- | --- |
+| `/api/v1/*` | IAM service, rewritten to `/v1/*` |
+| `/api/v1/mdm/*` | MDM service, rewritten to `/v1/mdm/*` |
+| `/mfe-iam/*` | IAM remote assets |
+| `/mfe-mdm/*` | MDM remote assets |
+| `/*` | Shell app |
+
+## Build And Test
+
+Frontend:
+
+```powershell
+cd apps\frontend-micro
+npx ng build shell
+npx ng build iam
+npx ng build mdm
+```
+
+Go services:
+
+```powershell
+cd apps\backend-go\iam-service
+go test ./...
+
+cd ..\mdm-service
+go test ./...
+```
+
+Infra manifests:
+
+```powershell
+cd ..\..\..\arda-infra
+kubectl kustomize apps\iam-service\overlays\dev
+kubectl kustomize apps\mdm-service\overlays\dev
+kubectl kustomize apps\mfe-shell\overlays\dev
+kubectl kustomize apps\mfe-iam\overlays\dev
+kubectl kustomize apps\mfe-mdm\overlays\dev
+```
+
+## Documentation
+
+- [Documentation Center](./docs/README.md)
+- [Operating Model](./docs/00-operating-model.md)
+- [Architecture Overview](./docs/01-overview/architecture.md)
+- [Frontend Architecture](./docs/04-frontend/architecture.md)
+- [Go Backend Architecture](./docs/02-backend-go/architecture.md)
+- [MDM Features](./docs/06-features/mdm.md)
+- [Documentation Audit](./docs/08-guides/documentation-audit.md)
+
+## License
 
 Copyright © 2026 Arda Labs. All rights reserved.
-
----
-
-*Last Updated: 2026-04-30*

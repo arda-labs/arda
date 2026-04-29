@@ -1,7 +1,8 @@
 # Features: BPM Service (Quy trình)
 
 > Chức năng cần có cho BPM Service
-> Cập nhật: 2026-04-24
+> Cập nhật: 2026-04-30
+> Status: Roadmap. No active BPM service is deployed yet.
 
 ---
 
@@ -48,4 +49,4 @@ BPM Service quản lý các nghiệp vụ quy trình bao gồm: định nghĩa w
 
 ---
 
-*Last Updated: 2026-04-24*
+*Last Updated: 2026-04-30*

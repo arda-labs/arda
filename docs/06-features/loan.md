@@ -1,7 +1,8 @@
 # Features: Loan Service (Cho vay)
 
 > Chức năng cần có cho Loan Service
-> Cập nhật: 2026-04-24
+> Cập nhật: 2026-04-30
+> Status: Roadmap. No active loan service is deployed yet.
 
 ---
 
@@ -115,4 +116,4 @@ Loan Service quản lý các nghiệp vụ cho vay bao gồm: sản phẩm vay, 
 
 ---
 
-*Last Updated: 2026-04-24*
+*Last Updated: 2026-04-30*

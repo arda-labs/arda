@@ -2,6 +2,7 @@
 
 > Fine-Grained Access Control (FGAC) cho hệ thống tài chính
 > RBAC/ABAC/ReBAC với Maker-Checker pattern
+> Status: Partially implemented in IAM. APISIX forward-auth is still a design target until manifests are formalized.
 
 ---
 
@@ -845,7 +846,7 @@ spec:
   - name: forward-auth
     enable: true
     config:
-      uri: http://iam-service.arda-dev.svc.cluster.local/v1/auth/forward
+      uri: http://iam-service.arda-apps.svc.cluster.local/v1/auth/forward
       request_headers:
         - "X-Forwarded-Method: $request_method"
         - "X-Forwarded-Path: $request_uri"
@@ -948,4 +949,4 @@ func TestPermissionUsecase_CheckPermission(t *testing.T) {
 
 ---
 
-*Last Updated: 2026-04-24*
+*Last Updated: 2026-04-30*

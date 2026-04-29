@@ -1,7 +1,8 @@
 # Features: Notification Service (Thông báo)
 
 > Chức năng cần có cho Notification Service
-> Cập nhật: 2026-04-24
+> Cập nhật: 2026-04-30
+> Status: Roadmap. No active notification service is deployed yet.
 
 ---
 
@@ -49,4 +50,4 @@ Notification Service quản lý các nghiệp vụ thông báo bao gồm: quản
 
 ---
 
-*Last Updated: 2026-04-24*
+*Last Updated: 2026-04-30*

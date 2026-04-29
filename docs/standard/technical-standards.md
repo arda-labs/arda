@@ -1,7 +1,7 @@
 # Arda Platform: Technical Standards (Java & Go)
 
 > Phiên bản: 1.0
-> Cập nhật: 2026-04-25
+> Cập nhật: 2026-04-30
 > Tài liệu này quy định các tiêu chuẩn kỹ thuật để đảm bảo tính đồng nhất giữa hệ thống Backend Java (Core Banking) và Go (Operational Services).
 
 ---
@@ -14,8 +14,9 @@
 - **Build Tool**: Gradle Kotlin DSL.
 
 ### Go (Kratos)
-- **Module**: `github.com/arda-labs/arda-be-go`.
-- **Cấu trúc**: Tuân thủ [Kratos Layout](https://go-kratos.dev/en/docs/getting-started/layout).
+- **Service module format**: `github.com/arda-labs/arda/arda-be-go/services/<service-name>`.
+- **Shared module**: `github.com/arda-labs/arda/arda-be-go/pkg`.
+- **Cấu trúc**: Tuân thủ Kratos layout hiện có trong `apps/backend-go/iam-service` và `apps/backend-go/mdm-service`.
 
 ---
 

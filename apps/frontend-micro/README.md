@@ -1,59 +1,68 @@
-# FrontendMicro
+# Frontend Micro
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.7.
+Angular 21 workspace for Arda micro-frontends.
 
-## Development server
+## Projects
 
-To start a local development server, run:
+| Project | Type | Dev port | Purpose |
+| --- | --- | --- | --- |
+| `shell` | Host app | `3000` | Layout, auth callback, workspace UI, remote loading |
+| `iam` | Remote MFE | `3002` | IAM screens |
+| `mdm` | Remote MFE | `3001` | Master Data Management screens |
+| `core` | Library | N/A | Shared Angular library placeholder |
 
-```bash
-ng serve
+The workspace uses Angular CLI and `@angular-architects/native-federation`.
+It is not an Nx workspace.
+
+## Install
+
+```powershell
+npm install
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Run
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
+```powershell
+npx ng serve shell
+npx ng serve iam
+npx ng serve mdm
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+For production-parity browser checks, open the app through local APISIX from
+`arda-infra/local/apisix` instead of calling services directly:
 
-```bash
-ng generate --help
+```text
+http://localhost:9080
 ```
 
-## Building
+## Build
 
-To build the project run:
-
-```bash
-ng build
+```powershell
+npx ng build shell
+npx ng build iam
+npx ng build mdm
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## Runtime Federation
 
-## Running unit tests
+The shell reads remote URLs from `projects/shell/public/env.js`:
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
+```js
+window.__env.mfeIamUrl = 'http://localhost:9080/mfe-iam';
+window.__env.mfeMdmUrl = 'http://localhost:9080/mfe-mdm';
 ```
 
-## Running end-to-end tests
+Local direct defaults are:
 
-For end-to-end (e2e) testing, run:
+- IAM remote: `http://localhost:3002/remoteEntry.json`
+- MDM remote: `http://localhost:3001/remoteEntry.json`
 
-```bash
-ng e2e
+## Docker
+
+The shared Dockerfile builds individual runtime targets:
+
+```powershell
+docker build --target mfe-shell-runtime --build-arg PROJECT=shell -t ghcr.io/arda-labs/mfe-shell:dev .
+docker build --target mfe-iam-runtime --build-arg PROJECT=iam -t ghcr.io/arda-labs/mfe-iam:dev .
+docker build --target mfe-mdm-runtime --build-arg PROJECT=mdm -t ghcr.io/arda-labs/mfe-mdm:dev .
 ```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.

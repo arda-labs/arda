@@ -2,6 +2,9 @@
 
 Updated: 2026-04-30
 
+Status: Implemented first release. Backend, migrations, IAM menu seed, frontend
+MFE, and GitOps manifests exist.
+
 ## Scope
 
 `mdm-service` owns master data that is reused across IAM, CRM, HRM, accounting, banking, payments, and reporting. It replaces the old `common-service` skeleton because `common` is too broad and tends to become an unclear catch-all.

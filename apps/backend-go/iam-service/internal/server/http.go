@@ -2,6 +2,7 @@ package server
 
 import (
 	stdlib "net/http"
+	"strings"
 
 	"github.com/arda-labs/arda/arda-be-go/pkg/middleware"
 	pb "github.com/arda-labs/arda/arda-be-go/services/iam-service/api/iam/v1"
@@ -16,16 +17,19 @@ import (
 
 func NewHTTPServer(c *conf.Server, jwt *conf.JWT, iam *service.IAMService, menu *service.MenuService, logger log.Logger) *khttp.Server {
 	var opts = []khttp.ServerOption{
-		khttp.Filter(handlers.CORS(
-			handlers.AllowedOrigins([]string{
-				"http://localhost:3000", "http://127.0.0.1:3000",
-				"http://localhost:3001", "http://127.0.0.1:3001",
-				"http://localhost:3002", "http://127.0.0.1:3002",
-				"http://localhost:4200", "http://127.0.0.1:4200",
-			}),
-			handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE", "OPTIONS"}),
-			handlers.AllowedHeaders([]string{"Content-Type", "Authorization", "X-Tenant-ID", "X-Request-ID", "Accept-Language", "X-User-Username"}),
-		)),
+		khttp.Filter(
+			apiPrefixAlias(),
+			handlers.CORS(
+				handlers.AllowedOrigins([]string{
+					"http://localhost:3000", "http://127.0.0.1:3000",
+					"http://localhost:3001", "http://127.0.0.1:3001",
+					"http://localhost:3002", "http://127.0.0.1:3002",
+					"http://localhost:4200", "http://127.0.0.1:4200",
+				}),
+				handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE", "OPTIONS"}),
+				handlers.AllowedHeaders([]string{"Content-Type", "Authorization", "X-Tenant-ID", "X-Request-ID", "Accept-Language", "X-User-Username"}),
+			),
+		),
 		khttp.Middleware(
 			recovery.Recovery(),
 			middleware.Logging(logger),
@@ -102,4 +106,24 @@ func NewHTTPServer(c *conf.Server, jwt *conf.JWT, iam *service.IAMService, menu 
 	})
 
 	return srv
+}
+
+func apiPrefixAlias() khttp.FilterFunc {
+	return func(next stdlib.Handler) stdlib.Handler {
+		return stdlib.HandlerFunc(func(w stdlib.ResponseWriter, r *stdlib.Request) {
+			if r.URL != nil && (r.URL.Path == "/api/v1" || strings.HasPrefix(r.URL.Path, "/api/v1/")) {
+				clone := r.Clone(r.Context())
+				urlCopy := *r.URL
+				urlCopy.Path = strings.TrimPrefix(r.URL.Path, "/api")
+				if urlCopy.RawPath != "" {
+					urlCopy.RawPath = strings.TrimPrefix(urlCopy.RawPath, "/api")
+				}
+				clone.URL = &urlCopy
+				next.ServeHTTP(w, clone)
+				return
+			}
+
+			next.ServeHTTP(w, r)
+		})
+	}
 }

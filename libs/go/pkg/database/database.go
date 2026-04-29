@@ -59,7 +59,7 @@ func (db *Database) ExecInTransaction(ctx context.Context, tenantID string, fn f
 	defer tx.Rollback(ctx)
 
 	if tenantID != "" {
-		if _, err := tx.Exec(ctx, "SET LOCAL app.current_tenant_id = $1", tenantID); err != nil {
+		if _, err := tx.Exec(ctx, "SELECT set_config('app.current_tenant_id', $1, true)", tenantID); err != nil {
 			return err
 		}
 	}

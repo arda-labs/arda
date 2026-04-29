@@ -48,7 +48,8 @@ func NewData(c *conf.Data, logger log.Logger) (*Data, func(), error) {
 	}
 
 	if err := runMigrations(c.Database.Source); err != nil {
-		log.NewHelper(logger).Warnf("migration warning: %v", err)
+		dbCleanup()
+		return nil, nil, fmt.Errorf("running migrations: %w", err)
 	}
 
 	rdb, redisCleanup, err := redis.NewRedis(

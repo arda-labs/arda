@@ -6,7 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { catchError, switchMap } from 'rxjs/operators';
 import { throwError, from } from 'rxjs';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
-import { getApiUrl } from './auth.config';
+import { getApiPath, getApiUrl } from './auth.config';
 
 export interface TenantProvider {
   getTenantId(): string;
@@ -16,6 +16,13 @@ export const TENANT_PROVIDER = new InjectionToken<TenantProvider>('TENANT_PROVID
 
 function generateRequestId(): string {
   return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+}
+
+function normalizeRelativeApiUrl(url: string): string {
+  const apiPath = getApiPath();
+  return url
+    .replace(/^\/api\/v1(?=\/|$)/, apiPath)
+    .replace(/^\/v1(?=\/|$)/, apiPath);
 }
 
 export const apiInterceptor: HttpInterceptorFn = (req, next) => {
@@ -45,7 +52,8 @@ export const apiInterceptor: HttpInterceptorFn = (req, next) => {
   // Tự động thêm API URL nếu là request tương đối
   if (isApiRequest && !finalUrl.startsWith('http')) {
     const baseUrl = getApiUrl();
-    finalUrl = `${baseUrl.replace(/\/+$/, '')}/${finalUrl.replace(/^\/+/, '')}`;
+    const normalizedUrl = normalizeRelativeApiUrl(finalUrl);
+    finalUrl = `${baseUrl.replace(/\/+$/, '')}/${normalizedUrl.replace(/^\/+/, '')}`;
   }
 
   // Attach Bearer token for API requests

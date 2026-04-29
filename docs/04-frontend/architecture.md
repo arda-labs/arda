@@ -59,6 +59,12 @@ Sử dụng **Analog.js** hoặc Angular Native SSR:
 - Custom theme dựa trên Tailwind CSS.
 - Sử dụng các component phức tạp như `DataTable`, `TreeTable`, `OrgChart` để xử lý dữ liệu ngân hàng.
 
+### 5. Enterprise Data Grid
+
+Các màn hình nghiệp vụ và IAM sẽ có nhiều bảng. Chiến lược hiện tại là dùng PrimeNG `p-table` qua một convention/wrapper nội bộ trước, chuẩn hóa query contract cho pagination/sort/filter/column state. Nếu sau này phát sinh nhu cầu rất nặng như server-side row model, pivot, grouping, master/detail và Excel export nâng cao, AG Grid Enterprise sẽ được đánh giá riêng vì có chi phí license.
+
+Chi tiết: [UI/UX và Data Grid Strategy](./ui-ux-data-grid.md).
+
 ## 🚀 Development Workflow
 
 1. **Create Library**: `nx g @nx/angular:lib [name]` cho logic dùng chung.

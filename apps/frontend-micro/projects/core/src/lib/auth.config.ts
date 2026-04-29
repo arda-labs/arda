@@ -53,3 +53,19 @@ export function getApiUrl(): string {
     return 'http://localhost:8000';
   }
 }
+
+export function getApiPath(): string {
+  try {
+    return normalizeApiPath((window as any).__env?.apiPath ?? '/v1');
+  } catch {
+    return '/v1';
+  }
+}
+
+function normalizeApiPath(path: string): string {
+  const trimmed = (path || '/v1').trim();
+  if (!trimmed || trimmed === '/') {
+    return '';
+  }
+  return `/${trimmed.replace(/^\/+|\/+$/g, '')}`;
+}

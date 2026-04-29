@@ -155,13 +155,45 @@ func (s *IAMService) GetUserMemberships(ctx context.Context, req *pb.GetUserMemb
 func (s *IAMService) GetCurrentUserPermissions(ctx context.Context, req *pb.GetCurrentUserPermissionsRequest) (*pb.ListPermissionsResponse, error) {
 	extID := middleware.GetUserID(ctx)
 	tenantID := middleware.GetTenantID(ctx)
-	if extID == "" || tenantID == "" {
-		return nil, errors.Forbidden("UNAUTHORIZED", "missing subject or tenant")
+	if extID == "" {
+		return nil, errors.Forbidden("UNAUTHORIZED", "missing subject")
 	}
 
 	user, err := s.users.GetOrCreateUser(ctx, extID, middleware.GetUsername(ctx), middleware.GetEmail(ctx), "")
 	if err != nil {
 		return nil, err
+	}
+
+	if tenantID == "" {
+		isPlatformAdmin, err := s.perms.IsPlatformAdmin(ctx, user.ID)
+		if err != nil {
+			return nil, err
+		}
+		if !isPlatformAdmin {
+			return nil, errors.Forbidden("UNAUTHORIZED", "missing tenant")
+		}
+
+		tenants, err := s.tenants.ListTenants(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		resp := &pb.ListPermissionsResponse{}
+		seen := make(map[string]bool)
+		for _, tenant := range tenants {
+			perms, err := s.perms.GetUserPermissions(ctx, user.ID, tenant.ID)
+			if err != nil {
+				return nil, err
+			}
+			for _, p := range perms {
+				key := p.Resource + ":" + p.Action
+				if !seen[key] {
+					seen[key] = true
+					resp.Permissions = append(resp.Permissions, key)
+				}
+			}
+		}
+		return resp, nil
 	}
 
 	perms, err := s.perms.GetUserPermissions(ctx, user.ID, tenantID)

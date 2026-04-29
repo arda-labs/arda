@@ -39,10 +39,10 @@
       "path": "./projects/iam/tsconfig.spec.json"
     },
     {
-      "path": "./projects/common/tsconfig.app.json"
+      "path": "./projects/mdm/tsconfig.app.json"
     },
     {
-      "path": "./projects/common/tsconfig.spec.json"
+      "path": "./projects/mdm/tsconfig.spec.json"
     },
     {
       "path": "./projects/core/tsconfig.lib.json"

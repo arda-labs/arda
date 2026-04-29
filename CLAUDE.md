@@ -12,9 +12,10 @@ arda/
 ├── apps/
 │   ├── backend-go/      # Operational services (Kratos Monorepo with Go Workspace)
 │   │   ├── go.work      # Go workspace configuration
-│   │   ├── common-service/
+│   │   ├── iam-service/
+│   │   ├── mdm-service/
 │   │   ├── crm-service/
-│   │   └── iam-service/
+│   │   └── hrm-service/
 │   ├── backend-java/    # Core Banking services (Gradle Multi-project Monorepo)
 │   │   ├── build.gradle.kts
 │   │   ├── settings.gradle.kts

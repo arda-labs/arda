@@ -1,6 +1,6 @@
 # Arda Operating Model
 
-Updated: 2026-04-28
+Updated: 2026-04-30
 
 This document is the source of truth for how Arda organizes code, infrastructure, local development, and deployment.
 
@@ -57,7 +57,7 @@ APISIX is the edge contract for browser and external traffic.
 Expected responsibilities:
 
 - Route `/api/*` to backend services.
-- Route MFE assets such as `/mfe-iam/*` and `/mfe-common/*`.
+- Route MFE assets such as `/mfe-iam/*` and `/mfe-mdm/*`.
 - Normalize path rewrites before traffic reaches services.
 - Enforce or delegate token verification.
 - Forward trusted identity, tenant, membership, and permission context to services after verification.
@@ -91,7 +91,7 @@ Then point local frontend runtime config to:
 ```js
 window.__env.apiUrl = 'http://localhost:9080/api';
 window.__env.mfeIamUrl = 'http://localhost:9080/mfe-iam';
-window.__env.mfeCommonUrl = 'http://localhost:9080/mfe-common';
+window.__env.mfeMdmUrl = 'http://localhost:9080/mfe-mdm';
 ```
 
 This keeps local browser traffic on the same route shape as deployed traffic.
@@ -115,8 +115,7 @@ GitOps in `arda-infra` should:
 
 These items block a clean operating model:
 
-- Go CI uses Go `1.22`, while local modules declare newer Go versions.
-- `common-service` is still a template and has invalid import paths.
+- `mdm-service` now replaces the old `common-service` skeleton; shared master data should use MDM naming, routes, and ownership.
 - `libs/go/pkg` references `github.com/shopspring/decimal` without a complete module dependency setup.
 - Java CI expects `apps/backend-java/accounting`, but current code uses `accounting_tmp`.
 - APISIX routes currently cover routing, but auth plugin or forward-auth behavior is not yet formalized.

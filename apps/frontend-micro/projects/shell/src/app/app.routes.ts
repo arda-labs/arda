@@ -64,6 +64,11 @@ export const routes: Routes = [
         loadChildren: () =>
           loadRemoteModule('iam', './Routes').then((m) => m.remoteRoutes),
       },
+      {
+        path: 'mdm',
+        loadChildren: () =>
+          loadRemoteModule('mdm', './Routes').then((m) => m.remoteRoutes),
+      },
     ],
   },
 

@@ -1,7 +1,7 @@
 # Arda Documentation Center
 
 > Hệ thống tài liệu trung tâm cho dự án Arda Platform
-> Cập nhật: 2026-04-25
+> Cập nhật: 2026-04-30
 
 ---
 
@@ -40,6 +40,7 @@
 ### [06. Nghiệp vụ (Features)](./06-features/)
 
 - [Kế toán (Accounting)](./06-features/accounting.md)
+- [Dữ liệu nền (MDM)](./06-features/mdm.md)
 - [Cho vay (Loan)](./06-features/loan.md)
 - [Khách hàng (CRM)](./06-features/crm.md)
 - [Nhân sự (HRM)](./06-features/hrm.md)

@@ -1,0 +1,91 @@
+<p-toast />
+<p-confirmDialog />
+
+<section class="space-y-4 p-4">
+  <div class="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+    <div>
+      <div class="text-xs font-semibold uppercase tracking-normal text-primary">Danh mục & tham số</div>
+      <h1 class="text-2xl font-semibold text-surface-900 dark:text-white">Tham số hệ thống</h1>
+      <p class="text-sm text-surface-500">Cấu hình runtime có kiểm soát theo nhóm.</p>
+    </div>
+    <div class="flex gap-2">
+      <p-button icon="pi pi-refresh" severity="secondary" label="Làm mới" (onClick)="reload()" />
+      <p-button icon="pi pi-plus" label="Thêm tham số" (onClick)="open()" />
+    </div>
+  </div>
+
+  <div class="overflow-hidden rounded-lg border border-surface-200 bg-surface-0 dark:border-surface-800 dark:bg-surface-900">
+    <p-table [value]="parameters()" [loading]="resource.isLoading()" [rows]="15" [paginator]="true" class="p-datatable-sm" responsiveLayout="scroll">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Key</th>
+          <th>Tên</th>
+          <th>Nhóm</th>
+          <th>Kiểu</th>
+          <th>Giá trị</th>
+          <th>Flags</th>
+          <th class="text-right">Hành động</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-param>
+        <tr>
+          <td><span class="font-mono text-xs">{{ param.key }}</span></td>
+          <td>
+            <div class="font-semibold">{{ param.name }}</div>
+            <div class="text-xs text-surface-400">{{ param.description }}</div>
+          </td>
+          <td><p-tag [value]="param.groupCode || '-'" severity="secondary" class="text-[10px]" /></td>
+          <td><span class="text-sm">{{ param.valueType }}</span></td>
+          <td>
+            @switch (param.valueType) {
+              @case ('NUMBER') { <span>{{ param.valueNumber }}</span> }
+              @case ('BOOLEAN') { <span>{{ param.valueBoolean }}</span> }
+              @case ('JSON') { <span class="font-mono text-xs">{{ param.valueJson }}</span> }
+              @default { <span>{{ param.valueText }}</span> }
+            }
+          </td>
+          <td>
+            <div class="flex gap-1">
+              @if (param.isSystem) { <p-tag value="System" severity="info" class="text-[10px]" /> }
+              @if (param.isSecret) { <p-tag value="Secret" severity="warn" class="text-[10px]" /> }
+              @if (!param.isEditable) { <p-tag value="Locked" severity="danger" class="text-[10px]" /> }
+            </div>
+          </td>
+          <td class="text-right">
+            <p-button icon="pi pi-pencil" size="small" variant="text" pTooltip="Sửa" (onClick)="open(param)" />
+            <p-button icon="pi pi-trash" severity="danger" size="small" variant="text" [disabled]="param.isSystem" pTooltip="Xóa" (onClick)="delete(param)" />
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr><td colspan="7" class="p-8 text-center text-surface-500">Chưa có tham số.</td></tr>
+      </ng-template>
+    </p-table>
+  </div>
+</section>
+
+<p-dialog [visible]="dialogVisible()" (visibleChange)="dialogVisible.set($event)" [modal]="true" [draggable]="false" [resizable]="false" [style]="{width: '720px'}" [header]="selected() ? 'Cập nhật tham số' : 'Thêm tham số'">
+  <div [formGroup]="form" class="grid grid-cols-1 gap-4 py-4 md:grid-cols-2">
+    <input pInputText formControlName="key" placeholder="Key" [readonly]="!!selected()" />
+    <input pInputText formControlName="name" placeholder="Tên tham số" />
+    <input pInputText formControlName="groupCode" placeholder="Nhóm" />
+    <p-select formControlName="valueType" [options]="valueTypeOptions" optionLabel="label" optionValue="value" appendTo="body" />
+    <input pInputText formControlName="valueText" placeholder="Value text" />
+    <input pInputText type="number" formControlName="valueNumber" placeholder="Value number" />
+    <label class="flex items-center gap-2"><input type="checkbox" formControlName="valueBoolean" class="h-4 w-4 accent-primary" />Value boolean</label>
+    <input pInputText formControlName="defaultValue" placeholder="Default value" />
+    <div class="flex flex-wrap items-center gap-4 md:col-span-2">
+      <label class="flex items-center gap-2"><input type="checkbox" formControlName="isSecret" class="h-4 w-4 accent-primary" />Secret</label>
+      <label class="flex items-center gap-2"><input type="checkbox" formControlName="isEditable" class="h-4 w-4 accent-primary" />Editable</label>
+      <label class="flex items-center gap-2"><input type="checkbox" formControlName="isSystem" class="h-4 w-4 accent-primary" />System</label>
+    </div>
+    <textarea pTextarea formControlName="valueJson" rows="3" class="md:col-span-2" placeholder="Value JSON"></textarea>
+    <textarea pTextarea formControlName="validationRuleJson" rows="2" class="md:col-span-2" placeholder="Validation rule JSON"></textarea>
+    <textarea pTextarea formControlName="description" rows="2" class="md:col-span-2" placeholder="Mô tả"></textarea>
+  </div>
+  <ng-template pTemplate="footer">
+    <p-button label="Hủy" severity="secondary" variant="text" (onClick)="dialogVisible.set(false)" />
+    <p-button label="Lưu" icon="pi pi-check" [loading]="isSaving()" (onClick)="save()" />
+  </ng-template>
+</p-dialog>
+

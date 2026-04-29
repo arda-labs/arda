@@ -6,7 +6,7 @@ const env = (window as any).__env || {};
 // Thiết lập Map động trỏ đến các module con
 const federationManifest = {
   iam: `${env.mfeIamUrl || 'http://localhost:3002'}/remoteEntry.json`,
-  common: `${env.mfeCommonUrl || 'http://localhost:3001'}/remoteEntry.json`
+  mdm: `${env.mfeMdmUrl || 'http://localhost:3001'}/remoteEntry.json`
 };
 
 // Truyền thẳng Object vào initFederation (không dùng file json cứng nữa)

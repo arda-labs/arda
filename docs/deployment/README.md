@@ -81,7 +81,7 @@ arda/
 │   │   ├── accounting-service/
 │   │   ├── loan-service/
 │   │   ├── mfe-shell/
-│   │   ├── mfe-common/
+│   │   ├── mfe-mdm/
 │   │   └── ...
 │   ├── bootstrap/
 │   │   └── root-app.yaml      # ArgoCD root application
@@ -107,7 +107,7 @@ arda/
 └── arda-mfe/                   # Frontend
     ├── apps/
     │   ├── shell/
-    │   ├── common/
+    │   ├── mdm/
     │   ├── accounting/
     │   ├── loan/
     │   └── crm/
@@ -1180,4 +1180,4 @@ kubectl rollout undo deployment/<deployment-name> -n <namespace> --to-revision=<
 
 ---
 
-*Last Updated: 2026-04-24*
+*Last Updated: 2026-04-30*

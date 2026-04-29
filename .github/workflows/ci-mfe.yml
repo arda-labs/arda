@@ -36,7 +36,7 @@ jobs:
 
           if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
             echo "Manual trigger: building all apps"
-            APPS="shell,iam,common"
+            APPS="shell,iam,mdm"
           else
             # Get changes between previous commit and current
             if [[ "${{ github.event_name }}" == "pull_request" ]]; then
@@ -61,7 +61,7 @@ jobs:
             
             # If global config, root files, or core lib changed -> rebuild ALL
             if echo "$CHANGED_FILES" | grep -E -q "package\.json|angular\.json|federation\.config\.js|Dockerfile|nginx\.conf|projects/core"; then
-              AFFECTED=("shell" "iam" "common")
+              AFFECTED=("shell" "iam" "mdm")
             else
               if echo "$CHANGED_FILES" | grep -q "projects/shell"; then
                 AFFECTED+=("shell")
@@ -69,8 +69,8 @@ jobs:
               if echo "$CHANGED_FILES" | grep -q "projects/iam"; then
                 AFFECTED+=("iam")
               fi
-              if echo "$CHANGED_FILES" | grep -q "projects/common"; then
-                AFFECTED+=("common")
+              if echo "$CHANGED_FILES" | grep -q "projects/mdm"; then
+                AFFECTED+=("mdm")
               fi
             fi
             

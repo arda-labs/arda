@@ -1,7 +1,7 @@
 # Architecture — Tổng quan Kiến trúc
 
 > Tổng quan kiến trúc hệ thống Arda Platform
-> Cập nhật: 2026-04-24
+> Cập nhật: 2026-04-30
 
 ---
 
@@ -20,7 +20,7 @@ Arda là nền tảng microservices tài chính với kiến trúc 3-layer:
 ┌─────────────────────────────────────────────────────────────┐
 │                     Frontend Layer                         │
 │  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐    │
-│  │  Shell   │  │  Common  │  │  MFE Apps│  │  Admin   │    │
+│  │  Shell   │  │   IAM    │  │   MDM    │  │  MFE Apps│    │
 │  │  (Host)  │  │  (Lib)   │  │ (Domain) │  │  (Panel) │    │
 │  └──────────┘  └──────────┘  └──────────┘  └──────────┘    │
 └─────────────────────────────────────────────────────────────┘
@@ -44,11 +44,11 @@ Arda là nền tảng microservices tài chính với kiến trúc 3-layer:
 │  │  Core Banking    │  │   Operational    │           │
 │  │  (Java + Gradle) │  │   (Go + Kratos)  │           │
 │  │                  │  │                  │           │
-│  │  • Accounting    │  │  • CRM & Member  │           │
-│  │  • Loan          │  │  • HRM           │           │
-│  │  • Deposit       │  │  • Notification  │           │
-│  │                  │  │  • System Config │           │
-│  │                  │  │  • BPM Engine    │           │
+│  │  • Accounting    │  │  • IAM           │           │
+│  │  • Loan          │  │  • MDM           │           │
+│  │  • Deposit       │  │  • CRM & Member  │           │
+│  │                  │  │  • HRM           │           │
+│  │                  │  │  • Notification  │           │
 │  └──────────────────┘  └──────────────────┘           │
 └─────────────────────────────────────────────────────────────┘
                             │
@@ -78,7 +78,8 @@ Arda là nền tảng microservices tài chính với kiến trúc 3-layer:
 arda-mfe/
 ├── apps/
 │   ├── shell/                 # Host app
-│   ├── common/                # Common MFE
+│   ├── iam/                   # Identity & Access MFE
+│   ├── mdm/                   # Master Data Management MFE
 │   ├── accounting/            # Accounting MFE
 │   ├── loan/                  # Loan MFE
 │   ├── crm/                   # CRM MFE
@@ -122,6 +123,8 @@ arda-be/
 │   ├── redis/                 # Redis client wrapper
 │   └── middleware/            # gRPC/HTTP middleware
 │
+├── iam-service/             # Identity & Access Management
+├── mdm-service/             # Master Data Management
 ├── crm-service/             # CRM & Member Service
 ├── hrm-service/             # HRM Service
 ├── notification-service/      # Notification Service
@@ -177,6 +180,7 @@ arda-core/
 ```
 arda.io.vn          → APISIX Gateway
 ├── /api/v1/iam/*         → iam-service
+├── /api/v1/mdm/*         → mdm-service
 ├── /api/v1/crm/*         → crm-service
 ├── /api/v1/hrm/*         → hrm-service
 ├── /api/v1/accounting/*   → accounting-service
@@ -184,7 +188,8 @@ arda.io.vn          → APISIX Gateway
 ├── /api/v1/bpm/*         → bpm-service
 ├── /api/v1/config/*       → system-config-service
 ├── /api/v1/notification/* → notification-service
-├── /common/*              → mfe-common
+├── /mfe-iam/*             → mfe-iam
+├── /mfe-mdm/*             → mfe-mdm
 ├── /loan/*                → mfe-loan
 ├── /crm/*                 → mfe-crm
 ├── /accounting/*           → mfe-accounting
@@ -227,6 +232,7 @@ APISIX → iam-service (Forward Auth)
 ```
 PostgreSQL Schemas:
 ├── arda_iam          # IAM service
+├── arda_mdm          # MDM service
 ├── arda_crm          # CRM service
 ├── arda_hrm          # HRM service
 ├── arda_accounting   # Accounting service
@@ -292,9 +298,10 @@ Reserved:           15GB  (Future services, buffer)
 - [Tech Stack](tech-stack.md) — Công nghệ chi tiết
 - [Frontend Architecture](../frontend/architecture.md) — Chi tiết frontend
 - [Go Architecture](../backend-go/architecture.md) — Chi tiết Go backend
+- [MDM Features](../06-features/mdm.md) — Dữ liệu nền dùng chung
 - [Java Architecture](../backend-java/architecture.md) — Chi tiết Java backend
 - [Infrastructure Architecture](../../INFRA_STATUS.md) — Chi tiết hạ tầng thực tế
 
 ---
 
-*Last Updated: 2026-04-24*
+*Last Updated: 2026-04-30*

@@ -1,6 +1,6 @@
 # Repository Reorganization Plan
 
-Updated: 2026-04-28
+Updated: 2026-04-30
 
 ## Goal
 
@@ -53,9 +53,10 @@ apps/
   gateway/
   ingress/
   iam-service/
+  mdm-service/
   mfe-shell/
   mfe-iam/
-  mfe-common/
+  mfe-mdm/
   base/
 scripts/
 ```
@@ -88,7 +89,7 @@ Acceptance criteria:
 Actions:
 
 - Align Go CI with the Go version declared by the modules.
-- Fix or remove `apps/backend-go/common-service` if it remains only a template.
+- Keep `apps/backend-go/mdm-service` as the active owner for shared master data; do not recreate `common-service`.
 - Fix `libs/go` module dependencies or move shared packages into a clean module boundary.
 - Rename `apps/backend-java/accounting_tmp` to `apps/backend-java/accounting`, or mark Java as experimental and disable broken Java deploy CI.
 - Ensure every CI job produces image tags that match an existing app path in `arda-infra`.
@@ -153,7 +154,7 @@ Do not split just to make folders look cleaner. A premature split will make APIS
 ## Immediate Backlog
 
 1. Fix Go version mismatch in CI.
-2. Decide whether `common-service` is active or a template.
+2. Keep APISIX and GitOps paths aligned for `mdm-service` and `mfe-mdm`.
 3. Fix Java accounting directory mismatch.
 4. Add APISIX auth or forward-auth design and manifests.
 5. Update `docs/01-overview/infra-status.md` after checking live cluster state.

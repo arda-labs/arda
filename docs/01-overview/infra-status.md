@@ -1,7 +1,11 @@
 # Arda Infrastructure Status — Real-world Deployment
 
 > Cập nhật thực trạng deployment trên server **thinkcenter**
-> Date: 2026-04-24
+> Date: 2026-04-30
+>
+> Note: This status page was captured from the live `thinkcenter` cluster on 2026-04-24.
+> The target GitOps layout has since moved from `mfe-common` to `mfe-mdm`; live pod
+> names and image tags should be refreshed after the next ArgoCD sync.
 
 ---
 
@@ -40,9 +44,9 @@ Node: thinkcenter
 - CPU: 497m (3% of 12 cores)
 - RAM: 3858Mi (24% of 16GB)
 
-Pods in arda-dev:
+Pods in arda-dev at last live capture:
 - iam-service: 1m CPU, 8Mi RAM
-- mfe-common: 1m CPU, 13Mi RAM
+- mfe-common: 1m CPU, 13Mi RAM (superseded by target `mfe-mdm`)
 - mfe-shell: 1m CPU, 13Mi RAM
 - zitadel: 15m CPU, 111Mi RAM
 - zitadel-login: 10m CPU, 106Mi RAM
@@ -79,7 +83,7 @@ kube-node-lease   Active   5d
 | Service | Status | Image | Replicas | Ports |
 |---------|--------|-------|----------|-------|
 | iam-service | Running | ghcr.io/arda-labs/iam-service:de92316 | 1 | 8000, 9000 |
-| mfe-common | Running | ghcr.io/arda-labs/mfe-common:1018fe9 | 1 | 80 |
+| mfe-common | Running at last capture; target is `mfe-mdm` | ghcr.io/arda-labs/mfe-common:1018fe9 | 1 | 80 |
 | mfe-shell | Running | ghcr.io/arda-labs/mfe-shell:1018fe9 | 1 | 80 |
 | zitadel | Running | ghcr.io/zitadel/zitadel:v4.13.0 | 1 | 8080 |
 | zitadel-login | Running | ghcr.io/zitadel/zitadel-login:v4.13.0 | 1 | 3000 |
@@ -146,7 +150,7 @@ argocd.arda.io.vn    → argocd-server.argocd.svc.cluster.local:443
 | Name | Host | Path | Backend |
 |------|------|------|---------|
 | iam-service-v2-route | arda.io.vn | /api/v1/* | iam-service:80 |
-| mfe-common-route | arda.io.vn | /common/* | mfe-common:80 |
+| mfe-mdm-route | arda.io.vn | /mfe-mdm/* | mfe-mdm:80 |
 | mfe-shell-route | arda.io.vn | /* | mfe-shell:80 |
 | zitadel-route | auth.arda.io.vn | /* | Zitadel (via Traefik) |
 
@@ -167,7 +171,7 @@ argocd.arda.io.vn    → argocd-server.argocd.svc.cluster.local:443
 | apisix | github.com.arda_labs/arda-infra | apps/gateway/apisix/overlays/dev | gateway | ✅ Synced |
 | cloudflared | github.com.arda_labs/arda-infra | apps/ingress/cloudflared/overlays | infra | ✅ Synced |
 | iam-service-dev | github.com.arda_labs/arda-infra | apps/iam-service/overlays/dev | arda-dev | ✅ Synced |
-| mfe-common-dev | github.com.arda_labs/arda-infra | apps/mfe-common/overlays/dev | arda-dev | ✅ Synced |
+| mfe-mdm-dev | github.com.arda_labs/arda-infra | apps/mfe-mdm/overlays/dev | arda-dev | Target app; sync status not refreshed |
 | mfe-shell-dev | github.com.arda_labs/arda-infra | apps/mfe-shell/overlays/dev | arda-dev | ⚠️ OutOfSync |
 
 **Observation**: `mfe-shell-dev` đang OutOfSync, cần sync lại.
@@ -231,7 +235,7 @@ arda-infra/
 │   ├── arda-root.yaml
 │   ├── cloudflared.yaml
 │   ├── iam-service-dev.yaml
-│   ├── mfe-common-dev.yaml
+│   ├── mfe-mdm-dev.yaml
 │   └── mfe-shell-dev.yaml
 │
 └── apps/
@@ -242,7 +246,7 @@ arda-infra/
     ├── iam-service/
     │   └── overlays/dev/
     │
-    ├── mfe-common/
+    ├── mfe-mdm/
     │   └── overlays/dev/
     │
     └── mfe-shell/

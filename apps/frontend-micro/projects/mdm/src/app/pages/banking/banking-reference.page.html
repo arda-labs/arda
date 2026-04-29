@@ -1,0 +1,29 @@
+<section class="space-y-4 p-4">
+  <div>
+    <div class="text-xs font-semibold uppercase tracking-normal text-primary">Tài chính ngân hàng</div>
+    <h1 class="text-2xl font-semibold text-surface-900 dark:text-white">Gợi ý mở rộng MDM</h1>
+    <p class="text-sm text-surface-500">Các nhóm master data nên có ownership rõ trước khi thêm CRUD.</p>
+  </div>
+
+  <div class="overflow-hidden rounded-lg border border-surface-200 bg-surface-0 dark:border-surface-800 dark:bg-surface-900">
+    <p-table [value]="capabilities" class="p-datatable-sm" responsiveLayout="scroll">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Nhóm dữ liệu</th>
+          <th>Code set đề xuất</th>
+          <th>Owner</th>
+          <th>Trạng thái</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-item>
+        <tr>
+          <td><span class="font-semibold">{{ item.name }}</span></td>
+          <td><span class="font-mono text-xs">{{ item.code }}</span></td>
+          <td><span class="text-sm">{{ item.owner }}</span></td>
+          <td><p-tag value="Đề xuất" severity="info" class="text-[10px]" /></td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</section>
+

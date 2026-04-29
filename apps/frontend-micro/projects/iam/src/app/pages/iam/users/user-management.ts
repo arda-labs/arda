@@ -8,7 +8,8 @@ import { InputText } from 'primeng/inputtext';
 import { Dialog } from 'primeng/dialog';
 import { Select } from 'primeng/select';
 import { Toast } from 'primeng/toast';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmDialog } from 'primeng/confirmdialog';
 import { Avatar } from 'primeng/avatar';
 import { createPagedResource } from '@arda/core';
 import { UserService, User } from '../../../services/user.service';
@@ -28,10 +29,11 @@ import { ArdaDataTable } from '../../../shared/table/arda-data-table';
     Dialog,
     Select,
     Toast,
+    ConfirmDialog,
     Avatar,
     ArdaDataTable,
   ],
-  providers: [MessageService],
+  providers: [MessageService, ConfirmationService],
   templateUrl: './user-management.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -39,6 +41,7 @@ export class UserManagement {
   private userService = inject(UserService);
   private tenantService = inject(TenantService);
   private messageService = inject(MessageService);
+  private confirmationService = inject(ConfirmationService);
   private router = inject(Router);
 
   usersTable = createPagedResource<User, string>({
@@ -49,6 +52,7 @@ export class UserManagement {
   });
 
   isSaving = signal(false);
+  deletingUserId = signal('');
 
   // Dialog state
   displayInviteDialog = signal(false);
@@ -131,6 +135,38 @@ export class UserManagement {
         this.messageService.add({ severity: 'error', summary: 'Lỗi', detail: 'Không thể tạo người dùng' });
         this.isSaving.set(false);
       }
+    });
+  }
+
+  deleteUser(user: User) {
+    this.confirmationService.confirm({
+      message: `Xóa "${user.displayName || user.username || user.email}" khỏi workspace hiện tại?`,
+      header: 'Xác nhận xóa',
+      icon: 'pi pi-exclamation-triangle',
+      acceptLabel: 'Xóa',
+      rejectLabel: 'Hủy',
+      acceptButtonStyleClass: 'p-button-danger',
+      accept: () => {
+        const tenantId = this.tenantService.selectedTenantId();
+        if (!tenantId || !user.id) return;
+
+        this.deletingUserId.set(user.id);
+        this.userService.removeMember(user.id, tenantId).subscribe({
+          next: () => {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Thành công',
+              detail: 'Đã xóa người dùng khỏi workspace',
+            });
+            this.refreshUsers();
+            this.deletingUserId.set('');
+          },
+          error: () => {
+            this.messageService.add({ severity: 'error', summary: 'Lỗi', detail: 'Không thể xóa người dùng' });
+            this.deletingUserId.set('');
+          },
+        });
+      },
     });
   }
 

@@ -38,8 +38,8 @@ export class PermissionService {
     return this.http.get<ListPermissionsResponse>(`/api/v1/me/permissions`);
   }
 
-  async loadPermissions(): Promise<void> {
-    if (!this.authService.isAuthenticated()) {
+  async loadPermissions(forceAuthenticated = false): Promise<void> {
+    if (!forceAuthenticated && !this.authService.isAuthenticated()) {
       return;
     }
 

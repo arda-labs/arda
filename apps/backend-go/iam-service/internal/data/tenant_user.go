@@ -169,10 +169,34 @@ func (r *tenantUserRepo) GetByUserAndTenant(ctx context.Context, userID, tenantI
 
 func (r *tenantUserRepo) SoftDelete(ctx context.Context, userID, tenantID string) error {
 	return r.data.ExecInTenant(ctx, tenantID, func(ctx context.Context, tx pgx.Tx) error {
-		_, err := tx.Exec(ctx,
+		if _, err := tx.Exec(ctx,
 			`UPDATE tenant_users
 			 SET deleted_at = now(), updated_at = now()
 			 WHERE user_id = $1 AND tenant_id = $2 AND deleted_at IS NULL`,
+			userID, tenantID); err != nil {
+			return err
+		}
+
+		if _, err := tx.Exec(ctx,
+			`DELETE FROM user_roles
+			 WHERE user_id = $1 AND tenant_id = $2`,
+			userID, tenantID); err != nil {
+			return err
+		}
+
+		if _, err := tx.Exec(ctx,
+			`DELETE FROM resource_permissions
+			 WHERE user_id = $1 AND tenant_id = $2`,
+			userID, tenantID); err != nil {
+			return err
+		}
+
+		_, err := tx.Exec(ctx,
+			`DELETE FROM group_members gm
+			 USING groups g
+			 WHERE gm.group_id = g.id
+			   AND gm.user_id = $1
+			   AND g.tenant_id = $2`,
 			userID, tenantID)
 		return err
 	})

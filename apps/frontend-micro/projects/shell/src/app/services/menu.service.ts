@@ -68,8 +68,8 @@ export class MenuService {
     return this.http.get<MenuResponse>(`/api/v1/me/menu`);
   }
 
-  async loadMenu(): Promise<void> {
-    if (!this.authService.isAuthenticated()) return;
+  async loadMenu(forceAuthenticated = false): Promise<void> {
+    if (!forceAuthenticated && !this.authService.isAuthenticated()) return;
 
     const tenantId = this.tenantService.selectedTenantId();
     if (!tenantId) return;

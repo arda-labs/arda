@@ -151,6 +151,12 @@ export class UserService {
     );
   }
 
+  removeMember(userId: string, tenantId: string): Observable<void> {
+    return this.http.delete<void>(
+      `/api/v1/tenants/${encodeURIComponent(tenantId)}/members/${encodeURIComponent(userId)}`,
+    );
+  }
+
   createUser(userData: any, tenantId: string): Observable<User> {
     return this.http.post<any>('/api/v1/users', {
       ...userData,

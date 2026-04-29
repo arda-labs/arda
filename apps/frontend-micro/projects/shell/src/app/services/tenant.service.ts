@@ -1,6 +1,6 @@
 import { Injectable, signal, computed, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, map, tap, of, switchMap, catchError, finalize } from 'rxjs';
+import { Observable, map, tap, of, switchMap, catchError, finalize, take } from 'rxjs';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { TenantProvider } from '@arda/core';
 
@@ -68,6 +68,7 @@ export class TenantService implements TenantProvider {
 
   loadTenants(): Observable<void> {
     return this.oidc.isAuthenticated$.pipe(
+      take(1),
       switchMap(({ isAuthenticated }) => {
         if (!isAuthenticated) {
           console.log('TenantService: Not authenticated, skipping loadTenants');

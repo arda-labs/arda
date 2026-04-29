@@ -36,7 +36,7 @@ func wireApp(confServer *conf.Server, confData *conf.Data, jwt *conf.JWT, zitade
 	permissionUsecase := biz.NewPermissionUsecase(roleRepo, permissionRepo, permissionCache, auditUsecase)
 	authUsecase := biz.NewAuthUsecase(zitadel, jwt, permissionUsecase, logger)
 	tenantUserRepo := data.NewTenantUserRepo(dataData)
-	tenantUserUsecase := biz.NewTenantUserUsecase(tenantUserRepo, roleRepo)
+	tenantUserUsecase := biz.NewTenantUserUsecase(tenantUserRepo, roleRepo, permissionCache)
 	userUsecase := biz.NewUserUsecase(userRepo, authUsecase, tenantUserUsecase)
 	tenantRepo := data.NewTenantRepo(dataData)
 	tenantUsecase := biz.NewTenantUsecase(tenantRepo, tenantUserUsecase)

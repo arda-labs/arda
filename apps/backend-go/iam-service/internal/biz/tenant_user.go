@@ -30,10 +30,11 @@ type TenantUserRepo interface {
 type TenantUserUsecase struct {
 	repo     TenantUserRepo
 	roleRepo RoleRepo
+	cache    PermissionCache
 }
 
-func NewTenantUserUsecase(repo TenantUserRepo, roleRepo RoleRepo) *TenantUserUsecase {
-	return &TenantUserUsecase{repo: repo, roleRepo: roleRepo}
+func NewTenantUserUsecase(repo TenantUserRepo, roleRepo RoleRepo, cache PermissionCache) *TenantUserUsecase {
+	return &TenantUserUsecase{repo: repo, roleRepo: roleRepo, cache: cache}
 }
 
 func (uc *TenantUserUsecase) ListByUser(ctx context.Context, userID string) ([]*TenantUser, error) {
@@ -81,7 +82,13 @@ func (uc *TenantUserUsecase) ListTenantUsers(ctx context.Context, tenantID strin
 }
 
 func (uc *TenantUserUsecase) RemoveTenantUser(ctx context.Context, userID, tenantID string) error {
-	return uc.repo.SoftDelete(ctx, userID, tenantID)
+	if err := uc.repo.SoftDelete(ctx, userID, tenantID); err != nil {
+		return err
+	}
+	if uc.cache != nil {
+		uc.cache.InvalidateUser(ctx, userID, tenantID)
+	}
+	return nil
 }
 
 func (uc *TenantUserUsecase) assignTenantRole(ctx context.Context, userID, tenantID, roleName string) error {
@@ -103,5 +110,11 @@ func (uc *TenantUserUsecase) assignTenantRole(ctx context.Context, userID, tenan
 	if role == nil {
 		return nil
 	}
-	return uc.roleRepo.AssignRole(ctx, userID, role.ID, tenantID)
+	if err := uc.roleRepo.AssignRole(ctx, userID, role.ID, tenantID); err != nil {
+		return err
+	}
+	if uc.cache != nil {
+		uc.cache.InvalidateUser(ctx, userID, tenantID)
+	}
+	return nil
 }

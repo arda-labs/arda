@@ -48,54 +48,29 @@ function getInitialPreset() {
   return ArdaPreset;
 }
 
-function initializeAuth(): Promise<void> {
+async function initializeSession(): Promise<void> {
   const oidc = inject(OidcSecurityService);
-  return firstValueFrom(oidc.checkAuth()).then(() => { /* auth check complete */ });
+  const tenantService = inject(TenantService);
+  const permService = inject(PermissionService);
+  const menuService = inject(MenuService);
+
+  const result = await firstValueFrom(oidc.checkAuth());
+  if (!result.isAuthenticated) {
+    return;
+  }
+
+  await firstValueFrom(tenantService.loadTenants());
+  if (tenantService.selectedTenantId()) {
+    await Promise.all([
+      permService.loadPermissions(true),
+      menuService.loadMenu(true),
+    ]);
+  }
 }
 
 function initializeLanguage(): Promise<void> {
   const langService = inject(LanguageService);
   return langService.init();
-}
-
-function initializeTenants(): Promise<void> {
-  const tenantService = inject(TenantService);
-  const oidc = inject(OidcSecurityService);
-
-  return firstValueFrom(oidc.isAuthenticated$).then(({ isAuthenticated }) => {
-    if (isAuthenticated) {
-      return firstValueFrom(tenantService.loadTenants());
-    }
-    return Promise.resolve();
-  });
-}
-
-function initializePermissions(): Promise<void> {
-  const permService = inject(PermissionService);
-  const oidc = inject(OidcSecurityService);
-
-  return firstValueFrom(oidc.isAuthenticated$).then(({ isAuthenticated }) => {
-    if (isAuthenticated) {
-      return permService.loadPermissions();
-    }
-    return Promise.resolve();
-  });
-}
-
-function initializeMenu(): Promise<void> {
-  const menuService = inject(MenuService);
-  const tenantService = inject(TenantService);
-  const oidc = inject(OidcSecurityService);
-
-  return firstValueFrom(oidc.isAuthenticated$).then(({ isAuthenticated }) => {
-    if (isAuthenticated) {
-      const tenantId = tenantService.selectedTenantId();
-      if (tenantId) {
-        return menuService.loadMenu();
-      }
-    }
-    return Promise.resolve();
-  });
 }
 
 export const appConfig: ApplicationConfig = {
@@ -124,10 +99,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptors([apiInterceptor])),
     { provide: TENANT_PROVIDER, useExisting: TenantService },
     MessageService,
-    provideAppInitializer(initializeAuth),
+    provideAppInitializer(initializeSession),
     provideAppInitializer(initializeLanguage),
-    provideAppInitializer(initializeTenants),
-    provideAppInitializer(initializePermissions),
-    provideAppInitializer(initializeMenu),
   ],
 };

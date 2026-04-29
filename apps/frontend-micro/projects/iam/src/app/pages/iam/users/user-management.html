@@ -1,4 +1,5 @@
 <p-toast />
+<p-confirmDialog />
 
 <div class="p-6 space-y-6">
   <div class="flex items-center justify-between">
@@ -23,7 +24,7 @@
           <th>Email đăng nhập</th>
           <th>Trạng thái</th>
           <th>Ngày gia nhập</th>
-          <th class="text-right">Chi tiết</th>
+          <th class="text-right">Hành động</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-user>
@@ -54,14 +55,26 @@
             <span class="text-sm text-surface-600">{{ user.createdAt | date:'dd/MM/yyyy' }}</span>
           </td>
           <td class="text-right">
-            <button
-              type="button"
-              class="inline-flex h-8 w-8 items-center justify-center rounded-lg text-surface-500 transition-colors hover:bg-surface-100 hover:text-primary-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 dark:hover:bg-surface-800"
-              aria-label="Xem chi tiết người dùng"
-              (click)="openUserDetail(user); $event.stopPropagation()"
-            >
-              <i class="pi pi-arrow-right text-sm"></i>
-            </button>
+            <div class="flex justify-end gap-1">
+              <p-button
+                icon="pi pi-arrow-right"
+                size="small"
+                variant="text"
+                severity="secondary"
+                aria-label="Xem chi tiết người dùng"
+                (onClick)="openUserDetail(user); $event.stopPropagation()"
+              />
+              <p-button
+                icon="pi pi-trash"
+                size="small"
+                variant="text"
+                severity="danger"
+                [loading]="deletingUserId() === user.id"
+                [disabled]="deletingUserId() !== '' && deletingUserId() !== user.id"
+                aria-label="Xóa khỏi workspace"
+                (onClick)="deleteUser(user); $event.stopPropagation()"
+              />
+            </div>
           </td>
         </tr>
       </ng-template>

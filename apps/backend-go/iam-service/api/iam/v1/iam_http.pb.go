@@ -33,6 +33,7 @@ const OperationIAMServiceDeleteGroup = "/iam.v1.IAMService/DeleteGroup"
 const OperationIAMServiceDeleteRole = "/iam.v1.IAMService/DeleteRole"
 const OperationIAMServiceDeleteTenant = "/iam.v1.IAMService/DeleteTenant"
 const OperationIAMServiceForwardAuth = "/iam.v1.IAMService/ForwardAuth"
+const OperationIAMServiceGetAuthSettings = "/iam.v1.IAMService/GetAuthSettings"
 const OperationIAMServiceGetCurrentUser = "/iam.v1.IAMService/GetCurrentUser"
 const OperationIAMServiceGetCurrentUserPermissions = "/iam.v1.IAMService/GetCurrentUserPermissions"
 const OperationIAMServiceGetGroup = "/iam.v1.IAMService/GetGroup"
@@ -85,6 +86,7 @@ type IAMServiceHTTPServer interface {
 	DeleteTenant(context.Context, *DeleteTenantRequest) (*DeleteTenantResponse, error)
 	// ForwardAuth Forward Auth (Dành cho APISIX)
 	ForwardAuth(context.Context, *ForwardAuthRequest) (*ForwardAuthResponse, error)
+	GetAuthSettings(context.Context, *GetAuthSettingsRequest) (*AuthSettings, error)
 	// GetCurrentUser Users
 	GetCurrentUser(context.Context, *GetCurrentUserRequest) (*GetCurrentUserResponse, error)
 	GetCurrentUserPermissions(context.Context, *GetCurrentUserPermissionsRequest) (*ListPermissionsResponse, error)
@@ -123,6 +125,7 @@ type IAMServiceHTTPServer interface {
 func RegisterIAMServiceHTTPServer(s *http.Server, srv IAMServiceHTTPServer) {
 	r := s.Route("/")
 	r.POST("/v1/auth/login", _IAMService_CustomLogin0_HTTP_Handler(srv))
+	r.GET("/v1/auth/settings", _IAMService_GetAuthSettings0_HTTP_Handler(srv))
 	r.GET("/v1/me", _IAMService_GetCurrentUser0_HTTP_Handler(srv))
 	r.PUT("/v1/me", _IAMService_UpdateProfile0_HTTP_Handler(srv))
 	r.GET("/v1/me/audit-logs", _IAMService_ListMyAuditLogs0_HTTP_Handler(srv))
@@ -186,6 +189,25 @@ func _IAMService_CustomLogin0_HTTP_Handler(srv IAMServiceHTTPServer) func(ctx ht
 			return err
 		}
 		reply := out.(*CustomLoginReply)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _IAMService_GetAuthSettings0_HTTP_Handler(srv IAMServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in GetAuthSettingsRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationIAMServiceGetAuthSettings)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.GetAuthSettings(ctx, req.(*GetAuthSettingsRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*AuthSettings)
 		return ctx.Result(200, reply)
 	}
 }
@@ -1151,6 +1173,7 @@ type IAMServiceHTTPClient interface {
 	DeleteTenant(ctx context.Context, req *DeleteTenantRequest, opts ...http.CallOption) (rsp *DeleteTenantResponse, err error)
 	// ForwardAuth Forward Auth (Dành cho APISIX)
 	ForwardAuth(ctx context.Context, req *ForwardAuthRequest, opts ...http.CallOption) (rsp *ForwardAuthResponse, err error)
+	GetAuthSettings(ctx context.Context, req *GetAuthSettingsRequest, opts ...http.CallOption) (rsp *AuthSettings, err error)
 	// GetCurrentUser Users
 	GetCurrentUser(ctx context.Context, req *GetCurrentUserRequest, opts ...http.CallOption) (rsp *GetCurrentUserResponse, err error)
 	GetCurrentUserPermissions(ctx context.Context, req *GetCurrentUserPermissionsRequest, opts ...http.CallOption) (rsp *ListPermissionsResponse, err error)
@@ -1376,6 +1399,19 @@ func (c *IAMServiceHTTPClientImpl) ForwardAuth(ctx context.Context, in *ForwardA
 	opts = append(opts, http.Operation(OperationIAMServiceForwardAuth))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *IAMServiceHTTPClientImpl) GetAuthSettings(ctx context.Context, in *GetAuthSettingsRequest, opts ...http.CallOption) (*AuthSettings, error) {
+	var out AuthSettings
+	pattern := "/v1/auth/settings"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationIAMServiceGetAuthSettings))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
 	if err != nil {
 		return nil, err
 	}

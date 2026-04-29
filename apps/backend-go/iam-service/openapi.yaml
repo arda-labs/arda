@@ -128,6 +128,23 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/iam.v1.CustomLoginReply'
+    /v1/auth/settings:
+        get:
+            tags:
+                - IAMService
+            operationId: IAMService_GetAuthSettings
+            parameters:
+                - name: tenantId
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/iam.v1.AuthSettings'
     /v1/groups:
         get:
             tags:
@@ -1044,6 +1061,19 @@ components:
                 createdAt:
                     type: string
                     format: date-time
+        iam.v1.AuthSettings:
+            type: object
+            properties:
+                tenantId:
+                    type: string
+                authMode:
+                    type: string
+                provider:
+                    type: string
+                passwordPolicy:
+                    $ref: '#/components/schemas/iam.v1.PasswordPolicy'
+                loginPolicy:
+                    $ref: '#/components/schemas/iam.v1.LoginPolicy'
         iam.v1.CheckPermissionResponse:
             type: object
             properties:
@@ -1315,6 +1345,15 @@ components:
                         $ref: '#/components/schemas/iam.v1.TenantUser'
                 nextPageToken:
                     type: string
+        iam.v1.LoginPolicy:
+            type: object
+            properties:
+                passwordLoginEnabled:
+                    type: boolean
+                externalIdpEnabled:
+                    type: boolean
+                mfaRequired:
+                    type: boolean
         iam.v1.Menu:
             type: object
             properties:
@@ -1364,6 +1403,20 @@ components:
                     type: array
                     items:
                         $ref: '#/components/schemas/iam.v1.MenuItem'
+        iam.v1.PasswordPolicy:
+            type: object
+            properties:
+                minLength:
+                    type: integer
+                    format: int32
+                requireUppercase:
+                    type: boolean
+                requireLowercase:
+                    type: boolean
+                requireNumber:
+                    type: boolean
+                requireSymbol:
+                    type: boolean
         iam.v1.RejectPermissionRequest:
             type: object
             properties:

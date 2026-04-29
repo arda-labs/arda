@@ -2597,6 +2597,262 @@ func (x *CustomLoginReply) GetCallbackUrl() string {
 	return ""
 }
 
+type GetAuthSettingsRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	TenantId      string                 `protobuf:"bytes,1,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetAuthSettingsRequest) Reset() {
+	*x = GetAuthSettingsRequest{}
+	mi := &file_iam_v1_iam_proto_msgTypes[43]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetAuthSettingsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetAuthSettingsRequest) ProtoMessage() {}
+
+func (x *GetAuthSettingsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_iam_v1_iam_proto_msgTypes[43]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetAuthSettingsRequest.ProtoReflect.Descriptor instead.
+func (*GetAuthSettingsRequest) Descriptor() ([]byte, []int) {
+	return file_iam_v1_iam_proto_rawDescGZIP(), []int{43}
+}
+
+func (x *GetAuthSettingsRequest) GetTenantId() string {
+	if x != nil {
+		return x.TenantId
+	}
+	return ""
+}
+
+type PasswordPolicy struct {
+	state            protoimpl.MessageState `protogen:"open.v1"`
+	MinLength        int32                  `protobuf:"varint,1,opt,name=min_length,json=minLength,proto3" json:"min_length,omitempty"`
+	RequireUppercase bool                   `protobuf:"varint,2,opt,name=require_uppercase,json=requireUppercase,proto3" json:"require_uppercase,omitempty"`
+	RequireLowercase bool                   `protobuf:"varint,3,opt,name=require_lowercase,json=requireLowercase,proto3" json:"require_lowercase,omitempty"`
+	RequireNumber    bool                   `protobuf:"varint,4,opt,name=require_number,json=requireNumber,proto3" json:"require_number,omitempty"`
+	RequireSymbol    bool                   `protobuf:"varint,5,opt,name=require_symbol,json=requireSymbol,proto3" json:"require_symbol,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
+}
+
+func (x *PasswordPolicy) Reset() {
+	*x = PasswordPolicy{}
+	mi := &file_iam_v1_iam_proto_msgTypes[44]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *PasswordPolicy) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PasswordPolicy) ProtoMessage() {}
+
+func (x *PasswordPolicy) ProtoReflect() protoreflect.Message {
+	mi := &file_iam_v1_iam_proto_msgTypes[44]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PasswordPolicy.ProtoReflect.Descriptor instead.
+func (*PasswordPolicy) Descriptor() ([]byte, []int) {
+	return file_iam_v1_iam_proto_rawDescGZIP(), []int{44}
+}
+
+func (x *PasswordPolicy) GetMinLength() int32 {
+	if x != nil {
+		return x.MinLength
+	}
+	return 0
+}
+
+func (x *PasswordPolicy) GetRequireUppercase() bool {
+	if x != nil {
+		return x.RequireUppercase
+	}
+	return false
+}
+
+func (x *PasswordPolicy) GetRequireLowercase() bool {
+	if x != nil {
+		return x.RequireLowercase
+	}
+	return false
+}
+
+func (x *PasswordPolicy) GetRequireNumber() bool {
+	if x != nil {
+		return x.RequireNumber
+	}
+	return false
+}
+
+func (x *PasswordPolicy) GetRequireSymbol() bool {
+	if x != nil {
+		return x.RequireSymbol
+	}
+	return false
+}
+
+type LoginPolicy struct {
+	state                protoimpl.MessageState `protogen:"open.v1"`
+	PasswordLoginEnabled bool                   `protobuf:"varint,1,opt,name=password_login_enabled,json=passwordLoginEnabled,proto3" json:"password_login_enabled,omitempty"`
+	ExternalIdpEnabled   bool                   `protobuf:"varint,2,opt,name=external_idp_enabled,json=externalIdpEnabled,proto3" json:"external_idp_enabled,omitempty"`
+	MfaRequired          bool                   `protobuf:"varint,3,opt,name=mfa_required,json=mfaRequired,proto3" json:"mfa_required,omitempty"`
+	unknownFields        protoimpl.UnknownFields
+	sizeCache            protoimpl.SizeCache
+}
+
+func (x *LoginPolicy) Reset() {
+	*x = LoginPolicy{}
+	mi := &file_iam_v1_iam_proto_msgTypes[45]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *LoginPolicy) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*LoginPolicy) ProtoMessage() {}
+
+func (x *LoginPolicy) ProtoReflect() protoreflect.Message {
+	mi := &file_iam_v1_iam_proto_msgTypes[45]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use LoginPolicy.ProtoReflect.Descriptor instead.
+func (*LoginPolicy) Descriptor() ([]byte, []int) {
+	return file_iam_v1_iam_proto_rawDescGZIP(), []int{45}
+}
+
+func (x *LoginPolicy) GetPasswordLoginEnabled() bool {
+	if x != nil {
+		return x.PasswordLoginEnabled
+	}
+	return false
+}
+
+func (x *LoginPolicy) GetExternalIdpEnabled() bool {
+	if x != nil {
+		return x.ExternalIdpEnabled
+	}
+	return false
+}
+
+func (x *LoginPolicy) GetMfaRequired() bool {
+	if x != nil {
+		return x.MfaRequired
+	}
+	return false
+}
+
+type AuthSettings struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	TenantId       string                 `protobuf:"bytes,1,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
+	AuthMode       string                 `protobuf:"bytes,2,opt,name=auth_mode,json=authMode,proto3" json:"auth_mode,omitempty"`
+	Provider       string                 `protobuf:"bytes,3,opt,name=provider,proto3" json:"provider,omitempty"`
+	PasswordPolicy *PasswordPolicy        `protobuf:"bytes,4,opt,name=password_policy,json=passwordPolicy,proto3" json:"password_policy,omitempty"`
+	LoginPolicy    *LoginPolicy           `protobuf:"bytes,5,opt,name=login_policy,json=loginPolicy,proto3" json:"login_policy,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *AuthSettings) Reset() {
+	*x = AuthSettings{}
+	mi := &file_iam_v1_iam_proto_msgTypes[46]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AuthSettings) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AuthSettings) ProtoMessage() {}
+
+func (x *AuthSettings) ProtoReflect() protoreflect.Message {
+	mi := &file_iam_v1_iam_proto_msgTypes[46]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AuthSettings.ProtoReflect.Descriptor instead.
+func (*AuthSettings) Descriptor() ([]byte, []int) {
+	return file_iam_v1_iam_proto_rawDescGZIP(), []int{46}
+}
+
+func (x *AuthSettings) GetTenantId() string {
+	if x != nil {
+		return x.TenantId
+	}
+	return ""
+}
+
+func (x *AuthSettings) GetAuthMode() string {
+	if x != nil {
+		return x.AuthMode
+	}
+	return ""
+}
+
+func (x *AuthSettings) GetProvider() string {
+	if x != nil {
+		return x.Provider
+	}
+	return ""
+}
+
+func (x *AuthSettings) GetPasswordPolicy() *PasswordPolicy {
+	if x != nil {
+		return x.PasswordPolicy
+	}
+	return nil
+}
+
+func (x *AuthSettings) GetLoginPolicy() *LoginPolicy {
+	if x != nil {
+		return x.LoginPolicy
+	}
+	return nil
+}
+
 type ForwardAuthRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Method        string                 `protobuf:"bytes,1,opt,name=method,proto3" json:"method,omitempty"`
@@ -2609,7 +2865,7 @@ type ForwardAuthRequest struct {
 
 func (x *ForwardAuthRequest) Reset() {
 	*x = ForwardAuthRequest{}
-	mi := &file_iam_v1_iam_proto_msgTypes[43]
+	mi := &file_iam_v1_iam_proto_msgTypes[47]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2621,7 +2877,7 @@ func (x *ForwardAuthRequest) String() string {
 func (*ForwardAuthRequest) ProtoMessage() {}
 
 func (x *ForwardAuthRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_iam_v1_iam_proto_msgTypes[43]
+	mi := &file_iam_v1_iam_proto_msgTypes[47]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2634,7 +2890,7 @@ func (x *ForwardAuthRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ForwardAuthRequest.ProtoReflect.Descriptor instead.
 func (*ForwardAuthRequest) Descriptor() ([]byte, []int) {
-	return file_iam_v1_iam_proto_rawDescGZIP(), []int{43}
+	return file_iam_v1_iam_proto_rawDescGZIP(), []int{47}
 }
 
 func (x *ForwardAuthRequest) GetMethod() string {
@@ -2676,7 +2932,7 @@ type ForwardAuthResponse struct {
 
 func (x *ForwardAuthResponse) Reset() {
 	*x = ForwardAuthResponse{}
-	mi := &file_iam_v1_iam_proto_msgTypes[44]
+	mi := &file_iam_v1_iam_proto_msgTypes[48]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2688,7 +2944,7 @@ func (x *ForwardAuthResponse) String() string {
 func (*ForwardAuthResponse) ProtoMessage() {}
 
 func (x *ForwardAuthResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_iam_v1_iam_proto_msgTypes[44]
+	mi := &file_iam_v1_iam_proto_msgTypes[48]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2701,7 +2957,7 @@ func (x *ForwardAuthResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ForwardAuthResponse.ProtoReflect.Descriptor instead.
 func (*ForwardAuthResponse) Descriptor() ([]byte, []int) {
-	return file_iam_v1_iam_proto_rawDescGZIP(), []int{44}
+	return file_iam_v1_iam_proto_rawDescGZIP(), []int{48}
 }
 
 func (x *ForwardAuthResponse) GetAllowed() bool {
@@ -2733,7 +2989,7 @@ type GetUserMembershipsRequest struct {
 
 func (x *GetUserMembershipsRequest) Reset() {
 	*x = GetUserMembershipsRequest{}
-	mi := &file_iam_v1_iam_proto_msgTypes[45]
+	mi := &file_iam_v1_iam_proto_msgTypes[49]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2745,7 +3001,7 @@ func (x *GetUserMembershipsRequest) String() string {
 func (*GetUserMembershipsRequest) ProtoMessage() {}
 
 func (x *GetUserMembershipsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_iam_v1_iam_proto_msgTypes[45]
+	mi := &file_iam_v1_iam_proto_msgTypes[49]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2758,7 +3014,7 @@ func (x *GetUserMembershipsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetUserMembershipsRequest.ProtoReflect.Descriptor instead.
 func (*GetUserMembershipsRequest) Descriptor() ([]byte, []int) {
-	return file_iam_v1_iam_proto_rawDescGZIP(), []int{45}
+	return file_iam_v1_iam_proto_rawDescGZIP(), []int{49}
 }
 
 type TenantMembership struct {
@@ -2778,7 +3034,7 @@ type TenantMembership struct {
 
 func (x *TenantMembership) Reset() {
 	*x = TenantMembership{}
-	mi := &file_iam_v1_iam_proto_msgTypes[46]
+	mi := &file_iam_v1_iam_proto_msgTypes[50]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2790,7 +3046,7 @@ func (x *TenantMembership) String() string {
 func (*TenantMembership) ProtoMessage() {}
 
 func (x *TenantMembership) ProtoReflect() protoreflect.Message {
-	mi := &file_iam_v1_iam_proto_msgTypes[46]
+	mi := &file_iam_v1_iam_proto_msgTypes[50]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2803,7 +3059,7 @@ func (x *TenantMembership) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TenantMembership.ProtoReflect.Descriptor instead.
 func (*TenantMembership) Descriptor() ([]byte, []int) {
-	return file_iam_v1_iam_proto_rawDescGZIP(), []int{46}
+	return file_iam_v1_iam_proto_rawDescGZIP(), []int{50}
 }
 
 func (x *TenantMembership) GetTenantId() string {
@@ -2878,7 +3134,7 @@ type GetUserMembershipsResponse struct {
 
 func (x *GetUserMembershipsResponse) Reset() {
 	*x = GetUserMembershipsResponse{}
-	mi := &file_iam_v1_iam_proto_msgTypes[47]
+	mi := &file_iam_v1_iam_proto_msgTypes[51]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2890,7 +3146,7 @@ func (x *GetUserMembershipsResponse) String() string {
 func (*GetUserMembershipsResponse) ProtoMessage() {}
 
 func (x *GetUserMembershipsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_iam_v1_iam_proto_msgTypes[47]
+	mi := &file_iam_v1_iam_proto_msgTypes[51]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2903,7 +3159,7 @@ func (x *GetUserMembershipsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetUserMembershipsResponse.ProtoReflect.Descriptor instead.
 func (*GetUserMembershipsResponse) Descriptor() ([]byte, []int) {
-	return file_iam_v1_iam_proto_rawDescGZIP(), []int{47}
+	return file_iam_v1_iam_proto_rawDescGZIP(), []int{51}
 }
 
 func (x *GetUserMembershipsResponse) GetMemberships() []*TenantMembership {
@@ -2921,7 +3177,7 @@ type GetCurrentUserPermissionsRequest struct {
 
 func (x *GetCurrentUserPermissionsRequest) Reset() {
 	*x = GetCurrentUserPermissionsRequest{}
-	mi := &file_iam_v1_iam_proto_msgTypes[48]
+	mi := &file_iam_v1_iam_proto_msgTypes[52]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2933,7 +3189,7 @@ func (x *GetCurrentUserPermissionsRequest) String() string {
 func (*GetCurrentUserPermissionsRequest) ProtoMessage() {}
 
 func (x *GetCurrentUserPermissionsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_iam_v1_iam_proto_msgTypes[48]
+	mi := &file_iam_v1_iam_proto_msgTypes[52]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2946,7 +3202,7 @@ func (x *GetCurrentUserPermissionsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetCurrentUserPermissionsRequest.ProtoReflect.Descriptor instead.
 func (*GetCurrentUserPermissionsRequest) Descriptor() ([]byte, []int) {
-	return file_iam_v1_iam_proto_rawDescGZIP(), []int{48}
+	return file_iam_v1_iam_proto_rawDescGZIP(), []int{52}
 }
 
 type UpdateProfileRequest struct {
@@ -2958,7 +3214,7 @@ type UpdateProfileRequest struct {
 
 func (x *UpdateProfileRequest) Reset() {
 	*x = UpdateProfileRequest{}
-	mi := &file_iam_v1_iam_proto_msgTypes[49]
+	mi := &file_iam_v1_iam_proto_msgTypes[53]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2970,7 +3226,7 @@ func (x *UpdateProfileRequest) String() string {
 func (*UpdateProfileRequest) ProtoMessage() {}
 
 func (x *UpdateProfileRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_iam_v1_iam_proto_msgTypes[49]
+	mi := &file_iam_v1_iam_proto_msgTypes[53]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2983,7 +3239,7 @@ func (x *UpdateProfileRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateProfileRequest.ProtoReflect.Descriptor instead.
 func (*UpdateProfileRequest) Descriptor() ([]byte, []int) {
-	return file_iam_v1_iam_proto_rawDescGZIP(), []int{49}
+	return file_iam_v1_iam_proto_rawDescGZIP(), []int{53}
 }
 
 func (x *UpdateProfileRequest) GetDisplayName() string {
@@ -3003,7 +3259,7 @@ type ListMyAuditLogsRequest struct {
 
 func (x *ListMyAuditLogsRequest) Reset() {
 	*x = ListMyAuditLogsRequest{}
-	mi := &file_iam_v1_iam_proto_msgTypes[50]
+	mi := &file_iam_v1_iam_proto_msgTypes[54]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3015,7 +3271,7 @@ func (x *ListMyAuditLogsRequest) String() string {
 func (*ListMyAuditLogsRequest) ProtoMessage() {}
 
 func (x *ListMyAuditLogsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_iam_v1_iam_proto_msgTypes[50]
+	mi := &file_iam_v1_iam_proto_msgTypes[54]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3028,7 +3284,7 @@ func (x *ListMyAuditLogsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListMyAuditLogsRequest.ProtoReflect.Descriptor instead.
 func (*ListMyAuditLogsRequest) Descriptor() ([]byte, []int) {
-	return file_iam_v1_iam_proto_rawDescGZIP(), []int{50}
+	return file_iam_v1_iam_proto_rawDescGZIP(), []int{54}
 }
 
 func (x *ListMyAuditLogsRequest) GetPageSize() int32 {
@@ -3060,7 +3316,7 @@ type AuditLog struct {
 
 func (x *AuditLog) Reset() {
 	*x = AuditLog{}
-	mi := &file_iam_v1_iam_proto_msgTypes[51]
+	mi := &file_iam_v1_iam_proto_msgTypes[55]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3072,7 +3328,7 @@ func (x *AuditLog) String() string {
 func (*AuditLog) ProtoMessage() {}
 
 func (x *AuditLog) ProtoReflect() protoreflect.Message {
-	mi := &file_iam_v1_iam_proto_msgTypes[51]
+	mi := &file_iam_v1_iam_proto_msgTypes[55]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3085,7 +3341,7 @@ func (x *AuditLog) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AuditLog.ProtoReflect.Descriptor instead.
 func (*AuditLog) Descriptor() ([]byte, []int) {
-	return file_iam_v1_iam_proto_rawDescGZIP(), []int{51}
+	return file_iam_v1_iam_proto_rawDescGZIP(), []int{55}
 }
 
 func (x *AuditLog) GetId() string {
@@ -3147,7 +3403,7 @@ type ListAuditLogsResponse struct {
 
 func (x *ListAuditLogsResponse) Reset() {
 	*x = ListAuditLogsResponse{}
-	mi := &file_iam_v1_iam_proto_msgTypes[52]
+	mi := &file_iam_v1_iam_proto_msgTypes[56]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3159,7 +3415,7 @@ func (x *ListAuditLogsResponse) String() string {
 func (*ListAuditLogsResponse) ProtoMessage() {}
 
 func (x *ListAuditLogsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_iam_v1_iam_proto_msgTypes[52]
+	mi := &file_iam_v1_iam_proto_msgTypes[56]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3172,7 +3428,7 @@ func (x *ListAuditLogsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListAuditLogsResponse.ProtoReflect.Descriptor instead.
 func (*ListAuditLogsResponse) Descriptor() ([]byte, []int) {
-	return file_iam_v1_iam_proto_rawDescGZIP(), []int{52}
+	return file_iam_v1_iam_proto_rawDescGZIP(), []int{56}
 }
 
 func (x *ListAuditLogsResponse) GetLogs() []*AuditLog {
@@ -3203,7 +3459,7 @@ type Group struct {
 
 func (x *Group) Reset() {
 	*x = Group{}
-	mi := &file_iam_v1_iam_proto_msgTypes[53]
+	mi := &file_iam_v1_iam_proto_msgTypes[57]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3215,7 +3471,7 @@ func (x *Group) String() string {
 func (*Group) ProtoMessage() {}
 
 func (x *Group) ProtoReflect() protoreflect.Message {
-	mi := &file_iam_v1_iam_proto_msgTypes[53]
+	mi := &file_iam_v1_iam_proto_msgTypes[57]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3228,7 +3484,7 @@ func (x *Group) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Group.ProtoReflect.Descriptor instead.
 func (*Group) Descriptor() ([]byte, []int) {
-	return file_iam_v1_iam_proto_rawDescGZIP(), []int{53}
+	return file_iam_v1_iam_proto_rawDescGZIP(), []int{57}
 }
 
 func (x *Group) GetId() string {
@@ -3284,7 +3540,7 @@ type CreateGroupRequest struct {
 
 func (x *CreateGroupRequest) Reset() {
 	*x = CreateGroupRequest{}
-	mi := &file_iam_v1_iam_proto_msgTypes[54]
+	mi := &file_iam_v1_iam_proto_msgTypes[58]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3296,7 +3552,7 @@ func (x *CreateGroupRequest) String() string {
 func (*CreateGroupRequest) ProtoMessage() {}
 
 func (x *CreateGroupRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_iam_v1_iam_proto_msgTypes[54]
+	mi := &file_iam_v1_iam_proto_msgTypes[58]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3309,7 +3565,7 @@ func (x *CreateGroupRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateGroupRequest.ProtoReflect.Descriptor instead.
 func (*CreateGroupRequest) Descriptor() ([]byte, []int) {
-	return file_iam_v1_iam_proto_rawDescGZIP(), []int{54}
+	return file_iam_v1_iam_proto_rawDescGZIP(), []int{58}
 }
 
 func (x *CreateGroupRequest) GetTenantId() string {
@@ -3342,7 +3598,7 @@ type GetGroupRequest struct {
 
 func (x *GetGroupRequest) Reset() {
 	*x = GetGroupRequest{}
-	mi := &file_iam_v1_iam_proto_msgTypes[55]
+	mi := &file_iam_v1_iam_proto_msgTypes[59]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3354,7 +3610,7 @@ func (x *GetGroupRequest) String() string {
 func (*GetGroupRequest) ProtoMessage() {}
 
 func (x *GetGroupRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_iam_v1_iam_proto_msgTypes[55]
+	mi := &file_iam_v1_iam_proto_msgTypes[59]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3367,7 +3623,7 @@ func (x *GetGroupRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetGroupRequest.ProtoReflect.Descriptor instead.
 func (*GetGroupRequest) Descriptor() ([]byte, []int) {
-	return file_iam_v1_iam_proto_rawDescGZIP(), []int{55}
+	return file_iam_v1_iam_proto_rawDescGZIP(), []int{59}
 }
 
 func (x *GetGroupRequest) GetId() string {
@@ -3388,7 +3644,7 @@ type UpdateGroupRequest struct {
 
 func (x *UpdateGroupRequest) Reset() {
 	*x = UpdateGroupRequest{}
-	mi := &file_iam_v1_iam_proto_msgTypes[56]
+	mi := &file_iam_v1_iam_proto_msgTypes[60]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3400,7 +3656,7 @@ func (x *UpdateGroupRequest) String() string {
 func (*UpdateGroupRequest) ProtoMessage() {}
 
 func (x *UpdateGroupRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_iam_v1_iam_proto_msgTypes[56]
+	mi := &file_iam_v1_iam_proto_msgTypes[60]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3413,7 +3669,7 @@ func (x *UpdateGroupRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateGroupRequest.ProtoReflect.Descriptor instead.
 func (*UpdateGroupRequest) Descriptor() ([]byte, []int) {
-	return file_iam_v1_iam_proto_rawDescGZIP(), []int{56}
+	return file_iam_v1_iam_proto_rawDescGZIP(), []int{60}
 }
 
 func (x *UpdateGroupRequest) GetId() string {
@@ -3446,7 +3702,7 @@ type DeleteGroupRequest struct {
 
 func (x *DeleteGroupRequest) Reset() {
 	*x = DeleteGroupRequest{}
-	mi := &file_iam_v1_iam_proto_msgTypes[57]
+	mi := &file_iam_v1_iam_proto_msgTypes[61]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3458,7 +3714,7 @@ func (x *DeleteGroupRequest) String() string {
 func (*DeleteGroupRequest) ProtoMessage() {}
 
 func (x *DeleteGroupRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_iam_v1_iam_proto_msgTypes[57]
+	mi := &file_iam_v1_iam_proto_msgTypes[61]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3471,7 +3727,7 @@ func (x *DeleteGroupRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteGroupRequest.ProtoReflect.Descriptor instead.
 func (*DeleteGroupRequest) Descriptor() ([]byte, []int) {
-	return file_iam_v1_iam_proto_rawDescGZIP(), []int{57}
+	return file_iam_v1_iam_proto_rawDescGZIP(), []int{61}
 }
 
 func (x *DeleteGroupRequest) GetId() string {
@@ -3489,7 +3745,7 @@ type DeleteGroupResponse struct {
 
 func (x *DeleteGroupResponse) Reset() {
 	*x = DeleteGroupResponse{}
-	mi := &file_iam_v1_iam_proto_msgTypes[58]
+	mi := &file_iam_v1_iam_proto_msgTypes[62]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3501,7 +3757,7 @@ func (x *DeleteGroupResponse) String() string {
 func (*DeleteGroupResponse) ProtoMessage() {}
 
 func (x *DeleteGroupResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_iam_v1_iam_proto_msgTypes[58]
+	mi := &file_iam_v1_iam_proto_msgTypes[62]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3514,7 +3770,7 @@ func (x *DeleteGroupResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteGroupResponse.ProtoReflect.Descriptor instead.
 func (*DeleteGroupResponse) Descriptor() ([]byte, []int) {
-	return file_iam_v1_iam_proto_rawDescGZIP(), []int{58}
+	return file_iam_v1_iam_proto_rawDescGZIP(), []int{62}
 }
 
 type ListGroupsRequest struct {
@@ -3528,7 +3784,7 @@ type ListGroupsRequest struct {
 
 func (x *ListGroupsRequest) Reset() {
 	*x = ListGroupsRequest{}
-	mi := &file_iam_v1_iam_proto_msgTypes[59]
+	mi := &file_iam_v1_iam_proto_msgTypes[63]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3540,7 +3796,7 @@ func (x *ListGroupsRequest) String() string {
 func (*ListGroupsRequest) ProtoMessage() {}
 
 func (x *ListGroupsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_iam_v1_iam_proto_msgTypes[59]
+	mi := &file_iam_v1_iam_proto_msgTypes[63]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3553,7 +3809,7 @@ func (x *ListGroupsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListGroupsRequest.ProtoReflect.Descriptor instead.
 func (*ListGroupsRequest) Descriptor() ([]byte, []int) {
-	return file_iam_v1_iam_proto_rawDescGZIP(), []int{59}
+	return file_iam_v1_iam_proto_rawDescGZIP(), []int{63}
 }
 
 func (x *ListGroupsRequest) GetTenantId() string {
@@ -3587,7 +3843,7 @@ type ListGroupsResponse struct {
 
 func (x *ListGroupsResponse) Reset() {
 	*x = ListGroupsResponse{}
-	mi := &file_iam_v1_iam_proto_msgTypes[60]
+	mi := &file_iam_v1_iam_proto_msgTypes[64]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3599,7 +3855,7 @@ func (x *ListGroupsResponse) String() string {
 func (*ListGroupsResponse) ProtoMessage() {}
 
 func (x *ListGroupsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_iam_v1_iam_proto_msgTypes[60]
+	mi := &file_iam_v1_iam_proto_msgTypes[64]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3612,7 +3868,7 @@ func (x *ListGroupsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListGroupsResponse.ProtoReflect.Descriptor instead.
 func (*ListGroupsResponse) Descriptor() ([]byte, []int) {
-	return file_iam_v1_iam_proto_rawDescGZIP(), []int{60}
+	return file_iam_v1_iam_proto_rawDescGZIP(), []int{64}
 }
 
 func (x *ListGroupsResponse) GetGroups() []*Group {
@@ -3639,7 +3895,7 @@ type AddGroupMemberRequest struct {
 
 func (x *AddGroupMemberRequest) Reset() {
 	*x = AddGroupMemberRequest{}
-	mi := &file_iam_v1_iam_proto_msgTypes[61]
+	mi := &file_iam_v1_iam_proto_msgTypes[65]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3651,7 +3907,7 @@ func (x *AddGroupMemberRequest) String() string {
 func (*AddGroupMemberRequest) ProtoMessage() {}
 
 func (x *AddGroupMemberRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_iam_v1_iam_proto_msgTypes[61]
+	mi := &file_iam_v1_iam_proto_msgTypes[65]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3664,7 +3920,7 @@ func (x *AddGroupMemberRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AddGroupMemberRequest.ProtoReflect.Descriptor instead.
 func (*AddGroupMemberRequest) Descriptor() ([]byte, []int) {
-	return file_iam_v1_iam_proto_rawDescGZIP(), []int{61}
+	return file_iam_v1_iam_proto_rawDescGZIP(), []int{65}
 }
 
 func (x *AddGroupMemberRequest) GetGroupId() string {
@@ -3689,7 +3945,7 @@ type AddGroupMemberResponse struct {
 
 func (x *AddGroupMemberResponse) Reset() {
 	*x = AddGroupMemberResponse{}
-	mi := &file_iam_v1_iam_proto_msgTypes[62]
+	mi := &file_iam_v1_iam_proto_msgTypes[66]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3701,7 +3957,7 @@ func (x *AddGroupMemberResponse) String() string {
 func (*AddGroupMemberResponse) ProtoMessage() {}
 
 func (x *AddGroupMemberResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_iam_v1_iam_proto_msgTypes[62]
+	mi := &file_iam_v1_iam_proto_msgTypes[66]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3714,7 +3970,7 @@ func (x *AddGroupMemberResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AddGroupMemberResponse.ProtoReflect.Descriptor instead.
 func (*AddGroupMemberResponse) Descriptor() ([]byte, []int) {
-	return file_iam_v1_iam_proto_rawDescGZIP(), []int{62}
+	return file_iam_v1_iam_proto_rawDescGZIP(), []int{66}
 }
 
 type RemoveGroupMemberRequest struct {
@@ -3727,7 +3983,7 @@ type RemoveGroupMemberRequest struct {
 
 func (x *RemoveGroupMemberRequest) Reset() {
 	*x = RemoveGroupMemberRequest{}
-	mi := &file_iam_v1_iam_proto_msgTypes[63]
+	mi := &file_iam_v1_iam_proto_msgTypes[67]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3739,7 +3995,7 @@ func (x *RemoveGroupMemberRequest) String() string {
 func (*RemoveGroupMemberRequest) ProtoMessage() {}
 
 func (x *RemoveGroupMemberRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_iam_v1_iam_proto_msgTypes[63]
+	mi := &file_iam_v1_iam_proto_msgTypes[67]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3752,7 +4008,7 @@ func (x *RemoveGroupMemberRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RemoveGroupMemberRequest.ProtoReflect.Descriptor instead.
 func (*RemoveGroupMemberRequest) Descriptor() ([]byte, []int) {
-	return file_iam_v1_iam_proto_rawDescGZIP(), []int{63}
+	return file_iam_v1_iam_proto_rawDescGZIP(), []int{67}
 }
 
 func (x *RemoveGroupMemberRequest) GetGroupId() string {
@@ -3777,7 +4033,7 @@ type RemoveGroupMemberResponse struct {
 
 func (x *RemoveGroupMemberResponse) Reset() {
 	*x = RemoveGroupMemberResponse{}
-	mi := &file_iam_v1_iam_proto_msgTypes[64]
+	mi := &file_iam_v1_iam_proto_msgTypes[68]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3789,7 +4045,7 @@ func (x *RemoveGroupMemberResponse) String() string {
 func (*RemoveGroupMemberResponse) ProtoMessage() {}
 
 func (x *RemoveGroupMemberResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_iam_v1_iam_proto_msgTypes[64]
+	mi := &file_iam_v1_iam_proto_msgTypes[68]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3802,7 +4058,7 @@ func (x *RemoveGroupMemberResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RemoveGroupMemberResponse.ProtoReflect.Descriptor instead.
 func (*RemoveGroupMemberResponse) Descriptor() ([]byte, []int) {
-	return file_iam_v1_iam_proto_rawDescGZIP(), []int{64}
+	return file_iam_v1_iam_proto_rawDescGZIP(), []int{68}
 }
 
 type ListGroupMembersRequest struct {
@@ -3814,7 +4070,7 @@ type ListGroupMembersRequest struct {
 
 func (x *ListGroupMembersRequest) Reset() {
 	*x = ListGroupMembersRequest{}
-	mi := &file_iam_v1_iam_proto_msgTypes[65]
+	mi := &file_iam_v1_iam_proto_msgTypes[69]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3826,7 +4082,7 @@ func (x *ListGroupMembersRequest) String() string {
 func (*ListGroupMembersRequest) ProtoMessage() {}
 
 func (x *ListGroupMembersRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_iam_v1_iam_proto_msgTypes[65]
+	mi := &file_iam_v1_iam_proto_msgTypes[69]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3839,7 +4095,7 @@ func (x *ListGroupMembersRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListGroupMembersRequest.ProtoReflect.Descriptor instead.
 func (*ListGroupMembersRequest) Descriptor() ([]byte, []int) {
-	return file_iam_v1_iam_proto_rawDescGZIP(), []int{65}
+	return file_iam_v1_iam_proto_rawDescGZIP(), []int{69}
 }
 
 func (x *ListGroupMembersRequest) GetGroupId() string {
@@ -3858,7 +4114,7 @@ type ListGroupMembersResponse struct {
 
 func (x *ListGroupMembersResponse) Reset() {
 	*x = ListGroupMembersResponse{}
-	mi := &file_iam_v1_iam_proto_msgTypes[66]
+	mi := &file_iam_v1_iam_proto_msgTypes[70]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3870,7 +4126,7 @@ func (x *ListGroupMembersResponse) String() string {
 func (*ListGroupMembersResponse) ProtoMessage() {}
 
 func (x *ListGroupMembersResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_iam_v1_iam_proto_msgTypes[66]
+	mi := &file_iam_v1_iam_proto_msgTypes[70]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3883,7 +4139,7 @@ func (x *ListGroupMembersResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListGroupMembersResponse.ProtoReflect.Descriptor instead.
 func (*ListGroupMembersResponse) Descriptor() ([]byte, []int) {
-	return file_iam_v1_iam_proto_rawDescGZIP(), []int{66}
+	return file_iam_v1_iam_proto_rawDescGZIP(), []int{70}
 }
 
 func (x *ListGroupMembersResponse) GetUsers() []*User {
@@ -3903,7 +4159,7 @@ type AssignGroupRoleRequest struct {
 
 func (x *AssignGroupRoleRequest) Reset() {
 	*x = AssignGroupRoleRequest{}
-	mi := &file_iam_v1_iam_proto_msgTypes[67]
+	mi := &file_iam_v1_iam_proto_msgTypes[71]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3915,7 +4171,7 @@ func (x *AssignGroupRoleRequest) String() string {
 func (*AssignGroupRoleRequest) ProtoMessage() {}
 
 func (x *AssignGroupRoleRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_iam_v1_iam_proto_msgTypes[67]
+	mi := &file_iam_v1_iam_proto_msgTypes[71]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3928,7 +4184,7 @@ func (x *AssignGroupRoleRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AssignGroupRoleRequest.ProtoReflect.Descriptor instead.
 func (*AssignGroupRoleRequest) Descriptor() ([]byte, []int) {
-	return file_iam_v1_iam_proto_rawDescGZIP(), []int{67}
+	return file_iam_v1_iam_proto_rawDescGZIP(), []int{71}
 }
 
 func (x *AssignGroupRoleRequest) GetGroupId() string {
@@ -3953,7 +4209,7 @@ type AssignGroupRoleResponse struct {
 
 func (x *AssignGroupRoleResponse) Reset() {
 	*x = AssignGroupRoleResponse{}
-	mi := &file_iam_v1_iam_proto_msgTypes[68]
+	mi := &file_iam_v1_iam_proto_msgTypes[72]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3965,7 +4221,7 @@ func (x *AssignGroupRoleResponse) String() string {
 func (*AssignGroupRoleResponse) ProtoMessage() {}
 
 func (x *AssignGroupRoleResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_iam_v1_iam_proto_msgTypes[68]
+	mi := &file_iam_v1_iam_proto_msgTypes[72]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3978,7 +4234,7 @@ func (x *AssignGroupRoleResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AssignGroupRoleResponse.ProtoReflect.Descriptor instead.
 func (*AssignGroupRoleResponse) Descriptor() ([]byte, []int) {
-	return file_iam_v1_iam_proto_rawDescGZIP(), []int{68}
+	return file_iam_v1_iam_proto_rawDescGZIP(), []int{72}
 }
 
 type RevokeGroupRoleRequest struct {
@@ -3991,7 +4247,7 @@ type RevokeGroupRoleRequest struct {
 
 func (x *RevokeGroupRoleRequest) Reset() {
 	*x = RevokeGroupRoleRequest{}
-	mi := &file_iam_v1_iam_proto_msgTypes[69]
+	mi := &file_iam_v1_iam_proto_msgTypes[73]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4003,7 +4259,7 @@ func (x *RevokeGroupRoleRequest) String() string {
 func (*RevokeGroupRoleRequest) ProtoMessage() {}
 
 func (x *RevokeGroupRoleRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_iam_v1_iam_proto_msgTypes[69]
+	mi := &file_iam_v1_iam_proto_msgTypes[73]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4016,7 +4272,7 @@ func (x *RevokeGroupRoleRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RevokeGroupRoleRequest.ProtoReflect.Descriptor instead.
 func (*RevokeGroupRoleRequest) Descriptor() ([]byte, []int) {
-	return file_iam_v1_iam_proto_rawDescGZIP(), []int{69}
+	return file_iam_v1_iam_proto_rawDescGZIP(), []int{73}
 }
 
 func (x *RevokeGroupRoleRequest) GetGroupId() string {
@@ -4041,7 +4297,7 @@ type RevokeGroupRoleResponse struct {
 
 func (x *RevokeGroupRoleResponse) Reset() {
 	*x = RevokeGroupRoleResponse{}
-	mi := &file_iam_v1_iam_proto_msgTypes[70]
+	mi := &file_iam_v1_iam_proto_msgTypes[74]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4053,7 +4309,7 @@ func (x *RevokeGroupRoleResponse) String() string {
 func (*RevokeGroupRoleResponse) ProtoMessage() {}
 
 func (x *RevokeGroupRoleResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_iam_v1_iam_proto_msgTypes[70]
+	mi := &file_iam_v1_iam_proto_msgTypes[74]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4066,7 +4322,7 @@ func (x *RevokeGroupRoleResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RevokeGroupRoleResponse.ProtoReflect.Descriptor instead.
 func (*RevokeGroupRoleResponse) Descriptor() ([]byte, []int) {
-	return file_iam_v1_iam_proto_rawDescGZIP(), []int{70}
+	return file_iam_v1_iam_proto_rawDescGZIP(), []int{74}
 }
 
 type ListGroupRolesRequest struct {
@@ -4078,7 +4334,7 @@ type ListGroupRolesRequest struct {
 
 func (x *ListGroupRolesRequest) Reset() {
 	*x = ListGroupRolesRequest{}
-	mi := &file_iam_v1_iam_proto_msgTypes[71]
+	mi := &file_iam_v1_iam_proto_msgTypes[75]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4090,7 +4346,7 @@ func (x *ListGroupRolesRequest) String() string {
 func (*ListGroupRolesRequest) ProtoMessage() {}
 
 func (x *ListGroupRolesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_iam_v1_iam_proto_msgTypes[71]
+	mi := &file_iam_v1_iam_proto_msgTypes[75]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4103,7 +4359,7 @@ func (x *ListGroupRolesRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListGroupRolesRequest.ProtoReflect.Descriptor instead.
 func (*ListGroupRolesRequest) Descriptor() ([]byte, []int) {
-	return file_iam_v1_iam_proto_rawDescGZIP(), []int{71}
+	return file_iam_v1_iam_proto_rawDescGZIP(), []int{75}
 }
 
 func (x *ListGroupRolesRequest) GetGroupId() string {
@@ -4122,7 +4378,7 @@ type ListGroupRolesResponse struct {
 
 func (x *ListGroupRolesResponse) Reset() {
 	*x = ListGroupRolesResponse{}
-	mi := &file_iam_v1_iam_proto_msgTypes[72]
+	mi := &file_iam_v1_iam_proto_msgTypes[76]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4134,7 +4390,7 @@ func (x *ListGroupRolesResponse) String() string {
 func (*ListGroupRolesResponse) ProtoMessage() {}
 
 func (x *ListGroupRolesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_iam_v1_iam_proto_msgTypes[72]
+	mi := &file_iam_v1_iam_proto_msgTypes[76]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4147,7 +4403,7 @@ func (x *ListGroupRolesResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListGroupRolesResponse.ProtoReflect.Descriptor instead.
 func (*ListGroupRolesResponse) Descriptor() ([]byte, []int) {
-	return file_iam_v1_iam_proto_rawDescGZIP(), []int{72}
+	return file_iam_v1_iam_proto_rawDescGZIP(), []int{76}
 }
 
 func (x *ListGroupRolesResponse) GetRoles() []*Role {
@@ -4166,7 +4422,7 @@ type ListPendingApprovalsRequest struct {
 
 func (x *ListPendingApprovalsRequest) Reset() {
 	*x = ListPendingApprovalsRequest{}
-	mi := &file_iam_v1_iam_proto_msgTypes[73]
+	mi := &file_iam_v1_iam_proto_msgTypes[77]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4178,7 +4434,7 @@ func (x *ListPendingApprovalsRequest) String() string {
 func (*ListPendingApprovalsRequest) ProtoMessage() {}
 
 func (x *ListPendingApprovalsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_iam_v1_iam_proto_msgTypes[73]
+	mi := &file_iam_v1_iam_proto_msgTypes[77]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4191,7 +4447,7 @@ func (x *ListPendingApprovalsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListPendingApprovalsRequest.ProtoReflect.Descriptor instead.
 func (*ListPendingApprovalsRequest) Descriptor() ([]byte, []int) {
-	return file_iam_v1_iam_proto_rawDescGZIP(), []int{73}
+	return file_iam_v1_iam_proto_rawDescGZIP(), []int{77}
 }
 
 func (x *ListPendingApprovalsRequest) GetTenantId() string {
@@ -4210,7 +4466,7 @@ type ListPendingApprovalsResponse struct {
 
 func (x *ListPendingApprovalsResponse) Reset() {
 	*x = ListPendingApprovalsResponse{}
-	mi := &file_iam_v1_iam_proto_msgTypes[74]
+	mi := &file_iam_v1_iam_proto_msgTypes[78]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4222,7 +4478,7 @@ func (x *ListPendingApprovalsResponse) String() string {
 func (*ListPendingApprovalsResponse) ProtoMessage() {}
 
 func (x *ListPendingApprovalsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_iam_v1_iam_proto_msgTypes[74]
+	mi := &file_iam_v1_iam_proto_msgTypes[78]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4235,7 +4491,7 @@ func (x *ListPendingApprovalsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListPendingApprovalsResponse.ProtoReflect.Descriptor instead.
 func (*ListPendingApprovalsResponse) Descriptor() ([]byte, []int) {
-	return file_iam_v1_iam_proto_rawDescGZIP(), []int{74}
+	return file_iam_v1_iam_proto_rawDescGZIP(), []int{78}
 }
 
 func (x *ListPendingApprovalsResponse) GetPermissions() []*ResourcePermission {
@@ -4254,7 +4510,7 @@ type ApprovePermissionRequest struct {
 
 func (x *ApprovePermissionRequest) Reset() {
 	*x = ApprovePermissionRequest{}
-	mi := &file_iam_v1_iam_proto_msgTypes[75]
+	mi := &file_iam_v1_iam_proto_msgTypes[79]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4266,7 +4522,7 @@ func (x *ApprovePermissionRequest) String() string {
 func (*ApprovePermissionRequest) ProtoMessage() {}
 
 func (x *ApprovePermissionRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_iam_v1_iam_proto_msgTypes[75]
+	mi := &file_iam_v1_iam_proto_msgTypes[79]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4279,7 +4535,7 @@ func (x *ApprovePermissionRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ApprovePermissionRequest.ProtoReflect.Descriptor instead.
 func (*ApprovePermissionRequest) Descriptor() ([]byte, []int) {
-	return file_iam_v1_iam_proto_rawDescGZIP(), []int{75}
+	return file_iam_v1_iam_proto_rawDescGZIP(), []int{79}
 }
 
 func (x *ApprovePermissionRequest) GetId() string {
@@ -4299,7 +4555,7 @@ type RejectPermissionRequest struct {
 
 func (x *RejectPermissionRequest) Reset() {
 	*x = RejectPermissionRequest{}
-	mi := &file_iam_v1_iam_proto_msgTypes[76]
+	mi := &file_iam_v1_iam_proto_msgTypes[80]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4311,7 +4567,7 @@ func (x *RejectPermissionRequest) String() string {
 func (*RejectPermissionRequest) ProtoMessage() {}
 
 func (x *RejectPermissionRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_iam_v1_iam_proto_msgTypes[76]
+	mi := &file_iam_v1_iam_proto_msgTypes[80]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4324,7 +4580,7 @@ func (x *RejectPermissionRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RejectPermissionRequest.ProtoReflect.Descriptor instead.
 func (*RejectPermissionRequest) Descriptor() ([]byte, []int) {
-	return file_iam_v1_iam_proto_rawDescGZIP(), []int{76}
+	return file_iam_v1_iam_proto_rawDescGZIP(), []int{80}
 }
 
 func (x *RejectPermissionRequest) GetId() string {
@@ -4537,7 +4793,26 @@ const file_iam_v1_iam_proto_rawDesc = "" +
 	"\n" +
 	"login_name\x18\x04 \x01(\tR\tloginName\"5\n" +
 	"\x10CustomLoginReply\x12!\n" +
-	"\fcallback_url\x18\x01 \x01(\tR\vcallbackUrl\"s\n" +
+	"\fcallback_url\x18\x01 \x01(\tR\vcallbackUrl\"5\n" +
+	"\x16GetAuthSettingsRequest\x12\x1b\n" +
+	"\ttenant_id\x18\x01 \x01(\tR\btenantId\"\xd7\x01\n" +
+	"\x0ePasswordPolicy\x12\x1d\n" +
+	"\n" +
+	"min_length\x18\x01 \x01(\x05R\tminLength\x12+\n" +
+	"\x11require_uppercase\x18\x02 \x01(\bR\x10requireUppercase\x12+\n" +
+	"\x11require_lowercase\x18\x03 \x01(\bR\x10requireLowercase\x12%\n" +
+	"\x0erequire_number\x18\x04 \x01(\bR\rrequireNumber\x12%\n" +
+	"\x0erequire_symbol\x18\x05 \x01(\bR\rrequireSymbol\"\x98\x01\n" +
+	"\vLoginPolicy\x124\n" +
+	"\x16password_login_enabled\x18\x01 \x01(\bR\x14passwordLoginEnabled\x120\n" +
+	"\x14external_idp_enabled\x18\x02 \x01(\bR\x12externalIdpEnabled\x12!\n" +
+	"\fmfa_required\x18\x03 \x01(\bR\vmfaRequired\"\xdd\x01\n" +
+	"\fAuthSettings\x12\x1b\n" +
+	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12\x1b\n" +
+	"\tauth_mode\x18\x02 \x01(\tR\bauthMode\x12\x1a\n" +
+	"\bprovider\x18\x03 \x01(\tR\bprovider\x12?\n" +
+	"\x0fpassword_policy\x18\x04 \x01(\v2\x16.iam.v1.PasswordPolicyR\x0epasswordPolicy\x126\n" +
+	"\flogin_policy\x18\x05 \x01(\v2\x13.iam.v1.LoginPolicyR\vloginPolicy\"s\n" +
 	"\x12ForwardAuthRequest\x12\x16\n" +
 	"\x06method\x18\x01 \x01(\tR\x06method\x12\x12\n" +
 	"\x04path\x18\x02 \x01(\tR\x04path\x12\x14\n" +
@@ -4644,10 +4919,11 @@ const file_iam_v1_iam_proto_rawDesc = "" +
 	"\x02id\x18\x01 \x01(\tR\x02id\"A\n" +
 	"\x17RejectPermissionRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x16\n" +
-	"\x06reason\x18\x02 \x01(\tR\x06reason2\xe1#\n" +
+	"\x06reason\x18\x02 \x01(\tR\x06reason2\xc5$\n" +
 	"\n" +
 	"IAMService\x12^\n" +
-	"\vCustomLogin\x12\x1a.iam.v1.CustomLoginRequest\x1a\x18.iam.v1.CustomLoginReply\"\x19\x82\xd3\xe4\x93\x02\x13:\x01*\"\x0e/v1/auth/login\x12_\n" +
+	"\vCustomLogin\x12\x1a.iam.v1.CustomLoginRequest\x1a\x18.iam.v1.CustomLoginReply\"\x19\x82\xd3\xe4\x93\x02\x13:\x01*\"\x0e/v1/auth/login\x12b\n" +
+	"\x0fGetAuthSettings\x12\x1e.iam.v1.GetAuthSettingsRequest\x1a\x14.iam.v1.AuthSettings\"\x19\x82\xd3\xe4\x93\x02\x13\x12\x11/v1/auth/settings\x12_\n" +
 	"\x0eGetCurrentUser\x12\x1d.iam.v1.GetCurrentUserRequest\x1a\x1e.iam.v1.GetCurrentUserResponse\"\x0e\x82\xd3\xe4\x93\x02\b\x12\x06/v1/me\x12N\n" +
 	"\rUpdateProfile\x12\x1c.iam.v1.UpdateProfileRequest\x1a\f.iam.v1.User\"\x11\x82\xd3\xe4\x93\x02\v:\x01*\x1a\x06/v1/me\x12k\n" +
 	"\x0fListMyAuditLogs\x12\x1e.iam.v1.ListMyAuditLogsRequest\x1a\x1d.iam.v1.ListAuditLogsResponse\"\x19\x82\xd3\xe4\x93\x02\x13\x12\x11/v1/me/audit-logs\x12G\n" +
@@ -4713,7 +4989,7 @@ func file_iam_v1_iam_proto_rawDescGZIP() []byte {
 	return file_iam_v1_iam_proto_rawDescData
 }
 
-var file_iam_v1_iam_proto_msgTypes = make([]protoimpl.MessageInfo, 77)
+var file_iam_v1_iam_proto_msgTypes = make([]protoimpl.MessageInfo, 81)
 var file_iam_v1_iam_proto_goTypes = []any{
 	(*User)(nil),                             // 0: iam.v1.User
 	(*Tenant)(nil),                           // 1: iam.v1.Tenant
@@ -4758,160 +5034,168 @@ var file_iam_v1_iam_proto_goTypes = []any{
 	(*RevokeResourcePermissionResponse)(nil), // 40: iam.v1.RevokeResourcePermissionResponse
 	(*CustomLoginRequest)(nil),               // 41: iam.v1.CustomLoginRequest
 	(*CustomLoginReply)(nil),                 // 42: iam.v1.CustomLoginReply
-	(*ForwardAuthRequest)(nil),               // 43: iam.v1.ForwardAuthRequest
-	(*ForwardAuthResponse)(nil),              // 44: iam.v1.ForwardAuthResponse
-	(*GetUserMembershipsRequest)(nil),        // 45: iam.v1.GetUserMembershipsRequest
-	(*TenantMembership)(nil),                 // 46: iam.v1.TenantMembership
-	(*GetUserMembershipsResponse)(nil),       // 47: iam.v1.GetUserMembershipsResponse
-	(*GetCurrentUserPermissionsRequest)(nil), // 48: iam.v1.GetCurrentUserPermissionsRequest
-	(*UpdateProfileRequest)(nil),             // 49: iam.v1.UpdateProfileRequest
-	(*ListMyAuditLogsRequest)(nil),           // 50: iam.v1.ListMyAuditLogsRequest
-	(*AuditLog)(nil),                         // 51: iam.v1.AuditLog
-	(*ListAuditLogsResponse)(nil),            // 52: iam.v1.ListAuditLogsResponse
-	(*Group)(nil),                            // 53: iam.v1.Group
-	(*CreateGroupRequest)(nil),               // 54: iam.v1.CreateGroupRequest
-	(*GetGroupRequest)(nil),                  // 55: iam.v1.GetGroupRequest
-	(*UpdateGroupRequest)(nil),               // 56: iam.v1.UpdateGroupRequest
-	(*DeleteGroupRequest)(nil),               // 57: iam.v1.DeleteGroupRequest
-	(*DeleteGroupResponse)(nil),              // 58: iam.v1.DeleteGroupResponse
-	(*ListGroupsRequest)(nil),                // 59: iam.v1.ListGroupsRequest
-	(*ListGroupsResponse)(nil),               // 60: iam.v1.ListGroupsResponse
-	(*AddGroupMemberRequest)(nil),            // 61: iam.v1.AddGroupMemberRequest
-	(*AddGroupMemberResponse)(nil),           // 62: iam.v1.AddGroupMemberResponse
-	(*RemoveGroupMemberRequest)(nil),         // 63: iam.v1.RemoveGroupMemberRequest
-	(*RemoveGroupMemberResponse)(nil),        // 64: iam.v1.RemoveGroupMemberResponse
-	(*ListGroupMembersRequest)(nil),          // 65: iam.v1.ListGroupMembersRequest
-	(*ListGroupMembersResponse)(nil),         // 66: iam.v1.ListGroupMembersResponse
-	(*AssignGroupRoleRequest)(nil),           // 67: iam.v1.AssignGroupRoleRequest
-	(*AssignGroupRoleResponse)(nil),          // 68: iam.v1.AssignGroupRoleResponse
-	(*RevokeGroupRoleRequest)(nil),           // 69: iam.v1.RevokeGroupRoleRequest
-	(*RevokeGroupRoleResponse)(nil),          // 70: iam.v1.RevokeGroupRoleResponse
-	(*ListGroupRolesRequest)(nil),            // 71: iam.v1.ListGroupRolesRequest
-	(*ListGroupRolesResponse)(nil),           // 72: iam.v1.ListGroupRolesResponse
-	(*ListPendingApprovalsRequest)(nil),      // 73: iam.v1.ListPendingApprovalsRequest
-	(*ListPendingApprovalsResponse)(nil),     // 74: iam.v1.ListPendingApprovalsResponse
-	(*ApprovePermissionRequest)(nil),         // 75: iam.v1.ApprovePermissionRequest
-	(*RejectPermissionRequest)(nil),          // 76: iam.v1.RejectPermissionRequest
-	(*timestamppb.Timestamp)(nil),            // 77: google.protobuf.Timestamp
+	(*GetAuthSettingsRequest)(nil),           // 43: iam.v1.GetAuthSettingsRequest
+	(*PasswordPolicy)(nil),                   // 44: iam.v1.PasswordPolicy
+	(*LoginPolicy)(nil),                      // 45: iam.v1.LoginPolicy
+	(*AuthSettings)(nil),                     // 46: iam.v1.AuthSettings
+	(*ForwardAuthRequest)(nil),               // 47: iam.v1.ForwardAuthRequest
+	(*ForwardAuthResponse)(nil),              // 48: iam.v1.ForwardAuthResponse
+	(*GetUserMembershipsRequest)(nil),        // 49: iam.v1.GetUserMembershipsRequest
+	(*TenantMembership)(nil),                 // 50: iam.v1.TenantMembership
+	(*GetUserMembershipsResponse)(nil),       // 51: iam.v1.GetUserMembershipsResponse
+	(*GetCurrentUserPermissionsRequest)(nil), // 52: iam.v1.GetCurrentUserPermissionsRequest
+	(*UpdateProfileRequest)(nil),             // 53: iam.v1.UpdateProfileRequest
+	(*ListMyAuditLogsRequest)(nil),           // 54: iam.v1.ListMyAuditLogsRequest
+	(*AuditLog)(nil),                         // 55: iam.v1.AuditLog
+	(*ListAuditLogsResponse)(nil),            // 56: iam.v1.ListAuditLogsResponse
+	(*Group)(nil),                            // 57: iam.v1.Group
+	(*CreateGroupRequest)(nil),               // 58: iam.v1.CreateGroupRequest
+	(*GetGroupRequest)(nil),                  // 59: iam.v1.GetGroupRequest
+	(*UpdateGroupRequest)(nil),               // 60: iam.v1.UpdateGroupRequest
+	(*DeleteGroupRequest)(nil),               // 61: iam.v1.DeleteGroupRequest
+	(*DeleteGroupResponse)(nil),              // 62: iam.v1.DeleteGroupResponse
+	(*ListGroupsRequest)(nil),                // 63: iam.v1.ListGroupsRequest
+	(*ListGroupsResponse)(nil),               // 64: iam.v1.ListGroupsResponse
+	(*AddGroupMemberRequest)(nil),            // 65: iam.v1.AddGroupMemberRequest
+	(*AddGroupMemberResponse)(nil),           // 66: iam.v1.AddGroupMemberResponse
+	(*RemoveGroupMemberRequest)(nil),         // 67: iam.v1.RemoveGroupMemberRequest
+	(*RemoveGroupMemberResponse)(nil),        // 68: iam.v1.RemoveGroupMemberResponse
+	(*ListGroupMembersRequest)(nil),          // 69: iam.v1.ListGroupMembersRequest
+	(*ListGroupMembersResponse)(nil),         // 70: iam.v1.ListGroupMembersResponse
+	(*AssignGroupRoleRequest)(nil),           // 71: iam.v1.AssignGroupRoleRequest
+	(*AssignGroupRoleResponse)(nil),          // 72: iam.v1.AssignGroupRoleResponse
+	(*RevokeGroupRoleRequest)(nil),           // 73: iam.v1.RevokeGroupRoleRequest
+	(*RevokeGroupRoleResponse)(nil),          // 74: iam.v1.RevokeGroupRoleResponse
+	(*ListGroupRolesRequest)(nil),            // 75: iam.v1.ListGroupRolesRequest
+	(*ListGroupRolesResponse)(nil),           // 76: iam.v1.ListGroupRolesResponse
+	(*ListPendingApprovalsRequest)(nil),      // 77: iam.v1.ListPendingApprovalsRequest
+	(*ListPendingApprovalsResponse)(nil),     // 78: iam.v1.ListPendingApprovalsResponse
+	(*ApprovePermissionRequest)(nil),         // 79: iam.v1.ApprovePermissionRequest
+	(*RejectPermissionRequest)(nil),          // 80: iam.v1.RejectPermissionRequest
+	(*timestamppb.Timestamp)(nil),            // 81: google.protobuf.Timestamp
 }
 var file_iam_v1_iam_proto_depIdxs = []int32{
-	77, // 0: iam.v1.User.created_at:type_name -> google.protobuf.Timestamp
-	77, // 1: iam.v1.User.updated_at:type_name -> google.protobuf.Timestamp
-	77, // 2: iam.v1.Tenant.created_at:type_name -> google.protobuf.Timestamp
-	77, // 3: iam.v1.Tenant.updated_at:type_name -> google.protobuf.Timestamp
-	77, // 4: iam.v1.TenantUser.created_at:type_name -> google.protobuf.Timestamp
-	77, // 5: iam.v1.TenantUser.updated_at:type_name -> google.protobuf.Timestamp
-	77, // 6: iam.v1.Role.created_at:type_name -> google.protobuf.Timestamp
-	77, // 7: iam.v1.Role.updated_at:type_name -> google.protobuf.Timestamp
-	77, // 8: iam.v1.UserRole.created_at:type_name -> google.protobuf.Timestamp
-	77, // 9: iam.v1.ResourcePermission.created_at:type_name -> google.protobuf.Timestamp
+	81, // 0: iam.v1.User.created_at:type_name -> google.protobuf.Timestamp
+	81, // 1: iam.v1.User.updated_at:type_name -> google.protobuf.Timestamp
+	81, // 2: iam.v1.Tenant.created_at:type_name -> google.protobuf.Timestamp
+	81, // 3: iam.v1.Tenant.updated_at:type_name -> google.protobuf.Timestamp
+	81, // 4: iam.v1.TenantUser.created_at:type_name -> google.protobuf.Timestamp
+	81, // 5: iam.v1.TenantUser.updated_at:type_name -> google.protobuf.Timestamp
+	81, // 6: iam.v1.Role.created_at:type_name -> google.protobuf.Timestamp
+	81, // 7: iam.v1.Role.updated_at:type_name -> google.protobuf.Timestamp
+	81, // 8: iam.v1.UserRole.created_at:type_name -> google.protobuf.Timestamp
+	81, // 9: iam.v1.ResourcePermission.created_at:type_name -> google.protobuf.Timestamp
 	0,  // 10: iam.v1.GetCurrentUserResponse.user:type_name -> iam.v1.User
-	46, // 11: iam.v1.GetCurrentUserResponse.memberships:type_name -> iam.v1.TenantMembership
+	50, // 11: iam.v1.GetCurrentUserResponse.memberships:type_name -> iam.v1.TenantMembership
 	2,  // 12: iam.v1.ListUsersResponse.users:type_name -> iam.v1.TenantUser
 	2,  // 13: iam.v1.ListMembersResponse.members:type_name -> iam.v1.TenantUser
 	3,  // 14: iam.v1.ListRolesResponse.roles:type_name -> iam.v1.Role
-	46, // 15: iam.v1.GetUserMembershipsResponse.memberships:type_name -> iam.v1.TenantMembership
-	77, // 16: iam.v1.AuditLog.created_at:type_name -> google.protobuf.Timestamp
-	51, // 17: iam.v1.ListAuditLogsResponse.logs:type_name -> iam.v1.AuditLog
-	77, // 18: iam.v1.Group.created_at:type_name -> google.protobuf.Timestamp
-	77, // 19: iam.v1.Group.updated_at:type_name -> google.protobuf.Timestamp
-	53, // 20: iam.v1.ListGroupsResponse.groups:type_name -> iam.v1.Group
-	0,  // 21: iam.v1.ListGroupMembersResponse.users:type_name -> iam.v1.User
-	3,  // 22: iam.v1.ListGroupRolesResponse.roles:type_name -> iam.v1.Role
-	5,  // 23: iam.v1.ListPendingApprovalsResponse.permissions:type_name -> iam.v1.ResourcePermission
-	41, // 24: iam.v1.IAMService.CustomLogin:input_type -> iam.v1.CustomLoginRequest
-	6,  // 25: iam.v1.IAMService.GetCurrentUser:input_type -> iam.v1.GetCurrentUserRequest
-	49, // 26: iam.v1.IAMService.UpdateProfile:input_type -> iam.v1.UpdateProfileRequest
-	50, // 27: iam.v1.IAMService.ListMyAuditLogs:input_type -> iam.v1.ListMyAuditLogsRequest
-	8,  // 28: iam.v1.IAMService.GetUser:input_type -> iam.v1.GetUserRequest
-	9,  // 29: iam.v1.IAMService.GetTenantUser:input_type -> iam.v1.GetTenantUserRequest
-	11, // 30: iam.v1.IAMService.ListUsers:input_type -> iam.v1.ListUsersRequest
-	10, // 31: iam.v1.IAMService.CreateUser:input_type -> iam.v1.CreateUserRequest
-	13, // 32: iam.v1.IAMService.CreateTenant:input_type -> iam.v1.CreateTenantRequest
-	14, // 33: iam.v1.IAMService.GetTenant:input_type -> iam.v1.GetTenantRequest
-	15, // 34: iam.v1.IAMService.UpdateTenant:input_type -> iam.v1.UpdateTenantRequest
-	16, // 35: iam.v1.IAMService.DeleteTenant:input_type -> iam.v1.DeleteTenantRequest
-	45, // 36: iam.v1.IAMService.GetUserMemberships:input_type -> iam.v1.GetUserMembershipsRequest
-	18, // 37: iam.v1.IAMService.InviteMember:input_type -> iam.v1.InviteMemberRequest
-	19, // 38: iam.v1.IAMService.ListMembers:input_type -> iam.v1.ListMembersRequest
-	21, // 39: iam.v1.IAMService.RemoveMember:input_type -> iam.v1.RemoveMemberRequest
-	23, // 40: iam.v1.IAMService.CreateRole:input_type -> iam.v1.CreateRoleRequest
-	24, // 41: iam.v1.IAMService.GetRole:input_type -> iam.v1.GetRoleRequest
-	25, // 42: iam.v1.IAMService.ListRoles:input_type -> iam.v1.ListRolesRequest
-	27, // 43: iam.v1.IAMService.UpdateRole:input_type -> iam.v1.UpdateRoleRequest
-	28, // 44: iam.v1.IAMService.DeleteRole:input_type -> iam.v1.DeleteRoleRequest
-	30, // 45: iam.v1.IAMService.AssignRole:input_type -> iam.v1.AssignRoleRequest
-	31, // 46: iam.v1.IAMService.ListUserRoles:input_type -> iam.v1.ListUserRolesRequest
-	32, // 47: iam.v1.IAMService.RevokeRole:input_type -> iam.v1.RevokeRoleRequest
-	34, // 48: iam.v1.IAMService.CheckPermission:input_type -> iam.v1.CheckPermissionRequest
-	48, // 49: iam.v1.IAMService.GetCurrentUserPermissions:input_type -> iam.v1.GetCurrentUserPermissionsRequest
-	43, // 50: iam.v1.IAMService.ForwardAuth:input_type -> iam.v1.ForwardAuthRequest
-	36, // 51: iam.v1.IAMService.ListPermissions:input_type -> iam.v1.ListPermissionsRequest
-	38, // 52: iam.v1.IAMService.GrantResourcePermission:input_type -> iam.v1.GrantResourcePermissionRequest
-	39, // 53: iam.v1.IAMService.RevokeResourcePermission:input_type -> iam.v1.RevokeResourcePermissionRequest
-	73, // 54: iam.v1.IAMService.ListPendingApprovals:input_type -> iam.v1.ListPendingApprovalsRequest
-	75, // 55: iam.v1.IAMService.ApprovePermission:input_type -> iam.v1.ApprovePermissionRequest
-	76, // 56: iam.v1.IAMService.RejectPermission:input_type -> iam.v1.RejectPermissionRequest
-	54, // 57: iam.v1.IAMService.CreateGroup:input_type -> iam.v1.CreateGroupRequest
-	55, // 58: iam.v1.IAMService.GetGroup:input_type -> iam.v1.GetGroupRequest
-	56, // 59: iam.v1.IAMService.UpdateGroup:input_type -> iam.v1.UpdateGroupRequest
-	57, // 60: iam.v1.IAMService.DeleteGroup:input_type -> iam.v1.DeleteGroupRequest
-	59, // 61: iam.v1.IAMService.ListGroups:input_type -> iam.v1.ListGroupsRequest
-	61, // 62: iam.v1.IAMService.AddGroupMember:input_type -> iam.v1.AddGroupMemberRequest
-	63, // 63: iam.v1.IAMService.RemoveGroupMember:input_type -> iam.v1.RemoveGroupMemberRequest
-	65, // 64: iam.v1.IAMService.ListGroupMembers:input_type -> iam.v1.ListGroupMembersRequest
-	67, // 65: iam.v1.IAMService.AssignGroupRole:input_type -> iam.v1.AssignGroupRoleRequest
-	69, // 66: iam.v1.IAMService.RevokeGroupRole:input_type -> iam.v1.RevokeGroupRoleRequest
-	71, // 67: iam.v1.IAMService.ListGroupRoles:input_type -> iam.v1.ListGroupRolesRequest
-	42, // 68: iam.v1.IAMService.CustomLogin:output_type -> iam.v1.CustomLoginReply
-	7,  // 69: iam.v1.IAMService.GetCurrentUser:output_type -> iam.v1.GetCurrentUserResponse
-	0,  // 70: iam.v1.IAMService.UpdateProfile:output_type -> iam.v1.User
-	52, // 71: iam.v1.IAMService.ListMyAuditLogs:output_type -> iam.v1.ListAuditLogsResponse
-	0,  // 72: iam.v1.IAMService.GetUser:output_type -> iam.v1.User
-	2,  // 73: iam.v1.IAMService.GetTenantUser:output_type -> iam.v1.TenantUser
-	12, // 74: iam.v1.IAMService.ListUsers:output_type -> iam.v1.ListUsersResponse
-	2,  // 75: iam.v1.IAMService.CreateUser:output_type -> iam.v1.TenantUser
-	1,  // 76: iam.v1.IAMService.CreateTenant:output_type -> iam.v1.Tenant
-	1,  // 77: iam.v1.IAMService.GetTenant:output_type -> iam.v1.Tenant
-	1,  // 78: iam.v1.IAMService.UpdateTenant:output_type -> iam.v1.Tenant
-	17, // 79: iam.v1.IAMService.DeleteTenant:output_type -> iam.v1.DeleteTenantResponse
-	47, // 80: iam.v1.IAMService.GetUserMemberships:output_type -> iam.v1.GetUserMembershipsResponse
-	2,  // 81: iam.v1.IAMService.InviteMember:output_type -> iam.v1.TenantUser
-	20, // 82: iam.v1.IAMService.ListMembers:output_type -> iam.v1.ListMembersResponse
-	22, // 83: iam.v1.IAMService.RemoveMember:output_type -> iam.v1.RemoveMemberResponse
-	3,  // 84: iam.v1.IAMService.CreateRole:output_type -> iam.v1.Role
-	3,  // 85: iam.v1.IAMService.GetRole:output_type -> iam.v1.Role
-	26, // 86: iam.v1.IAMService.ListRoles:output_type -> iam.v1.ListRolesResponse
-	3,  // 87: iam.v1.IAMService.UpdateRole:output_type -> iam.v1.Role
-	29, // 88: iam.v1.IAMService.DeleteRole:output_type -> iam.v1.DeleteRoleResponse
-	4,  // 89: iam.v1.IAMService.AssignRole:output_type -> iam.v1.UserRole
-	26, // 90: iam.v1.IAMService.ListUserRoles:output_type -> iam.v1.ListRolesResponse
-	33, // 91: iam.v1.IAMService.RevokeRole:output_type -> iam.v1.RevokeRoleResponse
-	35, // 92: iam.v1.IAMService.CheckPermission:output_type -> iam.v1.CheckPermissionResponse
-	37, // 93: iam.v1.IAMService.GetCurrentUserPermissions:output_type -> iam.v1.ListPermissionsResponse
-	44, // 94: iam.v1.IAMService.ForwardAuth:output_type -> iam.v1.ForwardAuthResponse
-	37, // 95: iam.v1.IAMService.ListPermissions:output_type -> iam.v1.ListPermissionsResponse
-	5,  // 96: iam.v1.IAMService.GrantResourcePermission:output_type -> iam.v1.ResourcePermission
-	40, // 97: iam.v1.IAMService.RevokeResourcePermission:output_type -> iam.v1.RevokeResourcePermissionResponse
-	74, // 98: iam.v1.IAMService.ListPendingApprovals:output_type -> iam.v1.ListPendingApprovalsResponse
-	5,  // 99: iam.v1.IAMService.ApprovePermission:output_type -> iam.v1.ResourcePermission
-	5,  // 100: iam.v1.IAMService.RejectPermission:output_type -> iam.v1.ResourcePermission
-	53, // 101: iam.v1.IAMService.CreateGroup:output_type -> iam.v1.Group
-	53, // 102: iam.v1.IAMService.GetGroup:output_type -> iam.v1.Group
-	53, // 103: iam.v1.IAMService.UpdateGroup:output_type -> iam.v1.Group
-	58, // 104: iam.v1.IAMService.DeleteGroup:output_type -> iam.v1.DeleteGroupResponse
-	60, // 105: iam.v1.IAMService.ListGroups:output_type -> iam.v1.ListGroupsResponse
-	62, // 106: iam.v1.IAMService.AddGroupMember:output_type -> iam.v1.AddGroupMemberResponse
-	64, // 107: iam.v1.IAMService.RemoveGroupMember:output_type -> iam.v1.RemoveGroupMemberResponse
-	66, // 108: iam.v1.IAMService.ListGroupMembers:output_type -> iam.v1.ListGroupMembersResponse
-	68, // 109: iam.v1.IAMService.AssignGroupRole:output_type -> iam.v1.AssignGroupRoleResponse
-	70, // 110: iam.v1.IAMService.RevokeGroupRole:output_type -> iam.v1.RevokeGroupRoleResponse
-	72, // 111: iam.v1.IAMService.ListGroupRoles:output_type -> iam.v1.ListGroupRolesResponse
-	68, // [68:112] is the sub-list for method output_type
-	24, // [24:68] is the sub-list for method input_type
-	24, // [24:24] is the sub-list for extension type_name
-	24, // [24:24] is the sub-list for extension extendee
-	0,  // [0:24] is the sub-list for field type_name
+	44, // 15: iam.v1.AuthSettings.password_policy:type_name -> iam.v1.PasswordPolicy
+	45, // 16: iam.v1.AuthSettings.login_policy:type_name -> iam.v1.LoginPolicy
+	50, // 17: iam.v1.GetUserMembershipsResponse.memberships:type_name -> iam.v1.TenantMembership
+	81, // 18: iam.v1.AuditLog.created_at:type_name -> google.protobuf.Timestamp
+	55, // 19: iam.v1.ListAuditLogsResponse.logs:type_name -> iam.v1.AuditLog
+	81, // 20: iam.v1.Group.created_at:type_name -> google.protobuf.Timestamp
+	81, // 21: iam.v1.Group.updated_at:type_name -> google.protobuf.Timestamp
+	57, // 22: iam.v1.ListGroupsResponse.groups:type_name -> iam.v1.Group
+	0,  // 23: iam.v1.ListGroupMembersResponse.users:type_name -> iam.v1.User
+	3,  // 24: iam.v1.ListGroupRolesResponse.roles:type_name -> iam.v1.Role
+	5,  // 25: iam.v1.ListPendingApprovalsResponse.permissions:type_name -> iam.v1.ResourcePermission
+	41, // 26: iam.v1.IAMService.CustomLogin:input_type -> iam.v1.CustomLoginRequest
+	43, // 27: iam.v1.IAMService.GetAuthSettings:input_type -> iam.v1.GetAuthSettingsRequest
+	6,  // 28: iam.v1.IAMService.GetCurrentUser:input_type -> iam.v1.GetCurrentUserRequest
+	53, // 29: iam.v1.IAMService.UpdateProfile:input_type -> iam.v1.UpdateProfileRequest
+	54, // 30: iam.v1.IAMService.ListMyAuditLogs:input_type -> iam.v1.ListMyAuditLogsRequest
+	8,  // 31: iam.v1.IAMService.GetUser:input_type -> iam.v1.GetUserRequest
+	9,  // 32: iam.v1.IAMService.GetTenantUser:input_type -> iam.v1.GetTenantUserRequest
+	11, // 33: iam.v1.IAMService.ListUsers:input_type -> iam.v1.ListUsersRequest
+	10, // 34: iam.v1.IAMService.CreateUser:input_type -> iam.v1.CreateUserRequest
+	13, // 35: iam.v1.IAMService.CreateTenant:input_type -> iam.v1.CreateTenantRequest
+	14, // 36: iam.v1.IAMService.GetTenant:input_type -> iam.v1.GetTenantRequest
+	15, // 37: iam.v1.IAMService.UpdateTenant:input_type -> iam.v1.UpdateTenantRequest
+	16, // 38: iam.v1.IAMService.DeleteTenant:input_type -> iam.v1.DeleteTenantRequest
+	49, // 39: iam.v1.IAMService.GetUserMemberships:input_type -> iam.v1.GetUserMembershipsRequest
+	18, // 40: iam.v1.IAMService.InviteMember:input_type -> iam.v1.InviteMemberRequest
+	19, // 41: iam.v1.IAMService.ListMembers:input_type -> iam.v1.ListMembersRequest
+	21, // 42: iam.v1.IAMService.RemoveMember:input_type -> iam.v1.RemoveMemberRequest
+	23, // 43: iam.v1.IAMService.CreateRole:input_type -> iam.v1.CreateRoleRequest
+	24, // 44: iam.v1.IAMService.GetRole:input_type -> iam.v1.GetRoleRequest
+	25, // 45: iam.v1.IAMService.ListRoles:input_type -> iam.v1.ListRolesRequest
+	27, // 46: iam.v1.IAMService.UpdateRole:input_type -> iam.v1.UpdateRoleRequest
+	28, // 47: iam.v1.IAMService.DeleteRole:input_type -> iam.v1.DeleteRoleRequest
+	30, // 48: iam.v1.IAMService.AssignRole:input_type -> iam.v1.AssignRoleRequest
+	31, // 49: iam.v1.IAMService.ListUserRoles:input_type -> iam.v1.ListUserRolesRequest
+	32, // 50: iam.v1.IAMService.RevokeRole:input_type -> iam.v1.RevokeRoleRequest
+	34, // 51: iam.v1.IAMService.CheckPermission:input_type -> iam.v1.CheckPermissionRequest
+	52, // 52: iam.v1.IAMService.GetCurrentUserPermissions:input_type -> iam.v1.GetCurrentUserPermissionsRequest
+	47, // 53: iam.v1.IAMService.ForwardAuth:input_type -> iam.v1.ForwardAuthRequest
+	36, // 54: iam.v1.IAMService.ListPermissions:input_type -> iam.v1.ListPermissionsRequest
+	38, // 55: iam.v1.IAMService.GrantResourcePermission:input_type -> iam.v1.GrantResourcePermissionRequest
+	39, // 56: iam.v1.IAMService.RevokeResourcePermission:input_type -> iam.v1.RevokeResourcePermissionRequest
+	77, // 57: iam.v1.IAMService.ListPendingApprovals:input_type -> iam.v1.ListPendingApprovalsRequest
+	79, // 58: iam.v1.IAMService.ApprovePermission:input_type -> iam.v1.ApprovePermissionRequest
+	80, // 59: iam.v1.IAMService.RejectPermission:input_type -> iam.v1.RejectPermissionRequest
+	58, // 60: iam.v1.IAMService.CreateGroup:input_type -> iam.v1.CreateGroupRequest
+	59, // 61: iam.v1.IAMService.GetGroup:input_type -> iam.v1.GetGroupRequest
+	60, // 62: iam.v1.IAMService.UpdateGroup:input_type -> iam.v1.UpdateGroupRequest
+	61, // 63: iam.v1.IAMService.DeleteGroup:input_type -> iam.v1.DeleteGroupRequest
+	63, // 64: iam.v1.IAMService.ListGroups:input_type -> iam.v1.ListGroupsRequest
+	65, // 65: iam.v1.IAMService.AddGroupMember:input_type -> iam.v1.AddGroupMemberRequest
+	67, // 66: iam.v1.IAMService.RemoveGroupMember:input_type -> iam.v1.RemoveGroupMemberRequest
+	69, // 67: iam.v1.IAMService.ListGroupMembers:input_type -> iam.v1.ListGroupMembersRequest
+	71, // 68: iam.v1.IAMService.AssignGroupRole:input_type -> iam.v1.AssignGroupRoleRequest
+	73, // 69: iam.v1.IAMService.RevokeGroupRole:input_type -> iam.v1.RevokeGroupRoleRequest
+	75, // 70: iam.v1.IAMService.ListGroupRoles:input_type -> iam.v1.ListGroupRolesRequest
+	42, // 71: iam.v1.IAMService.CustomLogin:output_type -> iam.v1.CustomLoginReply
+	46, // 72: iam.v1.IAMService.GetAuthSettings:output_type -> iam.v1.AuthSettings
+	7,  // 73: iam.v1.IAMService.GetCurrentUser:output_type -> iam.v1.GetCurrentUserResponse
+	0,  // 74: iam.v1.IAMService.UpdateProfile:output_type -> iam.v1.User
+	56, // 75: iam.v1.IAMService.ListMyAuditLogs:output_type -> iam.v1.ListAuditLogsResponse
+	0,  // 76: iam.v1.IAMService.GetUser:output_type -> iam.v1.User
+	2,  // 77: iam.v1.IAMService.GetTenantUser:output_type -> iam.v1.TenantUser
+	12, // 78: iam.v1.IAMService.ListUsers:output_type -> iam.v1.ListUsersResponse
+	2,  // 79: iam.v1.IAMService.CreateUser:output_type -> iam.v1.TenantUser
+	1,  // 80: iam.v1.IAMService.CreateTenant:output_type -> iam.v1.Tenant
+	1,  // 81: iam.v1.IAMService.GetTenant:output_type -> iam.v1.Tenant
+	1,  // 82: iam.v1.IAMService.UpdateTenant:output_type -> iam.v1.Tenant
+	17, // 83: iam.v1.IAMService.DeleteTenant:output_type -> iam.v1.DeleteTenantResponse
+	51, // 84: iam.v1.IAMService.GetUserMemberships:output_type -> iam.v1.GetUserMembershipsResponse
+	2,  // 85: iam.v1.IAMService.InviteMember:output_type -> iam.v1.TenantUser
+	20, // 86: iam.v1.IAMService.ListMembers:output_type -> iam.v1.ListMembersResponse
+	22, // 87: iam.v1.IAMService.RemoveMember:output_type -> iam.v1.RemoveMemberResponse
+	3,  // 88: iam.v1.IAMService.CreateRole:output_type -> iam.v1.Role
+	3,  // 89: iam.v1.IAMService.GetRole:output_type -> iam.v1.Role
+	26, // 90: iam.v1.IAMService.ListRoles:output_type -> iam.v1.ListRolesResponse
+	3,  // 91: iam.v1.IAMService.UpdateRole:output_type -> iam.v1.Role
+	29, // 92: iam.v1.IAMService.DeleteRole:output_type -> iam.v1.DeleteRoleResponse
+	4,  // 93: iam.v1.IAMService.AssignRole:output_type -> iam.v1.UserRole
+	26, // 94: iam.v1.IAMService.ListUserRoles:output_type -> iam.v1.ListRolesResponse
+	33, // 95: iam.v1.IAMService.RevokeRole:output_type -> iam.v1.RevokeRoleResponse
+	35, // 96: iam.v1.IAMService.CheckPermission:output_type -> iam.v1.CheckPermissionResponse
+	37, // 97: iam.v1.IAMService.GetCurrentUserPermissions:output_type -> iam.v1.ListPermissionsResponse
+	48, // 98: iam.v1.IAMService.ForwardAuth:output_type -> iam.v1.ForwardAuthResponse
+	37, // 99: iam.v1.IAMService.ListPermissions:output_type -> iam.v1.ListPermissionsResponse
+	5,  // 100: iam.v1.IAMService.GrantResourcePermission:output_type -> iam.v1.ResourcePermission
+	40, // 101: iam.v1.IAMService.RevokeResourcePermission:output_type -> iam.v1.RevokeResourcePermissionResponse
+	78, // 102: iam.v1.IAMService.ListPendingApprovals:output_type -> iam.v1.ListPendingApprovalsResponse
+	5,  // 103: iam.v1.IAMService.ApprovePermission:output_type -> iam.v1.ResourcePermission
+	5,  // 104: iam.v1.IAMService.RejectPermission:output_type -> iam.v1.ResourcePermission
+	57, // 105: iam.v1.IAMService.CreateGroup:output_type -> iam.v1.Group
+	57, // 106: iam.v1.IAMService.GetGroup:output_type -> iam.v1.Group
+	57, // 107: iam.v1.IAMService.UpdateGroup:output_type -> iam.v1.Group
+	62, // 108: iam.v1.IAMService.DeleteGroup:output_type -> iam.v1.DeleteGroupResponse
+	64, // 109: iam.v1.IAMService.ListGroups:output_type -> iam.v1.ListGroupsResponse
+	66, // 110: iam.v1.IAMService.AddGroupMember:output_type -> iam.v1.AddGroupMemberResponse
+	68, // 111: iam.v1.IAMService.RemoveGroupMember:output_type -> iam.v1.RemoveGroupMemberResponse
+	70, // 112: iam.v1.IAMService.ListGroupMembers:output_type -> iam.v1.ListGroupMembersResponse
+	72, // 113: iam.v1.IAMService.AssignGroupRole:output_type -> iam.v1.AssignGroupRoleResponse
+	74, // 114: iam.v1.IAMService.RevokeGroupRole:output_type -> iam.v1.RevokeGroupRoleResponse
+	76, // 115: iam.v1.IAMService.ListGroupRoles:output_type -> iam.v1.ListGroupRolesResponse
+	71, // [71:116] is the sub-list for method output_type
+	26, // [26:71] is the sub-list for method input_type
+	26, // [26:26] is the sub-list for extension type_name
+	26, // [26:26] is the sub-list for extension extendee
+	0,  // [0:26] is the sub-list for field type_name
 }
 
 func init() { file_iam_v1_iam_proto_init() }
@@ -4925,7 +5209,7 @@ func file_iam_v1_iam_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_iam_v1_iam_proto_rawDesc), len(file_iam_v1_iam_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   77,
+			NumMessages:   81,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

@@ -170,8 +170,24 @@
       <label for="createPassword" class="text-sm font-medium">Mật khẩu <span class="text-red-500">*</span></label>
       <input pInputText id="createPassword" type="password" formControlName="password" placeholder="Nhập mật khẩu"
         class="w-full" />
+      <div class="rounded-md border border-surface-200 bg-surface-50 p-3 text-xs dark:border-surface-700 dark:bg-surface-900">
+        <div class="mb-2 flex items-center justify-between gap-3">
+          <span class="font-medium text-surface-700 dark:text-surface-200">Yêu cầu mật khẩu</span>
+          @if (authSettingsLoading()) {
+          <span class="text-surface-500">Đang tải...</span>
+          }
+        </div>
+        <div class="grid gap-1.5 sm:grid-cols-2">
+          @for (rule of passwordRules(); track rule.label) {
+          <div class="flex items-center gap-2" [class.text-emerald-600]="rule.valid" [class.text-surface-500]="!rule.valid">
+            <i class="pi text-[0.65rem]" [class.pi-check]="rule.valid" [class.pi-circle]="!rule.valid"></i>
+            <span>{{ rule.label }}</span>
+          </div>
+          }
+        </div>
+      </div>
       @if (createForm.get('password')?.touched && createForm.get('password')?.invalid) {
-      <small class="text-red-500">Mật khẩu tối thiểu 6 ký tự</small>
+      <small class="text-red-500">Mật khẩu chưa đạt yêu cầu bảo mật</small>
       }
     </div>
   </div>

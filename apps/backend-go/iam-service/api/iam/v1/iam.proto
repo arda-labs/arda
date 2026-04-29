@@ -15,6 +15,9 @@ service IAMService {
       body: "*"
     };
   }
+  rpc GetAuthSettings(GetAuthSettingsRequest) returns (AuthSettings) {
+    option (google.api.http) = { get: "/v1/auth/settings" };
+  }
 
   // Users
   rpc GetCurrentUser(GetCurrentUserRequest) returns (GetCurrentUserResponse) {
@@ -384,6 +387,32 @@ message CustomLoginRequest {
 
 message CustomLoginReply {
   string callback_url = 1;
+}
+
+message GetAuthSettingsRequest {
+  string tenant_id = 1;
+}
+
+message PasswordPolicy {
+  int32 min_length = 1;
+  bool require_uppercase = 2;
+  bool require_lowercase = 3;
+  bool require_number = 4;
+  bool require_symbol = 5;
+}
+
+message LoginPolicy {
+  bool password_login_enabled = 1;
+  bool external_idp_enabled = 2;
+  bool mfa_required = 3;
+}
+
+message AuthSettings {
+  string tenant_id = 1;
+  string auth_mode = 2;
+  string provider = 3;
+  PasswordPolicy password_policy = 4;
+  LoginPolicy login_policy = 5;
 }
 
 message ForwardAuthRequest {

@@ -100,6 +100,64 @@ func (uc *AuthUsecase) HasZitadelManagementPAT() bool {
 	return uc.managementPAT != ""
 }
 
+type PasswordPolicy struct {
+	MinLength        int
+	RequireUppercase bool
+	RequireLowercase bool
+	RequireNumber    bool
+	RequireSymbol    bool
+}
+
+type LoginPolicy struct {
+	PasswordLoginEnabled bool
+	ExternalIDPEnabled   bool
+	MFARequired          bool
+}
+
+type AuthSettings struct {
+	TenantID       string
+	AuthMode       string
+	Provider       string
+	PasswordPolicy PasswordPolicy
+	LoginPolicy    LoginPolicy
+}
+
+type ZitadelAPIError struct {
+	StatusCode int
+	Status     string
+	Code       string
+	Message    string
+}
+
+func (e *ZitadelAPIError) Error() string {
+	if e.Message != "" {
+		return e.Message
+	}
+	if e.Status != "" {
+		return "zitadel error: " + e.Status
+	}
+	return "zitadel error"
+}
+
+func (uc *AuthUsecase) GetAuthSettings(ctx context.Context, tenantID, authMode string) (*AuthSettings, error) {
+	passwordPolicy, err := uc.getZitadelPasswordPolicy(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return &AuthSettings{
+		TenantID:       tenantID,
+		AuthMode:       authMode,
+		Provider:       "ZITADEL",
+		PasswordPolicy: passwordPolicy,
+		LoginPolicy: LoginPolicy{
+			PasswordLoginEnabled: true,
+			ExternalIDPEnabled:   true,
+			MFARequired:          false,
+		},
+	}, nil
+}
+
 type sessionResponse struct {
 	SessionID    string `json:"sessionId"`
 	SessionToken string `json:"sessionToken"`
@@ -378,6 +436,39 @@ type zitadelCreateUserResponse struct {
 	UserID string `json:"userId"`
 }
 
+type zitadelPasswordComplexityResponse struct {
+	Policy struct {
+		MinLength    string `json:"minLength"`
+		HasUppercase bool   `json:"hasUppercase"`
+		HasLowercase bool   `json:"hasLowercase"`
+		HasNumber    bool   `json:"hasNumber"`
+		HasSymbol    bool   `json:"hasSymbol"`
+	} `json:"policy"`
+}
+
+func (uc *AuthUsecase) getZitadelPasswordPolicy(ctx context.Context) (PasswordPolicy, error) {
+	url := fmt.Sprintf("%s/management/v1/policies/password/complexity", strings.TrimRight(uc.conf.Authority, "/"))
+	var resp zitadelPasswordComplexityResponse
+	if err := uc.callZitadelWithPATContext(ctx, http.MethodGet, url, nil, &resp, uc.managementPAT, "management"); err != nil {
+		return PasswordPolicy{}, err
+	}
+
+	minLength := 8
+	if resp.Policy.MinLength != "" {
+		if _, err := fmt.Sscanf(resp.Policy.MinLength, "%d", &minLength); err != nil {
+			minLength = 8
+		}
+	}
+
+	return PasswordPolicy{
+		MinLength:        minLength,
+		RequireUppercase: resp.Policy.HasUppercase,
+		RequireLowercase: resp.Policy.HasLowercase,
+		RequireNumber:    resp.Policy.HasNumber,
+		RequireSymbol:    resp.Policy.HasSymbol,
+	}, nil
+}
+
 func (uc *AuthUsecase) CreateZitadelUser(ctx context.Context, username, email, displayName, password string) (string, error) {
 	if username == "" {
 		username = email
@@ -408,6 +499,10 @@ func (uc *AuthUsecase) CreateZitadelUser(ctx context.Context, username, email, d
 }
 
 func (uc *AuthUsecase) callZitadelWithPAT(method, url string, body any, result any, pat, purpose string) error {
+	return uc.callZitadelWithPATContext(context.Background(), method, url, body, result, pat, purpose)
+}
+
+func (uc *AuthUsecase) callZitadelWithPATContext(ctx context.Context, method, url string, body any, result any, pat, purpose string) error {
 	pat = strings.TrimSpace(pat)
 	if pat == "" || strings.Contains(pat, "${") {
 		switch purpose {
@@ -418,8 +513,12 @@ func (uc *AuthUsecase) callZitadelWithPAT(method, url string, body any, result a
 		}
 	}
 
-	jsonBody, _ := json.Marshal(body)
-	req, err := http.NewRequest(method, url, bytes.NewBuffer(jsonBody))
+	var reader io.Reader
+	if body != nil {
+		jsonBody, _ := json.Marshal(body)
+		reader = bytes.NewBuffer(jsonBody)
+	}
+	req, err := http.NewRequestWithContext(ctx, method, url, reader)
 	if err != nil {
 		return err
 	}
@@ -437,8 +536,37 @@ func (uc *AuthUsecase) callZitadelWithPAT(method, url string, body any, result a
 	if resp.StatusCode >= 400 {
 		respBody, _ := io.ReadAll(resp.Body)
 		uc.log.Errorf("Zitadel API Error [%s]: %s", url, string(respBody))
-		return fmt.Errorf("zitadel error: %s", resp.Status)
+		apiErr := parseZitadelAPIError(resp.StatusCode, resp.Status, respBody)
+		return apiErr
 	}
 
+	if result == nil {
+		return nil
+	}
 	return json.NewDecoder(resp.Body).Decode(result)
+}
+
+func parseZitadelAPIError(statusCode int, status string, body []byte) *ZitadelAPIError {
+	apiErr := &ZitadelAPIError{StatusCode: statusCode, Status: status}
+	var payload struct {
+		Code    int    `json:"code"`
+		Message string `json:"message"`
+		Details []struct {
+			ID      string `json:"id"`
+			Message string `json:"message"`
+		} `json:"details"`
+	}
+	if err := json.Unmarshal(body, &payload); err == nil {
+		apiErr.Code = fmt.Sprintf("%d", payload.Code)
+		apiErr.Message = payload.Message
+		for _, detail := range payload.Details {
+			if detail.ID != "" {
+				apiErr.Code = detail.ID
+			}
+			if detail.Message != "" {
+				apiErr.Message = detail.Message
+			}
+		}
+	}
+	return apiErr
 }

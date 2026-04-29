@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	stderrors "errors"
 
 	"github.com/arda-labs/arda/arda-be-go/pkg/middleware"
 	pb "github.com/arda-labs/arda/arda-be-go/services/iam-service/api/iam/v1"
@@ -80,6 +81,25 @@ func (s *IAMService) CustomLogin(ctx context.Context, req *pb.CustomLoginRequest
 		return nil, errors.Unauthorized("LOGIN_FAILED", "login failed")
 	}
 	return &pb.CustomLoginReply{CallbackUrl: callbackURL}, nil
+}
+
+func (s *IAMService) GetAuthSettings(ctx context.Context, req *pb.GetAuthSettingsRequest) (*pb.AuthSettings, error) {
+	authMode := biz.TenantAuthShared
+	if req.TenantId != "" {
+		tenant, err := s.tenants.GetTenant(ctx, req.TenantId)
+		if err != nil {
+			return nil, err
+		}
+		if tenant != nil && tenant.AuthMode != "" {
+			authMode = tenant.AuthMode
+		}
+	}
+
+	settings, err := s.auth.GetAuthSettings(ctx, req.TenantId, authMode)
+	if err != nil {
+		return nil, err
+	}
+	return toProtoAuthSettings(settings), nil
 }
 
 func (s *IAMService) GetUserMemberships(ctx context.Context, req *pb.GetUserMembershipsRequest) (*pb.GetUserMembershipsResponse, error) {
@@ -412,6 +432,10 @@ func (s *IAMService) ListUsers(ctx context.Context, req *pb.ListUsersRequest) (*
 func (s *IAMService) CreateUser(ctx context.Context, req *pb.CreateUserRequest) (*pb.TenantUser, error) {
 	user, err := s.users.CreateUser(ctx, req.Username, req.Email, req.DisplayName, req.Password, req.TenantId)
 	if err != nil {
+		var zitadelErr *biz.ZitadelAPIError
+		if stderrors.As(err, &zitadelErr) && zitadelErr.StatusCode >= 400 && zitadelErr.StatusCode < 500 {
+			return nil, errors.BadRequest("ZITADEL_VALIDATION_FAILED", zitadelErr.Error())
+		}
 		return nil, err
 	}
 	return toProtoTenantUser(user), nil
@@ -770,6 +794,26 @@ func toProtoTenant(t *biz.Tenant) *pb.Tenant {
 		AuthMode:       t.AuthMode,
 		CreatedAt:      timestamppb.New(t.CreatedAt),
 		UpdatedAt:      timestamppb.New(t.UpdatedAt),
+	}
+}
+
+func toProtoAuthSettings(s *biz.AuthSettings) *pb.AuthSettings {
+	return &pb.AuthSettings{
+		TenantId: s.TenantID,
+		AuthMode: s.AuthMode,
+		Provider: s.Provider,
+		PasswordPolicy: &pb.PasswordPolicy{
+			MinLength:        int32(s.PasswordPolicy.MinLength),
+			RequireUppercase: s.PasswordPolicy.RequireUppercase,
+			RequireLowercase: s.PasswordPolicy.RequireLowercase,
+			RequireNumber:    s.PasswordPolicy.RequireNumber,
+			RequireSymbol:    s.PasswordPolicy.RequireSymbol,
+		},
+		LoginPolicy: &pb.LoginPolicy{
+			PasswordLoginEnabled: s.LoginPolicy.PasswordLoginEnabled,
+			ExternalIdpEnabled:   s.LoginPolicy.ExternalIDPEnabled,
+			MfaRequired:          s.LoginPolicy.MFARequired,
+		},
 	}
 }
 

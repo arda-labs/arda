@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TableModule } from 'primeng/table';
 import { Button } from 'primeng/button';
@@ -14,6 +14,7 @@ import { Avatar } from 'primeng/avatar';
 import { createPagedResource } from '@arda/core';
 import { UserService, User } from '../../../services/user.service';
 import { TenantService } from '../../../services/tenant.service';
+import { AuthSettingsService, PasswordPolicy } from '../../../services/auth-settings.service';
 import { ArdaDataTable } from '../../../shared/table/arda-data-table';
 
 @Component({
@@ -40,6 +41,7 @@ import { ArdaDataTable } from '../../../shared/table/arda-data-table';
 export class UserManagement {
   private userService = inject(UserService);
   private tenantService = inject(TenantService);
+  private authSettingsService = inject(AuthSettingsService);
   private messageService = inject(MessageService);
   private confirmationService = inject(ConfirmationService);
   private router = inject(Router);
@@ -53,6 +55,16 @@ export class UserManagement {
 
   isSaving = signal(false);
   deletingUserId = signal('');
+  authSettingsLoading = signal(false);
+  private loadedAuthSettingsTenantId = '';
+  passwordValue = signal('');
+  passwordPolicy = signal<PasswordPolicy>({
+    minLength: 8,
+    requireUppercase: true,
+    requireLowercase: true,
+    requireNumber: true,
+    requireSymbol: true,
+  });
 
   // Dialog state
   displayInviteDialog = signal(false);
@@ -70,8 +82,45 @@ export class UserManagement {
     username: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
     email: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.email] }),
     displayName: new FormControl('', { nonNullable: true }),
-    password: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.minLength(6)] })
+    password: new FormControl('', { nonNullable: true, validators: [Validators.required] })
   });
+
+  passwordRules = computed(() => {
+    const password = this.passwordValue();
+    const policy = this.passwordPolicy();
+    return [
+      {
+        label: `Tối thiểu ${policy.minLength} ký tự`,
+        valid: password.length >= policy.minLength,
+      },
+      {
+        label: 'Có chữ hoa',
+        valid: !policy.requireUppercase || /[A-Z]/.test(password),
+      },
+      {
+        label: 'Có chữ thường',
+        valid: !policy.requireLowercase || /[a-z]/.test(password),
+      },
+      {
+        label: 'Có chữ số',
+        valid: !policy.requireNumber || /\d/.test(password),
+      },
+      {
+        label: 'Có ký tự đặc biệt',
+        valid: !policy.requireSymbol || /[^A-Za-z0-9]/.test(password),
+      },
+    ];
+  });
+
+  constructor() {
+    this.createForm.controls.password.valueChanges.subscribe(value => this.passwordValue.set(value ?? ''));
+
+    effect(() => {
+      const tenantId = this.tenantService.selectedTenantId();
+      if (!tenantId || tenantId === this.loadedAuthSettingsTenantId) return;
+      this.loadAuthSettings(tenantId);
+    });
+  }
 
   openInviteDialog() {
     this.inviteForm.reset({ externalId: '', username: '', displayName: '', role: 'MEMBER' });
@@ -79,6 +128,10 @@ export class UserManagement {
   }
 
   openCreateDialog() {
+    const tenantId = this.tenantService.selectedTenantId();
+    if (tenantId) {
+      this.loadAuthSettings(tenantId);
+    }
     this.createForm.reset({ username: '', email: '', displayName: '', password: '' });
     this.displayCreateDialog.set(true);
   }
@@ -181,5 +234,42 @@ export class UserManagement {
       return body?.message || body?.reason || fallback;
     }
     return fallback;
+  }
+
+  private loadAuthSettings(tenantId: string) {
+    this.authSettingsLoading.set(true);
+    this.authSettingsService.getAuthSettings(tenantId).subscribe({
+      next: settings => {
+        this.loadedAuthSettingsTenantId = tenantId;
+        this.passwordPolicy.set(settings.passwordPolicy);
+        this.applyPasswordValidators(settings.passwordPolicy);
+        this.authSettingsLoading.set(false);
+      },
+      error: () => {
+        this.authSettingsLoading.set(false);
+      },
+    });
+  }
+
+  private applyPasswordValidators(policy: PasswordPolicy) {
+    this.createForm.controls.password.setValidators([
+      Validators.required,
+      Validators.minLength(policy.minLength),
+      this.passwordPolicyValidator(policy),
+    ]);
+    this.createForm.controls.password.updateValueAndValidity({ emitEvent: false });
+  }
+
+  private passwordPolicyValidator(policy: PasswordPolicy) {
+    return (control: AbstractControl<string>) => {
+      const value = control.value ?? '';
+      if (!value) return null;
+      const errors: Record<string, boolean> = {};
+      if (policy.requireUppercase && !/[A-Z]/.test(value)) errors['uppercase'] = true;
+      if (policy.requireLowercase && !/[a-z]/.test(value)) errors['lowercase'] = true;
+      if (policy.requireNumber && !/\d/.test(value)) errors['number'] = true;
+      if (policy.requireSymbol && !/[^A-Za-z0-9]/.test(value)) errors['symbol'] = true;
+      return Object.keys(errors).length ? errors : null;
+    };
   }
 }

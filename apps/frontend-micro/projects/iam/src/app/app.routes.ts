@@ -27,6 +27,10 @@ export const remoteRoutes: Routes = [
     loadComponent: () => import('./pages/iam/menus/menu-management/menu-management').then(m => m.MenuManagement)
   },
   {
+    path: 'auth-settings',
+    loadComponent: () => import('./pages/iam/auth-settings/auth-settings').then(m => m.AuthSettingsPage)
+  },
+  {
     path: 'profile',
     loadComponent: () => import('./pages/profile/profile').then(m => m.Profile)
   }

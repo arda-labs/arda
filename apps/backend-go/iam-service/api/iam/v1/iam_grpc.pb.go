@@ -20,6 +20,7 @@ const _ = grpc.SupportPackageIsVersion9
 
 const (
 	IAMService_CustomLogin_FullMethodName               = "/iam.v1.IAMService/CustomLogin"
+	IAMService_GetAuthSettings_FullMethodName           = "/iam.v1.IAMService/GetAuthSettings"
 	IAMService_GetCurrentUser_FullMethodName            = "/iam.v1.IAMService/GetCurrentUser"
 	IAMService_UpdateProfile_FullMethodName             = "/iam.v1.IAMService/UpdateProfile"
 	IAMService_ListMyAuditLogs_FullMethodName           = "/iam.v1.IAMService/ListMyAuditLogs"
@@ -71,6 +72,7 @@ const (
 type IAMServiceClient interface {
 	// Auth
 	CustomLogin(ctx context.Context, in *CustomLoginRequest, opts ...grpc.CallOption) (*CustomLoginReply, error)
+	GetAuthSettings(ctx context.Context, in *GetAuthSettingsRequest, opts ...grpc.CallOption) (*AuthSettings, error)
 	// Users
 	GetCurrentUser(ctx context.Context, in *GetCurrentUserRequest, opts ...grpc.CallOption) (*GetCurrentUserResponse, error)
 	UpdateProfile(ctx context.Context, in *UpdateProfileRequest, opts ...grpc.CallOption) (*User, error)
@@ -136,6 +138,16 @@ func (c *iAMServiceClient) CustomLogin(ctx context.Context, in *CustomLoginReque
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(CustomLoginReply)
 	err := c.cc.Invoke(ctx, IAMService_CustomLogin_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *iAMServiceClient) GetAuthSettings(ctx context.Context, in *GetAuthSettingsRequest, opts ...grpc.CallOption) (*AuthSettings, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(AuthSettings)
+	err := c.cc.Invoke(ctx, IAMService_GetAuthSettings_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -578,6 +590,7 @@ func (c *iAMServiceClient) ListGroupRoles(ctx context.Context, in *ListGroupRole
 type IAMServiceServer interface {
 	// Auth
 	CustomLogin(context.Context, *CustomLoginRequest) (*CustomLoginReply, error)
+	GetAuthSettings(context.Context, *GetAuthSettingsRequest) (*AuthSettings, error)
 	// Users
 	GetCurrentUser(context.Context, *GetCurrentUserRequest) (*GetCurrentUserResponse, error)
 	UpdateProfile(context.Context, *UpdateProfileRequest) (*User, error)
@@ -641,6 +654,9 @@ type UnimplementedIAMServiceServer struct{}
 
 func (UnimplementedIAMServiceServer) CustomLogin(context.Context, *CustomLoginRequest) (*CustomLoginReply, error) {
 	return nil, status.Error(codes.Unimplemented, "method CustomLogin not implemented")
+}
+func (UnimplementedIAMServiceServer) GetAuthSettings(context.Context, *GetAuthSettingsRequest) (*AuthSettings, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetAuthSettings not implemented")
 }
 func (UnimplementedIAMServiceServer) GetCurrentUser(context.Context, *GetCurrentUserRequest) (*GetCurrentUserResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetCurrentUser not implemented")
@@ -806,6 +822,24 @@ func _IAMService_CustomLogin_Handler(srv interface{}, ctx context.Context, dec f
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(IAMServiceServer).CustomLogin(ctx, req.(*CustomLoginRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _IAMService_GetAuthSettings_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAuthSettingsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(IAMServiceServer).GetAuthSettings(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: IAMService_GetAuthSettings_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(IAMServiceServer).GetAuthSettings(ctx, req.(*GetAuthSettingsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1594,6 +1628,10 @@ var IAMService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CustomLogin",
 			Handler:    _IAMService_CustomLogin_Handler,
+		},
+		{
+			MethodName: "GetAuthSettings",
+			Handler:    _IAMService_GetAuthSettings_Handler,
 		},
 		{
 			MethodName: "GetCurrentUser",

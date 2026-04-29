@@ -13,13 +13,13 @@ var (
 )
 
 type Menu struct {
-	ID        string
-	TenantID  string
-	ParentID  string
-	Name      string
-	Slug      string
-	Icon      string
-	Route     string
+	ID             string
+	TenantID       string
+	ParentID       string
+	Name           string
+	Slug           string
+	Icon           string
+	Route          string
 	SortOrder      int
 	Enabled        bool
 	PermissionSlug string
@@ -91,6 +91,11 @@ func (uc *MenuUsecase) GetUserMenu(ctx context.Context, userID, tenantID string)
 // ListMenus returns flat list of menus for a tenant (admin view).
 func (uc *MenuUsecase) ListMenus(ctx context.Context, tenantID string) ([]*Menu, error) {
 	return uc.menuRepo.GetByTenant(ctx, tenantID)
+}
+
+func (uc *MenuUsecase) CheckMenuPermission(ctx context.Context, userID, tenantID, action string) (bool, error) {
+	allowed, _, err := uc.permUC.CheckPermission(ctx, userID, tenantID, "menu", action, "")
+	return allowed, err
 }
 
 func (uc *MenuUsecase) GetMenu(ctx context.Context, id string) (*Menu, error) {

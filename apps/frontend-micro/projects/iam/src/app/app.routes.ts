@@ -19,6 +19,10 @@ export const remoteRoutes: Routes = [
     loadComponent: () => import('./pages/iam/groups/group-management').then(m => m.GroupManagement)
   },
   {
+    path: 'menus',
+    loadComponent: () => import('./pages/iam/menus/menu-management/menu-management').then(m => m.MenuManagement)
+  },
+  {
     path: 'profile',
     loadComponent: () => import('./pages/profile/profile').then(m => m.Profile)
   }

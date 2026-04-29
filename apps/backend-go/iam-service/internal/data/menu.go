@@ -108,7 +108,7 @@ func (r *menuRepo) Create(ctx context.Context, m *biz.Menu) (*biz.Menu, error) {
 	err := r.data.DB(ctx).ExecInTransaction(ctx, tenantID, func(ctx context.Context, tx pgx.Tx) error {
 		query := `
 			INSERT INTO menus (tenant_id, parent_id, name, slug, icon, route, sort_order, enabled, permission_slug)
-			VALUES ($1, NULLIF($2, ''), $3, $4, NULLIF($5, ''), NULLIF($6, ''), $7, $8, NULLIF($9, ''))
+			VALUES ($1, NULLIF($2, '')::uuid, $3, $4, NULLIF($5, ''), NULLIF($6, ''), $7, $8, NULLIF($9, ''))
 			RETURNING id, created_at, updated_at
 		`
 		return tx.QueryRow(ctx, query, m.TenantID, m.ParentID, m.Name, m.Slug, m.Icon, m.Route, m.SortOrder, m.Enabled, m.PermissionSlug).
@@ -125,7 +125,7 @@ func (r *menuRepo) Update(ctx context.Context, m *biz.Menu) (*biz.Menu, error) {
 	err := r.data.DB(ctx).ExecInTransaction(ctx, tenantID, func(ctx context.Context, tx pgx.Tx) error {
 		query := `
 			UPDATE menus
-			SET parent_id = NULLIF($2, ''), name = $3, slug = $4, icon = NULLIF($5, ''),
+			SET parent_id = NULLIF($2, '')::uuid, name = $3, slug = $4, icon = NULLIF($5, ''),
 			    route = NULLIF($6, ''), sort_order = $7, enabled = $8, permission_slug = NULLIF($9, ''), updated_at = NOW()
 			WHERE id = $1
 			RETURNING updated_at

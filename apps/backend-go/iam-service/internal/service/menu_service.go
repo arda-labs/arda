@@ -119,6 +119,9 @@ func (s *MenuService) ListMenus(ctx context.Context, req *ListMenusRequest) (*Li
 	if req.TenantID == "" {
 		return nil, errors.Forbidden("MISSING_TENANT", "tenant context is required")
 	}
+	if err := s.requireMenuPermission(ctx, req.TenantID, "read"); err != nil {
+		return nil, err
+	}
 
 	menus, err := s.menuUsecase.ListMenus(ctx, req.TenantID)
 	if err != nil {
@@ -140,6 +143,9 @@ func (s *MenuService) CreateMenu(ctx context.Context, req *CreateMenuRequest) (*
 	if tenantID == "" {
 		return nil, errors.Forbidden("MISSING_TENANT", "tenant context is required")
 	}
+	if err := s.requireMenuPermission(ctx, tenantID, "create"); err != nil {
+		return nil, err
+	}
 
 	m, err := s.menuUsecase.CreateMenu(ctx, tenantID, req.ParentID, req.Name, req.Slug, req.Icon, req.Route, req.SortOrder, req.Enabled, req.PermissionSlug)
 	if err != nil {
@@ -150,6 +156,14 @@ func (s *MenuService) CreateMenu(ctx context.Context, req *CreateMenuRequest) (*
 }
 
 func (s *MenuService) UpdateMenu(ctx context.Context, req *UpdateMenuRequest) (*Menu, error) {
+	tenantID := middleware.GetTenantID(ctx)
+	if tenantID == "" {
+		return nil, errors.Forbidden("MISSING_TENANT", "tenant context is required")
+	}
+	if err := s.requireMenuPermission(ctx, tenantID, "update"); err != nil {
+		return nil, err
+	}
+
 	m, err := s.menuUsecase.UpdateMenu(ctx, req.ID, req.ParentID, req.Name, req.Slug, req.Icon, req.Route, req.SortOrder, req.Enabled, req.PermissionSlug)
 	if err != nil {
 		return nil, err
@@ -159,6 +173,14 @@ func (s *MenuService) UpdateMenu(ctx context.Context, req *UpdateMenuRequest) (*
 }
 
 func (s *MenuService) DeleteMenu(ctx context.Context, req *DeleteMenuRequest) (*DeleteMenuResponse, error) {
+	tenantID := middleware.GetTenantID(ctx)
+	if tenantID == "" {
+		return nil, errors.Forbidden("MISSING_TENANT", "tenant context is required")
+	}
+	if err := s.requireMenuPermission(ctx, tenantID, "delete"); err != nil {
+		return nil, err
+	}
+
 	if err := s.menuUsecase.DeleteMenu(ctx, req.ID); err != nil {
 		return nil, err
 	}
@@ -167,10 +189,41 @@ func (s *MenuService) DeleteMenu(ctx context.Context, req *DeleteMenuRequest) (*
 
 // ─── Internal helpers ─────────────────────────────────────────────────────────
 
+func (s *MenuService) requireMenuPermission(ctx context.Context, tenantID, action string) error {
+	userID := middleware.GetUserID(ctx)
+	if userID == "" {
+		return errors.Forbidden("UNAUTHORIZED", "missing subject")
+	}
+
+	allowed, err := s.menuUsecase.CheckMenuPermission(ctx, userID, tenantID, action)
+	if err != nil {
+		return err
+	}
+	if !allowed {
+		return errors.Forbidden("PERMISSION_DENIED", "menu:"+action+" permission is required")
+	}
+	return nil
+}
+
 func buildMenuTree(menus []*biz.Menu) []MenuItem {
-	itemMap := make(map[string]*MenuItem)
+	menuMap := make(map[string]*biz.Menu)
 	for _, m := range menus {
-		itemMap[m.ID] = &MenuItem{
+		menuMap[m.ID] = m
+	}
+
+	children := make(map[string][]*biz.Menu)
+	var roots []*biz.Menu
+	for _, m := range menus {
+		if m.ParentID != "" && menuMap[m.ParentID] != nil {
+			children[m.ParentID] = append(children[m.ParentID], m)
+			continue
+		}
+		roots = append(roots, m)
+	}
+
+	var toItem func(*biz.Menu) MenuItem
+	toItem = func(m *biz.Menu) MenuItem {
+		item := MenuItem{
 			ID:             m.ID,
 			Name:           m.Name,
 			Icon:           m.Icon,
@@ -179,19 +232,18 @@ func buildMenuTree(menus []*biz.Menu) []MenuItem {
 			PermissionSlug: m.PermissionSlug,
 			Children:       []MenuItem{},
 		}
-	}
-
-	var roots []MenuItem
-	for _, m := range menus {
-		item := itemMap[m.ID]
-		if m.ParentID == "" {
-			roots = append(roots, *item)
-		} else if parent, ok := itemMap[m.ParentID]; ok {
-			parent.Children = append(parent.Children, *item)
+		for _, child := range children[m.ID] {
+			item.Children = append(item.Children, toItem(child))
 		}
+		return item
 	}
 
-	return roots
+	out := make([]MenuItem, 0, len(roots))
+	for _, root := range roots {
+		out = append(out, toItem(root))
+	}
+
+	return out
 }
 
 func toMenu(m *biz.Menu) Menu {

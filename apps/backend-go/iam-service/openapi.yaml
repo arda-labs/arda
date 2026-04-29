@@ -985,6 +985,24 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/iam.v1.ListRolesResponse'
+    /v1/users/{userId}/tenant-access:
+        get:
+            tags:
+                - IAMService
+            operationId: IAMService_ListUserTenantAccess
+            parameters:
+                - name: userId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/iam.v1.ListUserTenantAccessResponse'
     /v1/users/{userId}/tenant-account:
         get:
             tags:
@@ -1336,6 +1354,15 @@ components:
                         $ref: '#/components/schemas/iam.v1.Role'
                 nextPageToken:
                     type: string
+        iam.v1.ListUserTenantAccessResponse:
+            type: object
+            properties:
+                userId:
+                    type: string
+                tenants:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/iam.v1.UserTenantAccess'
         iam.v1.ListUsersResponse:
             type: object
             properties:
@@ -1652,6 +1679,33 @@ components:
                 createdAt:
                     type: string
                     format: date-time
+        iam.v1.UserTenantAccess:
+            type: object
+            properties:
+                tenantId:
+                    type: string
+                tenantName:
+                    type: string
+                tenantSlug:
+                    type: string
+                username:
+                    type: string
+                displayName:
+                    type: string
+                status:
+                    type: string
+                roles:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/iam.v1.Role'
+                permissions:
+                    type: array
+                    items:
+                        type: string
+                deploymentMode:
+                    type: string
+                authMode:
+                    type: string
 tags:
     - name: IAMService
     - name: MenuService

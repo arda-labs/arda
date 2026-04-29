@@ -27,6 +27,7 @@ const (
 	IAMService_GetUser_FullMethodName                   = "/iam.v1.IAMService/GetUser"
 	IAMService_GetTenantUser_FullMethodName             = "/iam.v1.IAMService/GetTenantUser"
 	IAMService_ListUsers_FullMethodName                 = "/iam.v1.IAMService/ListUsers"
+	IAMService_ListUserTenantAccess_FullMethodName      = "/iam.v1.IAMService/ListUserTenantAccess"
 	IAMService_CreateUser_FullMethodName                = "/iam.v1.IAMService/CreateUser"
 	IAMService_CreateTenant_FullMethodName              = "/iam.v1.IAMService/CreateTenant"
 	IAMService_GetTenant_FullMethodName                 = "/iam.v1.IAMService/GetTenant"
@@ -80,6 +81,7 @@ type IAMServiceClient interface {
 	GetUser(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*User, error)
 	GetTenantUser(ctx context.Context, in *GetTenantUserRequest, opts ...grpc.CallOption) (*TenantUser, error)
 	ListUsers(ctx context.Context, in *ListUsersRequest, opts ...grpc.CallOption) (*ListUsersResponse, error)
+	ListUserTenantAccess(ctx context.Context, in *ListUserTenantAccessRequest, opts ...grpc.CallOption) (*ListUserTenantAccessResponse, error)
 	CreateUser(ctx context.Context, in *CreateUserRequest, opts ...grpc.CallOption) (*TenantUser, error)
 	// Tenants
 	CreateTenant(ctx context.Context, in *CreateTenantRequest, opts ...grpc.CallOption) (*Tenant, error)
@@ -208,6 +210,16 @@ func (c *iAMServiceClient) ListUsers(ctx context.Context, in *ListUsersRequest, 
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ListUsersResponse)
 	err := c.cc.Invoke(ctx, IAMService_ListUsers_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *iAMServiceClient) ListUserTenantAccess(ctx context.Context, in *ListUserTenantAccessRequest, opts ...grpc.CallOption) (*ListUserTenantAccessResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListUserTenantAccessResponse)
+	err := c.cc.Invoke(ctx, IAMService_ListUserTenantAccess_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -598,6 +610,7 @@ type IAMServiceServer interface {
 	GetUser(context.Context, *GetUserRequest) (*User, error)
 	GetTenantUser(context.Context, *GetTenantUserRequest) (*TenantUser, error)
 	ListUsers(context.Context, *ListUsersRequest) (*ListUsersResponse, error)
+	ListUserTenantAccess(context.Context, *ListUserTenantAccessRequest) (*ListUserTenantAccessResponse, error)
 	CreateUser(context.Context, *CreateUserRequest) (*TenantUser, error)
 	// Tenants
 	CreateTenant(context.Context, *CreateTenantRequest) (*Tenant, error)
@@ -675,6 +688,9 @@ func (UnimplementedIAMServiceServer) GetTenantUser(context.Context, *GetTenantUs
 }
 func (UnimplementedIAMServiceServer) ListUsers(context.Context, *ListUsersRequest) (*ListUsersResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method ListUsers not implemented")
+}
+func (UnimplementedIAMServiceServer) ListUserTenantAccess(context.Context, *ListUserTenantAccessRequest) (*ListUserTenantAccessResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListUserTenantAccess not implemented")
 }
 func (UnimplementedIAMServiceServer) CreateUser(context.Context, *CreateUserRequest) (*TenantUser, error) {
 	return nil, status.Error(codes.Unimplemented, "method CreateUser not implemented")
@@ -948,6 +964,24 @@ func _IAMService_ListUsers_Handler(srv interface{}, ctx context.Context, dec fun
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(IAMServiceServer).ListUsers(ctx, req.(*ListUsersRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _IAMService_ListUserTenantAccess_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListUserTenantAccessRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(IAMServiceServer).ListUserTenantAccess(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: IAMService_ListUserTenantAccess_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(IAMServiceServer).ListUserTenantAccess(ctx, req.(*ListUserTenantAccessRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1656,6 +1690,10 @@ var IAMService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListUsers",
 			Handler:    _IAMService_ListUsers_Handler,
+		},
+		{
+			MethodName: "ListUserTenantAccess",
+			Handler:    _IAMService_ListUserTenantAccess_Handler,
 		},
 		{
 			MethodName: "CreateUser",

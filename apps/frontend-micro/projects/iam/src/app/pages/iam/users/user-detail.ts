@@ -11,13 +11,14 @@ import { Tag } from 'primeng/tag';
 import { Toast } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { Tabs, TabList, Tab, TabPanels, TabPanel } from 'primeng/tabs';
-import { Role, User, UserService } from '../../../services/user.service';
+import { Role, User, UserService, UserTenantAccess } from '../../../services/user.service';
 import { TenantService } from '../../../services/tenant.service';
 
 interface UserDetailData {
   user: User;
   roles: Role[];
   allRoles: Role[];
+  tenantAccess: UserTenantAccess[];
 }
 
 @Component({
@@ -66,6 +67,7 @@ export class UserDetail {
         user: this.userService.getTenantUser(params.userId, params.tenantId),
         roles: this.userService.listUserRoles(params.userId, params.tenantId),
         allRoles: this.userService.listRoles(params.tenantId, { pageSize: 100 }),
+        tenantAccess: this.userService.listUserTenantAccess(params.userId),
       });
     },
   });
@@ -73,6 +75,10 @@ export class UserDetail {
   readonly detail = computed(() => this.detailResource.value() as UserDetailData | null | undefined);
   readonly user = computed(() => this.detail()?.user ?? null);
   readonly assignedRoles = computed(() => this.detail()?.roles ?? []);
+  readonly tenantAccess = computed(() => this.detail()?.tenantAccess ?? []);
+  readonly totalTenantPermissions = computed(() =>
+    this.tenantAccess().reduce((total, tenant) => total + tenant.permissions.length, 0)
+  );
   readonly availableRoles = computed(() => {
     const assigned = new Set(this.assignedRoles().map(role => role.id));
     return (this.detail()?.allRoles ?? []).filter(role => !assigned.has(role.id));

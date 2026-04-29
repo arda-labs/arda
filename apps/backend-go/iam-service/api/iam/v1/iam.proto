@@ -41,6 +41,9 @@ service IAMService {
   rpc ListUsers(ListUsersRequest) returns (ListUsersResponse) {
     option (google.api.http) = { get: "/v1/users" };
   }
+  rpc ListUserTenantAccess(ListUserTenantAccessRequest) returns (ListUserTenantAccessResponse) {
+    option (google.api.http) = { get: "/v1/users/{user_id}/tenant-access" };
+  }
   rpc CreateUser(CreateUserRequest) returns (TenantUser) {
     option (google.api.http) = {
       post: "/v1/users",
@@ -267,6 +270,28 @@ message ListUsersRequest {
 message ListUsersResponse {
   repeated TenantUser users = 1;
   string next_page_token = 2;
+}
+
+message ListUserTenantAccessRequest {
+  string user_id = 1;
+}
+
+message UserTenantAccess {
+  string tenant_id = 1;
+  string tenant_name = 2;
+  string tenant_slug = 3;
+  string username = 4;
+  string display_name = 5;
+  string status = 6;
+  repeated Role roles = 7;
+  repeated string permissions = 8;
+  string deployment_mode = 9;
+  string auth_mode = 10;
+}
+
+message ListUserTenantAccessResponse {
+  string user_id = 1;
+  repeated UserTenantAccess tenants = 2;
 }
 
 message CreateTenantRequest {

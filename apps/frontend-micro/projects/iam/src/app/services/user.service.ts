@@ -34,6 +34,19 @@ export interface Group {
   updatedAt?: string;
 }
 
+export interface UserTenantAccess {
+  tenantId: string;
+  tenantName: string;
+  tenantSlug: string;
+  username: string;
+  displayName: string;
+  status: string;
+  roles: Role[];
+  permissions: string[];
+  deploymentMode: string;
+  authMode: string;
+}
+
 interface UserListResponse {
   users?: any[];
   nextPageToken?: string;
@@ -50,6 +63,12 @@ interface GroupListResponse {
   groups?: any[];
   nextPageToken?: string;
   next_page_token?: string;
+}
+
+interface UserTenantAccessResponse {
+  userId?: string;
+  user_id?: string;
+  tenants?: any[];
 }
 
 @Injectable({ providedIn: 'root' })
@@ -76,6 +95,12 @@ export class UserService {
       params: new HttpParams().set('tenant_id', tenantId),
     }).pipe(
       map(resp => this.toUser(resp))
+    );
+  }
+
+  listUserTenantAccess(userId: string): Observable<UserTenantAccess[]> {
+    return this.http.get<UserTenantAccessResponse>(`/api/v1/users/${encodeURIComponent(userId)}/tenant-access`).pipe(
+      map(resp => (resp.tenants ?? []).map(item => this.toUserTenantAccess(item)))
     );
   }
 
@@ -280,6 +305,21 @@ export class UserService {
       description: g.description,
       createdAt: g.created_at ?? g.createdAt,
       updatedAt: g.updated_at ?? g.updatedAt,
+    };
+  }
+
+  private toUserTenantAccess(item: any): UserTenantAccess {
+    return {
+      tenantId: item.tenant_id ?? item.tenantId,
+      tenantName: item.tenant_name ?? item.tenantName,
+      tenantSlug: item.tenant_slug ?? item.tenantSlug,
+      username: item.username,
+      displayName: item.display_name ?? item.displayName,
+      status: item.status,
+      roles: (item.roles ?? []).map((role: any) => this.toRole(role)),
+      permissions: item.permissions ?? [],
+      deploymentMode: item.deployment_mode ?? item.deploymentMode,
+      authMode: item.auth_mode ?? item.authMode,
     };
   }
 }

@@ -429,6 +429,59 @@ func (s *IAMService) ListUsers(ctx context.Context, req *pb.ListUsersRequest) (*
 	return resp, nil
 }
 
+func (s *IAMService) ListUserTenantAccess(ctx context.Context, req *pb.ListUserTenantAccessRequest) (*pb.ListUserTenantAccessResponse, error) {
+	memberships, err := s.tenantUsers.ListByUser(ctx, req.UserId)
+	if err != nil {
+		return nil, err
+	}
+
+	tenantIDs := make([]string, 0, len(memberships))
+	for _, membership := range memberships {
+		tenantIDs = append(tenantIDs, membership.TenantID)
+	}
+
+	tenants, err := s.tenants.GetTenantsByIDs(ctx, tenantIDs)
+	if err != nil {
+		return nil, err
+	}
+	tenantMap := make(map[string]*biz.Tenant, len(tenants))
+	for _, tenant := range tenants {
+		tenantMap[tenant.ID] = tenant
+	}
+
+	resp := &pb.ListUserTenantAccessResponse{UserId: req.UserId}
+	for _, membership := range memberships {
+		tenant := tenantMap[membership.TenantID]
+		if tenant == nil || isSystemTenant(tenant) {
+			continue
+		}
+
+		roles, err := s.roles.GetUserRoles(ctx, req.UserId, membership.TenantID)
+		if err != nil {
+			return nil, err
+		}
+		permissions, err := s.perms.GetUserPermissions(ctx, req.UserId, membership.TenantID)
+		if err != nil {
+			return nil, err
+		}
+
+		resp.Tenants = append(resp.Tenants, &pb.UserTenantAccess{
+			TenantId:       tenant.ID,
+			TenantName:     tenant.Name,
+			TenantSlug:     tenant.Slug,
+			Username:       membership.Username,
+			DisplayName:    membership.DisplayName,
+			Status:         membership.Status,
+			Roles:          toProtoRoles(roles),
+			Permissions:    toPermissionCodes(permissions),
+			DeploymentMode: tenant.DeploymentMode,
+			AuthMode:       tenant.AuthMode,
+		})
+	}
+
+	return resp, nil
+}
+
 func (s *IAMService) CreateUser(ctx context.Context, req *pb.CreateUserRequest) (*pb.TenantUser, error) {
 	user, err := s.users.CreateUser(ctx, req.Username, req.Email, req.DisplayName, req.Password, req.TenantId)
 	if err != nil {
@@ -851,6 +904,22 @@ func toProtoRole(r *biz.Role) *pb.Role {
 		CreatedAt:   timestamppb.New(r.CreatedAt),
 		UpdatedAt:   timestamppb.New(r.UpdatedAt),
 	}
+}
+
+func toProtoRoles(roles []*biz.Role) []*pb.Role {
+	out := make([]*pb.Role, 0, len(roles))
+	for _, role := range roles {
+		out = append(out, toProtoRole(role))
+	}
+	return out
+}
+
+func toPermissionCodes(perms []*biz.Permission) []string {
+	out := make([]string, 0, len(perms))
+	for _, perm := range perms {
+		out = append(out, perm.Resource+":"+perm.Action)
+	}
+	return out
 }
 
 func toProtoResourcePermission(rp *biz.ResourcePermission) *pb.ResourcePermission {

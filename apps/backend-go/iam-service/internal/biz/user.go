@@ -41,8 +41,8 @@ func (uc *UserUsecase) CreateUser(ctx context.Context, username, email, displayN
 	if email == "" {
 		return nil, fmt.Errorf("email is required")
 	}
-	if !uc.auth.HasZitadelPAT() {
-		return nil, fmt.Errorf("zitadel PAT is required to create login users; set ZITADEL_PAT or ZITADEL_LOGIN_CLIENT_PAT")
+	if !uc.auth.HasZitadelManagementPAT() {
+		return nil, fmt.Errorf("zitadel management PAT is required to create login users; set ZITADEL_MANAGEMENT_PAT or ZITADEL_PAT")
 	}
 
 	user, err := uc.repo.GetByEmail(ctx, email)

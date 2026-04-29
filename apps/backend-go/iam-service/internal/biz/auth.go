@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"os"
 	"regexp"
 	"strings"
 	"sync"
@@ -19,11 +20,13 @@ import (
 )
 
 type AuthUsecase struct {
-	conf    *conf.Zitadel
-	jwtConf *conf.JWT
-	jwks    *jwkCache
-	perms   *PermissionUsecase
-	log     *log.Helper
+	conf          *conf.Zitadel
+	jwtConf       *conf.JWT
+	jwks          *jwkCache
+	perms         *PermissionUsecase
+	loginPAT      string
+	managementPAT string
+	log           *log.Helper
 }
 
 // jwkCache giữ bản cache JWKS set với TTL 1 giờ
@@ -63,18 +66,38 @@ func (c *jwkCache) getSet() (jwk.Set, error) {
 }
 
 func NewAuthUsecase(zitadelConf *conf.Zitadel, jwtConf *conf.JWT, perms *PermissionUsecase, logger log.Logger) *AuthUsecase {
+	loginPAT := firstConfiguredPAT(
+		os.Getenv("ZITADEL_LOGIN_CLIENT_PAT"),
+		zitadelConf.GetPat(),
+	)
+	managementPAT := firstConfiguredPAT(
+		os.Getenv("ZITADEL_MANAGEMENT_PAT"),
+		os.Getenv("ZITADEL_PAT"),
+	)
+
 	return &AuthUsecase{
-		conf:    zitadelConf,
-		jwtConf: jwtConf,
-		jwks:    newJWKCache(jwtConf.JwksEndpoint),
-		perms:   perms,
-		log:     log.NewHelper(logger),
+		conf:          zitadelConf,
+		jwtConf:       jwtConf,
+		jwks:          newJWKCache(jwtConf.JwksEndpoint),
+		perms:         perms,
+		loginPAT:      loginPAT,
+		managementPAT: managementPAT,
+		log:           log.NewHelper(logger),
 	}
 }
 
-func (uc *AuthUsecase) HasZitadelPAT() bool {
-	pat := strings.TrimSpace(uc.conf.Pat)
-	return pat != "" && !strings.Contains(pat, "${")
+func firstConfiguredPAT(values ...string) string {
+	for _, value := range values {
+		pat := strings.TrimSpace(value)
+		if pat != "" && !strings.Contains(pat, "${") {
+			return pat
+		}
+	}
+	return ""
+}
+
+func (uc *AuthUsecase) HasZitadelManagementPAT() bool {
+	return uc.managementPAT != ""
 }
 
 type sessionResponse struct {
@@ -313,7 +336,7 @@ func (uc *AuthUsecase) createSession(loginName, authRequestID string) (*sessionR
 	}
 
 	var resp sessionResponse
-	if err := uc.callZitadel(http.MethodPost, url, body, &resp); err != nil {
+	if err := uc.callZitadelWithPAT(http.MethodPost, url, body, &resp, uc.loginPAT, "login client"); err != nil {
 		return nil, err
 	}
 	return &resp, nil
@@ -329,7 +352,7 @@ func (uc *AuthUsecase) verifyPassword(sessionID, sessionToken, password string) 
 	}
 
 	var resp sessionResponse
-	if err := uc.callZitadel(http.MethodPatch, url, body, &resp); err != nil {
+	if err := uc.callZitadelWithPAT(http.MethodPatch, url, body, &resp, uc.loginPAT, "login client"); err != nil {
 		return "", err
 	}
 	return resp.SessionToken, nil
@@ -345,7 +368,7 @@ func (uc *AuthUsecase) finalizeAuthRequest(authRequestID, sessionID, sessionToke
 	}
 
 	var resp finalizeResponse
-	if err := uc.callZitadel(http.MethodPost, url, body, &resp); err != nil {
+	if err := uc.callZitadelWithPAT(http.MethodPost, url, body, &resp, uc.loginPAT, "login client"); err != nil {
 		return "", err
 	}
 	return resp.CallbackURL, nil
@@ -378,16 +401,21 @@ func (uc *AuthUsecase) CreateZitadelUser(ctx context.Context, username, email, d
 	}
 
 	var resp zitadelCreateUserResponse
-	if err := uc.callZitadel(http.MethodPost, url, body, &resp); err != nil {
+	if err := uc.callZitadelWithPAT(http.MethodPost, url, body, &resp, uc.managementPAT, "management"); err != nil {
 		return "", err
 	}
 	return resp.UserID, nil
 }
 
-func (uc *AuthUsecase) callZitadel(method, url string, body any, result any) error {
-	pat := strings.TrimSpace(uc.conf.Pat)
+func (uc *AuthUsecase) callZitadelWithPAT(method, url string, body any, result any, pat, purpose string) error {
+	pat = strings.TrimSpace(pat)
 	if pat == "" || strings.Contains(pat, "${") {
-		return fmt.Errorf("zitadel PAT is not configured; set ZITADEL_LOGIN_CLIENT_PAT or ZITADEL_PAT")
+		switch purpose {
+		case "management":
+			return fmt.Errorf("zitadel management PAT is not configured; set ZITADEL_MANAGEMENT_PAT or ZITADEL_PAT")
+		default:
+			return fmt.Errorf("zitadel login client PAT is not configured; set ZITADEL_LOGIN_CLIENT_PAT")
+		}
 	}
 
 	jsonBody, _ := json.Marshal(body)
@@ -397,7 +425,6 @@ func (uc *AuthUsecase) callZitadel(method, url string, body any, result any) err
 	}
 
 	req.Header.Set("Content-Type", "application/json")
-	// Dùng PAT của Login Client (có role Iam Login Client)
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", pat))
 
 	client := &http.Client{Timeout: 15 * time.Second}

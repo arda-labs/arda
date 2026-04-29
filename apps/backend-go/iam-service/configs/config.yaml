@@ -23,4 +23,6 @@ jwt:
 
 zitadel:
   authority: "https://auth.arda.io.vn"
+  # Login Client PAT. Management/user provisioning PAT is read from
+  # ZITADEL_MANAGEMENT_PAT or ZITADEL_PAT.
   pat: "${ZITADEL_LOGIN_CLIENT_PAT}"

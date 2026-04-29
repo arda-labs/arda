@@ -109,9 +109,6 @@ func main() {
 	if envPat := os.Getenv("ZITADEL_LOGIN_CLIENT_PAT"); envPat != "" {
 		bc.Zitadel.Pat = envPat
 	}
-	if envPat := os.Getenv("ZITADEL_PAT"); envPat != "" {
-		bc.Zitadel.Pat = envPat
-	}
 
 	app, cleanup, err := wireApp(bc.Server, bc.Data, bc.Jwt, bc.Zitadel, logger)
 	if err != nil {

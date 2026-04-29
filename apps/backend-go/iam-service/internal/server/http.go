@@ -1,6 +1,7 @@
 package server
 
 import (
+	"context"
 	stdlib "net/http"
 	"strings"
 
@@ -51,7 +52,12 @@ func NewHTTPServer(c *conf.Server, jwt *conf.JWT, iam *service.IAMService, menu 
 
 	// Menu routes (plain JSON, no proto codegen needed)
 	srv.Route("/").GET("/v1/me/menu", func(ctx khttp.Context) error {
-		out, err := menu.GetMenu(ctx, &service.GetMenuRequest{})
+		in := &service.GetMenuRequest{}
+		khttp.SetOperation(ctx, "/iam.v1.MenuService/GetMenu")
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return menu.GetMenu(ctx, req.(*service.GetMenuRequest))
+		})
+		out, err := h(ctx, in)
 		if err != nil {
 			return err
 		}
@@ -60,7 +66,11 @@ func NewHTTPServer(c *conf.Server, jwt *conf.JWT, iam *service.IAMService, menu 
 	srv.Route("/").GET("/v1/menus", func(ctx khttp.Context) error {
 		in := &service.ListMenusRequest{}
 		_ = ctx.BindQuery(in)
-		out, err := menu.ListMenus(ctx, in)
+		khttp.SetOperation(ctx, "/iam.v1.MenuService/ListMenus")
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return menu.ListMenus(ctx, req.(*service.ListMenusRequest))
+		})
+		out, err := h(ctx, in)
 		if err != nil {
 			return err
 		}
@@ -71,7 +81,11 @@ func NewHTTPServer(c *conf.Server, jwt *conf.JWT, iam *service.IAMService, menu 
 		if err := ctx.Bind(in); err != nil {
 			return err
 		}
-		out, err := menu.CreateMenu(ctx, in)
+		khttp.SetOperation(ctx, "/iam.v1.MenuService/CreateMenu")
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return menu.CreateMenu(ctx, req.(*service.CreateMenuRequest))
+		})
+		out, err := h(ctx, in)
 		if err != nil {
 			return err
 		}
@@ -83,7 +97,11 @@ func NewHTTPServer(c *conf.Server, jwt *conf.JWT, iam *service.IAMService, menu 
 			return err
 		}
 		_ = ctx.BindVars(in)
-		out, err := menu.UpdateMenu(ctx, in)
+		khttp.SetOperation(ctx, "/iam.v1.MenuService/UpdateMenu")
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return menu.UpdateMenu(ctx, req.(*service.UpdateMenuRequest))
+		})
+		out, err := h(ctx, in)
 		if err != nil {
 			return err
 		}
@@ -92,7 +110,11 @@ func NewHTTPServer(c *conf.Server, jwt *conf.JWT, iam *service.IAMService, menu 
 	srv.Route("/").DELETE("/v1/menus/{id}", func(ctx khttp.Context) error {
 		in := &service.DeleteMenuRequest{}
 		_ = ctx.BindVars(in)
-		out, err := menu.DeleteMenu(ctx, in)
+		khttp.SetOperation(ctx, "/iam.v1.MenuService/DeleteMenu")
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return menu.DeleteMenu(ctx, req.(*service.DeleteMenuRequest))
+		})
+		out, err := h(ctx, in)
 		if err != nil {
 			return err
 		}

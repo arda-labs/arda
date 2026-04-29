@@ -96,6 +96,9 @@ type DeleteMenuResponse struct{}
 func (s *MenuService) GetMenu(ctx context.Context, req *GetMenuRequest) (*GetMenuResponse, error) {
 	tenantID := middleware.GetTenantID(ctx)
 	userID := middleware.GetUserID(ctx)
+	if userID == "" {
+		return nil, errors.Forbidden("UNAUTHORIZED", "missing subject")
+	}
 	if tenantID == "" {
 		return nil, errors.Forbidden("MISSING_TENANT", "tenant context is required")
 	}

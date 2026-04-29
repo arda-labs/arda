@@ -7,6 +7,10 @@ export const remoteRoutes: Routes = [
     redirectTo: 'users'
   },
   {
+    path: 'users/:id',
+    loadComponent: () => import('./pages/iam/users/user-detail').then(m => m.UserDetail)
+  },
+  {
     path: 'users',
     loadComponent: () => import('./pages/iam/users/user-management').then(m => m.UserManagement)
   },

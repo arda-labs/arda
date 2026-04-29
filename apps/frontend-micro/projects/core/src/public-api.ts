@@ -6,3 +6,4 @@ export * from './lib/theme/preset';
 export * from './lib/auth.config';
 export * from './lib/auth.interceptor';
 export * from './lib/i18n.utils';
+export * from './lib/pagination/paged-resource';

@@ -1,4 +1,4 @@
-<div class="flex items-center">
+<div class="flex items-center gap-1">
 
   @if (isLoading()) {
   <i class="pi pi-spin pi-spinner text-xs text-surface-400"></i>
@@ -27,6 +27,15 @@
     <i class="pi pi-building text-[10px]"></i>
     <span class="truncate max-w-28">{{ tenants()[0].name }}</span>
   </div>
+  }
+
+  @if (!isLoading()) {
+  <a routerLink="/workspaces"
+    class="flex h-8 items-center gap-1.5 rounded-lg px-2.5 text-xs font-semibold text-surface-600 transition-colors hover:bg-surface-100 hover:text-primary-600 dark:text-surface-300 dark:hover:bg-surface-800"
+    aria-label="Quản lý workspace và tạo tenant">
+    <i class="pi pi-plus text-xs"></i>
+    <span class="hidden xl:inline">Workspace</span>
+  </a>
   }
 
 </div>

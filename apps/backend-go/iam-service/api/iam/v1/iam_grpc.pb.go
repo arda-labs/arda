@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.6.1
 // - protoc             v7.34.1
-// source: api/iam/v1/iam.proto
+// source: iam/v1/iam.proto
 
 package v1
 
@@ -24,6 +24,7 @@ const (
 	IAMService_UpdateProfile_FullMethodName             = "/iam.v1.IAMService/UpdateProfile"
 	IAMService_ListMyAuditLogs_FullMethodName           = "/iam.v1.IAMService/ListMyAuditLogs"
 	IAMService_GetUser_FullMethodName                   = "/iam.v1.IAMService/GetUser"
+	IAMService_GetTenantUser_FullMethodName             = "/iam.v1.IAMService/GetTenantUser"
 	IAMService_ListUsers_FullMethodName                 = "/iam.v1.IAMService/ListUsers"
 	IAMService_CreateUser_FullMethodName                = "/iam.v1.IAMService/CreateUser"
 	IAMService_CreateTenant_FullMethodName              = "/iam.v1.IAMService/CreateTenant"
@@ -40,6 +41,7 @@ const (
 	IAMService_UpdateRole_FullMethodName                = "/iam.v1.IAMService/UpdateRole"
 	IAMService_DeleteRole_FullMethodName                = "/iam.v1.IAMService/DeleteRole"
 	IAMService_AssignRole_FullMethodName                = "/iam.v1.IAMService/AssignRole"
+	IAMService_ListUserRoles_FullMethodName             = "/iam.v1.IAMService/ListUserRoles"
 	IAMService_RevokeRole_FullMethodName                = "/iam.v1.IAMService/RevokeRole"
 	IAMService_CheckPermission_FullMethodName           = "/iam.v1.IAMService/CheckPermission"
 	IAMService_GetCurrentUserPermissions_FullMethodName = "/iam.v1.IAMService/GetCurrentUserPermissions"
@@ -74,8 +76,9 @@ type IAMServiceClient interface {
 	UpdateProfile(ctx context.Context, in *UpdateProfileRequest, opts ...grpc.CallOption) (*User, error)
 	ListMyAuditLogs(ctx context.Context, in *ListMyAuditLogsRequest, opts ...grpc.CallOption) (*ListAuditLogsResponse, error)
 	GetUser(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*User, error)
+	GetTenantUser(ctx context.Context, in *GetTenantUserRequest, opts ...grpc.CallOption) (*TenantUser, error)
 	ListUsers(ctx context.Context, in *ListUsersRequest, opts ...grpc.CallOption) (*ListUsersResponse, error)
-	CreateUser(ctx context.Context, in *CreateUserRequest, opts ...grpc.CallOption) (*User, error)
+	CreateUser(ctx context.Context, in *CreateUserRequest, opts ...grpc.CallOption) (*TenantUser, error)
 	// Tenants
 	CreateTenant(ctx context.Context, in *CreateTenantRequest, opts ...grpc.CallOption) (*Tenant, error)
 	GetTenant(ctx context.Context, in *GetTenantRequest, opts ...grpc.CallOption) (*Tenant, error)
@@ -83,7 +86,7 @@ type IAMServiceClient interface {
 	DeleteTenant(ctx context.Context, in *DeleteTenantRequest, opts ...grpc.CallOption) (*DeleteTenantResponse, error)
 	GetUserMemberships(ctx context.Context, in *GetUserMembershipsRequest, opts ...grpc.CallOption) (*GetUserMembershipsResponse, error)
 	// Membership
-	InviteMember(ctx context.Context, in *InviteMemberRequest, opts ...grpc.CallOption) (*Membership, error)
+	InviteMember(ctx context.Context, in *InviteMemberRequest, opts ...grpc.CallOption) (*TenantUser, error)
 	ListMembers(ctx context.Context, in *ListMembersRequest, opts ...grpc.CallOption) (*ListMembersResponse, error)
 	RemoveMember(ctx context.Context, in *RemoveMemberRequest, opts ...grpc.CallOption) (*RemoveMemberResponse, error)
 	// Roles
@@ -93,6 +96,7 @@ type IAMServiceClient interface {
 	UpdateRole(ctx context.Context, in *UpdateRoleRequest, opts ...grpc.CallOption) (*Role, error)
 	DeleteRole(ctx context.Context, in *DeleteRoleRequest, opts ...grpc.CallOption) (*DeleteRoleResponse, error)
 	AssignRole(ctx context.Context, in *AssignRoleRequest, opts ...grpc.CallOption) (*UserRole, error)
+	ListUserRoles(ctx context.Context, in *ListUserRolesRequest, opts ...grpc.CallOption) (*ListRolesResponse, error)
 	RevokeRole(ctx context.Context, in *RevokeRoleRequest, opts ...grpc.CallOption) (*RevokeRoleResponse, error)
 	// Permissions
 	CheckPermission(ctx context.Context, in *CheckPermissionRequest, opts ...grpc.CallOption) (*CheckPermissionResponse, error)
@@ -178,6 +182,16 @@ func (c *iAMServiceClient) GetUser(ctx context.Context, in *GetUserRequest, opts
 	return out, nil
 }
 
+func (c *iAMServiceClient) GetTenantUser(ctx context.Context, in *GetTenantUserRequest, opts ...grpc.CallOption) (*TenantUser, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(TenantUser)
+	err := c.cc.Invoke(ctx, IAMService_GetTenantUser_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *iAMServiceClient) ListUsers(ctx context.Context, in *ListUsersRequest, opts ...grpc.CallOption) (*ListUsersResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ListUsersResponse)
@@ -188,9 +202,9 @@ func (c *iAMServiceClient) ListUsers(ctx context.Context, in *ListUsersRequest, 
 	return out, nil
 }
 
-func (c *iAMServiceClient) CreateUser(ctx context.Context, in *CreateUserRequest, opts ...grpc.CallOption) (*User, error) {
+func (c *iAMServiceClient) CreateUser(ctx context.Context, in *CreateUserRequest, opts ...grpc.CallOption) (*TenantUser, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(User)
+	out := new(TenantUser)
 	err := c.cc.Invoke(ctx, IAMService_CreateUser_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -248,9 +262,9 @@ func (c *iAMServiceClient) GetUserMemberships(ctx context.Context, in *GetUserMe
 	return out, nil
 }
 
-func (c *iAMServiceClient) InviteMember(ctx context.Context, in *InviteMemberRequest, opts ...grpc.CallOption) (*Membership, error) {
+func (c *iAMServiceClient) InviteMember(ctx context.Context, in *InviteMemberRequest, opts ...grpc.CallOption) (*TenantUser, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(Membership)
+	out := new(TenantUser)
 	err := c.cc.Invoke(ctx, IAMService_InviteMember_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -332,6 +346,16 @@ func (c *iAMServiceClient) AssignRole(ctx context.Context, in *AssignRoleRequest
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(UserRole)
 	err := c.cc.Invoke(ctx, IAMService_AssignRole_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *iAMServiceClient) ListUserRoles(ctx context.Context, in *ListUserRolesRequest, opts ...grpc.CallOption) (*ListRolesResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListRolesResponse)
+	err := c.cc.Invoke(ctx, IAMService_ListUserRoles_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -559,8 +583,9 @@ type IAMServiceServer interface {
 	UpdateProfile(context.Context, *UpdateProfileRequest) (*User, error)
 	ListMyAuditLogs(context.Context, *ListMyAuditLogsRequest) (*ListAuditLogsResponse, error)
 	GetUser(context.Context, *GetUserRequest) (*User, error)
+	GetTenantUser(context.Context, *GetTenantUserRequest) (*TenantUser, error)
 	ListUsers(context.Context, *ListUsersRequest) (*ListUsersResponse, error)
-	CreateUser(context.Context, *CreateUserRequest) (*User, error)
+	CreateUser(context.Context, *CreateUserRequest) (*TenantUser, error)
 	// Tenants
 	CreateTenant(context.Context, *CreateTenantRequest) (*Tenant, error)
 	GetTenant(context.Context, *GetTenantRequest) (*Tenant, error)
@@ -568,7 +593,7 @@ type IAMServiceServer interface {
 	DeleteTenant(context.Context, *DeleteTenantRequest) (*DeleteTenantResponse, error)
 	GetUserMemberships(context.Context, *GetUserMembershipsRequest) (*GetUserMembershipsResponse, error)
 	// Membership
-	InviteMember(context.Context, *InviteMemberRequest) (*Membership, error)
+	InviteMember(context.Context, *InviteMemberRequest) (*TenantUser, error)
 	ListMembers(context.Context, *ListMembersRequest) (*ListMembersResponse, error)
 	RemoveMember(context.Context, *RemoveMemberRequest) (*RemoveMemberResponse, error)
 	// Roles
@@ -578,6 +603,7 @@ type IAMServiceServer interface {
 	UpdateRole(context.Context, *UpdateRoleRequest) (*Role, error)
 	DeleteRole(context.Context, *DeleteRoleRequest) (*DeleteRoleResponse, error)
 	AssignRole(context.Context, *AssignRoleRequest) (*UserRole, error)
+	ListUserRoles(context.Context, *ListUserRolesRequest) (*ListRolesResponse, error)
 	RevokeRole(context.Context, *RevokeRoleRequest) (*RevokeRoleResponse, error)
 	// Permissions
 	CheckPermission(context.Context, *CheckPermissionRequest) (*CheckPermissionResponse, error)
@@ -628,10 +654,13 @@ func (UnimplementedIAMServiceServer) ListMyAuditLogs(context.Context, *ListMyAud
 func (UnimplementedIAMServiceServer) GetUser(context.Context, *GetUserRequest) (*User, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetUser not implemented")
 }
+func (UnimplementedIAMServiceServer) GetTenantUser(context.Context, *GetTenantUserRequest) (*TenantUser, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetTenantUser not implemented")
+}
 func (UnimplementedIAMServiceServer) ListUsers(context.Context, *ListUsersRequest) (*ListUsersResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method ListUsers not implemented")
 }
-func (UnimplementedIAMServiceServer) CreateUser(context.Context, *CreateUserRequest) (*User, error) {
+func (UnimplementedIAMServiceServer) CreateUser(context.Context, *CreateUserRequest) (*TenantUser, error) {
 	return nil, status.Error(codes.Unimplemented, "method CreateUser not implemented")
 }
 func (UnimplementedIAMServiceServer) CreateTenant(context.Context, *CreateTenantRequest) (*Tenant, error) {
@@ -649,7 +678,7 @@ func (UnimplementedIAMServiceServer) DeleteTenant(context.Context, *DeleteTenant
 func (UnimplementedIAMServiceServer) GetUserMemberships(context.Context, *GetUserMembershipsRequest) (*GetUserMembershipsResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetUserMemberships not implemented")
 }
-func (UnimplementedIAMServiceServer) InviteMember(context.Context, *InviteMemberRequest) (*Membership, error) {
+func (UnimplementedIAMServiceServer) InviteMember(context.Context, *InviteMemberRequest) (*TenantUser, error) {
 	return nil, status.Error(codes.Unimplemented, "method InviteMember not implemented")
 }
 func (UnimplementedIAMServiceServer) ListMembers(context.Context, *ListMembersRequest) (*ListMembersResponse, error) {
@@ -675,6 +704,9 @@ func (UnimplementedIAMServiceServer) DeleteRole(context.Context, *DeleteRoleRequ
 }
 func (UnimplementedIAMServiceServer) AssignRole(context.Context, *AssignRoleRequest) (*UserRole, error) {
 	return nil, status.Error(codes.Unimplemented, "method AssignRole not implemented")
+}
+func (UnimplementedIAMServiceServer) ListUserRoles(context.Context, *ListUserRolesRequest) (*ListRolesResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListUserRoles not implemented")
 }
 func (UnimplementedIAMServiceServer) RevokeRole(context.Context, *RevokeRoleRequest) (*RevokeRoleResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method RevokeRole not implemented")
@@ -846,6 +878,24 @@ func _IAMService_GetUser_Handler(srv interface{}, ctx context.Context, dec func(
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(IAMServiceServer).GetUser(ctx, req.(*GetUserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _IAMService_GetTenantUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTenantUserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(IAMServiceServer).GetTenantUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: IAMService_GetTenantUser_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(IAMServiceServer).GetTenantUser(ctx, req.(*GetTenantUserRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1134,6 +1184,24 @@ func _IAMService_AssignRole_Handler(srv interface{}, ctx context.Context, dec fu
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(IAMServiceServer).AssignRole(ctx, req.(*AssignRoleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _IAMService_ListUserRoles_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListUserRolesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(IAMServiceServer).ListUserRoles(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: IAMService_ListUserRoles_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(IAMServiceServer).ListUserRoles(ctx, req.(*ListUserRolesRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1544,6 +1612,10 @@ var IAMService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _IAMService_GetUser_Handler,
 		},
 		{
+			MethodName: "GetTenantUser",
+			Handler:    _IAMService_GetTenantUser_Handler,
+		},
+		{
 			MethodName: "ListUsers",
 			Handler:    _IAMService_ListUsers_Handler,
 		},
@@ -1606,6 +1678,10 @@ var IAMService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "AssignRole",
 			Handler:    _IAMService_AssignRole_Handler,
+		},
+		{
+			MethodName: "ListUserRoles",
+			Handler:    _IAMService_ListUserRoles_Handler,
 		},
 		{
 			MethodName: "RevokeRole",
@@ -1693,5 +1769,5 @@ var IAMService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "api/iam/v1/iam.proto",
+	Metadata: "iam/v1/iam.proto",
 }

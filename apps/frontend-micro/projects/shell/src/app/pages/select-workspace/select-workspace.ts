@@ -46,8 +46,9 @@ export class SelectWorkspace {
     if (!name) return;
     const slug = name.toLowerCase().replace(/\s+/g, '-');
     this.tenantService.createTenant(name, slug).subscribe({
-      next: () => {
-        // Success logic is handled inside createTenant via loadTenants
+      next: (tenant) => {
+        this.tenantService.selectTenant(tenant.id);
+        this.router.navigate(['/home']);
       },
       error: (err) => {
         console.error('Failed to create tenant', err);

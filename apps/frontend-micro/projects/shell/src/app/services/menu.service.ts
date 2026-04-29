@@ -89,10 +89,12 @@ export class MenuService {
   private mapBackendToFrontend(items: BackendMenuItem[]): MenuItem[] {
     return items.map(item => {
       let route = item.route ?? '';
-      if (route.startsWith('/app/')) {
-        route = route.replace('/app/', '/');
-      } else if (route === '/app') {
+      if (route === '/' || route === '/app') {
         route = '/home';
+      } else if (route === '/profile' || route === '/app/profile') {
+        route = '/iam/profile';
+      } else if (route.startsWith('/app/')) {
+        route = route.replace('/app/', '/');
       }
 
       return {

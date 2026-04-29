@@ -16,6 +16,7 @@ import (
 
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/google/wire"
+	"github.com/jackc/pgx/v5"
 
 	"github.com/arda-labs/arda/arda-be-go/services/iam-service/internal/conf"
 )
@@ -27,7 +28,7 @@ var ProviderSet = wire.NewSet(
 	NewData,
 	NewUserRepo,
 	NewTenantRepo,
-	NewMembershipRepo,
+	NewTenantUserRepo,
 	NewRoleRepo,
 	NewPermissionRepo,
 	NewAuditRepo,
@@ -73,6 +74,21 @@ func NewData(c *conf.Data, logger log.Logger) (*Data, func(), error) {
 
 func (d *Data) DB(ctx context.Context) *database.Database {
 	return d.db
+}
+
+// DBForTenant is the datastore routing boundary. Today every tenant uses the
+// shared database; dedicated tenant databases can be wired here later using
+// tenant_datastores without changing repository code.
+func (d *Data) DBForTenant(ctx context.Context, tenantID string) (*database.Database, error) {
+	return d.db, nil
+}
+
+func (d *Data) ExecInTenant(ctx context.Context, tenantID string, fn func(ctx context.Context, tx pgx.Tx) error) error {
+	db, err := d.DBForTenant(ctx, tenantID)
+	if err != nil {
+		return err
+	}
+	return db.ExecInTransaction(ctx, tenantID, fn)
 }
 
 func runMigrations(dsn string) error {

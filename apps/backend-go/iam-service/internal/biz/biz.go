@@ -5,7 +5,7 @@ import "github.com/google/wire"
 var ProviderSet = wire.NewSet(
 	NewUserUsecase,
 	NewTenantUsecase,
-	NewMembershipUsecase,
+	NewTenantUserUsecase,
 	NewRoleUsecase,
 	NewPermissionUsecase,
 	NewAuditUsecase,

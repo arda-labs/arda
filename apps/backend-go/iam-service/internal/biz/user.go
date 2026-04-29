@@ -2,13 +2,14 @@ package biz
 
 import (
 	"context"
+	"fmt"
+	"strings"
 	"time"
 )
 
 type User struct {
 	ID          string
 	ExternalID  string
-	Username    string
 	Email       string
 	DisplayName string
 	CreatedAt   time.Time
@@ -19,61 +20,65 @@ type UserRepo interface {
 	Create(ctx context.Context, user *User) (*User, error)
 	GetByID(ctx context.Context, id string) (*User, error)
 	GetByExternalID(ctx context.Context, externalID string) (*User, error)
+	GetByEmail(ctx context.Context, email string) (*User, error)
 	Update(ctx context.Context, user *User) (*User, error)
-	ListByTenant(ctx context.Context, tenantID string, pageSize int, cursor string) ([]*User, string, error)
 }
 
 type UserUsecase struct {
-	repo    UserRepo
-	auth    *AuthUsecase
-	members *MembershipUsecase
+	repo        UserRepo
+	auth        *AuthUsecase
+	tenantUsers *TenantUserUsecase
 }
 
-func NewUserUsecase(repo UserRepo, auth *AuthUsecase, members *MembershipUsecase) *UserUsecase {
-	return &UserUsecase{repo: repo, auth: auth, members: members}
+func NewUserUsecase(repo UserRepo, auth *AuthUsecase, tenantUsers *TenantUserUsecase) *UserUsecase {
+	return &UserUsecase{repo: repo, auth: auth, tenantUsers: tenantUsers}
 }
 
-func (uc *UserUsecase) CreateUser(ctx context.Context, username, email, displayName, password, tenantID string) (*User, error) {
+func (uc *UserUsecase) CreateUser(ctx context.Context, username, email, displayName, password, tenantID string) (*TenantUser, error) {
+	if tenantID == "" {
+		return nil, fmt.Errorf("tenant_id is required")
+	}
+	if email == "" {
+		return nil, fmt.Errorf("email is required")
+	}
+
+	user, err := uc.repo.GetByEmail(ctx, email)
+	if err != nil {
+		return nil, err
+	}
+	if user == nil {
+		identityUsername := email
+		externalID := localExternalID(email)
+		if uc.auth.HasZitadelPAT() {
+			externalID, err = uc.auth.CreateZitadelUser(ctx, identityUsername, email, displayName, password)
+			if err != nil {
+				return nil, err
+			}
+		}
+
+		user, err = uc.repo.Create(ctx, &User{
+			ExternalID:  externalID,
+			Email:       email,
+			DisplayName: displayName,
+		})
+		if err != nil {
+			return nil, err
+		}
+	}
+
 	if username == "" {
-		username = email
+		username = defaultTenantUsername(email)
 	}
-
-	// 1. Gọi Zitadel để tạo Human User
-	externalID, err := uc.auth.CreateZitadelUser(ctx, username, email, displayName, password)
-	if err != nil {
-		return nil, err
-	}
-
-	// 2. Lưu vào DB nội bộ Arda
-	user, err := uc.repo.Create(ctx, &User{
-		ExternalID:  externalID,
-		Username:    username,
-		Email:       email,
-		DisplayName: displayName,
-	})
-	if err != nil {
-		return nil, err
-	}
-
-	// 3. Tự động thêm vào Tenant hiện tại với Role mặc định là MEMBER
-	if tenantID != "" {
-		_, _ = uc.members.AddMembership(ctx, user.ID, tenantID, "MEMBER")
-	}
-
-	return user, nil
+	return uc.tenantUsers.AddTenantUser(ctx, user.ID, tenantID, username, displayName, "MEMBER")
 }
 
-func (uc *UserUsecase) GetOrCreateUser(ctx context.Context, externalID, username, email, displayName string) (*User, error) {
+func (uc *UserUsecase) GetOrCreateUser(ctx context.Context, externalID, email, displayName string) (*User, error) {
 	user, err := uc.repo.GetByExternalID(ctx, externalID)
 	if err != nil {
 		return nil, err
 	}
 	if user != nil {
 		changed := false
-		if username != "" && user.Username != username {
-			user.Username = username
-			changed = true
-		}
 		if email != "" && user.Email != email {
 			user.Email = email
 			changed = true
@@ -89,7 +94,6 @@ func (uc *UserUsecase) GetOrCreateUser(ctx context.Context, externalID, username
 	}
 	return uc.repo.Create(ctx, &User{
 		ExternalID:  externalID,
-		Username:    username,
 		Email:       email,
 		DisplayName: displayName,
 	})
@@ -108,6 +112,18 @@ func (uc *UserUsecase) UpdateProfile(ctx context.Context, id, displayName string
 	return uc.repo.Update(ctx, user)
 }
 
-func (uc *UserUsecase) ListUsers(ctx context.Context, tenantID string, pageSize int, cursor string) ([]*User, string, error) {
-	return uc.repo.ListByTenant(ctx, tenantID, pageSize, cursor)
+func (uc *UserUsecase) ListUsers(ctx context.Context, tenantID string, pageSize int, cursor string) ([]*TenantUser, string, error) {
+	return uc.tenantUsers.ListTenantUsers(ctx, tenantID, pageSize, cursor)
+}
+
+func defaultTenantUsername(email string) string {
+	local, _, ok := strings.Cut(email, "@")
+	if !ok || local == "" {
+		return email
+	}
+	return local
+}
+
+func localExternalID(email string) string {
+	return "local:" + strings.ToLower(strings.TrimSpace(email))
 }

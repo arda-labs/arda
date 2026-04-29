@@ -1,13 +1,19 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
+import { PageRequest, PageResponse } from '@arda/core';
 
 export interface User {
-  id: string;
+  id: string; // Global user id, used by role/group APIs.
+  tenantUserId: string;
+  tenantId: string;
   username: string;
   email: string;
   displayName: string;
+  role: string;
+  status: string;
   createdAt: string;
+  updatedAt?: string;
   roles?: string[]; // Sẽ map từ logic membership
 }
 
@@ -28,30 +34,63 @@ export interface Group {
   updatedAt?: string;
 }
 
+interface UserListResponse {
+  users?: any[];
+  nextPageToken?: string;
+  next_page_token?: string;
+}
+
+interface RoleListResponse {
+  roles?: any[];
+  nextPageToken?: string;
+  next_page_token?: string;
+}
+
+interface GroupListResponse {
+  groups?: any[];
+  nextPageToken?: string;
+  next_page_token?: string;
+}
+
 @Injectable({ providedIn: 'root' })
 export class UserService {
   private http = inject(HttpClient);
 
-  listUsers(tenantId: string): Observable<User[]> {
-    return this.http.get<{ users: any[] }>(`/api/v1/users?tenant_id=${tenantId}`).pipe(
-      map(resp => (resp.users || []).map(u => ({
-        id: u.id,
-        username: u.username,
-        email: u.email,
-        displayName: u.display_name,
-        createdAt: u.created_at
-      })))
+  listUsers(tenantId: string, page: PageRequest = { pageSize: 100 }): Observable<User[]> {
+    return this.listUsersPage(tenantId, page).pipe(map(resp => resp.items));
+  }
+
+  listUsersPage(tenantId: string, page: PageRequest = { pageSize: 20 }): Observable<PageResponse<User>> {
+    return this.http.get<UserListResponse>('/api/v1/users', {
+      params: this.tenantPageParams(tenantId, page),
+    }).pipe(
+      map(resp => ({
+        items: (resp.users || []).map(u => this.toUser(u)),
+        nextPageToken: resp.nextPageToken ?? resp.next_page_token ?? '',
+      }))
     );
   }
 
-  listRoles(tenantId: string): Observable<Role[]> {
-    return this.http.get<{ roles: any[] }>(`/api/v1/roles?tenant_id=${tenantId}`).pipe(
-      map(resp => (resp.roles || []).map(r => ({
-        id: r.id,
-        name: r.name,
-        description: r.description,
-        permissions: r.permissions
-      })))
+  getTenantUser(userId: string, tenantId: string): Observable<User> {
+    return this.http.get<any>(`/api/v1/users/${encodeURIComponent(userId)}/tenant-account`, {
+      params: new HttpParams().set('tenant_id', tenantId),
+    }).pipe(
+      map(resp => this.toUser(resp))
+    );
+  }
+
+  listRoles(tenantId: string, page: PageRequest = { pageSize: 100 }): Observable<Role[]> {
+    return this.listRolesPage(tenantId, page).pipe(map(resp => resp.items));
+  }
+
+  listRolesPage(tenantId: string, page: PageRequest = { pageSize: 20 }): Observable<PageResponse<Role>> {
+    return this.http.get<RoleListResponse>('/api/v1/roles', {
+      params: this.tenantPageParams(tenantId, page),
+    }).pipe(
+      map(resp => ({
+        items: (resp.roles || []).map(r => this.toRole(r)),
+        nextPageToken: resp.nextPageToken ?? resp.next_page_token ?? '',
+      }))
     );
   }
 
@@ -60,12 +99,7 @@ export class UserService {
       ...role,
       tenant_id: tenantId
     }).pipe(
-      map(resp => ({
-        id: resp.id,
-        name: resp.name,
-        description: resp.description,
-        permissions: resp.permissions
-      }))
+      map(resp => this.toRole(resp))
     );
   }
 
@@ -74,12 +108,7 @@ export class UserService {
       ...role,
       tenant_id: tenantId
     }).pipe(
-      map(resp => ({
-        id: resp.id,
-        name: resp.name,
-        description: resp.description,
-        permissions: resp.permissions
-      }))
+      map(resp => this.toRole(resp))
     );
   }
 
@@ -95,11 +124,31 @@ export class UserService {
     });
   }
 
-  inviteMember(externalId: string, role: string, tenantId: string): Observable<void> {
-    return this.http.post<void>(`/api/v1/tenants/${tenantId}/invite`, {
-      external_id: externalId,
-      role: role
+  listUserRoles(userId: string, tenantId: string): Observable<Role[]> {
+    return this.http.get<RoleListResponse>(`/api/v1/users/${encodeURIComponent(userId)}/roles`, {
+      params: new HttpParams().set('tenant_id', tenantId),
+    }).pipe(
+      map(resp => (resp.roles || []).map(r => this.toRole(r)))
+    );
+  }
+
+  revokeRole(userId: string, roleId: string, tenantId: string): Observable<void> {
+    return this.http.post<void>('/api/v1/revoke-role', {
+      user_id: userId,
+      role_id: roleId,
+      tenant_id: tenantId
     });
+  }
+
+  inviteMember(externalId: string, username: string, displayName: string, role: string, tenantId: string): Observable<User> {
+    return this.http.post<any>(`/api/v1/tenants/${tenantId}/invite`, {
+      external_id: externalId,
+      username,
+      display_name: displayName,
+      role,
+    }).pipe(
+      map(resp => this.toUser(resp))
+    );
   }
 
   createUser(userData: any, tenantId: string): Observable<User> {
@@ -107,13 +156,7 @@ export class UserService {
       ...userData,
       tenant_id: tenantId
     }).pipe(
-      map(resp => ({
-        id: resp.id,
-        username: resp.username,
-        email: resp.email,
-        displayName: resp.display_name,
-        createdAt: resp.created_at
-      }))
+      map(resp => this.toUser(resp))
     );
   }
 
@@ -124,16 +167,18 @@ export class UserService {
   }
 
   // Groups
-  listGroups(tenantId: string): Observable<Group[]> {
-    return this.http.get<{ groups: any[] }>(`/api/v1/groups?tenant_id=${tenantId}`).pipe(
-      map(resp => (resp.groups || []).map(g => ({
-        id: g.id,
-        tenantId: g.tenant_id,
-        name: g.name,
-        description: g.description,
-        createdAt: g.created_at,
-        updatedAt: g.updated_at
-      })))
+  listGroups(tenantId: string, page: PageRequest = { pageSize: 100 }): Observable<Group[]> {
+    return this.listGroupsPage(tenantId, page).pipe(map(resp => resp.items));
+  }
+
+  listGroupsPage(tenantId: string, page: PageRequest = { pageSize: 20 }): Observable<PageResponse<Group>> {
+    return this.http.get<GroupListResponse>('/api/v1/groups', {
+      params: this.tenantPageParams(tenantId, page),
+    }).pipe(
+      map(resp => ({
+        items: (resp.groups || []).map(g => this.toGroup(g)),
+        nextPageToken: resp.nextPageToken ?? resp.next_page_token ?? '',
+      }))
     );
   }
 
@@ -142,23 +187,13 @@ export class UserService {
       ...group,
       tenant_id: tenantId
     }).pipe(
-      map(resp => ({
-        id: resp.id,
-        tenantId: resp.tenant_id,
-        name: resp.name,
-        description: resp.description
-      }))
+      map(resp => this.toGroup(resp))
     );
   }
 
   updateGroup(id: string, group: Partial<Group>): Observable<Group> {
     return this.http.put<any>(`/api/v1/groups/${id}`, group).pipe(
-      map(resp => ({
-        id: resp.id,
-        tenantId: resp.tenant_id,
-        name: resp.name,
-        description: resp.description
-      }))
+      map(resp => this.toGroup(resp))
     );
   }
 
@@ -168,13 +203,7 @@ export class UserService {
 
   listGroupMembers(groupId: string): Observable<User[]> {
     return this.http.get<{ users: any[] }>(`/api/v1/groups/${groupId}/members`).pipe(
-      map(resp => (resp.users || []).map(u => ({
-        id: u.id,
-        username: u.username,
-        email: u.email,
-        displayName: u.display_name,
-        createdAt: u.created_at
-      })))
+      map(resp => (resp.users || []).map(u => this.toUser(u)))
     );
   }
 
@@ -188,13 +217,7 @@ export class UserService {
 
   listGroupRoles(groupId: string): Observable<Role[]> {
     return this.http.get<{ roles: any[] }>(`/api/v1/groups/${groupId}/roles`).pipe(
-      map(resp => (resp.roles || []).map(r => ({
-        id: r.id,
-        name: r.name,
-        description: r.description,
-        permissions: r.permissions,
-        isSystem: r.is_system
-      })))
+      map(resp => (resp.roles || []).map(r => this.toRole(r)))
     );
   }
 
@@ -204,5 +227,53 @@ export class UserService {
 
   revokeGroupRole(groupId: string, roleId: string): Observable<void> {
     return this.http.delete<void>(`/api/v1/groups/${groupId}/roles/${roleId}`);
+  }
+
+  private tenantPageParams(tenantId: string, page: PageRequest): HttpParams {
+    let params = new HttpParams()
+      .set('tenant_id', tenantId)
+      .set('page_size', String(page.pageSize ?? 20));
+
+    if (page.pageToken) {
+      params = params.set('page_token', page.pageToken);
+    }
+
+    return params;
+  }
+
+  private toUser(u: any): User {
+    return {
+      id: u.user_id ?? u.userId ?? u.id,
+      tenantUserId: u.id,
+      tenantId: u.tenant_id ?? u.tenantId,
+      username: u.username,
+      email: u.email,
+      displayName: u.display_name ?? u.displayName,
+      role: u.role,
+      status: u.status,
+      createdAt: u.created_at ?? u.createdAt,
+      updatedAt: u.updated_at ?? u.updatedAt,
+    };
+  }
+
+  private toRole(r: any): Role {
+    return {
+      id: r.id,
+      name: r.name,
+      description: r.description,
+      permissions: r.permissions,
+      isSystem: r.is_system ?? r.isSystem,
+    };
+  }
+
+  private toGroup(g: any): Group {
+    return {
+      id: g.id,
+      tenantId: g.tenant_id ?? g.tenantId,
+      name: g.name,
+      description: g.description,
+      createdAt: g.created_at ?? g.createdAt,
+      updatedAt: g.updated_at ?? g.updatedAt,
+    };
   }
 }

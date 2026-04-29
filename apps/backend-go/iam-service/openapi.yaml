@@ -834,7 +834,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/iam.v1.Membership'
+                                $ref: '#/components/schemas/iam.v1.TenantUser'
     /v1/tenants/{tenantId}/members:
         get:
             tags:
@@ -927,7 +927,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/iam.v1.User'
+                                $ref: '#/components/schemas/iam.v1.TenantUser'
     /v1/users/{id}:
         get:
             tags:
@@ -946,6 +946,50 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/iam.v1.User'
+    /v1/users/{userId}/roles:
+        get:
+            tags:
+                - IAMService
+            operationId: IAMService_ListUserRoles
+            parameters:
+                - name: userId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: tenantId
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/iam.v1.ListRolesResponse'
+    /v1/users/{userId}/tenant-account:
+        get:
+            tags:
+                - IAMService
+            operationId: IAMService_GetTenantUser
+            parameters:
+                - name: userId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: tenantId
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/iam.v1.TenantUser'
 components:
     schemas:
         iam.v1.AddGroupMemberRequest:
@@ -1057,6 +1101,10 @@ components:
                 name:
                     type: string
                 slug:
+                    type: string
+                deploymentMode:
+                    type: string
+                authMode:
                     type: string
         iam.v1.CreateUserRequest:
             type: object
@@ -1183,6 +1231,10 @@ components:
                     type: string
                 role:
                     type: string
+                username:
+                    type: string
+                displayName:
+                    type: string
         iam.v1.ListAuditLogsResponse:
             type: object
             properties:
@@ -1218,10 +1270,10 @@ components:
         iam.v1.ListMembersResponse:
             type: object
             properties:
-                memberships:
+                members:
                     type: array
                     items:
-                        $ref: '#/components/schemas/iam.v1.Membership'
+                        $ref: '#/components/schemas/iam.v1.TenantUser'
                 nextPageToken:
                     type: string
         iam.v1.ListMenusResponse:
@@ -1260,23 +1312,9 @@ components:
                 users:
                     type: array
                     items:
-                        $ref: '#/components/schemas/iam.v1.User'
+                        $ref: '#/components/schemas/iam.v1.TenantUser'
                 nextPageToken:
                     type: string
-        iam.v1.Membership:
-            type: object
-            properties:
-                id:
-                    type: string
-                userId:
-                    type: string
-                tenantId:
-                    type: string
-                role:
-                    type: string
-                createdAt:
-                    type: string
-                    format: date-time
         iam.v1.Menu:
             type: object
             properties:
@@ -1417,6 +1455,10 @@ components:
                 updatedAt:
                     type: string
                     format: date-time
+                deploymentMode:
+                    type: string
+                authMode:
+                    type: string
         iam.v1.TenantMembership:
             type: object
             properties:
@@ -1428,6 +1470,41 @@ components:
                     type: string
                 role:
                     type: string
+                username:
+                    type: string
+                displayName:
+                    type: string
+                status:
+                    type: string
+                deploymentMode:
+                    type: string
+                authMode:
+                    type: string
+        iam.v1.TenantUser:
+            type: object
+            properties:
+                id:
+                    type: string
+                userId:
+                    type: string
+                tenantId:
+                    type: string
+                username:
+                    type: string
+                displayName:
+                    type: string
+                email:
+                    type: string
+                role:
+                    type: string
+                status:
+                    type: string
+                createdAt:
+                    type: string
+                    format: date-time
+                updatedAt:
+                    type: string
+                    format: date-time
         iam.v1.UpdateGroupRequest:
             type: object
             properties:
@@ -1486,6 +1563,10 @@ components:
                     type: string
                 slug:
                     type: string
+                deploymentMode:
+                    type: string
+                authMode:
+                    type: string
         iam.v1.User:
             type: object
             properties:
@@ -1503,8 +1584,6 @@ components:
                 updatedAt:
                     type: string
                     format: date-time
-                username:
-                    type: string
             description: Messages
         iam.v1.UserRole:
             type: object

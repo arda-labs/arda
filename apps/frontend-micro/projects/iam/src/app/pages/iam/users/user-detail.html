@@ -1,0 +1,147 @@
+<p-toast />
+
+<section class="flex w-full flex-col gap-6 p-6">
+  <a routerLink="/iam/users" class="inline-flex w-fit items-center gap-2 text-sm font-medium text-surface-500 hover:text-primary-600">
+    <i class="pi pi-arrow-left text-xs"></i>
+    Danh sách người dùng
+  </a>
+
+  @if (detailResource.isLoading()) {
+    <div class="rounded-lg border border-surface-200 bg-surface-0 p-6 text-sm text-surface-500 dark:border-surface-800 dark:bg-surface-900">
+      Đang tải thông tin người dùng...
+    </div>
+  } @else if (detailResource.error()) {
+    <div class="rounded-lg border border-red-200 bg-red-50 p-6 text-sm text-red-700 dark:border-red-900/50 dark:bg-red-950/30 dark:text-red-300">
+      Không thể tải thông tin người dùng trong workspace hiện tại.
+    </div>
+  } @else if (user(); as currentUser) {
+    <header class="flex flex-col gap-4 border-b border-surface-200 pb-5 dark:border-surface-800 md:flex-row md:items-center md:justify-between">
+      <div class="flex min-w-0 items-center gap-4">
+        <p-avatar
+          [label]="getInitials(currentUser.displayName || currentUser.username)"
+          shape="circle"
+          size="large"
+          class="bg-primary-100 text-primary-700 font-bold"
+        />
+        <div class="min-w-0">
+          <h1 class="truncate text-2xl font-semibold text-surface-900 dark:text-white">
+            {{ currentUser.displayName || currentUser.username }}
+          </h1>
+          <div class="mt-1 flex flex-wrap items-center gap-2 text-sm text-surface-500">
+            <span>{{ currentUser.username }}</span>
+            <span class="text-surface-300">•</span>
+            <span>{{ currentUser.email }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <p-tag [value]="currentUser.status || 'ACTIVE'" severity="success" />
+        <p-button label="Làm mới" icon="pi pi-refresh" severity="secondary" variant="outlined" size="small" (onClick)="detailResource.reload()" />
+      </div>
+    </header>
+
+    <p-tabs value="overview">
+      <p-tablist>
+        <p-tab value="overview"><i class="pi pi-id-card mr-2"></i>Tổng quan</p-tab>
+        <p-tab value="roles"><i class="pi pi-shield mr-2"></i>Vai trò</p-tab>
+        <p-tab value="groups"><i class="pi pi-users mr-2"></i>Nhóm</p-tab>
+        <p-tab value="permissions"><i class="pi pi-key mr-2"></i>Quyền hiệu lực</p-tab>
+        <p-tab value="security"><i class="pi pi-lock mr-2"></i>Bảo mật</p-tab>
+        <p-tab value="audit"><i class="pi pi-history mr-2"></i>Audit</p-tab>
+      </p-tablist>
+
+      <p-tabpanels class="pt-5">
+        <p-tabpanel value="overview">
+          <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+            <div class="rounded-lg border border-surface-200 p-4 dark:border-surface-800">
+              <p class="text-xs font-semibold uppercase text-surface-400">Tenant username</p>
+              <p class="mt-2 break-words text-sm font-medium text-surface-900 dark:text-white">{{ currentUser.username }}</p>
+            </div>
+            <div class="rounded-lg border border-surface-200 p-4 dark:border-surface-800">
+              <p class="text-xs font-semibold uppercase text-surface-400">Email đăng nhập</p>
+              <p class="mt-2 break-words text-sm font-medium text-surface-900 dark:text-white">{{ currentUser.email }}</p>
+            </div>
+            <div class="rounded-lg border border-surface-200 p-4 dark:border-surface-800">
+              <p class="text-xs font-semibold uppercase text-surface-400">Vai trò trực tiếp</p>
+              <p class="mt-2 text-sm font-medium text-surface-900 dark:text-white">{{ assignedRoles().length }}</p>
+            </div>
+            <div class="rounded-lg border border-surface-200 p-4 dark:border-surface-800">
+              <p class="text-xs font-semibold uppercase text-surface-400">Ngày gia nhập</p>
+              <p class="mt-2 text-sm font-medium text-surface-900 dark:text-white">{{ currentUser.createdAt | date:'dd/MM/yyyy HH:mm' }}</p>
+            </div>
+            <div class="rounded-lg border border-surface-200 p-4 dark:border-surface-800">
+              <p class="text-xs font-semibold uppercase text-surface-400">Tenant user ID</p>
+              <p class="mt-2 break-all text-xs font-mono text-surface-600 dark:text-surface-300">{{ currentUser.tenantUserId }}</p>
+            </div>
+            <div class="rounded-lg border border-surface-200 p-4 dark:border-surface-800">
+              <p class="text-xs font-semibold uppercase text-surface-400">Global user ID</p>
+              <p class="mt-2 break-all text-xs font-mono text-surface-600 dark:text-surface-300">{{ currentUser.id }}</p>
+            </div>
+          </div>
+        </p-tabpanel>
+
+        <p-tabpanel value="roles">
+          <div class="flex flex-col gap-4">
+            <div class="flex flex-col gap-3 md:flex-row md:items-end">
+              <div class="flex min-w-0 flex-1 flex-col gap-2">
+                <label for="roleSelect" class="text-sm font-medium text-surface-700 dark:text-surface-200">Thêm vai trò trực tiếp</label>
+                <p-select
+                  id="roleSelect"
+                  [options]="availableRoles()"
+                  [formControl]="selectedRoleControl"
+                  optionLabel="name"
+                  optionValue="id"
+                  placeholder="Chọn vai trò chưa gán"
+                  class="w-full"
+                  appendTo="body"
+                />
+              </div>
+              <p-button label="Gán vai trò" icon="pi pi-plus" [loading]="isSaving()" [disabled]="selectedRoleControl.invalid" (onClick)="assignSelectedRole()" />
+            </div>
+
+            <div class="overflow-hidden rounded-lg border border-surface-200 dark:border-surface-800">
+              @if (assignedRoles().length > 0) {
+                @for (role of assignedRoles(); track role.id) {
+                  <div class="flex items-center justify-between gap-4 border-b border-surface-100 px-4 py-3 last:border-b-0 dark:border-surface-800">
+                    <div class="min-w-0">
+                      <p class="truncate text-sm font-semibold text-surface-900 dark:text-white">{{ role.name }}</p>
+                      <p class="truncate text-xs text-surface-500">{{ role.description || 'Không có mô tả' }}</p>
+                    </div>
+                    <p-button icon="pi pi-times" label="Gỡ" severity="danger" variant="text" size="small" [loading]="isSaving()" (onClick)="revokeRole(role)" />
+                  </div>
+                }
+              } @else {
+                <div class="p-5 text-sm text-surface-500">User chưa có vai trò trực tiếp trong workspace này.</div>
+              }
+            </div>
+          </div>
+        </p-tabpanel>
+
+        <p-tabpanel value="groups">
+          <div class="rounded-lg border border-surface-200 p-5 text-sm text-surface-500 dark:border-surface-800">
+            Phần nhóm sẽ hiển thị các group mà user thuộc về và cho phép thêm/gỡ user khỏi group.
+          </div>
+        </p-tabpanel>
+
+        <p-tabpanel value="permissions">
+          <div class="rounded-lg border border-surface-200 p-5 text-sm text-surface-500 dark:border-surface-800">
+            Phần quyền hiệu lực sẽ tổng hợp từ role trực tiếp, group role và resource exception sau khi có API dedicated cho user permission detail.
+          </div>
+        </p-tabpanel>
+
+        <p-tabpanel value="security">
+          <div class="rounded-lg border border-surface-200 p-5 text-sm text-surface-500 dark:border-surface-800">
+            Phần bảo mật sẽ quản lý provider, reset password, MFA và trạng thái đăng nhập khi tích hợp đầy đủ auth provider.
+          </div>
+        </p-tabpanel>
+
+        <p-tabpanel value="audit">
+          <div class="rounded-lg border border-surface-200 p-5 text-sm text-surface-500 dark:border-surface-800">
+            Phần audit sẽ hiển thị lịch sử thay đổi vai trò, nhóm, trạng thái và các hành động quản trị liên quan đến user này.
+          </div>
+        </p-tabpanel>
+      </p-tabpanels>
+    </p-tabs>
+  }
+</section>

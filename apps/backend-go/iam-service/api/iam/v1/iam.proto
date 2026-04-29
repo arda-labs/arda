@@ -32,10 +32,13 @@ service IAMService {
   rpc GetUser(GetUserRequest) returns (User) {
     option (google.api.http) = { get: "/v1/users/{id}" };
   }
+  rpc GetTenantUser(GetTenantUserRequest) returns (TenantUser) {
+    option (google.api.http) = { get: "/v1/users/{user_id}/tenant-account" };
+  }
   rpc ListUsers(ListUsersRequest) returns (ListUsersResponse) {
     option (google.api.http) = { get: "/v1/users" };
   }
-  rpc CreateUser(CreateUserRequest) returns (User) {
+  rpc CreateUser(CreateUserRequest) returns (TenantUser) {
     option (google.api.http) = {
       post: "/v1/users",
       body: "*"
@@ -60,7 +63,7 @@ service IAMService {
   }
 
   // Membership
-  rpc InviteMember(InviteMemberRequest) returns (Membership) {
+  rpc InviteMember(InviteMemberRequest) returns (TenantUser) {
     option (google.api.http) = { post: "/v1/tenants/{tenant_id}/invite" body: "*" };
   }
   rpc ListMembers(ListMembersRequest) returns (ListMembersResponse) {
@@ -88,6 +91,9 @@ service IAMService {
   }
   rpc AssignRole(AssignRoleRequest) returns (UserRole) {
     option (google.api.http) = { post: "/v1/assign-role" body: "*" };
+  }
+  rpc ListUserRoles(ListUserRolesRequest) returns (ListRolesResponse) {
+    option (google.api.http) = { get: "/v1/users/{user_id}/roles" };
   }
   rpc RevokeRole(RevokeRoleRequest) returns (RevokeRoleResponse) {
     option (google.api.http) = { post: "/v1/revoke-role" body: "*" };
@@ -175,7 +181,6 @@ message User {
   string display_name = 4;
   google.protobuf.Timestamp created_at = 5;
   google.protobuf.Timestamp updated_at = 6;
-  string username = 7;
 }
 
 message Tenant {
@@ -185,14 +190,21 @@ message Tenant {
   string owner_id = 4;
   google.protobuf.Timestamp created_at = 5;
   google.protobuf.Timestamp updated_at = 6;
+  string deployment_mode = 7;
+  string auth_mode = 8;
 }
 
-message Membership {
+message TenantUser {
   string id = 1;
   string user_id = 2;
   string tenant_id = 3;
-  string role = 4;
-  google.protobuf.Timestamp created_at = 5;
+  string username = 4;
+  string display_name = 5;
+  string email = 6;
+  string role = 7;
+  string status = 8;
+  google.protobuf.Timestamp created_at = 9;
+  google.protobuf.Timestamp updated_at = 10;
 }
 
 message Role {
@@ -232,6 +244,10 @@ message GetCurrentUserResponse {
   repeated TenantMembership memberships = 2;
 }
 message GetUserRequest { string id = 1; }
+message GetTenantUserRequest {
+  string user_id = 1;
+  string tenant_id = 2;
+}
 message CreateUserRequest {
   string email = 1;
   string display_name = 2;
@@ -246,19 +262,23 @@ message ListUsersRequest {
   string page_token = 3;
 }
 message ListUsersResponse {
-  repeated User users = 1;
+  repeated TenantUser users = 1;
   string next_page_token = 2;
 }
 
 message CreateTenantRequest {
   string name = 1;
   string slug = 2;
+  string deployment_mode = 3;
+  string auth_mode = 4;
 }
 message GetTenantRequest { string id = 1; }
 message UpdateTenantRequest {
   string id = 1;
   string name = 2;
   string slug = 3;
+  string deployment_mode = 4;
+  string auth_mode = 5;
 }
 message DeleteTenantRequest { string id = 1; }
 message DeleteTenantResponse {}
@@ -267,6 +287,8 @@ message InviteMemberRequest {
   string tenant_id = 1;
   string external_id = 2;
   string role = 3;
+  string username = 4;
+  string display_name = 5;
 }
 message ListMembersRequest {
   string tenant_id = 1;
@@ -274,7 +296,7 @@ message ListMembersRequest {
   string page_token = 3;
 }
 message ListMembersResponse {
-  repeated Membership memberships = 1;
+  repeated TenantUser members = 1;
   string next_page_token = 2;
 }
 message RemoveMemberRequest {
@@ -312,6 +334,10 @@ message AssignRoleRequest {
   string user_id = 1;
   string role_id = 2;
   string tenant_id = 3;
+}
+message ListUserRolesRequest {
+  string user_id = 1;
+  string tenant_id = 2;
 }
 message RevokeRoleRequest {
   string user_id = 1;
@@ -379,6 +405,11 @@ message TenantMembership {
   string tenant_name = 2;
   string tenant_slug = 3;
   string role = 4;
+  string username = 5;
+  string display_name = 6;
+  string status = 7;
+  string deployment_mode = 8;
+  string auth_mode = 9;
 }
 message GetUserMembershipsResponse {
   repeated TenantMembership memberships = 1;

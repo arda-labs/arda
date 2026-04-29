@@ -22,7 +22,7 @@ func NewMenuRepo(data *Data, logger log.Logger) biz.MenuRepo {
 
 func (r *menuRepo) GetByTenant(ctx context.Context, tenantID string) ([]*biz.Menu, error) {
 	var list []*biz.Menu
-	err := r.data.DB(ctx).ExecInTransaction(ctx, tenantID, func(ctx context.Context, tx pgx.Tx) error {
+	err := r.data.ExecInTenant(ctx, tenantID, func(ctx context.Context, tx pgx.Tx) error {
 		query := `
 			SELECT id, tenant_id, parent_id, name, slug, icon, route, sort_order, enabled, permission_slug, created_at, updated_at
 			FROM menus
@@ -67,7 +67,7 @@ func (r *menuRepo) GetByTenant(ctx context.Context, tenantID string) ([]*biz.Men
 func (r *menuRepo) GetByID(ctx context.Context, id string) (*biz.Menu, error) {
 	var m biz.Menu
 	tenantID := middleware.GetTenantID(ctx)
-	err := r.data.DB(ctx).ExecInTransaction(ctx, tenantID, func(ctx context.Context, tx pgx.Tx) error {
+	err := r.data.ExecInTenant(ctx, tenantID, func(ctx context.Context, tx pgx.Tx) error {
 		query := `
 			SELECT id, tenant_id, parent_id, name, slug, icon, route, sort_order, enabled, permission_slug, created_at, updated_at
 			FROM menus
@@ -105,7 +105,7 @@ func (r *menuRepo) GetByID(ctx context.Context, id string) (*biz.Menu, error) {
 
 func (r *menuRepo) Create(ctx context.Context, m *biz.Menu) (*biz.Menu, error) {
 	tenantID := middleware.GetTenantID(ctx)
-	err := r.data.DB(ctx).ExecInTransaction(ctx, tenantID, func(ctx context.Context, tx pgx.Tx) error {
+	err := r.data.ExecInTenant(ctx, tenantID, func(ctx context.Context, tx pgx.Tx) error {
 		query := `
 			INSERT INTO menus (tenant_id, parent_id, name, slug, icon, route, sort_order, enabled, permission_slug)
 			VALUES ($1, NULLIF($2, '')::uuid, $3, $4, NULLIF($5, ''), NULLIF($6, ''), $7, $8, NULLIF($9, ''))
@@ -122,7 +122,7 @@ func (r *menuRepo) Create(ctx context.Context, m *biz.Menu) (*biz.Menu, error) {
 
 func (r *menuRepo) Update(ctx context.Context, m *biz.Menu) (*biz.Menu, error) {
 	tenantID := middleware.GetTenantID(ctx)
-	err := r.data.DB(ctx).ExecInTransaction(ctx, tenantID, func(ctx context.Context, tx pgx.Tx) error {
+	err := r.data.ExecInTenant(ctx, tenantID, func(ctx context.Context, tx pgx.Tx) error {
 		query := `
 			UPDATE menus
 			SET parent_id = NULLIF($2, '')::uuid, name = $3, slug = $4, icon = NULLIF($5, ''),
@@ -145,7 +145,7 @@ func (r *menuRepo) Update(ctx context.Context, m *biz.Menu) (*biz.Menu, error) {
 
 func (r *menuRepo) Delete(ctx context.Context, id string) error {
 	tenantID := middleware.GetTenantID(ctx)
-	return r.data.DB(ctx).ExecInTransaction(ctx, tenantID, func(ctx context.Context, tx pgx.Tx) error {
+	return r.data.ExecInTenant(ctx, tenantID, func(ctx context.Context, tx pgx.Tx) error {
 		query := `DELETE FROM menus WHERE id = $1`
 		ct, err := tx.Exec(ctx, query, id)
 		if err != nil {

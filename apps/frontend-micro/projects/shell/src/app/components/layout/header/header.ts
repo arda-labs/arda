@@ -37,7 +37,7 @@ export class AppHeader {
     {
       label: 'Profile',
       icon: 'pi pi-user',
-      routerLink: '/app/profile'
+      routerLink: '/iam/profile'
     },
     {
       separator: true

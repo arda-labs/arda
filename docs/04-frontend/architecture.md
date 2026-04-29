@@ -65,6 +65,17 @@ Các màn hình nghiệp vụ và IAM sẽ có nhiều bảng. Chiến lược h
 
 Chi tiết: [UI/UX và Data Grid Strategy](./ui-ux-data-grid.md).
 
+### 6. Tenant Creation
+
+Shell owns workspace/tenant creation. The frontend exposes this via `/workspaces`, the tenant switcher `+` action, and `/select-workspace` for first-time users. IAM screens stay tenant-scoped and should not own tenant creation.
+
+The frontend must create tenants with explicit deployment metadata:
+
+- normal onboarding: `deployment_mode = SHARED`, `auth_mode = SHARED_AUTH`;
+- enterprise provisioning later: `deployment_mode = DEDICATED`, `auth_mode = DEDICATED_AUTH`.
+
+Chi tiết: [Frontend Tenant Creation Guide](./tenant-creation.md).
+
 ## 🚀 Development Workflow
 
 1. **Create Library**: `nx g @nx/angular:lib [name]` cho logic dùng chung.

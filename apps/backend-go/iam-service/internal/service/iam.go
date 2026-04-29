@@ -16,21 +16,21 @@ import (
 type IAMService struct {
 	pb.UnimplementedIAMServiceServer
 
-	users   *biz.UserUsecase
-	tenants *biz.TenantUsecase
-	members *biz.MembershipUsecase
-	roles   *biz.RoleUsecase
-	perms   *biz.PermissionUsecase
-	auth    *biz.AuthUsecase
-	audit   *biz.AuditUsecase
-	groups  *biz.GroupUsecase
-	log     *log.Helper
+	users       *biz.UserUsecase
+	tenants     *biz.TenantUsecase
+	tenantUsers *biz.TenantUserUsecase
+	roles       *biz.RoleUsecase
+	perms       *biz.PermissionUsecase
+	auth        *biz.AuthUsecase
+	audit       *biz.AuditUsecase
+	groups      *biz.GroupUsecase
+	log         *log.Helper
 }
 
 func NewIAMService(
 	users *biz.UserUsecase,
 	tenants *biz.TenantUsecase,
-	members *biz.MembershipUsecase,
+	tenantUsers *biz.TenantUserUsecase,
 	roles *biz.RoleUsecase,
 	perms *biz.PermissionUsecase,
 	auth *biz.AuthUsecase,
@@ -39,15 +39,15 @@ func NewIAMService(
 	logger log.Logger,
 ) *IAMService {
 	return &IAMService{
-		users:   users,
-		tenants: tenants,
-		members: members,
-		roles:   roles,
-		perms:   perms,
-		auth:    auth,
-		audit:   audit,
-		groups:  groups,
-		log:     log.NewHelper(logger),
+		users:       users,
+		tenants:     tenants,
+		tenantUsers: tenantUsers,
+		roles:       roles,
+		perms:       perms,
+		auth:        auth,
+		audit:       audit,
+		groups:      groups,
+		log:         log.NewHelper(logger),
 	}
 }
 
@@ -56,7 +56,7 @@ func (s *IAMService) currentUser(ctx context.Context) (*biz.User, error) {
 	if extID == "" {
 		return nil, errors.Forbidden("UNAUTHORIZED", "missing subject")
 	}
-	return s.users.GetOrCreateUser(ctx, extID, middleware.GetUsername(ctx), middleware.GetEmail(ctx), "")
+	return s.users.GetOrCreateUser(ctx, extID, middleware.GetEmail(ctx), "")
 }
 
 func (s *IAMService) currentUserID(ctx context.Context) (string, error) {
@@ -88,7 +88,7 @@ func (s *IAMService) GetUserMemberships(ctx context.Context, req *pb.GetUserMemb
 		return nil, errors.Forbidden("UNAUTHORIZED", "missing subject")
 	}
 
-	user, err := s.users.GetOrCreateUser(ctx, userID, middleware.GetUsername(ctx), middleware.GetEmail(ctx), "")
+	user, err := s.users.GetOrCreateUser(ctx, userID, middleware.GetEmail(ctx), "")
 	if err != nil {
 		return nil, err
 	}
@@ -104,17 +104,22 @@ func (s *IAMService) GetUserMemberships(ctx context.Context, req *pb.GetUserMemb
 		}
 		tenantMemberships := make([]*pb.TenantMembership, 0, len(tenants))
 		for _, t := range tenants {
+			if isSystemTenant(t) {
+				continue
+			}
 			tenantMemberships = append(tenantMemberships, &pb.TenantMembership{
-				TenantId:   t.ID,
-				TenantName: t.Name,
-				TenantSlug: t.Slug,
-				Role:       "super_admin",
+				TenantId:       t.ID,
+				TenantName:     t.Name,
+				TenantSlug:     t.Slug,
+				Role:           "super_admin",
+				DeploymentMode: t.DeploymentMode,
+				AuthMode:       t.AuthMode,
 			})
 		}
 		return &pb.GetUserMembershipsResponse{Memberships: tenantMemberships}, nil
 	}
 
-	memberships, err := s.members.ListByUser(ctx, user.ID)
+	memberships, err := s.tenantUsers.ListByUser(ctx, user.ID)
 	if err != nil {
 		return nil, err
 	}
@@ -137,14 +142,19 @@ func (s *IAMService) GetUserMemberships(ctx context.Context, req *pb.GetUserMemb
 
 		for _, m := range memberships {
 			t := tenantMap[m.TenantID]
-			if t == nil {
+			if t == nil || isSystemTenant(t) {
 				continue
 			}
 			tenantMemberships = append(tenantMemberships, &pb.TenantMembership{
-				TenantId:   t.ID,
-				TenantName: t.Name,
-				TenantSlug: t.Slug,
-				Role:       m.Role,
+				TenantId:       t.ID,
+				TenantName:     t.Name,
+				TenantSlug:     t.Slug,
+				Role:           m.Role,
+				Username:       m.Username,
+				DisplayName:    m.DisplayName,
+				Status:         m.Status,
+				DeploymentMode: t.DeploymentMode,
+				AuthMode:       t.AuthMode,
 			})
 		}
 	}
@@ -159,7 +169,7 @@ func (s *IAMService) GetCurrentUserPermissions(ctx context.Context, req *pb.GetC
 		return nil, errors.Forbidden("UNAUTHORIZED", "missing subject")
 	}
 
-	user, err := s.users.GetOrCreateUser(ctx, extID, middleware.GetUsername(ctx), middleware.GetEmail(ctx), "")
+	user, err := s.users.GetOrCreateUser(ctx, extID, middleware.GetEmail(ctx), "")
 	if err != nil {
 		return nil, err
 	}
@@ -239,7 +249,7 @@ func (s *IAMService) GetCurrentUser(ctx context.Context, _ *pb.GetCurrentUserReq
 		return nil, errors.Forbidden("UNAUTHORIZED", "missing subject")
 	}
 
-	user, err := s.users.GetOrCreateUser(ctx, extID, middleware.GetUsername(ctx), middleware.GetEmail(ctx), "")
+	user, err := s.users.GetOrCreateUser(ctx, extID, middleware.GetEmail(ctx), "")
 	if err != nil {
 		return nil, err
 	}
@@ -255,11 +265,16 @@ func (s *IAMService) GetCurrentUser(ctx context.Context, _ *pb.GetCurrentUserReq
 		}
 		tenantMemberships := make([]*pb.TenantMembership, 0, len(tenants))
 		for _, t := range tenants {
+			if isSystemTenant(t) {
+				continue
+			}
 			tenantMemberships = append(tenantMemberships, &pb.TenantMembership{
-				TenantId:   t.ID,
-				TenantName: t.Name,
-				TenantSlug: t.Slug,
-				Role:       "super_admin",
+				TenantId:       t.ID,
+				TenantName:     t.Name,
+				TenantSlug:     t.Slug,
+				Role:           "super_admin",
+				DeploymentMode: t.DeploymentMode,
+				AuthMode:       t.AuthMode,
 			})
 		}
 		return &pb.GetCurrentUserResponse{
@@ -268,7 +283,7 @@ func (s *IAMService) GetCurrentUser(ctx context.Context, _ *pb.GetCurrentUserReq
 		}, nil
 	}
 
-	memberships, err := s.members.ListByUser(ctx, user.ID)
+	memberships, err := s.tenantUsers.ListByUser(ctx, user.ID)
 	if err != nil {
 		return nil, err
 	}
@@ -291,14 +306,19 @@ func (s *IAMService) GetCurrentUser(ctx context.Context, _ *pb.GetCurrentUserReq
 
 		for _, m := range memberships {
 			t := tenantMap[m.TenantID]
-			if t == nil {
+			if t == nil || isSystemTenant(t) {
 				continue
 			}
 			tenantMemberships = append(tenantMemberships, &pb.TenantMembership{
-				TenantId:   t.ID,
-				TenantName: t.Name,
-				TenantSlug: t.Slug,
-				Role:       m.Role,
+				TenantId:       t.ID,
+				TenantName:     t.Name,
+				TenantSlug:     t.Slug,
+				Role:           m.Role,
+				Username:       m.Username,
+				DisplayName:    m.DisplayName,
+				Status:         m.Status,
+				DeploymentMode: t.DeploymentMode,
+				AuthMode:       t.AuthMode,
 			})
 		}
 	}
@@ -315,7 +335,7 @@ func (s *IAMService) UpdateProfile(ctx context.Context, req *pb.UpdateProfileReq
 		return nil, errors.Forbidden("UNAUTHORIZED", "missing subject")
 	}
 
-	user, err := s.users.GetOrCreateUser(ctx, extID, middleware.GetUsername(ctx), middleware.GetEmail(ctx), "")
+	user, err := s.users.GetOrCreateUser(ctx, extID, middleware.GetEmail(ctx), "")
 	if err != nil {
 		return nil, err
 	}
@@ -334,7 +354,7 @@ func (s *IAMService) ListMyAuditLogs(ctx context.Context, req *pb.ListMyAuditLog
 		return nil, errors.Forbidden("UNAUTHORIZED", "missing subject")
 	}
 
-	user, err := s.users.GetOrCreateUser(ctx, extID, middleware.GetUsername(ctx), middleware.GetEmail(ctx), "")
+	user, err := s.users.GetOrCreateUser(ctx, extID, middleware.GetEmail(ctx), "")
 	if err != nil {
 		return nil, err
 	}
@@ -366,6 +386,17 @@ func (s *IAMService) GetUser(ctx context.Context, req *pb.GetUserRequest) (*pb.U
 	return toProtoUser(user), nil
 }
 
+func (s *IAMService) GetTenantUser(ctx context.Context, req *pb.GetTenantUserRequest) (*pb.TenantUser, error) {
+	user, err := s.tenantUsers.GetTenantUser(ctx, req.UserId, req.TenantId)
+	if err != nil {
+		return nil, err
+	}
+	if user == nil {
+		return nil, errors.NotFound("USER_NOT_FOUND", "user is not a member of this tenant")
+	}
+	return toProtoTenantUser(user), nil
+}
+
 func (s *IAMService) ListUsers(ctx context.Context, req *pb.ListUsersRequest) (*pb.ListUsersResponse, error) {
 	users, next, err := s.users.ListUsers(ctx, req.TenantId, int(req.PageSize), req.PageToken)
 	if err != nil {
@@ -373,17 +404,17 @@ func (s *IAMService) ListUsers(ctx context.Context, req *pb.ListUsersRequest) (*
 	}
 	resp := &pb.ListUsersResponse{NextPageToken: next}
 	for _, u := range users {
-		resp.Users = append(resp.Users, toProtoUser(u))
+		resp.Users = append(resp.Users, toProtoTenantUser(u))
 	}
 	return resp, nil
 }
 
-func (s *IAMService) CreateUser(ctx context.Context, req *pb.CreateUserRequest) (*pb.User, error) {
+func (s *IAMService) CreateUser(ctx context.Context, req *pb.CreateUserRequest) (*pb.TenantUser, error) {
 	user, err := s.users.CreateUser(ctx, req.Username, req.Email, req.DisplayName, req.Password, req.TenantId)
 	if err != nil {
 		return nil, err
 	}
-	return toProtoUser(user), nil
+	return toProtoTenantUser(user), nil
 }
 
 // Tenants
@@ -393,7 +424,7 @@ func (s *IAMService) CreateTenant(ctx context.Context, req *pb.CreateTenantReque
 	if err != nil {
 		return nil, err
 	}
-	t, err := s.tenants.CreateTenant(ctx, req.Name, req.Slug, ownerID)
+	t, err := s.tenants.CreateTenant(ctx, req.Name, req.Slug, ownerID, req.DeploymentMode, req.AuthMode)
 	if err != nil {
 		return nil, err
 	}
@@ -409,7 +440,7 @@ func (s *IAMService) GetTenant(ctx context.Context, req *pb.GetTenantRequest) (*
 }
 
 func (s *IAMService) UpdateTenant(ctx context.Context, req *pb.UpdateTenantRequest) (*pb.Tenant, error) {
-	t, err := s.tenants.UpdateTenant(ctx, req.Id, req.Name, req.Slug)
+	t, err := s.tenants.UpdateTenant(ctx, req.Id, req.Name, req.Slug, req.DeploymentMode, req.AuthMode)
 	if err != nil {
 		return nil, err
 	}
@@ -422,32 +453,32 @@ func (s *IAMService) DeleteTenant(ctx context.Context, req *pb.DeleteTenantReque
 
 // Membership
 
-func (s *IAMService) InviteMember(ctx context.Context, req *pb.InviteMemberRequest) (*pb.Membership, error) {
-	user, err := s.users.GetOrCreateUser(ctx, req.ExternalId, "", "", "")
+func (s *IAMService) InviteMember(ctx context.Context, req *pb.InviteMemberRequest) (*pb.TenantUser, error) {
+	user, err := s.users.GetOrCreateUser(ctx, req.ExternalId, "", req.DisplayName)
 	if err != nil {
 		return nil, err
 	}
-	m, err := s.members.InviteMember(ctx, req.TenantId, user.ID, req.Role)
+	m, err := s.tenantUsers.InviteTenantUser(ctx, req.TenantId, user.ID, req.Username, req.DisplayName, req.Role)
 	if err != nil {
 		return nil, err
 	}
-	return toProtoMembership(m), nil
+	return toProtoTenantUser(m), nil
 }
 
 func (s *IAMService) ListMembers(ctx context.Context, req *pb.ListMembersRequest) (*pb.ListMembersResponse, error) {
-	list, next, err := s.members.ListMembers(ctx, req.TenantId, int(req.PageSize), req.PageToken)
+	list, next, err := s.tenantUsers.ListTenantUsers(ctx, req.TenantId, int(req.PageSize), req.PageToken)
 	if err != nil {
 		return nil, err
 	}
 	resp := &pb.ListMembersResponse{NextPageToken: next}
 	for _, m := range list {
-		resp.Memberships = append(resp.Memberships, toProtoMembership(m))
+		resp.Members = append(resp.Members, toProtoTenantUser(m))
 	}
 	return resp, nil
 }
 
 func (s *IAMService) RemoveMember(ctx context.Context, req *pb.RemoveMemberRequest) (*pb.RemoveMemberResponse, error) {
-	return &pb.RemoveMemberResponse{}, s.members.RemoveMember(ctx, req.UserId, req.TenantId)
+	return &pb.RemoveMemberResponse{}, s.tenantUsers.RemoveTenantUser(ctx, req.UserId, req.TenantId)
 }
 
 // Roles
@@ -503,6 +534,19 @@ func (s *IAMService) AssignRole(ctx context.Context, req *pb.AssignRoleRequest) 
 		return nil, err
 	}
 	return &pb.UserRole{UserId: req.UserId, RoleId: req.RoleId, TenantId: req.TenantId}, nil
+}
+
+func (s *IAMService) ListUserRoles(ctx context.Context, req *pb.ListUserRolesRequest) (*pb.ListRolesResponse, error) {
+	roles, err := s.roles.GetUserRoles(ctx, req.UserId, req.TenantId)
+	if err != nil {
+		return nil, err
+	}
+
+	resp := &pb.ListRolesResponse{}
+	for _, role := range roles {
+		resp.Roles = append(resp.Roles, toProtoRole(role))
+	}
+	return resp, nil
 }
 
 func (s *IAMService) RevokeRole(ctx context.Context, req *pb.RevokeRoleRequest) (*pb.RevokeRoleResponse, error) {
@@ -709,7 +753,6 @@ func toProtoUser(u *biz.User) *pb.User {
 	return &pb.User{
 		Id:          u.ID,
 		ExternalId:  u.ExternalID,
-		Username:    u.Username,
 		Email:       u.Email,
 		DisplayName: u.DisplayName,
 		CreatedAt:   timestamppb.New(u.CreatedAt),
@@ -719,22 +762,33 @@ func toProtoUser(u *biz.User) *pb.User {
 
 func toProtoTenant(t *biz.Tenant) *pb.Tenant {
 	return &pb.Tenant{
-		Id:        t.ID,
-		Name:      t.Name,
-		Slug:      t.Slug,
-		OwnerId:   t.OwnerID,
-		CreatedAt: timestamppb.New(t.CreatedAt),
-		UpdatedAt: timestamppb.New(t.UpdatedAt),
+		Id:             t.ID,
+		Name:           t.Name,
+		Slug:           t.Slug,
+		OwnerId:        t.OwnerID,
+		DeploymentMode: t.DeploymentMode,
+		AuthMode:       t.AuthMode,
+		CreatedAt:      timestamppb.New(t.CreatedAt),
+		UpdatedAt:      timestamppb.New(t.UpdatedAt),
 	}
 }
 
-func toProtoMembership(m *biz.Membership) *pb.Membership {
-	return &pb.Membership{
-		Id:        m.ID,
-		UserId:    m.UserID,
-		TenantId:  m.TenantID,
-		Role:      m.Role,
-		CreatedAt: timestamppb.New(m.CreatedAt),
+func isSystemTenant(t *biz.Tenant) bool {
+	return t != nil && (t.ID == "00000000-0000-0000-0000-000000000001" || t.Slug == "system")
+}
+
+func toProtoTenantUser(tu *biz.TenantUser) *pb.TenantUser {
+	return &pb.TenantUser{
+		Id:          tu.ID,
+		UserId:      tu.UserID,
+		TenantId:    tu.TenantID,
+		Username:    tu.Username,
+		DisplayName: tu.DisplayName,
+		Email:       tu.Email,
+		Role:        tu.Role,
+		Status:      tu.Status,
+		CreatedAt:   timestamppb.New(tu.CreatedAt),
+		UpdatedAt:   timestamppb.New(tu.UpdatedAt),
 	}
 }
 

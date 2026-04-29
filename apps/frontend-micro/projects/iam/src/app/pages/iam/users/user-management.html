@@ -4,30 +4,36 @@
   <div class="flex items-center justify-between">
     <div>
       <h1 class="text-2xl font-bold text-surface-900 dark:text-white">Quản lý người dùng</h1>
-      <p class="text-surface-500 text-sm">Xem danh sách và gán vai trò cho các thành viên trong tổ chức</p>
+      <p class="text-surface-500 text-sm">Xem danh sách và gán vai trò cho các thành viên trong workspace hiện tại</p>
     </div>
     <div class="flex gap-2">
       <p-button label="Làm mới" icon="pi pi-refresh" severity="secondary"
-        (onClick)="usersResource.reload(); rolesResource.reload()" />
+        (onClick)="refreshUsers()" />
       <p-button label="Mời TV" icon="pi pi-user-plus" severity="secondary" (onClick)="openInviteDialog()" />
       <p-button label="Tạo người dùng" icon="pi pi-plus" (onClick)="openCreateDialog()" />
     </div>
   </div>
 
-  <div
-    class="bg-surface-0 dark:bg-surface-900 rounded-xl border border-surface-200 dark:border-surface-800 overflow-hidden">
-    <p-table [value]="usersResource.value() || []" [loading]="usersResource.isLoading()" [rows]="10" [paginator]="true"
-      class="p-datatable-sm" responsiveLayout="scroll">
+  <arda-data-table [value]="usersTable.items()" [loading]="usersTable.resource.isLoading()" [first]="usersTable.first()"
+    [rows]="usersTable.pageSize()" [totalRecords]="usersTable.totalRecords()"
+    [rowsPerPageOptions]="usersTable.rowsPerPageOptions" (lazyLoad)="usersTable.loadPage($event)">
       <ng-template pTemplate="header">
         <tr>
-          <th>Người dùng</th>
-          <th>ID</th>
+          <th>Tài khoản tenant</th>
+          <th>Email đăng nhập</th>
+          <th>Trạng thái</th>
           <th>Ngày gia nhập</th>
-          <th class="text-right">Hành động</th>
+          <th class="text-right">Chi tiết</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-user>
-        <tr>
+        <tr
+          class="cursor-pointer transition-colors hover:bg-surface-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 dark:hover:bg-surface-800/60"
+          tabindex="0"
+          (click)="openUserDetail(user)"
+          (keydown.enter)="openUserDetail(user)"
+          (keydown.space)="openUserDetail(user); $event.preventDefault()"
+        >
           <td>
             <div class="flex items-center gap-3">
               <p-avatar [label]="getInitials(user.displayName || user.username)" shape="circle"
@@ -39,64 +45,43 @@
             </div>
           </td>
           <td>
-            <span class="text-xs font-mono text-surface-400">{{ user.id }}</span>
+            <span class="text-sm text-surface-600">{{ user.email }}</span>
+          </td>
+          <td>
+            <span class="text-xs font-semibold uppercase text-surface-500">{{ user.status || 'ACTIVE' }}</span>
           </td>
           <td>
             <span class="text-sm text-surface-600">{{ user.createdAt | date:'dd/MM/yyyy' }}</span>
           </td>
           <td class="text-right">
-            <p-button icon="pi pi-shield" label="Gán Role" severity="primary" size="small" variant="outlined"
-              (onClick)="openRoleDialog(user)" />
+            <button
+              type="button"
+              class="inline-flex h-8 w-8 items-center justify-center rounded-lg text-surface-500 transition-colors hover:bg-surface-100 hover:text-primary-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 dark:hover:bg-surface-800"
+              aria-label="Xem chi tiết người dùng"
+              (click)="openUserDetail(user); $event.stopPropagation()"
+            >
+              <i class="pi pi-arrow-right text-sm"></i>
+            </button>
           </td>
         </tr>
       </ng-template>
       <ng-template pTemplate="emptymessage">
         <tr>
-          <td colspan="4" class="text-center p-8 text-surface-500">
+          <td colspan="5" class="text-center p-8 text-surface-500">
             <i class="pi pi-users text-4xl mb-3 block opacity-20"></i>
             Không tìm thấy người dùng nào.
           </td>
         </tr>
       </ng-template>
-    </p-table>
-  </div>
+  </arda-data-table>
 </div>
-
-<!-- Dialog Gán Role -->
-<p-dialog [(visible)]="displayRoleDialog" [header]="'Gán vai trò: ' + selectedUser()?.displayName" [modal]="true"
-  [style]="{width: '400px'}" [draggable]="false" [resizable]="false">
-
-  <div class="flex flex-col gap-4 py-4">
-    <p class="text-sm text-surface-500 mb-2">Chọn một vai trò hệ thống để áp dụng cho người dùng này.</p>
-
-    <div class="flex flex-col gap-2">
-      <label for="roleSelect" class="text-sm font-medium">Danh sách vai trò</label>
-      <p-select id="roleSelect" [options]="rolesResource.value() || []" [formControl]="selectedRoleControl"
-        optionLabel="name" optionValue="id" placeholder="Chọn một Role" class="w-full" appendTo="body">
-        <ng-template let-role pTemplate="item">
-          <div class="flex flex-col">
-            <span class="font-medium text-sm">{{ role.name }}</span>
-            <span class="text-[10px] text-surface-400">{{ role.description }}</span>
-          </div>
-        </ng-template>
-      </p-select>
-    </div>
-  </div>
-
-  <ng-template pTemplate="footer">
-    <p-button label="Hủy" icon="pi pi-times" severity="secondary" variant="text"
-      (onClick)="displayRoleDialog.set(false)" />
-    <p-button label="Xác nhận" icon="pi pi-check" [loading]="isSaving()" [disabled]="selectedRoleControl.invalid"
-      (onClick)="saveRoleAssignment()" />
-  </ng-template>
-</p-dialog>
 
 <!-- Dialog Mời Thành Viên -->
 <p-dialog [(visible)]="displayInviteDialog" header="Mời thành viên mới" [modal]="true" [style]="{width: '450px'}"
   [draggable]="false" [resizable]="false">
 
   <div [formGroup]="inviteForm" class="flex flex-col gap-4 py-4">
-    <p class="text-sm text-surface-500 mb-2">Nhập Zitadel User ID để mời họ tham gia vào Workspace này.</p>
+    <p class="text-sm text-surface-500 mb-2">Nhập identity global và username dùng riêng trong tenant hiện tại.</p>
 
     <div class="flex flex-col gap-2">
       <label for="inviteExternalId" class="text-sm font-medium">Zitadel User ID (External ID) <span
@@ -106,6 +91,22 @@
       @if (inviteForm.get('externalId')?.touched && inviteForm.get('externalId')?.invalid) {
       <small class="text-red-500">Vui lòng nhập User ID</small>
       }
+    </div>
+
+    <div class="flex flex-col gap-2">
+      <label for="inviteUsername" class="text-sm font-medium">Tên người dùng trong tenant <span
+          class="text-red-500">*</span></label>
+      <input pInputText id="inviteUsername" type="text" formControlName="username" placeholder="VD: minh.nguyen"
+        autocomplete="off" class="w-full" />
+      @if (inviteForm.get('username')?.touched && inviteForm.get('username')?.invalid) {
+      <small class="text-red-500">Vui lòng nhập username trong tenant</small>
+      }
+    </div>
+
+    <div class="flex flex-col gap-2">
+      <label for="inviteDisplayName" class="text-sm font-medium">Tên hiển thị trong tenant</label>
+      <input pInputText id="inviteDisplayName" type="text" formControlName="displayName" placeholder="VD: Nguyễn Văn A"
+        class="w-full" />
     </div>
 
     <div class="flex flex-col gap-2">
@@ -129,16 +130,16 @@
 
   <div [formGroup]="createForm" class="flex flex-col gap-4 py-4">
     <div class="flex flex-col gap-2">
-      <label for="createUsername" class="text-sm font-medium">Tên đăng nhập <span class="text-red-500">*</span></label>
+      <label for="createUsername" class="text-sm font-medium">Tên người dùng trong tenant <span class="text-red-500">*</span></label>
       <input pInputText id="createUsername" type="text" formControlName="username" placeholder="VD: acme.admin"
-        autocomplete="username" class="w-full" />
+        autocomplete="off" class="w-full" />
       @if (createForm.get('username')?.touched && createForm.get('username')?.invalid) {
-      <small class="text-red-500">Vui lòng nhập tên đăng nhập</small>
+      <small class="text-red-500">Vui lòng nhập username trong tenant</small>
       }
     </div>
 
     <div class="flex flex-col gap-2">
-      <label for="createEmail" class="text-sm font-medium">Email <span class="text-red-500">*</span></label>
+      <label for="createEmail" class="text-sm font-medium">Email đăng nhập <span class="text-red-500">*</span></label>
       <input pInputText id="createEmail" type="email" formControlName="email" placeholder="VD: user@example.com"
         class="w-full" />
       @if (createForm.get('email')?.touched && createForm.get('email')?.invalid) {
@@ -147,7 +148,7 @@
     </div>
 
     <div class="flex flex-col gap-2">
-      <label for="createDisplayName" class="text-sm font-medium">Họ tên</label>
+      <label for="createDisplayName" class="text-sm font-medium">Tên hiển thị trong tenant</label>
       <input pInputText id="createDisplayName" type="text" formControlName="displayName" placeholder="VD: Nguyễn Văn A"
         class="w-full" />
     </div>
@@ -166,6 +167,6 @@
     <p-button label="Hủy" icon="pi pi-times" severity="secondary" variant="text"
       (onClick)="displayCreateDialog.set(false)" />
     <p-button label="Tạo tài khoản" icon="pi pi-check" [loading]="isSaving()" [disabled]="createForm.invalid"
-      (click)="createUser()" />
+      (onClick)="createUser()" />
   </ng-template>
 </p-dialog>

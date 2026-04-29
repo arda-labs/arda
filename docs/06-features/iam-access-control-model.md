@@ -27,7 +27,9 @@ Moi API can xac dinh ro:
 
 ## Target Schema
 
-Model hien tai da co cac bang nen tang: `users`, `tenants`, `memberships`, `roles`, `permissions`, `role_permissions`, `user_roles`, `groups`, `group_members`, `group_roles`, `role_hierarchy`, `policies`, `resource_permissions`, `platform_admins`.
+Model hien tai da co cac bang nen tang: `users`, `tenants`, `tenant_users`, `roles`, `permissions`, `role_permissions`, `user_roles`, `groups`, `group_members`, `group_roles`, `role_hierarchy`, `policies`, `resource_permissions`, `platform_admins`.
+
+`users` la global identity. `tenant_users` la tenant account va chua username/display name/status theo tung tenant. Khong dung `users.username` lam username nghiep vu vi se gay xung dot giua cac tenant.
 
 Huong chuan hoa tiep theo:
 

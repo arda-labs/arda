@@ -28,6 +28,7 @@
 ### [04. Frontend (Angular MFE)](./04-frontend/)
 
 - [Kiến trúc Angular & Nx](./04-frontend/architecture.md)
+- [Hướng dẫn FE tạo tenant/workspace](./04-frontend/tenant-creation.md)
 - [UI/UX và Data Grid Strategy](./04-frontend/ui-ux-data-grid.md)
 - [Hướng dẫn phát triển MFE](./04-frontend/README.md)
 
@@ -45,6 +46,7 @@
 - [Quy trình (BPM)](./06-features/bpm.md)
 - [Phân quyền (Authorization)](./06-features/authorization.md)
 - [IAM Access Control Model](./06-features/iam-access-control-model.md)
+- [Multi-Tenancy Model](./06-features/multi-tenancy.md)
 
 ### [07. Chuyển đổi (Migration)](./07-migration/)
 

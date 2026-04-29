@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/arda-labs/arda/arda-be-go/pkg/middleware"
+	"github.com/arda-labs/arda/arda-be-go/pkg/pagination"
 	"github.com/arda-labs/arda/arda-be-go/services/iam-service/internal/biz"
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/jackc/pgx/v5"
@@ -22,7 +23,7 @@ func NewGroupRepo(data *Data, logger log.Logger) biz.GroupRepo {
 }
 
 func (r *groupRepo) Create(ctx context.Context, g *biz.Group) (*biz.Group, error) {
-	err := r.data.DB(ctx).ExecInTransaction(ctx, g.TenantID, func(ctx context.Context, tx pgx.Tx) error {
+	err := r.data.ExecInTenant(ctx, g.TenantID, func(ctx context.Context, tx pgx.Tx) error {
 		return tx.QueryRow(ctx,
 			`INSERT INTO groups (tenant_id, name, description) VALUES ($1, $2, $3)
 			 RETURNING id, created_at, updated_at`,
@@ -35,7 +36,7 @@ func (r *groupRepo) Create(ctx context.Context, g *biz.Group) (*biz.Group, error
 func (r *groupRepo) GetByID(ctx context.Context, id string) (*biz.Group, error) {
 	g := &biz.Group{}
 	tenantID := middleware.GetTenantID(ctx)
-	err := r.data.DB(ctx).ExecInTransaction(ctx, tenantID, func(ctx context.Context, tx pgx.Tx) error {
+	err := r.data.ExecInTenant(ctx, tenantID, func(ctx context.Context, tx pgx.Tx) error {
 		return tx.QueryRow(ctx,
 			`SELECT id, tenant_id, name, description, created_at, updated_at FROM groups WHERE id = $1 AND deleted_at IS NULL`,
 			id,
@@ -48,7 +49,7 @@ func (r *groupRepo) GetByID(ctx context.Context, id string) (*biz.Group, error) 
 }
 
 func (r *groupRepo) Update(ctx context.Context, g *biz.Group) (*biz.Group, error) {
-	err := r.data.DB(ctx).ExecInTransaction(ctx, g.TenantID, func(ctx context.Context, tx pgx.Tx) error {
+	err := r.data.ExecInTenant(ctx, g.TenantID, func(ctx context.Context, tx pgx.Tx) error {
 		return tx.QueryRow(ctx,
 			`UPDATE groups SET name = $2, description = $3, updated_at = now() WHERE id = $1 RETURNING updated_at`,
 			g.ID, g.Name, g.Description,
@@ -59,7 +60,7 @@ func (r *groupRepo) Update(ctx context.Context, g *biz.Group) (*biz.Group, error
 
 func (r *groupRepo) Delete(ctx context.Context, id string) error {
 	tenantID := middleware.GetTenantID(ctx)
-	return r.data.DB(ctx).ExecInTransaction(ctx, tenantID, func(ctx context.Context, tx pgx.Tx) error {
+	return r.data.ExecInTenant(ctx, tenantID, func(ctx context.Context, tx pgx.Tx) error {
 		_, err := tx.Exec(ctx, `UPDATE groups SET deleted_at = now() WHERE id = $1`, id)
 		return err
 	})
@@ -67,11 +68,12 @@ func (r *groupRepo) Delete(ctx context.Context, id string) error {
 
 func (r *groupRepo) ListByTenant(ctx context.Context, tenantID string, pageSize int, cursor string) ([]*biz.Group, string, error) {
 	var groups []*biz.Group
-	err := r.data.DB(ctx).ExecInTransaction(ctx, tenantID, func(ctx context.Context, tx pgx.Tx) error {
+	page := pagination.Normalize(pageSize, cursor)
+	err := r.data.ExecInTenant(ctx, tenantID, func(ctx context.Context, tx pgx.Tx) error {
 		rows, err := tx.Query(ctx,
 			`SELECT id, tenant_id, name, description, created_at, updated_at FROM groups
-			 WHERE tenant_id = $1 AND deleted_at IS NULL ORDER BY created_at DESC LIMIT $2`,
-			tenantID, pageSize,
+			 WHERE tenant_id = $1 AND deleted_at IS NULL ORDER BY created_at DESC, id DESC LIMIT $2 OFFSET $3`,
+			tenantID, page.Limit+1, page.Offset,
 		)
 		if err != nil {
 			return err
@@ -84,14 +86,21 @@ func (r *groupRepo) ListByTenant(ctx context.Context, tenantID string, pageSize 
 			}
 			groups = append(groups, g)
 		}
-		return nil
+		return rows.Err()
 	})
-	return groups, "", err
+	if err != nil {
+		return nil, "", err
+	}
+	next := pagination.NextOffsetToken(len(groups), page.Limit, page.Offset)
+	if len(groups) > page.Limit {
+		groups = groups[:page.Limit]
+	}
+	return groups, next, nil
 }
 
 func (r *groupRepo) AddMember(ctx context.Context, groupID, userID string) error {
 	tenantID := middleware.GetTenantID(ctx)
-	return r.data.DB(ctx).ExecInTransaction(ctx, tenantID, func(ctx context.Context, tx pgx.Tx) error {
+	return r.data.ExecInTenant(ctx, tenantID, func(ctx context.Context, tx pgx.Tx) error {
 		_, err := tx.Exec(ctx, `INSERT INTO group_members (group_id, user_id) VALUES ($1, $2) ON CONFLICT DO NOTHING`, groupID, userID)
 		return err
 	})
@@ -99,7 +108,7 @@ func (r *groupRepo) AddMember(ctx context.Context, groupID, userID string) error
 
 func (r *groupRepo) RemoveMember(ctx context.Context, groupID, userID string) error {
 	tenantID := middleware.GetTenantID(ctx)
-	return r.data.DB(ctx).ExecInTransaction(ctx, tenantID, func(ctx context.Context, tx pgx.Tx) error {
+	return r.data.ExecInTenant(ctx, tenantID, func(ctx context.Context, tx pgx.Tx) error {
 		_, err := tx.Exec(ctx, `DELETE FROM group_members WHERE group_id = $1 AND user_id = $2`, groupID, userID)
 		return err
 	})
@@ -108,7 +117,7 @@ func (r *groupRepo) RemoveMember(ctx context.Context, groupID, userID string) er
 func (r *groupRepo) ListMembers(ctx context.Context, groupID string) ([]*biz.User, error) {
 	var users []*biz.User
 	tenantID := middleware.GetTenantID(ctx)
-	err := r.data.DB(ctx).ExecInTransaction(ctx, tenantID, func(ctx context.Context, tx pgx.Tx) error {
+	err := r.data.ExecInTenant(ctx, tenantID, func(ctx context.Context, tx pgx.Tx) error {
 		rows, err := tx.Query(ctx,
 			`SELECT u.id, u.external_id, u.email, u.display_name, u.created_at, u.updated_at
 			 FROM users u JOIN group_members gm ON u.id = gm.user_id
@@ -132,7 +141,7 @@ func (r *groupRepo) ListMembers(ctx context.Context, groupID string) ([]*biz.Use
 }
 
 func (r *groupRepo) AssignRole(ctx context.Context, groupID, roleID, tenantID string) error {
-	return r.data.DB(ctx).ExecInTransaction(ctx, tenantID, func(ctx context.Context, tx pgx.Tx) error {
+	return r.data.ExecInTenant(ctx, tenantID, func(ctx context.Context, tx pgx.Tx) error {
 		_, err := tx.Exec(ctx, `INSERT INTO group_roles (group_id, role_id, tenant_id) VALUES ($1, $2, $3) ON CONFLICT DO NOTHING`, groupID, roleID, tenantID)
 		return err
 	})
@@ -140,7 +149,7 @@ func (r *groupRepo) AssignRole(ctx context.Context, groupID, roleID, tenantID st
 
 func (r *groupRepo) RevokeRole(ctx context.Context, groupID, roleID string) error {
 	tenantID := middleware.GetTenantID(ctx)
-	return r.data.DB(ctx).ExecInTransaction(ctx, tenantID, func(ctx context.Context, tx pgx.Tx) error {
+	return r.data.ExecInTenant(ctx, tenantID, func(ctx context.Context, tx pgx.Tx) error {
 		_, err := tx.Exec(ctx, `DELETE FROM group_roles WHERE group_id = $1 AND role_id = $2`, groupID, roleID)
 		return err
 	})
@@ -149,7 +158,7 @@ func (r *groupRepo) RevokeRole(ctx context.Context, groupID, roleID string) erro
 func (r *groupRepo) ListRoles(ctx context.Context, groupID string) ([]*biz.Role, error) {
 	var roles []*biz.Role
 	tenantID := middleware.GetTenantID(ctx)
-	err := r.data.DB(ctx).ExecInTransaction(ctx, tenantID, func(ctx context.Context, tx pgx.Tx) error {
+	err := r.data.ExecInTenant(ctx, tenantID, func(ctx context.Context, tx pgx.Tx) error {
 		rows, err := tx.Query(ctx,
 			`SELECT r.id, r.tenant_id, r.name, r.description, r.is_system, r.created_at, r.updated_at
 			 FROM roles r JOIN group_roles gr ON r.id = gr.role_id

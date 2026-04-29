@@ -72,6 +72,11 @@ func NewAuthUsecase(zitadelConf *conf.Zitadel, jwtConf *conf.JWT, perms *Permiss
 	}
 }
 
+func (uc *AuthUsecase) HasZitadelPAT() bool {
+	pat := strings.TrimSpace(uc.conf.Pat)
+	return pat != "" && !strings.Contains(pat, "${")
+}
+
 type sessionResponse struct {
 	SessionID    string `json:"sessionId"`
 	SessionToken string `json:"sessionToken"`
@@ -380,6 +385,11 @@ func (uc *AuthUsecase) CreateZitadelUser(ctx context.Context, username, email, d
 }
 
 func (uc *AuthUsecase) callZitadel(method, url string, body any, result any) error {
+	pat := strings.TrimSpace(uc.conf.Pat)
+	if pat == "" || strings.Contains(pat, "${") {
+		return fmt.Errorf("zitadel PAT is not configured; set ZITADEL_LOGIN_CLIENT_PAT or ZITADEL_PAT")
+	}
+
 	jsonBody, _ := json.Marshal(body)
 	req, err := http.NewRequest(method, url, bytes.NewBuffer(jsonBody))
 	if err != nil {
@@ -388,7 +398,7 @@ func (uc *AuthUsecase) callZitadel(method, url string, body any, result any) err
 
 	req.Header.Set("Content-Type", "application/json")
 	// Dùng PAT của Login Client (có role Iam Login Client)
-	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", uc.conf.Pat))
+	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", pat))
 
 	client := &http.Client{Timeout: 15 * time.Second}
 	resp, err := client.Do(req)

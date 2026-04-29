@@ -83,8 +83,13 @@
       }
     </div>
 
-    <!-- Footer: logout -->
-    <div class="px-6 py-4 border-t border-surface-100 dark:divide-surface-800">
+    <!-- Footer actions -->
+    <div class="flex items-center justify-between gap-3 px-6 py-4 border-t border-surface-100 dark:divide-surface-800">
+      @if (!isLoading() && tenants().length > 0) {
+      <p-button [variant]="'text'" icon="pi pi-plus" label="Tạo workspace" size="small"
+        styleClass="text-xs p-0 min-w-0" (onClick)="createFirstWorkspace()" />
+      }
+
       <p-button [variant]="'text'" severity="secondary" (onClick)="logout()" icon="pi pi-sign-out"
         [label]="'COMMON.LOGOUT' | translate" styleClass="text-xs text-surface-400 hover:text-red-500 p-0 min-w-0" />
     </div>

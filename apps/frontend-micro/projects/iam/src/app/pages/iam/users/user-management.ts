@@ -1,8 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormControl, FormGroup, Validators } from '@angular/forms';
-import { rxResource } from '@angular/core/rxjs-interop';
-import { of } from 'rxjs';
+import { Router } from '@angular/router';
 import { TableModule } from 'primeng/table';
 import { Button } from 'primeng/button';
 import { InputText } from 'primeng/inputtext';
@@ -11,8 +10,10 @@ import { Select } from 'primeng/select';
 import { Toast } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { Avatar } from 'primeng/avatar';
+import { createPagedResource } from '@arda/core';
 import { UserService, User } from '../../../services/user.service';
 import { TenantService } from '../../../services/tenant.service';
+import { ArdaDataTable } from '../../../shared/table/arda-data-table';
 
 @Component({
   selector: 'app-user-management',
@@ -28,6 +29,7 @@ import { TenantService } from '../../../services/tenant.service';
     Select,
     Toast,
     Avatar,
+    ArdaDataTable,
   ],
   providers: [MessageService],
   templateUrl: './user-management.html',
@@ -37,36 +39,26 @@ export class UserManagement {
   private userService = inject(UserService);
   private tenantService = inject(TenantService);
   private messageService = inject(MessageService);
+  private router = inject(Router);
 
-  usersResource = rxResource({
+  usersTable = createPagedResource<User, string>({
+    defaultPageSize: 10,
+    rowsPerPageOptions: [10, 20, 50],
     params: () => this.tenantService.selectedTenantId(),
-    stream: (params) => {
-      if (!params.params) return of([]);
-      return this.userService.listUsers(params.params);
-    }
-  });
-
-  rolesResource = rxResource({
-    params: () => this.tenantService.selectedTenantId(),
-    stream: (params) => {
-      if (!params.params) return of([]);
-      return this.userService.listRoles(params.params);
-    }
+    load: (tenantId, page) => this.userService.listUsersPage(tenantId, page),
   });
 
   isSaving = signal(false);
 
   // Dialog state
-  displayRoleDialog = signal(false);
   displayInviteDialog = signal(false);
   displayCreateDialog = signal(false);
-  selectedUser = signal<User | null>(null);
 
   // Forms (Ổn định nhất 2026)
-  selectedRoleControl = new FormControl('', { nonNullable: true, validators: [Validators.required] });
-
   inviteForm = new FormGroup({
     externalId: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+    username: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+    displayName: new FormControl('', { nonNullable: true }),
     role: new FormControl('MEMBER', { nonNullable: true, validators: [Validators.required] })
   });
 
@@ -77,14 +69,8 @@ export class UserManagement {
     password: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.minLength(6)] })
   });
 
-  openRoleDialog(user: User) {
-    this.selectedUser.set(user);
-    this.selectedRoleControl.reset();
-    this.displayRoleDialog.set(true);
-  }
-
   openInviteDialog() {
-    this.inviteForm.reset({ externalId: '', role: 'MEMBER' });
+    this.inviteForm.reset({ externalId: '', username: '', displayName: '', role: 'MEMBER' });
     this.displayInviteDialog.set(true);
   }
 
@@ -93,28 +79,12 @@ export class UserManagement {
     this.displayCreateDialog.set(true);
   }
 
-  saveRoleAssignment() {
-    if (this.selectedRoleControl.invalid) return;
-    const user = this.selectedUser();
-    const roleId = this.selectedRoleControl.value;
-    if (!user || !roleId) return;
+  refreshUsers() {
+    this.usersTable.refresh();
+  }
 
-    const tenantId = this.tenantService.selectedTenantId();
-    if (!tenantId) return;
-
-    this.isSaving.set(true);
-    this.userService.assignRole(user.id, roleId, tenantId).subscribe({
-      next: () => {
-        this.messageService.add({ severity: 'success', summary: 'Thành công', detail: 'Đã cập nhật vai trò' });
-        this.displayRoleDialog.set(false);
-        this.usersResource.reload();
-        this.isSaving.set(false);
-      },
-      error: () => {
-        this.messageService.add({ severity: 'error', summary: 'Lỗi', detail: 'Không thể gán vai trò' });
-        this.isSaving.set(false);
-      }
-    });
+  openUserDetail(user: User) {
+    this.router.navigate(['/iam/users', user.id]);
   }
 
   sendInvite() {
@@ -123,13 +93,13 @@ export class UserManagement {
     const tenantId = this.tenantService.selectedTenantId();
     if (!tenantId) return;
 
-    const { externalId, role } = this.inviteForm.getRawValue();
+    const { externalId, username, displayName, role } = this.inviteForm.getRawValue();
     this.isSaving.set(true);
-    this.userService.inviteMember(externalId, role, tenantId).subscribe({
+    this.userService.inviteMember(externalId, username, displayName, role, tenantId).subscribe({
       next: () => {
         this.messageService.add({ severity: 'success', summary: 'Thành công', detail: 'Đã gửi lời mời thành viên' });
         this.displayInviteDialog.set(false);
-        this.usersResource.reload();
+        this.refreshUsers();
         this.isSaving.set(false);
       },
       error: () => {
@@ -154,7 +124,7 @@ export class UserManagement {
       next: () => {
         this.messageService.add({ severity: 'success', summary: 'Thành công', detail: 'Đã tạo người dùng mới' });
         this.displayCreateDialog.set(false);
-        this.usersResource.reload();
+        this.refreshUsers();
         this.isSaving.set(false);
       },
       error: () => {

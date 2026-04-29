@@ -7,6 +7,7 @@ import { CallbackPage } from './pages/auth/callback-page';
 import { SelectWorkspace } from './pages/select-workspace/select-workspace';
 import { Home } from './pages/home/home';
 import { Settings } from './pages/settings/settings';
+import { WorkspaceManagement } from './pages/workspaces/workspace-management';
 import { authGuard } from './guards/auth.guard';
 import { AccessDeniedPage } from './pages/error/access-denied';
 import { NotFoundPage } from './pages/error/not-found';
@@ -53,6 +54,10 @@ export const routes: Routes = [
       {
         path: 'settings',
         component: Settings,
+      },
+      {
+        path: 'workspaces',
+        component: WorkspaceManagement,
       },
       {
         path: 'iam',

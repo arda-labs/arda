@@ -104,6 +104,14 @@ func main() {
 	if envRedis := os.Getenv("REDIS_ADDR"); envRedis != "" {
 		bc.Data.Redis.Addr = envRedis
 	}
+	bc.Zitadel.Authority = os.ExpandEnv(bc.Zitadel.Authority)
+	bc.Zitadel.Pat = os.ExpandEnv(bc.Zitadel.Pat)
+	if envPat := os.Getenv("ZITADEL_LOGIN_CLIENT_PAT"); envPat != "" {
+		bc.Zitadel.Pat = envPat
+	}
+	if envPat := os.Getenv("ZITADEL_PAT"); envPat != "" {
+		bc.Zitadel.Pat = envPat
+	}
 
 	app, cleanup, err := wireApp(bc.Server, bc.Data, bc.Jwt, bc.Zitadel, logger)
 	if err != nil {

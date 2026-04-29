@@ -29,6 +29,7 @@ type RoleRepo interface {
 	ListByTenant(ctx context.Context, tenantID string, pageSize int, cursor string) ([]*Role, string, error)
 	Update(ctx context.Context, role *Role) (*Role, error)
 	SoftDelete(ctx context.Context, id string) error
+	GetByName(ctx context.Context, tenantID, name string) (*Role, error)
 	AssignRole(ctx context.Context, userID, roleID, tenantID string) error
 	RevokeRole(ctx context.Context, userID, roleID, tenantID string) error
 	GetUserRoles(ctx context.Context, userID, tenantID string) ([]*Role, error)

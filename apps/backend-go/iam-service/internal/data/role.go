@@ -47,6 +47,28 @@ func (r *roleRepo) GetByID(ctx context.Context, id string) (*biz.Role, error) {
 	return role, err
 }
 
+func (r *roleRepo) GetByName(ctx context.Context, tenantID, name string) (*biz.Role, error) {
+	role := &biz.Role{}
+	err := r.data.ExecInTenant(ctx, tenantID, func(ctx context.Context, tx pgx.Tx) error {
+		err := tx.QueryRow(ctx,
+			`SELECT id, tenant_id, name, description, is_system, created_at, updated_at
+			 FROM roles
+			 WHERE tenant_id = $1
+			   AND lower(name) = lower($2)
+			   AND deleted_at IS NULL
+			 LIMIT 1`, tenantID, name,
+		).Scan(&role.ID, &role.TenantID, &role.Name, &role.Description, &role.IsSystem, &role.CreatedAt, &role.UpdatedAt)
+		if err == pgx.ErrNoRows {
+			return nil
+		}
+		return err
+	})
+	if role.ID == "" {
+		return nil, nil
+	}
+	return role, err
+}
+
 func (r *roleRepo) ListByTenant(ctx context.Context, tenantID string, pageSize int, cursor string) ([]*biz.Role, string, error) {
 	var list []*biz.Role
 	page := pagination.Normalize(pageSize, cursor)

@@ -95,7 +95,7 @@
           <label for="loginName" class="text-sm font-medium text-surface-700 dark:text-surface-300">
             {{ 'PAGES.LOGIN.LOGIN_NAME' | translate }}
           </label>
-          <input pInputText id="loginName" type="text" [formField]="loginForm.loginName" placeholder="zitadel-admin"
+          <input pInputText id="loginName" type="text" [formField]="loginForm.loginName" placeholder="user@example.com"
             autocomplete="username" class="w-full" />
           @if (loginForm.loginName().touched() && loginForm.loginName().invalid()) {
           <span class="text-xs text-red-500">{{ loginForm.loginName().errors()[0].message }}</span>

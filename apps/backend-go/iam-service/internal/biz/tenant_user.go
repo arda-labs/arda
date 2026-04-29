@@ -2,6 +2,7 @@ package biz
 
 import (
 	"context"
+	"strings"
 	"time"
 )
 
@@ -27,11 +28,12 @@ type TenantUserRepo interface {
 }
 
 type TenantUserUsecase struct {
-	repo TenantUserRepo
+	repo     TenantUserRepo
+	roleRepo RoleRepo
 }
 
-func NewTenantUserUsecase(repo TenantUserRepo) *TenantUserUsecase {
-	return &TenantUserUsecase{repo: repo}
+func NewTenantUserUsecase(repo TenantUserRepo, roleRepo RoleRepo) *TenantUserUsecase {
+	return &TenantUserUsecase{repo: repo, roleRepo: roleRepo}
 }
 
 func (uc *TenantUserUsecase) ListByUser(ctx context.Context, userID string) ([]*TenantUser, error) {
@@ -43,7 +45,7 @@ func (uc *TenantUserUsecase) GetTenantUser(ctx context.Context, userID, tenantID
 }
 
 func (uc *TenantUserUsecase) AddTenantUser(ctx context.Context, userID, tenantID, username, displayName, role string) (*TenantUser, error) {
-	return uc.repo.Create(ctx, &TenantUser{
+	tenantUser, err := uc.repo.Create(ctx, &TenantUser{
 		UserID:      userID,
 		TenantID:    tenantID,
 		Username:    username,
@@ -51,6 +53,13 @@ func (uc *TenantUserUsecase) AddTenantUser(ctx context.Context, userID, tenantID
 		Role:        role,
 		Status:      "ACTIVE",
 	})
+	if err != nil {
+		return nil, err
+	}
+	if err := uc.assignTenantRole(ctx, userID, tenantID, role); err != nil {
+		return nil, err
+	}
+	return tenantUser, nil
 }
 
 func (uc *TenantUserUsecase) InviteTenantUser(ctx context.Context, tenantID, userID, username, displayName, role string) (*TenantUser, error) {
@@ -59,6 +68,9 @@ func (uc *TenantUserUsecase) InviteTenantUser(ctx context.Context, tenantID, use
 		return nil, err
 	}
 	if existing != nil {
+		if err := uc.assignTenantRole(ctx, userID, tenantID, role); err != nil {
+			return nil, err
+		}
 		return existing, nil
 	}
 	return uc.AddTenantUser(ctx, userID, tenantID, username, displayName, role)
@@ -70,4 +82,26 @@ func (uc *TenantUserUsecase) ListTenantUsers(ctx context.Context, tenantID strin
 
 func (uc *TenantUserUsecase) RemoveTenantUser(ctx context.Context, userID, tenantID string) error {
 	return uc.repo.SoftDelete(ctx, userID, tenantID)
+}
+
+func (uc *TenantUserUsecase) assignTenantRole(ctx context.Context, userID, tenantID, roleName string) error {
+	roleName = strings.ToLower(strings.TrimSpace(roleName))
+	if roleName == "" {
+		roleName = "member"
+	}
+
+	role, err := uc.roleRepo.GetByName(ctx, tenantID, roleName)
+	if err != nil {
+		return err
+	}
+	if role == nil && roleName != "member" {
+		role, err = uc.roleRepo.GetByName(ctx, tenantID, "member")
+		if err != nil {
+			return err
+		}
+	}
+	if role == nil {
+		return nil
+	}
+	return uc.roleRepo.AssignRole(ctx, userID, role.ID, tenantID)
 }

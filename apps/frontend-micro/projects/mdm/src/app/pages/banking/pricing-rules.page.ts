@@ -103,6 +103,10 @@ export class PricingRulesPage {
     effectiveTo: new FormControl('', { nonNullable: true }),
     description: new FormControl('', { nonNullable: true }),
     status: new FormControl('ACTIVE', { nonNullable: true }),
+    approvalStatus: new FormControl('DRAFT', { nonNullable: true }),
+    version: new FormControl(1, { nonNullable: true }),
+    approvedBy: new FormControl('', { nonNullable: true }),
+    changeNote: new FormControl('', { nonNullable: true }),
   });
 
   readonly taxForm = new FormGroup({
@@ -116,6 +120,10 @@ export class PricingRulesPage {
     effectiveTo: new FormControl('', { nonNullable: true }),
     description: new FormControl('', { nonNullable: true }),
     status: new FormControl('ACTIVE', { nonNullable: true }),
+    approvalStatus: new FormControl('DRAFT', { nonNullable: true }),
+    version: new FormControl(1, { nonNullable: true }),
+    approvedBy: new FormControl('', { nonNullable: true }),
+    changeNote: new FormControl('', { nonNullable: true }),
   });
 
   readonly limitForm = new FormGroup({
@@ -135,6 +143,10 @@ export class PricingRulesPage {
     effectiveTo: new FormControl('', { nonNullable: true }),
     description: new FormControl('', { nonNullable: true }),
     status: new FormControl('ACTIVE', { nonNullable: true }),
+    approvalStatus: new FormControl('DRAFT', { nonNullable: true }),
+    version: new FormControl(1, { nonNullable: true }),
+    approvedBy: new FormControl('', { nonNullable: true }),
+    changeNote: new FormControl('', { nonNullable: true }),
   });
 
   setTab(tab: PricingTab): void {
@@ -172,12 +184,24 @@ export class PricingRulesPage {
     this.confirmDelete(item.name, () => this.service.deleteFeeSchedule(item.id), () => this.feeResource.reload());
   }
 
+  approveFee(item: FeeSchedule): void {
+    this.runSave(this.service.approveFeeSchedule(item.id, 'Duyệt từ màn hình MDM'), () => this.feeResource.reload());
+  }
+
   deleteTax(item: TaxRule): void {
     this.confirmDelete(item.name, () => this.service.deleteTaxRule(item.id), () => this.taxResource.reload());
   }
 
+  approveTax(item: TaxRule): void {
+    this.runSave(this.service.approveTaxRule(item.id, 'Duyệt từ màn hình MDM'), () => this.taxResource.reload());
+  }
+
   deleteLimit(item: StandardLimit): void {
     this.confirmDelete(item.name, () => this.service.deleteStandardLimit(item.id), () => this.limitResource.reload());
+  }
+
+  approveLimit(item: StandardLimit): void {
+    this.runSave(this.service.approveStandardLimit(item.id, 'Duyệt từ màn hình MDM'), () => this.limitResource.reload());
   }
 
   reload(): void {
@@ -258,14 +282,14 @@ export class PricingRulesPage {
   }
 
   private emptyFee(): FeeSchedule {
-    return { id: '', code: '', name: '', feeType: 'SERVICE_FEE', calculationMethod: 'FIXED', currency: 'VND', fixedAmount: 0, ratePercent: 0, minAmount: 0, maxAmount: 0, channel: '', productCode: '', effectiveFrom: '', effectiveTo: '', description: '', status: 'ACTIVE' };
+    return { id: '', code: '', name: '', feeType: 'SERVICE_FEE', calculationMethod: 'FIXED', currency: 'VND', fixedAmount: 0, ratePercent: 0, minAmount: 0, maxAmount: 0, channel: '', productCode: '', effectiveFrom: '', effectiveTo: '', description: '', status: 'ACTIVE', approvalStatus: 'DRAFT', version: 1, approvedBy: '', changeNote: '' };
   }
 
   private emptyTax(): TaxRule {
-    return { id: '', code: '', name: '', taxType: 'VAT', ratePercent: 10, inclusive: false, jurisdiction: 'VN', effectiveFrom: '', effectiveTo: '', description: '', status: 'ACTIVE' };
+    return { id: '', code: '', name: '', taxType: 'VAT', ratePercent: 10, inclusive: false, jurisdiction: 'VN', effectiveFrom: '', effectiveTo: '', description: '', status: 'ACTIVE', approvalStatus: 'DRAFT', version: 1, approvedBy: '', changeNote: '' };
   }
 
   private emptyLimit(): StandardLimit {
-    return { id: '', code: '', name: '', limitType: 'TRANSACTION_AMOUNT', subjectType: 'CUSTOMER', currency: 'VND', minAmount: 0, perTxnAmount: 0, dailyAmount: 0, monthlyAmount: 0, countLimit: 0, channel: '', productCode: '', effectiveFrom: '', effectiveTo: '', description: '', status: 'ACTIVE' };
+    return { id: '', code: '', name: '', limitType: 'TRANSACTION_AMOUNT', subjectType: 'CUSTOMER', currency: 'VND', minAmount: 0, perTxnAmount: 0, dailyAmount: 0, monthlyAmount: 0, countLimit: 0, channel: '', productCode: '', effectiveFrom: '', effectiveTo: '', description: '', status: 'ACTIVE', approvalStatus: 'DRAFT', version: 1, approvedBy: '', changeNote: '' };
   }
 }

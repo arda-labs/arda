@@ -19,6 +19,9 @@ var _ = binding.EncodeURL
 
 const _ = http.SupportPackageIsVersion1
 
+const OperationMdmServiceApproveFeeSchedule = "/mdm.v1.MdmService/ApproveFeeSchedule"
+const OperationMdmServiceApproveStandardLimit = "/mdm.v1.MdmService/ApproveStandardLimit"
+const OperationMdmServiceApproveTaxRule = "/mdm.v1.MdmService/ApproveTaxRule"
 const OperationMdmServiceAssignAreaAdministrativeUnit = "/mdm.v1.MdmService/AssignAreaAdministrativeUnit"
 const OperationMdmServiceCalculateBusinessDay = "/mdm.v1.MdmService/CalculateBusinessDay"
 const OperationMdmServiceCreateAdministrativeUnit = "/mdm.v1.MdmService/CreateAdministrativeUnit"
@@ -93,6 +96,9 @@ const OperationMdmServiceUpdateTaxRule = "/mdm.v1.MdmService/UpdateTaxRule"
 const OperationMdmServiceUpdateWorkingHour = "/mdm.v1.MdmService/UpdateWorkingHour"
 
 type MdmServiceHTTPServer interface {
+	ApproveFeeSchedule(context.Context, *ApprovePricingRuleRequest) (*FeeSchedule, error)
+	ApproveStandardLimit(context.Context, *ApprovePricingRuleRequest) (*StandardLimit, error)
+	ApproveTaxRule(context.Context, *ApprovePricingRuleRequest) (*TaxRule, error)
 	AssignAreaAdministrativeUnit(context.Context, *AssignAreaAdministrativeUnitRequest) (*AreaAdministrativeUnit, error)
 	CalculateBusinessDay(context.Context, *CalculateBusinessDayRequest) (*CalculateBusinessDayResponse, error)
 	CreateAdministrativeUnit(context.Context, *CreateAdministrativeUnitRequest) (*AdministrativeUnit, error)
@@ -231,16 +237,19 @@ func RegisterMdmServiceHTTPServer(s *http.Server, srv MdmServiceHTTPServer) {
 	r.POST("/v1/mdm/fee-schedules", _MdmService_CreateFeeSchedule0_HTTP_Handler(srv))
 	r.PUT("/v1/mdm/fee-schedules/{id}", _MdmService_UpdateFeeSchedule0_HTTP_Handler(srv))
 	r.DELETE("/v1/mdm/fee-schedules/{id}", _MdmService_DeleteFeeSchedule0_HTTP_Handler(srv))
+	r.POST("/v1/mdm/fee-schedules/{id}/approve", _MdmService_ApproveFeeSchedule0_HTTP_Handler(srv))
 	r.GET("/v1/mdm/tax-rules", _MdmService_ListTaxRules0_HTTP_Handler(srv))
 	r.GET("/v1/mdm/tax-rules/{id}", _MdmService_GetTaxRule0_HTTP_Handler(srv))
 	r.POST("/v1/mdm/tax-rules", _MdmService_CreateTaxRule0_HTTP_Handler(srv))
 	r.PUT("/v1/mdm/tax-rules/{id}", _MdmService_UpdateTaxRule0_HTTP_Handler(srv))
 	r.DELETE("/v1/mdm/tax-rules/{id}", _MdmService_DeleteTaxRule0_HTTP_Handler(srv))
+	r.POST("/v1/mdm/tax-rules/{id}/approve", _MdmService_ApproveTaxRule0_HTTP_Handler(srv))
 	r.GET("/v1/mdm/standard-limits", _MdmService_ListStandardLimits0_HTTP_Handler(srv))
 	r.GET("/v1/mdm/standard-limits/{id}", _MdmService_GetStandardLimit0_HTTP_Handler(srv))
 	r.POST("/v1/mdm/standard-limits", _MdmService_CreateStandardLimit0_HTTP_Handler(srv))
 	r.PUT("/v1/mdm/standard-limits/{id}", _MdmService_UpdateStandardLimit0_HTTP_Handler(srv))
 	r.DELETE("/v1/mdm/standard-limits/{id}", _MdmService_DeleteStandardLimit0_HTTP_Handler(srv))
+	r.POST("/v1/mdm/standard-limits/{id}/approve", _MdmService_ApproveStandardLimit0_HTTP_Handler(srv))
 }
 
 func _MdmService_ListAdministrativeUnits0_HTTP_Handler(srv MdmServiceHTTPServer) func(ctx http.Context) error {
@@ -1619,6 +1628,31 @@ func _MdmService_DeleteFeeSchedule0_HTTP_Handler(srv MdmServiceHTTPServer) func(
 	}
 }
 
+func _MdmService_ApproveFeeSchedule0_HTTP_Handler(srv MdmServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in ApprovePricingRuleRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationMdmServiceApproveFeeSchedule)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.ApproveFeeSchedule(ctx, req.(*ApprovePricingRuleRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*FeeSchedule)
+		return ctx.Result(200, reply)
+	}
+}
+
 func _MdmService_ListTaxRules0_HTTP_Handler(srv MdmServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in ListTaxRulesRequest
@@ -1725,6 +1759,31 @@ func _MdmService_DeleteTaxRule0_HTTP_Handler(srv MdmServiceHTTPServer) func(ctx 
 			return err
 		}
 		reply := out.(*DeleteResponse)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _MdmService_ApproveTaxRule0_HTTP_Handler(srv MdmServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in ApprovePricingRuleRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationMdmServiceApproveTaxRule)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.ApproveTaxRule(ctx, req.(*ApprovePricingRuleRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*TaxRule)
 		return ctx.Result(200, reply)
 	}
 }
@@ -1839,7 +1898,35 @@ func _MdmService_DeleteStandardLimit0_HTTP_Handler(srv MdmServiceHTTPServer) fun
 	}
 }
 
+func _MdmService_ApproveStandardLimit0_HTTP_Handler(srv MdmServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in ApprovePricingRuleRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationMdmServiceApproveStandardLimit)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.ApproveStandardLimit(ctx, req.(*ApprovePricingRuleRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*StandardLimit)
+		return ctx.Result(200, reply)
+	}
+}
+
 type MdmServiceHTTPClient interface {
+	ApproveFeeSchedule(ctx context.Context, req *ApprovePricingRuleRequest, opts ...http.CallOption) (rsp *FeeSchedule, err error)
+	ApproveStandardLimit(ctx context.Context, req *ApprovePricingRuleRequest, opts ...http.CallOption) (rsp *StandardLimit, err error)
+	ApproveTaxRule(ctx context.Context, req *ApprovePricingRuleRequest, opts ...http.CallOption) (rsp *TaxRule, err error)
 	AssignAreaAdministrativeUnit(ctx context.Context, req *AssignAreaAdministrativeUnitRequest, opts ...http.CallOption) (rsp *AreaAdministrativeUnit, err error)
 	CalculateBusinessDay(ctx context.Context, req *CalculateBusinessDayRequest, opts ...http.CallOption) (rsp *CalculateBusinessDayResponse, err error)
 	CreateAdministrativeUnit(ctx context.Context, req *CreateAdministrativeUnitRequest, opts ...http.CallOption) (rsp *AdministrativeUnit, err error)
@@ -1920,6 +2007,45 @@ type MdmServiceHTTPClientImpl struct {
 
 func NewMdmServiceHTTPClient(client *http.Client) MdmServiceHTTPClient {
 	return &MdmServiceHTTPClientImpl{client}
+}
+
+func (c *MdmServiceHTTPClientImpl) ApproveFeeSchedule(ctx context.Context, in *ApprovePricingRuleRequest, opts ...http.CallOption) (*FeeSchedule, error) {
+	var out FeeSchedule
+	pattern := "/v1/mdm/fee-schedules/{id}/approve"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationMdmServiceApproveFeeSchedule))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *MdmServiceHTTPClientImpl) ApproveStandardLimit(ctx context.Context, in *ApprovePricingRuleRequest, opts ...http.CallOption) (*StandardLimit, error) {
+	var out StandardLimit
+	pattern := "/v1/mdm/standard-limits/{id}/approve"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationMdmServiceApproveStandardLimit))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *MdmServiceHTTPClientImpl) ApproveTaxRule(ctx context.Context, in *ApprovePricingRuleRequest, opts ...http.CallOption) (*TaxRule, error) {
+	var out TaxRule
+	pattern := "/v1/mdm/tax-rules/{id}/approve"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationMdmServiceApproveTaxRule))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
 }
 
 func (c *MdmServiceHTTPClientImpl) AssignAreaAdministrativeUnit(ctx context.Context, in *AssignAreaAdministrativeUnitRequest, opts ...http.CallOption) (*AreaAdministrativeUnit, error) {

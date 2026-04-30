@@ -1184,6 +1184,30 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/mdm.v1.DeleteResponse'
+    /v1/mdm/fee-schedules/{id}/approve:
+        post:
+            tags:
+                - MdmService
+            operationId: MdmService_ApproveFeeSchedule
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/mdm.v1.ApprovePricingRuleRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.FeeSchedule'
     /v1/mdm/provinces:
         get:
             tags:
@@ -1362,6 +1386,30 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/mdm.v1.DeleteResponse'
+    /v1/mdm/standard-limits/{id}/approve:
+        post:
+            tags:
+                - MdmService
+            operationId: MdmService_ApproveStandardLimit
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/mdm.v1.ApprovePricingRuleRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.StandardLimit'
     /v1/mdm/system-parameters:
         get:
             tags:
@@ -1576,6 +1624,30 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/mdm.v1.DeleteResponse'
+    /v1/mdm/tax-rules/{id}/approve:
+        post:
+            tags:
+                - MdmService
+            operationId: MdmService_ApproveTaxRule
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/mdm.v1.ApprovePricingRuleRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.TaxRule'
     /v1/mdm/working-hours/{id}:
         put:
             tags:
@@ -1674,6 +1746,15 @@ components:
                     type: array
                     items:
                         $ref: '#/components/schemas/mdm.v1.AdministrativeUnitNode'
+        mdm.v1.ApprovePricingRuleRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                actor:
+                    type: string
+                note:
+                    type: string
         mdm.v1.Area:
             type: object
             properties:
@@ -2055,6 +2136,18 @@ components:
                     type: string
                 status:
                     type: string
+                approvalStatus:
+                    type: string
+                version:
+                    type: integer
+                    format: int32
+                approvedBy:
+                    type: string
+                approvedAt:
+                    type: string
+                    format: date-time
+                changeNote:
+                    type: string
                 createdAt:
                     type: string
                     format: date-time
@@ -2237,6 +2330,18 @@ components:
                     type: string
                 status:
                     type: string
+                approvalStatus:
+                    type: string
+                version:
+                    type: integer
+                    format: int32
+                approvedBy:
+                    type: string
+                approvedAt:
+                    type: string
+                    format: date-time
+                changeNote:
+                    type: string
                 createdAt:
                     type: string
                     format: date-time
@@ -2328,6 +2433,18 @@ components:
                 description:
                     type: string
                 status:
+                    type: string
+                approvalStatus:
+                    type: string
+                version:
+                    type: integer
+                    format: int32
+                approvedBy:
+                    type: string
+                approvedAt:
+                    type: string
+                    format: date-time
+                changeNote:
                     type: string
                 createdAt:
                     type: string

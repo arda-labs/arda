@@ -201,6 +201,9 @@ service MdmService {
   rpc DeleteFeeSchedule(DeleteFeeScheduleRequest) returns (DeleteResponse) {
     option (google.api.http) = { delete: "/v1/mdm/fee-schedules/{id}" };
   }
+  rpc ApproveFeeSchedule(ApprovePricingRuleRequest) returns (FeeSchedule) {
+    option (google.api.http) = { post: "/v1/mdm/fee-schedules/{id}/approve" body: "*" };
+  }
   rpc ListTaxRules(ListTaxRulesRequest) returns (ListTaxRulesResponse) {
     option (google.api.http) = { get: "/v1/mdm/tax-rules" };
   }
@@ -216,6 +219,9 @@ service MdmService {
   rpc DeleteTaxRule(DeleteTaxRuleRequest) returns (DeleteResponse) {
     option (google.api.http) = { delete: "/v1/mdm/tax-rules/{id}" };
   }
+  rpc ApproveTaxRule(ApprovePricingRuleRequest) returns (TaxRule) {
+    option (google.api.http) = { post: "/v1/mdm/tax-rules/{id}/approve" body: "*" };
+  }
   rpc ListStandardLimits(ListStandardLimitsRequest) returns (ListStandardLimitsResponse) {
     option (google.api.http) = { get: "/v1/mdm/standard-limits" };
   }
@@ -230,6 +236,9 @@ service MdmService {
   }
   rpc DeleteStandardLimit(DeleteStandardLimitRequest) returns (DeleteResponse) {
     option (google.api.http) = { delete: "/v1/mdm/standard-limits/{id}" };
+  }
+  rpc ApproveStandardLimit(ApprovePricingRuleRequest) returns (StandardLimit) {
+    option (google.api.http) = { post: "/v1/mdm/standard-limits/{id}/approve" body: "*" };
   }
 }
 
@@ -432,8 +441,13 @@ message FeeSchedule {
   string effective_to = 14;
   string description = 15;
   string status = 16;
-  google.protobuf.Timestamp created_at = 17;
-  google.protobuf.Timestamp updated_at = 18;
+  string approval_status = 17;
+  int32 version = 18;
+  string approved_by = 19;
+  google.protobuf.Timestamp approved_at = 20;
+  string change_note = 21;
+  google.protobuf.Timestamp created_at = 22;
+  google.protobuf.Timestamp updated_at = 23;
 }
 
 message TaxRule {
@@ -448,8 +462,13 @@ message TaxRule {
   string effective_to = 9;
   string description = 10;
   string status = 11;
-  google.protobuf.Timestamp created_at = 12;
-  google.protobuf.Timestamp updated_at = 13;
+  string approval_status = 12;
+  int32 version = 13;
+  string approved_by = 14;
+  google.protobuf.Timestamp approved_at = 15;
+  string change_note = 16;
+  google.protobuf.Timestamp created_at = 17;
+  google.protobuf.Timestamp updated_at = 18;
 }
 
 message StandardLimit {
@@ -470,8 +489,13 @@ message StandardLimit {
   string effective_to = 15;
   string description = 16;
   string status = 17;
-  google.protobuf.Timestamp created_at = 18;
-  google.protobuf.Timestamp updated_at = 19;
+  string approval_status = 18;
+  int32 version = 19;
+  string approved_by = 20;
+  google.protobuf.Timestamp approved_at = 21;
+  string change_note = 22;
+  google.protobuf.Timestamp created_at = 23;
+  google.protobuf.Timestamp updated_at = 24;
 }
 
 message DeleteResponse {}
@@ -773,3 +797,9 @@ message UpdateStandardLimitRequest {
   StandardLimit standard_limit = 2;
 }
 message DeleteStandardLimitRequest { string id = 1; }
+
+message ApprovePricingRuleRequest {
+  string id = 1;
+  string actor = 2;
+  string note = 3;
+}

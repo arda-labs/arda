@@ -89,18 +89,21 @@ type MdmRepo interface {
 	CreateFeeSchedule(ctx context.Context, item *FeeSchedule) (*FeeSchedule, error)
 	UpdateFeeSchedule(ctx context.Context, item *FeeSchedule) (*FeeSchedule, error)
 	DeleteFeeSchedule(ctx context.Context, id string) error
+	ApproveFeeSchedule(ctx context.Context, id, actor, note string) (*FeeSchedule, error)
 
 	ListTaxRules(ctx context.Context, filter PageFilter) ([]*TaxRule, string, error)
 	GetTaxRule(ctx context.Context, id string) (*TaxRule, error)
 	CreateTaxRule(ctx context.Context, item *TaxRule) (*TaxRule, error)
 	UpdateTaxRule(ctx context.Context, item *TaxRule) (*TaxRule, error)
 	DeleteTaxRule(ctx context.Context, id string) error
+	ApproveTaxRule(ctx context.Context, id, actor, note string) (*TaxRule, error)
 
 	ListStandardLimits(ctx context.Context, filter PageFilter) ([]*StandardLimit, string, error)
 	GetStandardLimit(ctx context.Context, id string) (*StandardLimit, error)
 	CreateStandardLimit(ctx context.Context, item *StandardLimit) (*StandardLimit, error)
 	UpdateStandardLimit(ctx context.Context, item *StandardLimit) (*StandardLimit, error)
 	DeleteStandardLimit(ctx context.Context, id string) error
+	ApproveStandardLimit(ctx context.Context, id, actor, note string) (*StandardLimit, error)
 }
 
 type MdmUsecase struct {

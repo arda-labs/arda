@@ -74,8 +74,8 @@
             <td><div>{{ formatMoney(item.fixedAmount, item.currency) }}</div><div class="text-xs text-surface-500">{{ item.ratePercent }}%</div></td>
             <td><span class="font-mono text-xs">{{ item.channel || '*' }} / {{ item.productCode || '*' }}</span></td>
             <td>{{ item.effectiveFrom || '-' }} → {{ item.effectiveTo || '-' }}</td>
-            <td><p-tag [value]="item.status" [severity]="statusSeverity(item.status)" /></td>
-            <td class="text-right"><p-button icon="pi pi-pencil" size="small" variant="text" pTooltip="Sửa" (onClick)="openFee(item)" /><p-button icon="pi pi-trash" size="small" severity="danger" variant="text" pTooltip="Xóa" (onClick)="deleteFee(item)" /></td>
+            <td><p-tag [value]="item.approvalStatus + ' v' + item.version" [severity]="item.approvalStatus === 'APPROVED' ? 'success' : 'warn'" /></td>
+            <td class="text-right"><p-button icon="pi pi-check" size="small" variant="text" pTooltip="Duyệt" (onClick)="approveFee(item)" [disabled]="item.approvalStatus === 'APPROVED'" /><p-button icon="pi pi-pencil" size="small" variant="text" pTooltip="Sửa" (onClick)="openFee(item)" /><p-button icon="pi pi-trash" size="small" severity="danger" variant="text" pTooltip="Xóa" (onClick)="deleteFee(item)" /></td>
           </tr>
         </ng-template>
       </p-table>
@@ -96,8 +96,8 @@
             <td>{{ item.ratePercent }}%</td>
             <td>{{ item.inclusive ? 'Đã gồm thuế' : 'Cộng thêm' }}</td>
             <td>{{ item.effectiveFrom || '-' }} → {{ item.effectiveTo || '-' }}</td>
-            <td><p-tag [value]="item.status" [severity]="statusSeverity(item.status)" /></td>
-            <td class="text-right"><p-button icon="pi pi-pencil" size="small" variant="text" pTooltip="Sửa" (onClick)="openTax(item)" /><p-button icon="pi pi-trash" size="small" severity="danger" variant="text" pTooltip="Xóa" (onClick)="deleteTax(item)" /></td>
+            <td><p-tag [value]="item.approvalStatus + ' v' + item.version" [severity]="item.approvalStatus === 'APPROVED' ? 'success' : 'warn'" /></td>
+            <td class="text-right"><p-button icon="pi pi-check" size="small" variant="text" pTooltip="Duyệt" (onClick)="approveTax(item)" [disabled]="item.approvalStatus === 'APPROVED'" /><p-button icon="pi pi-pencil" size="small" variant="text" pTooltip="Sửa" (onClick)="openTax(item)" /><p-button icon="pi pi-trash" size="small" severity="danger" variant="text" pTooltip="Xóa" (onClick)="deleteTax(item)" /></td>
           </tr>
         </ng-template>
       </p-table>
@@ -118,8 +118,8 @@
             <td>{{ formatMoney(item.perTxnAmount, item.currency) }}</td>
             <td><div>{{ formatMoney(item.dailyAmount, item.currency) }}</div><div class="text-xs text-surface-500">{{ formatMoney(item.monthlyAmount, item.currency) }}</div></td>
             <td><span class="font-mono text-xs">{{ item.channel || '*' }} / {{ item.productCode || '*' }}</span></td>
-            <td><p-tag [value]="item.status" [severity]="statusSeverity(item.status)" /></td>
-            <td class="text-right"><p-button icon="pi pi-pencil" size="small" variant="text" pTooltip="Sửa" (onClick)="openLimit(item)" /><p-button icon="pi pi-trash" size="small" severity="danger" variant="text" pTooltip="Xóa" (onClick)="deleteLimit(item)" /></td>
+            <td><p-tag [value]="item.approvalStatus + ' v' + item.version" [severity]="item.approvalStatus === 'APPROVED' ? 'success' : 'warn'" /></td>
+            <td class="text-right"><p-button icon="pi pi-check" size="small" variant="text" pTooltip="Duyệt" (onClick)="approveLimit(item)" [disabled]="item.approvalStatus === 'APPROVED'" /><p-button icon="pi pi-pencil" size="small" variant="text" pTooltip="Sửa" (onClick)="openLimit(item)" /><p-button icon="pi pi-trash" size="small" severity="danger" variant="text" pTooltip="Xóa" (onClick)="deleteLimit(item)" /></td>
           </tr>
         </ng-template>
       </p-table>
@@ -143,6 +143,7 @@
       <div class="flex flex-col gap-2"><label class="text-sm font-medium">Trạng thái</label><p-select formControlName="status" [options]="statusOptions" optionLabel="label" optionValue="value" appendTo="body" /></div>
       <div class="flex flex-col gap-2"><label class="text-sm font-medium">Từ ngày</label><p-datepicker formControlName="effectiveFrom" dateFormat="yy-mm-dd" dataType="string" appendTo="body" styleClass="w-full" /></div>
       <div class="flex flex-col gap-2"><label class="text-sm font-medium">Đến ngày</label><p-datepicker formControlName="effectiveTo" dateFormat="yy-mm-dd" dataType="string" appendTo="body" styleClass="w-full" /></div>
+      <div class="flex flex-col gap-2 md:col-span-3"><label class="text-sm font-medium">Ghi chú thay đổi</label><input pInputText formControlName="changeNote" /></div>
       <div class="flex flex-col gap-2 md:col-span-3"><label class="text-sm font-medium">Mô tả</label><textarea pTextarea formControlName="description" rows="3"></textarea></div>
     </div>
   }
@@ -158,6 +159,7 @@
       <div class="flex flex-col gap-2"><label class="text-sm font-medium">Trạng thái</label><p-select formControlName="status" [options]="statusOptions" optionLabel="label" optionValue="value" appendTo="body" /></div>
       <div class="flex flex-col gap-2"><label class="text-sm font-medium">Từ ngày</label><p-datepicker formControlName="effectiveFrom" dateFormat="yy-mm-dd" dataType="string" appendTo="body" styleClass="w-full" /></div>
       <div class="flex flex-col gap-2"><label class="text-sm font-medium">Đến ngày</label><p-datepicker formControlName="effectiveTo" dateFormat="yy-mm-dd" dataType="string" appendTo="body" styleClass="w-full" /></div>
+      <div class="flex flex-col gap-2 md:col-span-3"><label class="text-sm font-medium">Ghi chú thay đổi</label><input pInputText formControlName="changeNote" /></div>
       <div class="flex flex-col gap-2 md:col-span-3"><label class="text-sm font-medium">Mô tả</label><textarea pTextarea formControlName="description" rows="3"></textarea></div>
     </div>
   }
@@ -179,6 +181,7 @@
       <div class="flex flex-col gap-2"><label class="text-sm font-medium">Trạng thái</label><p-select formControlName="status" [options]="statusOptions" optionLabel="label" optionValue="value" appendTo="body" /></div>
       <div class="flex flex-col gap-2"><label class="text-sm font-medium">Từ ngày</label><p-datepicker formControlName="effectiveFrom" dateFormat="yy-mm-dd" dataType="string" appendTo="body" styleClass="w-full" /></div>
       <div class="flex flex-col gap-2"><label class="text-sm font-medium">Đến ngày</label><p-datepicker formControlName="effectiveTo" dateFormat="yy-mm-dd" dataType="string" appendTo="body" styleClass="w-full" /></div>
+      <div class="flex flex-col gap-2 md:col-span-3"><label class="text-sm font-medium">Ghi chú thay đổi</label><input pInputText formControlName="changeNote" /></div>
       <div class="flex flex-col gap-2 md:col-span-3"><label class="text-sm font-medium">Mô tả</label><textarea pTextarea formControlName="description" rows="3"></textarea></div>
     </div>
   }

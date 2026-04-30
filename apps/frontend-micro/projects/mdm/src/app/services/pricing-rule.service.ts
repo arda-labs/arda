@@ -29,6 +29,10 @@ export class PricingRuleService {
     return this.http.delete<void>(`/api/v1/mdm/fee-schedules/${encodeURIComponent(id)}`);
   }
 
+  approveFeeSchedule(id: string, note = ''): Observable<FeeSchedule> {
+    return this.http.post<any>(`/api/v1/mdm/fee-schedules/${encodeURIComponent(id)}/approve`, { actor: 'SYSTEM', note }).pipe(map(resp => this.toFeeSchedule(resp)));
+  }
+
   listTaxRules(options: ListOptions = {}): Observable<PageResponse<TaxRule>> {
     return this.http.get<any>('/api/v1/mdm/tax-rules', { params: buildParams(options) }).pipe(
       map(resp => ({
@@ -48,6 +52,10 @@ export class PricingRuleService {
 
   deleteTaxRule(id: string): Observable<void> {
     return this.http.delete<void>(`/api/v1/mdm/tax-rules/${encodeURIComponent(id)}`);
+  }
+
+  approveTaxRule(id: string, note = ''): Observable<TaxRule> {
+    return this.http.post<any>(`/api/v1/mdm/tax-rules/${encodeURIComponent(id)}/approve`, { actor: 'SYSTEM', note }).pipe(map(resp => this.toTaxRule(resp)));
   }
 
   listStandardLimits(options: ListOptions = {}): Observable<PageResponse<StandardLimit>> {
@@ -71,6 +79,10 @@ export class PricingRuleService {
     return this.http.delete<void>(`/api/v1/mdm/standard-limits/${encodeURIComponent(id)}`);
   }
 
+  approveStandardLimit(id: string, note = ''): Observable<StandardLimit> {
+    return this.http.post<any>(`/api/v1/mdm/standard-limits/${encodeURIComponent(id)}/approve`, { actor: 'SYSTEM', note }).pipe(map(resp => this.toStandardLimit(resp)));
+  }
+
   private toFeeSchedule(item: any): FeeSchedule {
     return {
       id: item.id ?? '',
@@ -89,6 +101,10 @@ export class PricingRuleService {
       effectiveTo: item.effective_to ?? item.effectiveTo ?? '',
       description: item.description ?? '',
       status: item.status ?? 'ACTIVE',
+      approvalStatus: item.approval_status ?? item.approvalStatus ?? 'DRAFT',
+      version: item.version ?? 1,
+      approvedBy: item.approved_by ?? item.approvedBy ?? '',
+      changeNote: item.change_note ?? item.changeNote ?? '',
     };
   }
 
@@ -110,6 +126,10 @@ export class PricingRuleService {
       effective_to: item.effectiveTo,
       description: item.description,
       status: item.status,
+      approval_status: item.approvalStatus,
+      version: item.version,
+      approved_by: item.approvedBy,
+      change_note: item.changeNote,
     };
   }
 
@@ -126,6 +146,10 @@ export class PricingRuleService {
       effectiveTo: item.effective_to ?? item.effectiveTo ?? '',
       description: item.description ?? '',
       status: item.status ?? 'ACTIVE',
+      approvalStatus: item.approval_status ?? item.approvalStatus ?? 'DRAFT',
+      version: item.version ?? 1,
+      approvedBy: item.approved_by ?? item.approvedBy ?? '',
+      changeNote: item.change_note ?? item.changeNote ?? '',
     };
   }
 
@@ -142,6 +166,10 @@ export class PricingRuleService {
       effective_to: item.effectiveTo,
       description: item.description,
       status: item.status,
+      approval_status: item.approvalStatus,
+      version: item.version,
+      approved_by: item.approvedBy,
+      change_note: item.changeNote,
     };
   }
 
@@ -164,6 +192,10 @@ export class PricingRuleService {
       effectiveTo: item.effective_to ?? item.effectiveTo ?? '',
       description: item.description ?? '',
       status: item.status ?? 'ACTIVE',
+      approvalStatus: item.approval_status ?? item.approvalStatus ?? 'DRAFT',
+      version: item.version ?? 1,
+      approvedBy: item.approved_by ?? item.approvedBy ?? '',
+      changeNote: item.change_note ?? item.changeNote ?? '',
     };
   }
 
@@ -186,6 +218,10 @@ export class PricingRuleService {
       effective_to: item.effectiveTo,
       description: item.description,
       status: item.status,
+      approval_status: item.approvalStatus,
+      version: item.version,
+      approved_by: item.approvedBy,
+      change_note: item.changeNote,
     };
   }
 }

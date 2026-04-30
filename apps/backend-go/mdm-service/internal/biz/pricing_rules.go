@@ -23,46 +23,61 @@ type FeeSchedule struct {
 	EffectiveTo       string
 	Description       string
 	Status            string
+	ApprovalStatus    string
+	Version           int
+	ApprovedBy        string
+	ApprovedAt        time.Time
+	ChangeNote        string
 	CreatedAt         time.Time
 	UpdatedAt         time.Time
 }
 
 type TaxRule struct {
-	ID            string
-	Code          string
-	Name          string
-	TaxType       string
-	RatePercent   float64
-	Inclusive     bool
-	Jurisdiction  string
-	EffectiveFrom string
-	EffectiveTo   string
-	Description   string
-	Status        string
-	CreatedAt     time.Time
-	UpdatedAt     time.Time
+	ID             string
+	Code           string
+	Name           string
+	TaxType        string
+	RatePercent    float64
+	Inclusive      bool
+	Jurisdiction   string
+	EffectiveFrom  string
+	EffectiveTo    string
+	Description    string
+	Status         string
+	ApprovalStatus string
+	Version        int
+	ApprovedBy     string
+	ApprovedAt     time.Time
+	ChangeNote     string
+	CreatedAt      time.Time
+	UpdatedAt      time.Time
 }
 
 type StandardLimit struct {
-	ID            string
-	Code          string
-	Name          string
-	LimitType     string
-	SubjectType   string
-	Currency      string
-	MinAmount     float64
-	PerTxnAmount  float64
-	DailyAmount   float64
-	MonthlyAmount float64
-	CountLimit    int
-	Channel       string
-	ProductCode   string
-	EffectiveFrom string
-	EffectiveTo   string
-	Description   string
-	Status        string
-	CreatedAt     time.Time
-	UpdatedAt     time.Time
+	ID             string
+	Code           string
+	Name           string
+	LimitType      string
+	SubjectType    string
+	Currency       string
+	MinAmount      float64
+	PerTxnAmount   float64
+	DailyAmount    float64
+	MonthlyAmount  float64
+	CountLimit     int
+	Channel        string
+	ProductCode    string
+	EffectiveFrom  string
+	EffectiveTo    string
+	Description    string
+	Status         string
+	ApprovalStatus string
+	Version        int
+	ApprovedBy     string
+	ApprovedAt     time.Time
+	ChangeNote     string
+	CreatedAt      time.Time
+	UpdatedAt      time.Time
 }
 
 func (uc *MdmUsecase) ListFeeSchedules(ctx context.Context, filter PageFilter) ([]*FeeSchedule, string, error) {
@@ -88,6 +103,10 @@ func (uc *MdmUsecase) DeleteFeeSchedule(ctx context.Context, id string) error {
 	return uc.repo.DeleteFeeSchedule(ctx, id)
 }
 
+func (uc *MdmUsecase) ApproveFeeSchedule(ctx context.Context, id, actor, note string) (*FeeSchedule, error) {
+	return uc.repo.ApproveFeeSchedule(ctx, strings.TrimSpace(id), approvalActor(actor), strings.TrimSpace(note))
+}
+
 func (uc *MdmUsecase) ListTaxRules(ctx context.Context, filter PageFilter) ([]*TaxRule, string, error) {
 	normalizePageFilter(&filter)
 	return uc.repo.ListTaxRules(ctx, filter)
@@ -109,6 +128,10 @@ func (uc *MdmUsecase) UpdateTaxRule(ctx context.Context, item *TaxRule) (*TaxRul
 
 func (uc *MdmUsecase) DeleteTaxRule(ctx context.Context, id string) error {
 	return uc.repo.DeleteTaxRule(ctx, id)
+}
+
+func (uc *MdmUsecase) ApproveTaxRule(ctx context.Context, id, actor, note string) (*TaxRule, error) {
+	return uc.repo.ApproveTaxRule(ctx, strings.TrimSpace(id), approvalActor(actor), strings.TrimSpace(note))
 }
 
 func (uc *MdmUsecase) ListStandardLimits(ctx context.Context, filter PageFilter) ([]*StandardLimit, string, error) {
@@ -134,6 +157,10 @@ func (uc *MdmUsecase) DeleteStandardLimit(ctx context.Context, id string) error 
 	return uc.repo.DeleteStandardLimit(ctx, id)
 }
 
+func (uc *MdmUsecase) ApproveStandardLimit(ctx context.Context, id, actor, note string) (*StandardLimit, error) {
+	return uc.repo.ApproveStandardLimit(ctx, strings.TrimSpace(id), approvalActor(actor), strings.TrimSpace(note))
+}
+
 func normalizeFeeSchedule(item *FeeSchedule) {
 	item.Code = upperDefault(item.Code, "")
 	item.Name = strings.TrimSpace(item.Name)
@@ -146,6 +173,12 @@ func normalizeFeeSchedule(item *FeeSchedule) {
 	item.EffectiveTo = strings.TrimSpace(item.EffectiveTo)
 	item.Description = strings.TrimSpace(item.Description)
 	item.Status = upperDefault(item.Status, "ACTIVE")
+	item.ApprovalStatus = upperDefault(item.ApprovalStatus, "DRAFT")
+	item.ApprovedBy = strings.TrimSpace(item.ApprovedBy)
+	item.ChangeNote = strings.TrimSpace(item.ChangeNote)
+	if item.Version <= 0 {
+		item.Version = 1
+	}
 }
 
 func normalizeTaxRule(item *TaxRule) {
@@ -157,6 +190,12 @@ func normalizeTaxRule(item *TaxRule) {
 	item.EffectiveTo = strings.TrimSpace(item.EffectiveTo)
 	item.Description = strings.TrimSpace(item.Description)
 	item.Status = upperDefault(item.Status, "ACTIVE")
+	item.ApprovalStatus = upperDefault(item.ApprovalStatus, "DRAFT")
+	item.ApprovedBy = strings.TrimSpace(item.ApprovedBy)
+	item.ChangeNote = strings.TrimSpace(item.ChangeNote)
+	if item.Version <= 0 {
+		item.Version = 1
+	}
 }
 
 func normalizeStandardLimit(item *StandardLimit) {
@@ -171,4 +210,18 @@ func normalizeStandardLimit(item *StandardLimit) {
 	item.EffectiveTo = strings.TrimSpace(item.EffectiveTo)
 	item.Description = strings.TrimSpace(item.Description)
 	item.Status = upperDefault(item.Status, "ACTIVE")
+	item.ApprovalStatus = upperDefault(item.ApprovalStatus, "DRAFT")
+	item.ApprovedBy = strings.TrimSpace(item.ApprovedBy)
+	item.ChangeNote = strings.TrimSpace(item.ChangeNote)
+	if item.Version <= 0 {
+		item.Version = 1
+	}
+}
+
+func approvalActor(actor string) string {
+	actor = strings.TrimSpace(actor)
+	if actor == "" {
+		return "SYSTEM"
+	}
+	return actor
 }

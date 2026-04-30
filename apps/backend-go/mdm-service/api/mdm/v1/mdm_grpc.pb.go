@@ -81,16 +81,19 @@ const (
 	MdmService_CreateFeeSchedule_FullMethodName                     = "/mdm.v1.MdmService/CreateFeeSchedule"
 	MdmService_UpdateFeeSchedule_FullMethodName                     = "/mdm.v1.MdmService/UpdateFeeSchedule"
 	MdmService_DeleteFeeSchedule_FullMethodName                     = "/mdm.v1.MdmService/DeleteFeeSchedule"
+	MdmService_ApproveFeeSchedule_FullMethodName                    = "/mdm.v1.MdmService/ApproveFeeSchedule"
 	MdmService_ListTaxRules_FullMethodName                          = "/mdm.v1.MdmService/ListTaxRules"
 	MdmService_GetTaxRule_FullMethodName                            = "/mdm.v1.MdmService/GetTaxRule"
 	MdmService_CreateTaxRule_FullMethodName                         = "/mdm.v1.MdmService/CreateTaxRule"
 	MdmService_UpdateTaxRule_FullMethodName                         = "/mdm.v1.MdmService/UpdateTaxRule"
 	MdmService_DeleteTaxRule_FullMethodName                         = "/mdm.v1.MdmService/DeleteTaxRule"
+	MdmService_ApproveTaxRule_FullMethodName                        = "/mdm.v1.MdmService/ApproveTaxRule"
 	MdmService_ListStandardLimits_FullMethodName                    = "/mdm.v1.MdmService/ListStandardLimits"
 	MdmService_GetStandardLimit_FullMethodName                      = "/mdm.v1.MdmService/GetStandardLimit"
 	MdmService_CreateStandardLimit_FullMethodName                   = "/mdm.v1.MdmService/CreateStandardLimit"
 	MdmService_UpdateStandardLimit_FullMethodName                   = "/mdm.v1.MdmService/UpdateStandardLimit"
 	MdmService_DeleteStandardLimit_FullMethodName                   = "/mdm.v1.MdmService/DeleteStandardLimit"
+	MdmService_ApproveStandardLimit_FullMethodName                  = "/mdm.v1.MdmService/ApproveStandardLimit"
 )
 
 // MdmServiceClient is the client API for MdmService service.
@@ -159,16 +162,19 @@ type MdmServiceClient interface {
 	CreateFeeSchedule(ctx context.Context, in *CreateFeeScheduleRequest, opts ...grpc.CallOption) (*FeeSchedule, error)
 	UpdateFeeSchedule(ctx context.Context, in *UpdateFeeScheduleRequest, opts ...grpc.CallOption) (*FeeSchedule, error)
 	DeleteFeeSchedule(ctx context.Context, in *DeleteFeeScheduleRequest, opts ...grpc.CallOption) (*DeleteResponse, error)
+	ApproveFeeSchedule(ctx context.Context, in *ApprovePricingRuleRequest, opts ...grpc.CallOption) (*FeeSchedule, error)
 	ListTaxRules(ctx context.Context, in *ListTaxRulesRequest, opts ...grpc.CallOption) (*ListTaxRulesResponse, error)
 	GetTaxRule(ctx context.Context, in *GetTaxRuleRequest, opts ...grpc.CallOption) (*TaxRule, error)
 	CreateTaxRule(ctx context.Context, in *CreateTaxRuleRequest, opts ...grpc.CallOption) (*TaxRule, error)
 	UpdateTaxRule(ctx context.Context, in *UpdateTaxRuleRequest, opts ...grpc.CallOption) (*TaxRule, error)
 	DeleteTaxRule(ctx context.Context, in *DeleteTaxRuleRequest, opts ...grpc.CallOption) (*DeleteResponse, error)
+	ApproveTaxRule(ctx context.Context, in *ApprovePricingRuleRequest, opts ...grpc.CallOption) (*TaxRule, error)
 	ListStandardLimits(ctx context.Context, in *ListStandardLimitsRequest, opts ...grpc.CallOption) (*ListStandardLimitsResponse, error)
 	GetStandardLimit(ctx context.Context, in *GetStandardLimitRequest, opts ...grpc.CallOption) (*StandardLimit, error)
 	CreateStandardLimit(ctx context.Context, in *CreateStandardLimitRequest, opts ...grpc.CallOption) (*StandardLimit, error)
 	UpdateStandardLimit(ctx context.Context, in *UpdateStandardLimitRequest, opts ...grpc.CallOption) (*StandardLimit, error)
 	DeleteStandardLimit(ctx context.Context, in *DeleteStandardLimitRequest, opts ...grpc.CallOption) (*DeleteResponse, error)
+	ApproveStandardLimit(ctx context.Context, in *ApprovePricingRuleRequest, opts ...grpc.CallOption) (*StandardLimit, error)
 }
 
 type mdmServiceClient struct {
@@ -799,6 +805,16 @@ func (c *mdmServiceClient) DeleteFeeSchedule(ctx context.Context, in *DeleteFeeS
 	return out, nil
 }
 
+func (c *mdmServiceClient) ApproveFeeSchedule(ctx context.Context, in *ApprovePricingRuleRequest, opts ...grpc.CallOption) (*FeeSchedule, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(FeeSchedule)
+	err := c.cc.Invoke(ctx, MdmService_ApproveFeeSchedule_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *mdmServiceClient) ListTaxRules(ctx context.Context, in *ListTaxRulesRequest, opts ...grpc.CallOption) (*ListTaxRulesResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ListTaxRulesResponse)
@@ -849,6 +865,16 @@ func (c *mdmServiceClient) DeleteTaxRule(ctx context.Context, in *DeleteTaxRuleR
 	return out, nil
 }
 
+func (c *mdmServiceClient) ApproveTaxRule(ctx context.Context, in *ApprovePricingRuleRequest, opts ...grpc.CallOption) (*TaxRule, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(TaxRule)
+	err := c.cc.Invoke(ctx, MdmService_ApproveTaxRule_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *mdmServiceClient) ListStandardLimits(ctx context.Context, in *ListStandardLimitsRequest, opts ...grpc.CallOption) (*ListStandardLimitsResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ListStandardLimitsResponse)
@@ -893,6 +919,16 @@ func (c *mdmServiceClient) DeleteStandardLimit(ctx context.Context, in *DeleteSt
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DeleteResponse)
 	err := c.cc.Invoke(ctx, MdmService_DeleteStandardLimit_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mdmServiceClient) ApproveStandardLimit(ctx context.Context, in *ApprovePricingRuleRequest, opts ...grpc.CallOption) (*StandardLimit, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(StandardLimit)
+	err := c.cc.Invoke(ctx, MdmService_ApproveStandardLimit_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -965,16 +1001,19 @@ type MdmServiceServer interface {
 	CreateFeeSchedule(context.Context, *CreateFeeScheduleRequest) (*FeeSchedule, error)
 	UpdateFeeSchedule(context.Context, *UpdateFeeScheduleRequest) (*FeeSchedule, error)
 	DeleteFeeSchedule(context.Context, *DeleteFeeScheduleRequest) (*DeleteResponse, error)
+	ApproveFeeSchedule(context.Context, *ApprovePricingRuleRequest) (*FeeSchedule, error)
 	ListTaxRules(context.Context, *ListTaxRulesRequest) (*ListTaxRulesResponse, error)
 	GetTaxRule(context.Context, *GetTaxRuleRequest) (*TaxRule, error)
 	CreateTaxRule(context.Context, *CreateTaxRuleRequest) (*TaxRule, error)
 	UpdateTaxRule(context.Context, *UpdateTaxRuleRequest) (*TaxRule, error)
 	DeleteTaxRule(context.Context, *DeleteTaxRuleRequest) (*DeleteResponse, error)
+	ApproveTaxRule(context.Context, *ApprovePricingRuleRequest) (*TaxRule, error)
 	ListStandardLimits(context.Context, *ListStandardLimitsRequest) (*ListStandardLimitsResponse, error)
 	GetStandardLimit(context.Context, *GetStandardLimitRequest) (*StandardLimit, error)
 	CreateStandardLimit(context.Context, *CreateStandardLimitRequest) (*StandardLimit, error)
 	UpdateStandardLimit(context.Context, *UpdateStandardLimitRequest) (*StandardLimit, error)
 	DeleteStandardLimit(context.Context, *DeleteStandardLimitRequest) (*DeleteResponse, error)
+	ApproveStandardLimit(context.Context, *ApprovePricingRuleRequest) (*StandardLimit, error)
 	mustEmbedUnimplementedMdmServiceServer()
 }
 
@@ -1171,6 +1210,9 @@ func (UnimplementedMdmServiceServer) UpdateFeeSchedule(context.Context, *UpdateF
 func (UnimplementedMdmServiceServer) DeleteFeeSchedule(context.Context, *DeleteFeeScheduleRequest) (*DeleteResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method DeleteFeeSchedule not implemented")
 }
+func (UnimplementedMdmServiceServer) ApproveFeeSchedule(context.Context, *ApprovePricingRuleRequest) (*FeeSchedule, error) {
+	return nil, status.Error(codes.Unimplemented, "method ApproveFeeSchedule not implemented")
+}
 func (UnimplementedMdmServiceServer) ListTaxRules(context.Context, *ListTaxRulesRequest) (*ListTaxRulesResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method ListTaxRules not implemented")
 }
@@ -1186,6 +1228,9 @@ func (UnimplementedMdmServiceServer) UpdateTaxRule(context.Context, *UpdateTaxRu
 func (UnimplementedMdmServiceServer) DeleteTaxRule(context.Context, *DeleteTaxRuleRequest) (*DeleteResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method DeleteTaxRule not implemented")
 }
+func (UnimplementedMdmServiceServer) ApproveTaxRule(context.Context, *ApprovePricingRuleRequest) (*TaxRule, error) {
+	return nil, status.Error(codes.Unimplemented, "method ApproveTaxRule not implemented")
+}
 func (UnimplementedMdmServiceServer) ListStandardLimits(context.Context, *ListStandardLimitsRequest) (*ListStandardLimitsResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method ListStandardLimits not implemented")
 }
@@ -1200,6 +1245,9 @@ func (UnimplementedMdmServiceServer) UpdateStandardLimit(context.Context, *Updat
 }
 func (UnimplementedMdmServiceServer) DeleteStandardLimit(context.Context, *DeleteStandardLimitRequest) (*DeleteResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method DeleteStandardLimit not implemented")
+}
+func (UnimplementedMdmServiceServer) ApproveStandardLimit(context.Context, *ApprovePricingRuleRequest) (*StandardLimit, error) {
+	return nil, status.Error(codes.Unimplemented, "method ApproveStandardLimit not implemented")
 }
 func (UnimplementedMdmServiceServer) mustEmbedUnimplementedMdmServiceServer() {}
 func (UnimplementedMdmServiceServer) testEmbeddedByValue()                    {}
@@ -2338,6 +2386,24 @@ func _MdmService_DeleteFeeSchedule_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _MdmService_ApproveFeeSchedule_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ApprovePricingRuleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).ApproveFeeSchedule(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_ApproveFeeSchedule_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).ApproveFeeSchedule(ctx, req.(*ApprovePricingRuleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _MdmService_ListTaxRules_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ListTaxRulesRequest)
 	if err := dec(in); err != nil {
@@ -2428,6 +2494,24 @@ func _MdmService_DeleteTaxRule_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
+func _MdmService_ApproveTaxRule_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ApprovePricingRuleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).ApproveTaxRule(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_ApproveTaxRule_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).ApproveTaxRule(ctx, req.(*ApprovePricingRuleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _MdmService_ListStandardLimits_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ListStandardLimitsRequest)
 	if err := dec(in); err != nil {
@@ -2514,6 +2598,24 @@ func _MdmService_DeleteStandardLimit_Handler(srv interface{}, ctx context.Contex
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(MdmServiceServer).DeleteStandardLimit(ctx, req.(*DeleteStandardLimitRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MdmService_ApproveStandardLimit_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ApprovePricingRuleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).ApproveStandardLimit(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_ApproveStandardLimit_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).ApproveStandardLimit(ctx, req.(*ApprovePricingRuleRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -2774,6 +2876,10 @@ var MdmService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _MdmService_DeleteFeeSchedule_Handler,
 		},
 		{
+			MethodName: "ApproveFeeSchedule",
+			Handler:    _MdmService_ApproveFeeSchedule_Handler,
+		},
+		{
 			MethodName: "ListTaxRules",
 			Handler:    _MdmService_ListTaxRules_Handler,
 		},
@@ -2794,6 +2900,10 @@ var MdmService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _MdmService_DeleteTaxRule_Handler,
 		},
 		{
+			MethodName: "ApproveTaxRule",
+			Handler:    _MdmService_ApproveTaxRule_Handler,
+		},
+		{
 			MethodName: "ListStandardLimits",
 			Handler:    _MdmService_ListStandardLimits_Handler,
 		},
@@ -2812,6 +2922,10 @@ var MdmService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteStandardLimit",
 			Handler:    _MdmService_DeleteStandardLimit_Handler,
+		},
+		{
+			MethodName: "ApproveStandardLimit",
+			Handler:    _MdmService_ApproveStandardLimit_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

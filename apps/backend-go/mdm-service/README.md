@@ -85,6 +85,11 @@ withdrawal fee, Vietnam VAT, and common retail/card transaction limits. Product
 or policy-specific overrides should be added as new active rules instead of
 hard-coded in downstream services.
 
+Pricing rules include governance metadata: approval status, version, approver,
+approval timestamp, change note, and audit log entries. New or edited rules
+start as draft unless explicitly approved through the approve endpoints or the
+frontend approve action.
+
 ### Administrative Unit Sync
 
 Vietnam province and ward data is no longer seeded from a static SQL dump. The

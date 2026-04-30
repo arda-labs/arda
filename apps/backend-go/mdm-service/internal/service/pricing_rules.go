@@ -48,6 +48,14 @@ func (s *MdmService) DeleteFeeSchedule(ctx context.Context, req *pb.DeleteFeeSch
 	return &pb.DeleteResponse{}, toServiceError(s.uc.DeleteFeeSchedule(ctx, req.Id))
 }
 
+func (s *MdmService) ApproveFeeSchedule(ctx context.Context, req *pb.ApprovePricingRuleRequest) (*pb.FeeSchedule, error) {
+	item, err := s.uc.ApproveFeeSchedule(ctx, req.Id, req.Actor, req.Note)
+	if err != nil {
+		return nil, toServiceError(err)
+	}
+	return toProtoFeeSchedule(item), nil
+}
+
 func (s *MdmService) ListTaxRules(ctx context.Context, req *pb.ListTaxRulesRequest) (*pb.ListTaxRulesResponse, error) {
 	list, next, err := s.uc.ListTaxRules(ctx, biz.PageFilter{
 		Status: req.Status, Keyword: req.Keyword, PageSize: int(req.PageSize), PageToken: req.PageToken,
@@ -86,6 +94,14 @@ func (s *MdmService) UpdateTaxRule(ctx context.Context, req *pb.UpdateTaxRuleReq
 
 func (s *MdmService) DeleteTaxRule(ctx context.Context, req *pb.DeleteTaxRuleRequest) (*pb.DeleteResponse, error) {
 	return &pb.DeleteResponse{}, toServiceError(s.uc.DeleteTaxRule(ctx, req.Id))
+}
+
+func (s *MdmService) ApproveTaxRule(ctx context.Context, req *pb.ApprovePricingRuleRequest) (*pb.TaxRule, error) {
+	item, err := s.uc.ApproveTaxRule(ctx, req.Id, req.Actor, req.Note)
+	if err != nil {
+		return nil, toServiceError(err)
+	}
+	return toProtoTaxRule(item), nil
 }
 
 func (s *MdmService) ListStandardLimits(ctx context.Context, req *pb.ListStandardLimitsRequest) (*pb.ListStandardLimitsResponse, error) {
@@ -128,6 +144,14 @@ func (s *MdmService) DeleteStandardLimit(ctx context.Context, req *pb.DeleteStan
 	return &pb.DeleteResponse{}, toServiceError(s.uc.DeleteStandardLimit(ctx, req.Id))
 }
 
+func (s *MdmService) ApproveStandardLimit(ctx context.Context, req *pb.ApprovePricingRuleRequest) (*pb.StandardLimit, error) {
+	item, err := s.uc.ApproveStandardLimit(ctx, req.Id, req.Actor, req.Note)
+	if err != nil {
+		return nil, toServiceError(err)
+	}
+	return toProtoStandardLimit(item), nil
+}
+
 func toBizFeeSchedule(in *pb.FeeSchedule) *biz.FeeSchedule {
 	if in == nil {
 		return &biz.FeeSchedule{}
@@ -139,6 +163,8 @@ func toBizFeeSchedule(in *pb.FeeSchedule) *biz.FeeSchedule {
 		MaxAmount: in.MaxAmount, Channel: in.Channel, ProductCode: in.ProductCode,
 		EffectiveFrom: in.EffectiveFrom, EffectiveTo: in.EffectiveTo,
 		Description: in.Description, Status: in.Status,
+		ApprovalStatus: in.ApprovalStatus, Version: int(in.Version),
+		ApprovedBy: in.ApprovedBy, ChangeNote: in.ChangeNote,
 	}
 }
 
@@ -153,6 +179,8 @@ func toProtoFeeSchedule(in *biz.FeeSchedule) *pb.FeeSchedule {
 		MaxAmount: in.MaxAmount, Channel: in.Channel, ProductCode: in.ProductCode,
 		EffectiveFrom: in.EffectiveFrom, EffectiveTo: in.EffectiveTo,
 		Description: in.Description, Status: in.Status,
+		ApprovalStatus: in.ApprovalStatus, Version: int32(in.Version),
+		ApprovedBy: in.ApprovedBy, ApprovedAt: toTimestamp(in.ApprovedAt), ChangeNote: in.ChangeNote,
 		CreatedAt: timestamppb.New(in.CreatedAt), UpdatedAt: timestamppb.New(in.UpdatedAt),
 	}
 }
@@ -174,6 +202,8 @@ func toBizTaxRule(in *pb.TaxRule) *biz.TaxRule {
 		RatePercent: in.RatePercent, Inclusive: in.Inclusive, Jurisdiction: in.Jurisdiction,
 		EffectiveFrom: in.EffectiveFrom, EffectiveTo: in.EffectiveTo,
 		Description: in.Description, Status: in.Status,
+		ApprovalStatus: in.ApprovalStatus, Version: int(in.Version),
+		ApprovedBy: in.ApprovedBy, ChangeNote: in.ChangeNote,
 	}
 }
 
@@ -186,6 +216,8 @@ func toProtoTaxRule(in *biz.TaxRule) *pb.TaxRule {
 		RatePercent: in.RatePercent, Inclusive: in.Inclusive, Jurisdiction: in.Jurisdiction,
 		EffectiveFrom: in.EffectiveFrom, EffectiveTo: in.EffectiveTo,
 		Description: in.Description, Status: in.Status,
+		ApprovalStatus: in.ApprovalStatus, Version: int32(in.Version),
+		ApprovedBy: in.ApprovedBy, ApprovedAt: toTimestamp(in.ApprovedAt), ChangeNote: in.ChangeNote,
 		CreatedAt: timestamppb.New(in.CreatedAt), UpdatedAt: timestamppb.New(in.UpdatedAt),
 	}
 }
@@ -209,6 +241,8 @@ func toBizStandardLimit(in *pb.StandardLimit) *biz.StandardLimit {
 		CountLimit: int(in.CountLimit), Channel: in.Channel, ProductCode: in.ProductCode,
 		EffectiveFrom: in.EffectiveFrom, EffectiveTo: in.EffectiveTo,
 		Description: in.Description, Status: in.Status,
+		ApprovalStatus: in.ApprovalStatus, Version: int(in.Version),
+		ApprovedBy: in.ApprovedBy, ChangeNote: in.ChangeNote,
 	}
 }
 
@@ -223,6 +257,8 @@ func toProtoStandardLimit(in *biz.StandardLimit) *pb.StandardLimit {
 		CountLimit: int32(in.CountLimit), Channel: in.Channel, ProductCode: in.ProductCode,
 		EffectiveFrom: in.EffectiveFrom, EffectiveTo: in.EffectiveTo,
 		Description: in.Description, Status: in.Status,
+		ApprovalStatus: in.ApprovalStatus, Version: int32(in.Version),
+		ApprovedBy: in.ApprovedBy, ApprovedAt: toTimestamp(in.ApprovedAt), ChangeNote: in.ChangeNote,
 		CreatedAt: timestamppb.New(in.CreatedAt), UpdatedAt: timestamppb.New(in.UpdatedAt),
 	}
 }

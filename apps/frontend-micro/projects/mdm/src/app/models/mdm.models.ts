@@ -211,6 +211,10 @@ export interface FeeSchedule {
   effectiveTo: string;
   description: string;
   status: string;
+  approvalStatus: string;
+  version: number;
+  approvedBy: string;
+  changeNote: string;
 }
 
 export interface TaxRule {
@@ -225,6 +229,10 @@ export interface TaxRule {
   effectiveTo: string;
   description: string;
   status: string;
+  approvalStatus: string;
+  version: number;
+  approvedBy: string;
+  changeNote: string;
 }
 
 export interface StandardLimit {
@@ -245,4 +253,8 @@ export interface StandardLimit {
   effectiveTo: string;
   description: string;
   status: string;
+  approvalStatus: string;
+  version: number;
+  approvedBy: string;
+  changeNote: string;
 }

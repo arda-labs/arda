@@ -25,6 +25,7 @@ jobs:
           filters: |
             iam-service: 'apps/backend-go/iam-service/**'
             mdm-service: 'apps/backend-go/mdm-service/**'
+            notification-service: 'apps/backend-go/notification-service/**'
 
   build-and-push:
     needs: changes

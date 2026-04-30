@@ -25,6 +25,7 @@ using this page during an incident.
 | --- | --- | --- |
 | `iam-service` | `apps/iam-service/overlays/dev` | `arda-apps` |
 | `mdm-service` | `apps/mdm-service/overlays/dev` | `arda-apps` |
+| `notification-service` | `apps/notification-service/overlays/dev` | `arda-apps` |
 | `mfe-shell` | `apps/mfe-shell/overlays/dev` | `arda-apps` |
 | `mfe-iam` | `apps/mfe-iam/overlays/dev` | `arda-apps` |
 | `mfe-mdm` | `apps/mfe-mdm/overlays/dev` | `arda-apps` |
@@ -40,6 +41,7 @@ using this page during an incident.
 | `/mfe-mdm/*` | `mfe-mdm` |
 | `/api/v1/*` | `iam-service` |
 | `/api/v1/mdm/*` | `mdm-service` |
+| `/api/v1/notifications/*` | `notification-service` |
 
 ## Last Live Capture
 
@@ -63,7 +65,7 @@ Historical pod names such as `mfe-common` and namespace names such as
 
 | Service | Current note |
 | --- | --- |
-| PostgreSQL | Active on `thinkcenter`; IAM uses `iam`, MDM uses dedicated `mdm` |
+| PostgreSQL | Active on `thinkcenter`; IAM uses `iam`, MDM uses `mdm`, Notification uses `notification` |
 | Redis | Configured in service configs; live availability still needs verification |
 | Redpanda | Roadmap / not verified as active runtime |
 | Monitoring stack | Roadmap / not verified as active runtime |

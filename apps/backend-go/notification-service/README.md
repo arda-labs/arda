@@ -71,6 +71,20 @@ Default local database:
 postgres://notification:notification%40123@thinkcenter:5432/notification?sslmode=disable
 ```
 
+Create the local/runtime database before starting the service. In the infra repo:
+
+```bash
+psql -h thinkcenter -U postgres -f scripts/bootstrap-dev-postgres.sql
+```
+
+The service also accepts `DATABASE_URL`, so a workstation PostgreSQL can be used
+without editing `configs/config.yaml`:
+
+```powershell
+$env:DATABASE_URL='postgres://notification:notification%40123@localhost:5432/notification?sslmode=disable'
+go run .\cmd\notification-service -conf .\configs
+```
+
 Ports:
 
 - HTTP: `8002`
@@ -89,6 +103,9 @@ go test ./...
 ```
 
 ## Docker
+
+The production container reads `/data/conf/config.yaml`; Kubernetes renders it
+from `arda-infra/apps/notification-service/base/configs.yaml`.
 
 ```powershell
 docker build -f apps/backend-go/notification-service/Dockerfile -t ghcr.io/arda-labs/notification-service:dev .

@@ -54,7 +54,7 @@ Runtime manifests live in the sibling repo `../arda-infra`.
 | MDM MFE | Active remote, runs on port `3001`, route `/app/mdm/*` |
 | IAM service | Active Go/Kratos service, default HTTP `8000`, gRPC `9000` |
 | MDM service | Active Go/Kratos service, default HTTP `8001`, gRPC `9001` |
-| Notification service | Started Go/Kratos service; template registry implemented |
+| Notification service | Active Go/Kratos service; templates, delivery queue, in-app inbox, provider config |
 | CRM service | Present in Go workspace as skeleton/roadmap |
 | Accounting Java | Prototype under `apps/backend-java/accounting_tmp` |
 
@@ -85,6 +85,9 @@ kratos run
 
 cd ..\mdm-service
 kratos run
+
+cd ..\notification-service
+go run .\cmd\notification-service -conf .\configs
 ```
 
 Open the shell through APISIX:
@@ -99,6 +102,7 @@ Main local gateway routes:
 | --- | --- |
 | `/api/v1/*` | IAM service, rewritten to `/v1/*` |
 | `/api/v1/mdm/*` | MDM service, rewritten to `/v1/mdm/*` |
+| `/api/v1/notifications/*` | Notification service, rewritten to `/v1/notifications/*` |
 | `/mfe-iam/*` | IAM remote assets |
 | `/mfe-mdm/*` | MDM remote assets |
 | `/*` | Shell app |

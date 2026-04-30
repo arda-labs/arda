@@ -10,6 +10,7 @@ This guide describes the current Go services in `apps/backend-go`.
 | --- | --- | --- |
 | `iam-service` | Active | Identity integration, tenants, roles, menus, permissions |
 | `mdm-service` | Active | Master data, geography, code catalogs, system parameters |
+| `notification-service` | Planned | Notification templates, delivery queue, provider adapters |
 | `crm-service` | Skeleton | Keep as roadmap until implementation starts |
 
 ## Common Commands
@@ -66,6 +67,14 @@ Service-native paths start with `/v1`. APISIX exposes them under `/api/v1`.
 5. Add Dockerfile and GitHub Actions detection.
 6. Add matching manifests in `arda-infra/apps/<service>/overlays/dev`.
 7. Add APISIX routes in infra, not in the app repo.
+
+## Next Planned Service: Notification
+
+`notification-service` should be the next Go service candidate after the first
+MDM banking reference modules. It should use the same Kratos layout as IAM and
+MDM, with a dedicated PostgreSQL database and durable delivery queue. The
+feature design is documented in
+[Notification Service](../06-features/notification.md).
 
 ## Current Gaps
 

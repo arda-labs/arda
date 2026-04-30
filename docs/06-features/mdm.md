@@ -1,70 +1,112 @@
-# MDM — Dữ liệu nền
+# MDM - Master Data Management
 
 Updated: 2026-04-30
 
-Status: Implemented first release. Backend, migrations, IAM menu seed, frontend
-MFE, and GitOps manifests exist.
+Status: Active. Backend service, database migrations, IAM menu seed, frontend
+MFE pages, and GitOps manifests exist. The service now covers the core shared
+reference data needed before building more transactional banking services.
 
-## Scope
-
-`mdm-service` owns master data that is reused across IAM, CRM, HRM, accounting, banking, payments, and reporting. It replaces the old `common-service` skeleton because `common` is too broad and tends to become an unclear catch-all.
-
-Runtime contract:
+## Runtime Contract
 
 - Backend service: `apps/backend-go/mdm-service`
 - Database: `mdm`
 - Database user: `mdm`
-- API prefix: `/api/v1/mdm/*`
+- Native API prefix: `/v1/mdm/*`
+- Gateway API prefix: `/api/v1/mdm/*`
 - Frontend MFE: `apps/frontend-micro/projects/mdm`
 - MFE asset route: `/mfe-mdm/*`
 - Shell route: `/app/mdm/*`
 - Permissions: `mdm:read`, `mdm:create`, `mdm:update`, `mdm:delete`
 
-## Current CRUD
+## Implemented Domains
 
-The first MDM release covers these entities:
-
-| Area | Entity | Purpose |
+| Group | Entities | UI route |
 | --- | --- | --- |
-| Geographic | Administrative units | Province/city and ward/commune/special-zone hierarchy |
-| Geographic | Area types | Type definitions for business regions, delivery zones, branch regions, risk zones |
-| Geographic | Areas | Business-defined regions that can map to administrative units |
-| Reference data | Code sets | Named catalogs such as currency, payment channel, risk rating |
-| Reference data | Code items | Values inside a code set, including ordering, flags, metadata, and status |
-| System | System parameters | Runtime parameters grouped by security, UI, banking, finance, risk, pricing |
+| Geographic | Administrative units, area types, areas | `/app/mdm/geo/*` |
+| Reference data | Code sets, code items | `/app/mdm/catalog/*` |
+| System | System parameters | `/app/mdm/system/parameters` |
+| Banking counterparties | Credit institutions | `/app/mdm/banking/credit-institutions` |
+| Business time | Business calendars, working hours, holidays/exceptions | `/app/mdm/banking/business-calendars` |
+| Pricing governance | Fee schedules, tax rules, standard limits | `/app/mdm/banking/pricing-rules` |
+| Treasury reference | Currencies, FX rate sources, FX rates | `/app/mdm/banking/currency-fx` |
+| Product/channel setup | Banking products, service channels, product-channel rules | `/app/mdm/banking/product-channels` |
+| Payment routing | Bank branches, SWIFT/NAPAS codes, payment networks | `/app/mdm/banking/payment-networks` |
 
 ## Frontend Menu
 
-IAM seeds the MDM menu as a parent with three groups:
+IAM seeds MDM under a parent menu with these groups:
 
 | Parent | Child routes |
 | --- | --- |
-| Địa lý hành chính | `/app/mdm/geo/administrative-units`, `/app/mdm/geo/area-types`, `/app/mdm/geo/areas` |
-| Danh mục & tham số | `/app/mdm/catalog/code-sets`, `/app/mdm/catalog/code-items`, `/app/mdm/system/parameters` |
-| Tài chính ngân hàng | `/app/mdm/banking/reference` |
+| Địa lý hành chính | Tỉnh/phường xã, loại khu vực, khu vực quản lý |
+| Danh mục & tham số | Bộ danh mục, giá trị danh mục, tham số hệ thống |
+| Tài chính ngân hàng | Gợi ý mở rộng, tổ chức tín dụng, lịch làm việc, biểu phí/thuế/hạn mức, tiền tệ/tỷ giá, sản phẩm/kênh, chi nhánh/mạng thanh toán |
 
-The banking page is currently a proposal/reference view. CRUD should only be added once the owning domain is clear.
+Important migration note: IAM `menus` uses `tenant_id`, `slug`, `route`,
+`enabled`, and `permission_slug`. New MDM menu migrations should follow the
+existing `000021`-`000026` style and must not use `code`, `path`, or `status`
+columns.
 
-## Banking Reference Data Candidates
+## External Data Sync
 
-Good MDM candidates for a financial/banking platform:
-
-- `CURRENCY`, `COUNTRY`, `BUSINESS_CALENDAR`
-- `BANK`, `BANK_BRANCH`, `PAYMENT_NETWORK`
-- `BANK_ACCOUNT_TYPE`, `PAYMENT_METHOD`, `PAYMENT_CHANNEL`
-- `TRANSACTION_TYPE`, `FEE_TYPE`, `TAX_CODE`
-- `CUSTOMER_SEGMENT`, `DOCUMENT_TYPE`, `OCCUPATION`, `ECONOMIC_SECTOR`
-- `RISK_RATING`, `AML_LIST_SOURCE`, `SANCTION_SOURCE`
-- `INTEREST_RATE_TYPE`, `COLLATERAL_TYPE`, `LIMIT_PROFILE`
-
-Do not put product-owned rules into MDM just because they are lists. Product pricing, loan policy, accounting rules, and approval workflow definitions should stay in their domain services unless they are truly cross-domain reference data.
-
-## Local And Dev Database
-
-The standalone service should use its own database and login:
+Vietnam administrative unit data is synced from CASSO AddressKit:
 
 ```text
-postgres://mdm:mdm%40123@thinkcenter:5432/mdm?sslmode=disable
+https://production.cas.so/address-kit/latest/provinces
+https://production.cas.so/address-kit/latest/communes
 ```
 
-Using the IAM database user for MDM is only acceptable for short-lived bootstrap work. The committed service config and GitOps secret script use the dedicated `mdm` user.
+The MDM sync endpoint replaces current administrative units in one transaction:
+
+```powershell
+curl -X POST http://localhost:8001/api/v1/mdm/administrative-units/sync-addresskit
+```
+
+The frontend exposes this as the `Đồng bộ AddressKit` action on the
+administrative unit page.
+
+## Governance Rules
+
+- MDM owns data that is shared across services and stable enough to be reused.
+- Domain-specific transaction rules should stay in their owning service unless
+  they are truly cross-domain reference data.
+- Pricing, tax, limit, FX, product-channel, and payment routing data should be
+  effective-dated where downstream services need historical behavior.
+- Operational records should use soft delete with status changes so dependent
+  systems do not break on missing references.
+
+## Verification
+
+Backend:
+
+```powershell
+cd apps\backend-go\mdm-service
+go test ./...
+```
+
+Frontend:
+
+```powershell
+cd apps\frontend-micro
+npx ng build mdm --configuration development
+```
+
+IAM menu migrations:
+
+```powershell
+cd apps\backend-go\iam-service
+go test ./...
+```
+
+## Next MDM Candidates
+
+These are useful later, but should not block notification service design:
+
+- Customer/KYC reference lists: occupation, economic sector, document subtype,
+  residency, AML list source, sanction source.
+- Risk/compliance reference data: risk grades, review frequency, watchlist
+  categories, screening result codes.
+- Accounting reference data: chart-of-account mapping keys, posting event
+  types, cost/profit center catalogs.
+- Localization data: supported languages, message keys, country-specific
+  formatting rules.

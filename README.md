@@ -53,6 +53,7 @@ Runtime manifests live in the sibling repo `../arda-infra`.
 | MDM MFE | Active remote, runs on port `3001`, route `/app/mdm/*` |
 | IAM service | Active Go/Kratos service, default HTTP `8000`, gRPC `9000` |
 | MDM service | Active Go/Kratos service, default HTTP `8001`, gRPC `9001` |
+| Notification service | Planned Go/Kratos service; design documented |
 | CRM service | Present in Go workspace as skeleton/roadmap |
 | Accounting Java | Prototype under `apps/backend-java/accounting_tmp` |
 
@@ -141,6 +142,7 @@ kubectl kustomize apps\mfe-mdm\overlays\dev
 - [Frontend Architecture](./docs/04-frontend/architecture.md)
 - [Go Backend Architecture](./docs/02-backend-go/architecture.md)
 - [MDM Features](./docs/06-features/mdm.md)
+- [Notification Service Design](./docs/06-features/notification.md)
 - [Documentation Audit](./docs/08-guides/documentation-audit.md)
 
 ## License

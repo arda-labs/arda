@@ -1,15 +1,18 @@
 package main
 
 import (
+	"context"
 	"flag"
 	"os"
 	"path/filepath"
+	"time"
 
 	"github.com/arda-labs/arda/arda-be-go/services/notification-service/internal/biz"
 	"github.com/arda-labs/arda/arda-be-go/services/notification-service/internal/conf"
 	"github.com/arda-labs/arda/arda-be-go/services/notification-service/internal/data"
 	"github.com/arda-labs/arda/arda-be-go/services/notification-service/internal/server"
 	"github.com/arda-labs/arda/arda-be-go/services/notification-service/internal/service"
+	"github.com/arda-labs/arda/arda-be-go/services/notification-service/internal/worker"
 	"github.com/go-kratos/kratos/v2"
 	"github.com/go-kratos/kratos/v2/config"
 	"github.com/go-kratos/kratos/v2/config/env"
@@ -78,6 +81,9 @@ func main() {
 	svc := service.NewNotificationService(uc)
 	hs := server.NewHTTPServer(bc.Server, bc.Jwt, svc, logger)
 	gs := server.NewGRPCServer(bc.Server, svc, logger)
+	workerCtx, stopWorker := context.WithCancel(context.Background())
+	defer stopWorker()
+	worker.NewDeliveryWorker(uc, logger, id, 5*time.Second, 20).Start(workerCtx)
 
 	app := kratos.New(
 		kratos.ID(id),

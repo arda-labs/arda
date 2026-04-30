@@ -6,6 +6,176 @@ info:
     title: NotificationService API
     version: 0.0.1
 paths:
+    /v1/notifications/deliveries:
+        get:
+            tags:
+                - NotificationService
+            operationId: NotificationService_ListDeliveries
+            parameters:
+                - name: status
+                  in: query
+                  schema:
+                    type: string
+                - name: channel
+                  in: query
+                  schema:
+                    type: string
+                - name: recipientId
+                  in: query
+                  schema:
+                    type: string
+                - name: pageSize
+                  in: query
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pageToken
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/notification.v1.ListDeliveriesResponse'
+    /v1/notifications/deliveries/run-once:
+        post:
+            tags:
+                - NotificationService
+            operationId: NotificationService_RunDeliveryWorkerOnce
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/notification.v1.RunDeliveryWorkerOnceRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/notification.v1.RunDeliveryWorkerOnceResponse'
+    /v1/notifications/deliveries/{id}/retry:
+        post:
+            tags:
+                - NotificationService
+            operationId: NotificationService_RetryDelivery
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/notification.v1.RetryDeliveryRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/notification.v1.NotificationDelivery'
+    /v1/notifications/in-app:
+        get:
+            tags:
+                - NotificationService
+            operationId: NotificationService_ListInAppNotifications
+            parameters:
+                - name: recipientType
+                  in: query
+                  schema:
+                    type: string
+                - name: recipientId
+                  in: query
+                  schema:
+                    type: string
+                - name: status
+                  in: query
+                  schema:
+                    type: string
+                - name: pageSize
+                  in: query
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pageToken
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/notification.v1.ListInAppNotificationsResponse'
+    /v1/notifications/in-app/{id}/read:
+        post:
+            tags:
+                - NotificationService
+            operationId: NotificationService_MarkInAppNotificationRead
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/notification.v1.MarkInAppNotificationReadRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/notification.v1.InAppNotification'
+    /v1/notifications/requests:
+        post:
+            tags:
+                - NotificationService
+            operationId: NotificationService_CreateNotificationRequest
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/notification.v1.CreateNotificationRequestRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/notification.v1.NotificationRequest'
+    /v1/notifications/requests/{id}:
+        get:
+            tags:
+                - NotificationService
+            operationId: NotificationService_GetNotificationRequest
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/notification.v1.NotificationRequest'
     /v1/notifications/template-versions/{id}/approve:
         post:
             tags:
@@ -199,6 +369,11 @@ components:
                     type: string
                 note:
                     type: string
+        notification.v1.CreateNotificationRequestRequest:
+            type: object
+            properties:
+                request:
+                    $ref: '#/components/schemas/notification.v1.NotificationRequest'
         notification.v1.CreateTemplateRequest:
             type: object
             properties:
@@ -214,6 +389,49 @@ components:
         notification.v1.DeleteResponse:
             type: object
             properties: {}
+        notification.v1.InAppNotification:
+            type: object
+            properties:
+                id:
+                    type: string
+                deliveryId:
+                    type: string
+                recipientType:
+                    type: string
+                recipientId:
+                    type: string
+                title:
+                    type: string
+                body:
+                    type: string
+                dataJson:
+                    type: string
+                status:
+                    type: string
+                readAt:
+                    type: string
+                    format: date-time
+                createdAt:
+                    type: string
+                    format: date-time
+        notification.v1.ListDeliveriesResponse:
+            type: object
+            properties:
+                deliveries:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/notification.v1.NotificationDelivery'
+                nextPageToken:
+                    type: string
+        notification.v1.ListInAppNotificationsResponse:
+            type: object
+            properties:
+                notifications:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/notification.v1.InAppNotification'
+                nextPageToken:
+                    type: string
         notification.v1.ListTemplateVersionsResponse:
             type: object
             properties:
@@ -230,6 +448,111 @@ components:
                         $ref: '#/components/schemas/notification.v1.NotificationTemplate'
                 nextPageToken:
                     type: string
+        notification.v1.MarkInAppNotificationReadRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                actor:
+                    type: string
+        notification.v1.NotificationDelivery:
+            type: object
+            properties:
+                id:
+                    type: string
+                requestId:
+                    type: string
+                templateVersionId:
+                    type: string
+                channel:
+                    type: string
+                recipientType:
+                    type: string
+                recipientId:
+                    type: string
+                recipientAddress:
+                    type: string
+                subject:
+                    type: string
+                body:
+                    type: string
+                status:
+                    type: string
+                attemptCount:
+                    type: integer
+                    format: int32
+                maxAttempts:
+                    type: integer
+                    format: int32
+                nextAttemptAt:
+                    type: string
+                    format: date-time
+                lockedBy:
+                    type: string
+                lockedAt:
+                    type: string
+                    format: date-time
+                providerCode:
+                    type: string
+                providerMessageId:
+                    type: string
+                providerResponseJson:
+                    type: string
+                errorMessage:
+                    type: string
+                priority:
+                    type: integer
+                    format: int32
+                createdAt:
+                    type: string
+                    format: date-time
+                updatedAt:
+                    type: string
+                    format: date-time
+        notification.v1.NotificationRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                sourceService:
+                    type: string
+                eventType:
+                    type: string
+                correlationId:
+                    type: string
+                idempotencyKey:
+                    type: string
+                templateCode:
+                    type: string
+                recipientType:
+                    type: string
+                recipientId:
+                    type: string
+                recipientAddress:
+                    type: string
+                channels:
+                    type: array
+                    items:
+                        type: string
+                language:
+                    type: string
+                payloadJson:
+                    type: string
+                priority:
+                    type: integer
+                    format: int32
+                status:
+                    type: string
+                createdAt:
+                    type: string
+                    format: date-time
+                updatedAt:
+                    type: string
+                    format: date-time
+                deliveries:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/notification.v1.NotificationDelivery'
         notification.v1.NotificationTemplate:
             type: object
             properties:
@@ -290,6 +613,30 @@ components:
                 updatedAt:
                     type: string
                     format: date-time
+        notification.v1.RetryDeliveryRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                actor:
+                    type: string
+        notification.v1.RunDeliveryWorkerOnceRequest:
+            type: object
+            properties:
+                workerId:
+                    type: string
+                batchSize:
+                    type: integer
+                    format: int32
+        notification.v1.RunDeliveryWorkerOnceResponse:
+            type: object
+            properties:
+                processed:
+                    type: integer
+                    format: int32
+                failed:
+                    type: integer
+                    format: int32
         notification.v1.UpdateTemplateRequest:
             type: object
             properties:

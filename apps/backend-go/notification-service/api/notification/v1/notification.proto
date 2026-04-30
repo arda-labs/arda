@@ -33,6 +33,28 @@ service NotificationService {
   rpc ApproveTemplateVersion(ApproveTemplateVersionRequest) returns (NotificationTemplateVersion) {
     option (google.api.http) = { post: "/v1/notifications/template-versions/{id}/approve" body: "*" };
   }
+
+  rpc CreateNotificationRequest(CreateNotificationRequestRequest) returns (NotificationRequest) {
+    option (google.api.http) = { post: "/v1/notifications/requests" body: "*" };
+  }
+  rpc GetNotificationRequest(GetNotificationRequestRequest) returns (NotificationRequest) {
+    option (google.api.http) = { get: "/v1/notifications/requests/{id}" };
+  }
+  rpc ListDeliveries(ListDeliveriesRequest) returns (ListDeliveriesResponse) {
+    option (google.api.http) = { get: "/v1/notifications/deliveries" };
+  }
+  rpc RetryDelivery(RetryDeliveryRequest) returns (NotificationDelivery) {
+    option (google.api.http) = { post: "/v1/notifications/deliveries/{id}/retry" body: "*" };
+  }
+  rpc RunDeliveryWorkerOnce(RunDeliveryWorkerOnceRequest) returns (RunDeliveryWorkerOnceResponse) {
+    option (google.api.http) = { post: "/v1/notifications/deliveries/run-once" body: "*" };
+  }
+  rpc ListInAppNotifications(ListInAppNotificationsRequest) returns (ListInAppNotificationsResponse) {
+    option (google.api.http) = { get: "/v1/notifications/in-app" };
+  }
+  rpc MarkInAppNotificationRead(MarkInAppNotificationReadRequest) returns (InAppNotification) {
+    option (google.api.http) = { post: "/v1/notifications/in-app/{id}/read" body: "*" };
+  }
 }
 
 message NotificationTemplate {
@@ -63,6 +85,64 @@ message NotificationTemplateVersion {
   string status = 13;
   google.protobuf.Timestamp created_at = 14;
   google.protobuf.Timestamp updated_at = 15;
+}
+
+message NotificationRequest {
+  string id = 1;
+  string source_service = 2;
+  string event_type = 3;
+  string correlation_id = 4;
+  string idempotency_key = 5;
+  string template_code = 6;
+  string recipient_type = 7;
+  string recipient_id = 8;
+  string recipient_address = 9;
+  repeated string channels = 10;
+  string language = 11;
+  string payload_json = 12;
+  int32 priority = 13;
+  string status = 14;
+  google.protobuf.Timestamp created_at = 15;
+  google.protobuf.Timestamp updated_at = 16;
+  repeated NotificationDelivery deliveries = 17;
+}
+
+message NotificationDelivery {
+  string id = 1;
+  string request_id = 2;
+  string template_version_id = 3;
+  string channel = 4;
+  string recipient_type = 5;
+  string recipient_id = 6;
+  string recipient_address = 7;
+  string subject = 8;
+  string body = 9;
+  string status = 10;
+  int32 attempt_count = 11;
+  int32 max_attempts = 12;
+  google.protobuf.Timestamp next_attempt_at = 13;
+  string locked_by = 14;
+  google.protobuf.Timestamp locked_at = 15;
+  string provider_code = 16;
+  string provider_message_id = 17;
+  string provider_response_json = 18;
+  string error_message = 19;
+  int32 priority = 20;
+  google.protobuf.Timestamp created_at = 21;
+  google.protobuf.Timestamp updated_at = 22;
+}
+
+message InAppNotification {
+  string id = 1;
+  string delivery_id = 2;
+  string recipient_type = 3;
+  string recipient_id = 4;
+  string title = 5;
+  string body = 6;
+  string data_json = 7;
+  string status = 8;
+  google.protobuf.Timestamp read_at = 9;
+  google.protobuf.Timestamp created_at = 10;
 }
 
 message DeleteResponse {}
@@ -102,4 +182,47 @@ message ApproveTemplateVersionRequest {
   string id = 1;
   string actor = 2;
   string note = 3;
+}
+
+message CreateNotificationRequestRequest {
+  NotificationRequest request = 1;
+}
+message GetNotificationRequestRequest { string id = 1; }
+message ListDeliveriesRequest {
+  string status = 1;
+  string channel = 2;
+  string recipient_id = 3;
+  int32 page_size = 4;
+  string page_token = 5;
+}
+message ListDeliveriesResponse {
+  repeated NotificationDelivery deliveries = 1;
+  string next_page_token = 2;
+}
+message RetryDeliveryRequest {
+  string id = 1;
+  string actor = 2;
+}
+message RunDeliveryWorkerOnceRequest {
+  string worker_id = 1;
+  int32 batch_size = 2;
+}
+message RunDeliveryWorkerOnceResponse {
+  int32 processed = 1;
+  int32 failed = 2;
+}
+message ListInAppNotificationsRequest {
+  string recipient_type = 1;
+  string recipient_id = 2;
+  string status = 3;
+  int32 page_size = 4;
+  string page_token = 5;
+}
+message ListInAppNotificationsResponse {
+  repeated InAppNotification notifications = 1;
+  string next_page_token = 2;
+}
+message MarkInAppNotificationReadRequest {
+  string id = 1;
+  string actor = 2;
 }

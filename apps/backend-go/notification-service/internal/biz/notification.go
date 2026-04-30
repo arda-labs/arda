@@ -26,6 +26,22 @@ type TemplateVersionFilter struct {
 	Status     string
 }
 
+type DeliveryFilter struct {
+	Status      string
+	Channel     string
+	RecipientID string
+	PageSize    int
+	PageToken   string
+}
+
+type InAppFilter struct {
+	RecipientType string
+	RecipientID   string
+	Status        string
+	PageSize      int
+	PageToken     string
+}
+
 type NotificationRepo interface {
 	ListTemplates(ctx context.Context, filter PageFilter) ([]*NotificationTemplate, string, error)
 	GetTemplate(ctx context.Context, id string) (*NotificationTemplate, error)
@@ -36,6 +52,17 @@ type NotificationRepo interface {
 	ListTemplateVersions(ctx context.Context, filter TemplateVersionFilter) ([]*NotificationTemplateVersion, error)
 	CreateTemplateVersion(ctx context.Context, item *NotificationTemplateVersion) (*NotificationTemplateVersion, error)
 	ApproveTemplateVersion(ctx context.Context, id, actor, note string) (*NotificationTemplateVersion, error)
+
+	CreateNotificationRequest(ctx context.Context, item *NotificationRequest) (*NotificationRequest, error)
+	GetNotificationRequest(ctx context.Context, id string) (*NotificationRequest, error)
+	ListDeliveries(ctx context.Context, filter DeliveryFilter) ([]*NotificationDelivery, string, error)
+	RetryDelivery(ctx context.Context, id, actor string) (*NotificationDelivery, error)
+	ClaimDueDeliveries(ctx context.Context, workerID string, limit int) ([]*NotificationDelivery, error)
+	CreateInAppNotification(ctx context.Context, delivery *NotificationDelivery) (*InAppNotification, error)
+	MarkDeliveryDelivered(ctx context.Context, id, providerCode, providerMessageID, providerResponseJSON string) (*NotificationDelivery, error)
+	MarkDeliveryFailed(ctx context.Context, id, message string, retryAfterSeconds int) (*NotificationDelivery, error)
+	ListInAppNotifications(ctx context.Context, filter InAppFilter) ([]*InAppNotification, string, error)
+	MarkInAppNotificationRead(ctx context.Context, id, actor string) (*InAppNotification, error)
 }
 
 type NotificationUsecase struct {
@@ -74,6 +101,64 @@ type NotificationTemplateVersion struct {
 	Status            string
 	CreatedAt         time.Time
 	UpdatedAt         time.Time
+}
+
+type NotificationRequest struct {
+	ID               string
+	SourceService    string
+	EventType        string
+	CorrelationID    string
+	IdempotencyKey   string
+	TemplateCode     string
+	RecipientType    string
+	RecipientID      string
+	RecipientAddress string
+	Channels         []string
+	Language         string
+	PayloadJSON      string
+	Priority         int
+	Status           string
+	CreatedAt        time.Time
+	UpdatedAt        time.Time
+	Deliveries       []*NotificationDelivery
+}
+
+type NotificationDelivery struct {
+	ID                   string
+	RequestID            string
+	TemplateVersionID    string
+	Channel              string
+	RecipientType        string
+	RecipientID          string
+	RecipientAddress     string
+	Subject              string
+	Body                 string
+	Status               string
+	AttemptCount         int
+	MaxAttempts          int
+	NextAttemptAt        time.Time
+	LockedBy             string
+	LockedAt             time.Time
+	ProviderCode         string
+	ProviderMessageID    string
+	ProviderResponseJSON string
+	ErrorMessage         string
+	Priority             int
+	CreatedAt            time.Time
+	UpdatedAt            time.Time
+}
+
+type InAppNotification struct {
+	ID            string
+	DeliveryID    string
+	RecipientType string
+	RecipientID   string
+	Title         string
+	Body          string
+	DataJSON      string
+	Status        string
+	ReadAt        time.Time
+	CreatedAt     time.Time
 }
 
 func (uc *NotificationUsecase) ListTemplates(ctx context.Context, filter PageFilter) ([]*NotificationTemplate, string, error) {

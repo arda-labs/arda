@@ -2,8 +2,9 @@
 
 Updated: 2026-04-30
 
-Status: Implementation started. Part 1 scaffolds `notification-service` with
-template and template-version APIs. Delivery queue, worker, provider adapters,
+Status: Implementation started. Parts 1 and 2 scaffold `notification-service`
+with template APIs, durable notification requests, delivery queue, retry API,
+and a DB-backed in-app delivery worker. External provider adapters,
 preferences, and operations UI are still roadmap.
 
 ## Goal
@@ -61,7 +62,7 @@ Notification service does not own:
 2. Domain service calls `CreateNotification` or writes an outbox event.
 3. Notification service validates template/channel/policy.
 4. Service creates one notification request and one or more delivery jobs.
-5. Worker claims queued jobs, renders template, calls provider adapter.
+5. Worker claims queued jobs and delivers through the channel adapter.
 6. Provider result is recorded with delivery status and response metadata.
 7. Failed jobs retry with backoff until max attempts, then move to dead-letter.
 
@@ -88,8 +89,9 @@ Initial tables:
 | --- | --- |
 | `notification_templates` | Template header: code, name, category, status, default channel |
 | `notification_template_versions` | Versioned content per channel/language with schema and approval status |
-| `notification_requests` | Business request: source service, event type, correlation id, recipient, payload snapshot |
-| `notification_deliveries` | Per-channel delivery job with status, attempt count, provider result |
+| `notification_requests` | Implemented. Business request: source service, event type, correlation id, recipient, payload snapshot |
+| `notification_deliveries` | Implemented. Per-channel delivery job with status, attempt count, provider result |
+| `in_app_notifications` | Implemented. Internal inbox records created from delivered `IN_APP` jobs |
 | `notification_preferences` | User/customer channel preference, opt-in/opt-out, quiet hours |
 | `notification_provider_configs` | Provider code, channel, priority, rate limit, status, non-secret metadata |
 | `notification_audit_logs` | Template changes, approval actions, resend/manual override actions |
@@ -115,7 +117,11 @@ External service-facing APIs:
 | `POST /v1/notifications/requests` | Create durable notification request |
 | `GET /v1/notifications/requests/{id}` | Inspect request and deliveries |
 | `POST /v1/notifications/requests/{id}/cancel` | Cancel queued deliveries |
+| `GET /v1/notifications/deliveries` | List delivery queue jobs |
 | `POST /v1/notifications/deliveries/{id}/retry` | Manual retry for failed delivery |
+| `POST /v1/notifications/deliveries/run-once` | Admin/local hook to process one delivery batch |
+| `GET /v1/notifications/in-app` | List in-app inbox records by recipient |
+| `POST /v1/notifications/in-app/{id}/read` | Mark an in-app notification as read |
 
 Admin APIs:
 
@@ -194,8 +200,9 @@ Phase 1: service skeleton and durable queue
 - Done: create `apps/backend-go/notification-service`.
 - Done: add dedicated database config and first migrations.
 - Done: implement template CRUD and template-version approval.
-- Next: implement request creation, delivery queue, retry worker.
-- Next: support `IN_APP` and `EMAIL` adapter first.
+- Done: implement request creation, delivery queue, retry API, and worker loop.
+- Done: support real `IN_APP` delivery by storing inbox records in database.
+- Next: support `EMAIL` provider adapter and provider configuration.
 
 Phase 2: operations UI
 

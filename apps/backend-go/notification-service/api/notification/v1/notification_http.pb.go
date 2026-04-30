@@ -20,22 +20,36 @@ var _ = binding.EncodeURL
 const _ = http.SupportPackageIsVersion1
 
 const OperationNotificationServiceApproveTemplateVersion = "/notification.v1.NotificationService/ApproveTemplateVersion"
+const OperationNotificationServiceCreateNotificationRequest = "/notification.v1.NotificationService/CreateNotificationRequest"
 const OperationNotificationServiceCreateTemplate = "/notification.v1.NotificationService/CreateTemplate"
 const OperationNotificationServiceCreateTemplateVersion = "/notification.v1.NotificationService/CreateTemplateVersion"
 const OperationNotificationServiceDeleteTemplate = "/notification.v1.NotificationService/DeleteTemplate"
+const OperationNotificationServiceGetNotificationRequest = "/notification.v1.NotificationService/GetNotificationRequest"
 const OperationNotificationServiceGetTemplate = "/notification.v1.NotificationService/GetTemplate"
+const OperationNotificationServiceListDeliveries = "/notification.v1.NotificationService/ListDeliveries"
+const OperationNotificationServiceListInAppNotifications = "/notification.v1.NotificationService/ListInAppNotifications"
 const OperationNotificationServiceListTemplateVersions = "/notification.v1.NotificationService/ListTemplateVersions"
 const OperationNotificationServiceListTemplates = "/notification.v1.NotificationService/ListTemplates"
+const OperationNotificationServiceMarkInAppNotificationRead = "/notification.v1.NotificationService/MarkInAppNotificationRead"
+const OperationNotificationServiceRetryDelivery = "/notification.v1.NotificationService/RetryDelivery"
+const OperationNotificationServiceRunDeliveryWorkerOnce = "/notification.v1.NotificationService/RunDeliveryWorkerOnce"
 const OperationNotificationServiceUpdateTemplate = "/notification.v1.NotificationService/UpdateTemplate"
 
 type NotificationServiceHTTPServer interface {
 	ApproveTemplateVersion(context.Context, *ApproveTemplateVersionRequest) (*NotificationTemplateVersion, error)
+	CreateNotificationRequest(context.Context, *CreateNotificationRequestRequest) (*NotificationRequest, error)
 	CreateTemplate(context.Context, *CreateTemplateRequest) (*NotificationTemplate, error)
 	CreateTemplateVersion(context.Context, *CreateTemplateVersionRequest) (*NotificationTemplateVersion, error)
 	DeleteTemplate(context.Context, *DeleteTemplateRequest) (*DeleteResponse, error)
+	GetNotificationRequest(context.Context, *GetNotificationRequestRequest) (*NotificationRequest, error)
 	GetTemplate(context.Context, *GetTemplateRequest) (*NotificationTemplate, error)
+	ListDeliveries(context.Context, *ListDeliveriesRequest) (*ListDeliveriesResponse, error)
+	ListInAppNotifications(context.Context, *ListInAppNotificationsRequest) (*ListInAppNotificationsResponse, error)
 	ListTemplateVersions(context.Context, *ListTemplateVersionsRequest) (*ListTemplateVersionsResponse, error)
 	ListTemplates(context.Context, *ListTemplatesRequest) (*ListTemplatesResponse, error)
+	MarkInAppNotificationRead(context.Context, *MarkInAppNotificationReadRequest) (*InAppNotification, error)
+	RetryDelivery(context.Context, *RetryDeliveryRequest) (*NotificationDelivery, error)
+	RunDeliveryWorkerOnce(context.Context, *RunDeliveryWorkerOnceRequest) (*RunDeliveryWorkerOnceResponse, error)
 	UpdateTemplate(context.Context, *UpdateTemplateRequest) (*NotificationTemplate, error)
 }
 
@@ -49,6 +63,13 @@ func RegisterNotificationServiceHTTPServer(s *http.Server, srv NotificationServi
 	r.GET("/v1/notifications/templates/{template_id}/versions", _NotificationService_ListTemplateVersions0_HTTP_Handler(srv))
 	r.POST("/v1/notifications/templates/{template_id}/versions", _NotificationService_CreateTemplateVersion0_HTTP_Handler(srv))
 	r.POST("/v1/notifications/template-versions/{id}/approve", _NotificationService_ApproveTemplateVersion0_HTTP_Handler(srv))
+	r.POST("/v1/notifications/requests", _NotificationService_CreateNotificationRequest0_HTTP_Handler(srv))
+	r.GET("/v1/notifications/requests/{id}", _NotificationService_GetNotificationRequest0_HTTP_Handler(srv))
+	r.GET("/v1/notifications/deliveries", _NotificationService_ListDeliveries0_HTTP_Handler(srv))
+	r.POST("/v1/notifications/deliveries/{id}/retry", _NotificationService_RetryDelivery0_HTTP_Handler(srv))
+	r.POST("/v1/notifications/deliveries/run-once", _NotificationService_RunDeliveryWorkerOnce0_HTTP_Handler(srv))
+	r.GET("/v1/notifications/in-app", _NotificationService_ListInAppNotifications0_HTTP_Handler(srv))
+	r.POST("/v1/notifications/in-app/{id}/read", _NotificationService_MarkInAppNotificationRead0_HTTP_Handler(srv))
 }
 
 func _NotificationService_ListTemplates0_HTTP_Handler(srv NotificationServiceHTTPServer) func(ctx http.Context) error {
@@ -233,14 +254,175 @@ func _NotificationService_ApproveTemplateVersion0_HTTP_Handler(srv NotificationS
 	}
 }
 
+func _NotificationService_CreateNotificationRequest0_HTTP_Handler(srv NotificationServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in CreateNotificationRequestRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationNotificationServiceCreateNotificationRequest)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.CreateNotificationRequest(ctx, req.(*CreateNotificationRequestRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*NotificationRequest)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _NotificationService_GetNotificationRequest0_HTTP_Handler(srv NotificationServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in GetNotificationRequestRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationNotificationServiceGetNotificationRequest)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.GetNotificationRequest(ctx, req.(*GetNotificationRequestRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*NotificationRequest)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _NotificationService_ListDeliveries0_HTTP_Handler(srv NotificationServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in ListDeliveriesRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationNotificationServiceListDeliveries)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.ListDeliveries(ctx, req.(*ListDeliveriesRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*ListDeliveriesResponse)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _NotificationService_RetryDelivery0_HTTP_Handler(srv NotificationServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in RetryDeliveryRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationNotificationServiceRetryDelivery)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.RetryDelivery(ctx, req.(*RetryDeliveryRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*NotificationDelivery)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _NotificationService_RunDeliveryWorkerOnce0_HTTP_Handler(srv NotificationServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in RunDeliveryWorkerOnceRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationNotificationServiceRunDeliveryWorkerOnce)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.RunDeliveryWorkerOnce(ctx, req.(*RunDeliveryWorkerOnceRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*RunDeliveryWorkerOnceResponse)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _NotificationService_ListInAppNotifications0_HTTP_Handler(srv NotificationServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in ListInAppNotificationsRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationNotificationServiceListInAppNotifications)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.ListInAppNotifications(ctx, req.(*ListInAppNotificationsRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*ListInAppNotificationsResponse)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _NotificationService_MarkInAppNotificationRead0_HTTP_Handler(srv NotificationServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in MarkInAppNotificationReadRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationNotificationServiceMarkInAppNotificationRead)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.MarkInAppNotificationRead(ctx, req.(*MarkInAppNotificationReadRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*InAppNotification)
+		return ctx.Result(200, reply)
+	}
+}
+
 type NotificationServiceHTTPClient interface {
 	ApproveTemplateVersion(ctx context.Context, req *ApproveTemplateVersionRequest, opts ...http.CallOption) (rsp *NotificationTemplateVersion, err error)
+	CreateNotificationRequest(ctx context.Context, req *CreateNotificationRequestRequest, opts ...http.CallOption) (rsp *NotificationRequest, err error)
 	CreateTemplate(ctx context.Context, req *CreateTemplateRequest, opts ...http.CallOption) (rsp *NotificationTemplate, err error)
 	CreateTemplateVersion(ctx context.Context, req *CreateTemplateVersionRequest, opts ...http.CallOption) (rsp *NotificationTemplateVersion, err error)
 	DeleteTemplate(ctx context.Context, req *DeleteTemplateRequest, opts ...http.CallOption) (rsp *DeleteResponse, err error)
+	GetNotificationRequest(ctx context.Context, req *GetNotificationRequestRequest, opts ...http.CallOption) (rsp *NotificationRequest, err error)
 	GetTemplate(ctx context.Context, req *GetTemplateRequest, opts ...http.CallOption) (rsp *NotificationTemplate, err error)
+	ListDeliveries(ctx context.Context, req *ListDeliveriesRequest, opts ...http.CallOption) (rsp *ListDeliveriesResponse, err error)
+	ListInAppNotifications(ctx context.Context, req *ListInAppNotificationsRequest, opts ...http.CallOption) (rsp *ListInAppNotificationsResponse, err error)
 	ListTemplateVersions(ctx context.Context, req *ListTemplateVersionsRequest, opts ...http.CallOption) (rsp *ListTemplateVersionsResponse, err error)
 	ListTemplates(ctx context.Context, req *ListTemplatesRequest, opts ...http.CallOption) (rsp *ListTemplatesResponse, err error)
+	MarkInAppNotificationRead(ctx context.Context, req *MarkInAppNotificationReadRequest, opts ...http.CallOption) (rsp *InAppNotification, err error)
+	RetryDelivery(ctx context.Context, req *RetryDeliveryRequest, opts ...http.CallOption) (rsp *NotificationDelivery, err error)
+	RunDeliveryWorkerOnce(ctx context.Context, req *RunDeliveryWorkerOnceRequest, opts ...http.CallOption) (rsp *RunDeliveryWorkerOnceResponse, err error)
 	UpdateTemplate(ctx context.Context, req *UpdateTemplateRequest, opts ...http.CallOption) (rsp *NotificationTemplate, err error)
 }
 
@@ -257,6 +439,19 @@ func (c *NotificationServiceHTTPClientImpl) ApproveTemplateVersion(ctx context.C
 	pattern := "/v1/notifications/template-versions/{id}/approve"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationNotificationServiceApproveTemplateVersion))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *NotificationServiceHTTPClientImpl) CreateNotificationRequest(ctx context.Context, in *CreateNotificationRequestRequest, opts ...http.CallOption) (*NotificationRequest, error) {
+	var out NotificationRequest
+	pattern := "/v1/notifications/requests"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationNotificationServiceCreateNotificationRequest))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
 	if err != nil {
@@ -304,11 +499,50 @@ func (c *NotificationServiceHTTPClientImpl) DeleteTemplate(ctx context.Context, 
 	return &out, nil
 }
 
+func (c *NotificationServiceHTTPClientImpl) GetNotificationRequest(ctx context.Context, in *GetNotificationRequestRequest, opts ...http.CallOption) (*NotificationRequest, error) {
+	var out NotificationRequest
+	pattern := "/v1/notifications/requests/{id}"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationNotificationServiceGetNotificationRequest))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
 func (c *NotificationServiceHTTPClientImpl) GetTemplate(ctx context.Context, in *GetTemplateRequest, opts ...http.CallOption) (*NotificationTemplate, error) {
 	var out NotificationTemplate
 	pattern := "/v1/notifications/templates/{id}"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationNotificationServiceGetTemplate))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *NotificationServiceHTTPClientImpl) ListDeliveries(ctx context.Context, in *ListDeliveriesRequest, opts ...http.CallOption) (*ListDeliveriesResponse, error) {
+	var out ListDeliveriesResponse
+	pattern := "/v1/notifications/deliveries"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationNotificationServiceListDeliveries))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *NotificationServiceHTTPClientImpl) ListInAppNotifications(ctx context.Context, in *ListInAppNotificationsRequest, opts ...http.CallOption) (*ListInAppNotificationsResponse, error) {
+	var out ListInAppNotificationsResponse
+	pattern := "/v1/notifications/in-app"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationNotificationServiceListInAppNotifications))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
 	if err != nil {
@@ -337,6 +571,45 @@ func (c *NotificationServiceHTTPClientImpl) ListTemplates(ctx context.Context, i
 	opts = append(opts, http.Operation(OperationNotificationServiceListTemplates))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *NotificationServiceHTTPClientImpl) MarkInAppNotificationRead(ctx context.Context, in *MarkInAppNotificationReadRequest, opts ...http.CallOption) (*InAppNotification, error) {
+	var out InAppNotification
+	pattern := "/v1/notifications/in-app/{id}/read"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationNotificationServiceMarkInAppNotificationRead))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *NotificationServiceHTTPClientImpl) RetryDelivery(ctx context.Context, in *RetryDeliveryRequest, opts ...http.CallOption) (*NotificationDelivery, error) {
+	var out NotificationDelivery
+	pattern := "/v1/notifications/deliveries/{id}/retry"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationNotificationServiceRetryDelivery))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *NotificationServiceHTTPClientImpl) RunDeliveryWorkerOnce(ctx context.Context, in *RunDeliveryWorkerOnceRequest, opts ...http.CallOption) (*RunDeliveryWorkerOnceResponse, error) {
+	var out RunDeliveryWorkerOnceResponse
+	pattern := "/v1/notifications/deliveries/run-once"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationNotificationServiceRunDeliveryWorkerOnce))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
 	if err != nil {
 		return nil, err
 	}

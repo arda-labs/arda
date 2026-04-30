@@ -48,6 +48,8 @@ Main resources:
   based banking configuration.
 - Currencies, FX rate sources, and reference exchange rates for treasury,
   payment, accounting, and reporting flows.
+- Banking products, service channels, and product-channel enablement rules for
+  product operations and digital banking configuration.
 
 ### Business Calendars
 
@@ -109,6 +111,24 @@ The default seed includes VND, USD, EUR, JPY, common sources such as SBV and
 Treasury, plus example USD/VND and EUR/VND reference rates. Operators manage
 this from the `Tiền tệ và tỷ giá` frontend page and approve reference rates
 before downstream systems consume them.
+
+### Banking Products And Service Channels
+
+Large banking systems separate product catalog data from channel availability.
+This lets product, operations, and digital teams control where a product can be
+used without hard-coding channel rules in transaction services.
+
+- `banking_products`: product code, type, category, customer segment, currency,
+  effective dates, and status.
+- `service_channels`: channel code, channel type, availability window, timezone,
+  and status.
+- `product_channel_rules`: product/channel/transaction-type matrix with
+  enabled flag, priority, fee schedule, limit profile, effective dates, and
+  status.
+
+The default seed includes common retail/SME account, savings, and card products
+plus branch, internet banking, mobile banking, and ATM channels. Operators
+manage these from the `Sản phẩm và kênh dịch vụ` frontend page.
 
 ### Administrative Unit Sync
 

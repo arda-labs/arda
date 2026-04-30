@@ -107,6 +107,18 @@ const (
 	MdmService_UpdateFxRate_FullMethodName                          = "/mdm.v1.MdmService/UpdateFxRate"
 	MdmService_DeleteFxRate_FullMethodName                          = "/mdm.v1.MdmService/DeleteFxRate"
 	MdmService_ApproveFxRate_FullMethodName                         = "/mdm.v1.MdmService/ApproveFxRate"
+	MdmService_ListBankingProducts_FullMethodName                   = "/mdm.v1.MdmService/ListBankingProducts"
+	MdmService_CreateBankingProduct_FullMethodName                  = "/mdm.v1.MdmService/CreateBankingProduct"
+	MdmService_UpdateBankingProduct_FullMethodName                  = "/mdm.v1.MdmService/UpdateBankingProduct"
+	MdmService_DeleteBankingProduct_FullMethodName                  = "/mdm.v1.MdmService/DeleteBankingProduct"
+	MdmService_ListServiceChannels_FullMethodName                   = "/mdm.v1.MdmService/ListServiceChannels"
+	MdmService_CreateServiceChannel_FullMethodName                  = "/mdm.v1.MdmService/CreateServiceChannel"
+	MdmService_UpdateServiceChannel_FullMethodName                  = "/mdm.v1.MdmService/UpdateServiceChannel"
+	MdmService_DeleteServiceChannel_FullMethodName                  = "/mdm.v1.MdmService/DeleteServiceChannel"
+	MdmService_ListProductChannelRules_FullMethodName               = "/mdm.v1.MdmService/ListProductChannelRules"
+	MdmService_CreateProductChannelRule_FullMethodName              = "/mdm.v1.MdmService/CreateProductChannelRule"
+	MdmService_UpdateProductChannelRule_FullMethodName              = "/mdm.v1.MdmService/UpdateProductChannelRule"
+	MdmService_DeleteProductChannelRule_FullMethodName              = "/mdm.v1.MdmService/DeleteProductChannelRule"
 )
 
 // MdmServiceClient is the client API for MdmService service.
@@ -201,6 +213,18 @@ type MdmServiceClient interface {
 	UpdateFxRate(ctx context.Context, in *UpdateFxRateRequest, opts ...grpc.CallOption) (*FxRate, error)
 	DeleteFxRate(ctx context.Context, in *DeleteFxRateRequest, opts ...grpc.CallOption) (*DeleteResponse, error)
 	ApproveFxRate(ctx context.Context, in *ApprovePricingRuleRequest, opts ...grpc.CallOption) (*FxRate, error)
+	ListBankingProducts(ctx context.Context, in *ListBankingProductsRequest, opts ...grpc.CallOption) (*ListBankingProductsResponse, error)
+	CreateBankingProduct(ctx context.Context, in *CreateBankingProductRequest, opts ...grpc.CallOption) (*BankingProduct, error)
+	UpdateBankingProduct(ctx context.Context, in *UpdateBankingProductRequest, opts ...grpc.CallOption) (*BankingProduct, error)
+	DeleteBankingProduct(ctx context.Context, in *DeleteBankingProductRequest, opts ...grpc.CallOption) (*DeleteResponse, error)
+	ListServiceChannels(ctx context.Context, in *ListServiceChannelsRequest, opts ...grpc.CallOption) (*ListServiceChannelsResponse, error)
+	CreateServiceChannel(ctx context.Context, in *CreateServiceChannelRequest, opts ...grpc.CallOption) (*ServiceChannel, error)
+	UpdateServiceChannel(ctx context.Context, in *UpdateServiceChannelRequest, opts ...grpc.CallOption) (*ServiceChannel, error)
+	DeleteServiceChannel(ctx context.Context, in *DeleteServiceChannelRequest, opts ...grpc.CallOption) (*DeleteResponse, error)
+	ListProductChannelRules(ctx context.Context, in *ListProductChannelRulesRequest, opts ...grpc.CallOption) (*ListProductChannelRulesResponse, error)
+	CreateProductChannelRule(ctx context.Context, in *CreateProductChannelRuleRequest, opts ...grpc.CallOption) (*ProductChannelRule, error)
+	UpdateProductChannelRule(ctx context.Context, in *UpdateProductChannelRuleRequest, opts ...grpc.CallOption) (*ProductChannelRule, error)
+	DeleteProductChannelRule(ctx context.Context, in *DeleteProductChannelRuleRequest, opts ...grpc.CallOption) (*DeleteResponse, error)
 }
 
 type mdmServiceClient struct {
@@ -1091,6 +1115,126 @@ func (c *mdmServiceClient) ApproveFxRate(ctx context.Context, in *ApprovePricing
 	return out, nil
 }
 
+func (c *mdmServiceClient) ListBankingProducts(ctx context.Context, in *ListBankingProductsRequest, opts ...grpc.CallOption) (*ListBankingProductsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListBankingProductsResponse)
+	err := c.cc.Invoke(ctx, MdmService_ListBankingProducts_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mdmServiceClient) CreateBankingProduct(ctx context.Context, in *CreateBankingProductRequest, opts ...grpc.CallOption) (*BankingProduct, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(BankingProduct)
+	err := c.cc.Invoke(ctx, MdmService_CreateBankingProduct_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mdmServiceClient) UpdateBankingProduct(ctx context.Context, in *UpdateBankingProductRequest, opts ...grpc.CallOption) (*BankingProduct, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(BankingProduct)
+	err := c.cc.Invoke(ctx, MdmService_UpdateBankingProduct_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mdmServiceClient) DeleteBankingProduct(ctx context.Context, in *DeleteBankingProductRequest, opts ...grpc.CallOption) (*DeleteResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteResponse)
+	err := c.cc.Invoke(ctx, MdmService_DeleteBankingProduct_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mdmServiceClient) ListServiceChannels(ctx context.Context, in *ListServiceChannelsRequest, opts ...grpc.CallOption) (*ListServiceChannelsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListServiceChannelsResponse)
+	err := c.cc.Invoke(ctx, MdmService_ListServiceChannels_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mdmServiceClient) CreateServiceChannel(ctx context.Context, in *CreateServiceChannelRequest, opts ...grpc.CallOption) (*ServiceChannel, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ServiceChannel)
+	err := c.cc.Invoke(ctx, MdmService_CreateServiceChannel_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mdmServiceClient) UpdateServiceChannel(ctx context.Context, in *UpdateServiceChannelRequest, opts ...grpc.CallOption) (*ServiceChannel, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ServiceChannel)
+	err := c.cc.Invoke(ctx, MdmService_UpdateServiceChannel_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mdmServiceClient) DeleteServiceChannel(ctx context.Context, in *DeleteServiceChannelRequest, opts ...grpc.CallOption) (*DeleteResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteResponse)
+	err := c.cc.Invoke(ctx, MdmService_DeleteServiceChannel_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mdmServiceClient) ListProductChannelRules(ctx context.Context, in *ListProductChannelRulesRequest, opts ...grpc.CallOption) (*ListProductChannelRulesResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListProductChannelRulesResponse)
+	err := c.cc.Invoke(ctx, MdmService_ListProductChannelRules_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mdmServiceClient) CreateProductChannelRule(ctx context.Context, in *CreateProductChannelRuleRequest, opts ...grpc.CallOption) (*ProductChannelRule, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ProductChannelRule)
+	err := c.cc.Invoke(ctx, MdmService_CreateProductChannelRule_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mdmServiceClient) UpdateProductChannelRule(ctx context.Context, in *UpdateProductChannelRuleRequest, opts ...grpc.CallOption) (*ProductChannelRule, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ProductChannelRule)
+	err := c.cc.Invoke(ctx, MdmService_UpdateProductChannelRule_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mdmServiceClient) DeleteProductChannelRule(ctx context.Context, in *DeleteProductChannelRuleRequest, opts ...grpc.CallOption) (*DeleteResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteResponse)
+	err := c.cc.Invoke(ctx, MdmService_DeleteProductChannelRule_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MdmServiceServer is the server API for MdmService service.
 // All implementations must embed UnimplementedMdmServiceServer
 // for forward compatibility.
@@ -1183,6 +1327,18 @@ type MdmServiceServer interface {
 	UpdateFxRate(context.Context, *UpdateFxRateRequest) (*FxRate, error)
 	DeleteFxRate(context.Context, *DeleteFxRateRequest) (*DeleteResponse, error)
 	ApproveFxRate(context.Context, *ApprovePricingRuleRequest) (*FxRate, error)
+	ListBankingProducts(context.Context, *ListBankingProductsRequest) (*ListBankingProductsResponse, error)
+	CreateBankingProduct(context.Context, *CreateBankingProductRequest) (*BankingProduct, error)
+	UpdateBankingProduct(context.Context, *UpdateBankingProductRequest) (*BankingProduct, error)
+	DeleteBankingProduct(context.Context, *DeleteBankingProductRequest) (*DeleteResponse, error)
+	ListServiceChannels(context.Context, *ListServiceChannelsRequest) (*ListServiceChannelsResponse, error)
+	CreateServiceChannel(context.Context, *CreateServiceChannelRequest) (*ServiceChannel, error)
+	UpdateServiceChannel(context.Context, *UpdateServiceChannelRequest) (*ServiceChannel, error)
+	DeleteServiceChannel(context.Context, *DeleteServiceChannelRequest) (*DeleteResponse, error)
+	ListProductChannelRules(context.Context, *ListProductChannelRulesRequest) (*ListProductChannelRulesResponse, error)
+	CreateProductChannelRule(context.Context, *CreateProductChannelRuleRequest) (*ProductChannelRule, error)
+	UpdateProductChannelRule(context.Context, *UpdateProductChannelRuleRequest) (*ProductChannelRule, error)
+	DeleteProductChannelRule(context.Context, *DeleteProductChannelRuleRequest) (*DeleteResponse, error)
 	mustEmbedUnimplementedMdmServiceServer()
 }
 
@@ -1456,6 +1612,42 @@ func (UnimplementedMdmServiceServer) DeleteFxRate(context.Context, *DeleteFxRate
 }
 func (UnimplementedMdmServiceServer) ApproveFxRate(context.Context, *ApprovePricingRuleRequest) (*FxRate, error) {
 	return nil, status.Error(codes.Unimplemented, "method ApproveFxRate not implemented")
+}
+func (UnimplementedMdmServiceServer) ListBankingProducts(context.Context, *ListBankingProductsRequest) (*ListBankingProductsResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListBankingProducts not implemented")
+}
+func (UnimplementedMdmServiceServer) CreateBankingProduct(context.Context, *CreateBankingProductRequest) (*BankingProduct, error) {
+	return nil, status.Error(codes.Unimplemented, "method CreateBankingProduct not implemented")
+}
+func (UnimplementedMdmServiceServer) UpdateBankingProduct(context.Context, *UpdateBankingProductRequest) (*BankingProduct, error) {
+	return nil, status.Error(codes.Unimplemented, "method UpdateBankingProduct not implemented")
+}
+func (UnimplementedMdmServiceServer) DeleteBankingProduct(context.Context, *DeleteBankingProductRequest) (*DeleteResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method DeleteBankingProduct not implemented")
+}
+func (UnimplementedMdmServiceServer) ListServiceChannels(context.Context, *ListServiceChannelsRequest) (*ListServiceChannelsResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListServiceChannels not implemented")
+}
+func (UnimplementedMdmServiceServer) CreateServiceChannel(context.Context, *CreateServiceChannelRequest) (*ServiceChannel, error) {
+	return nil, status.Error(codes.Unimplemented, "method CreateServiceChannel not implemented")
+}
+func (UnimplementedMdmServiceServer) UpdateServiceChannel(context.Context, *UpdateServiceChannelRequest) (*ServiceChannel, error) {
+	return nil, status.Error(codes.Unimplemented, "method UpdateServiceChannel not implemented")
+}
+func (UnimplementedMdmServiceServer) DeleteServiceChannel(context.Context, *DeleteServiceChannelRequest) (*DeleteResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method DeleteServiceChannel not implemented")
+}
+func (UnimplementedMdmServiceServer) ListProductChannelRules(context.Context, *ListProductChannelRulesRequest) (*ListProductChannelRulesResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListProductChannelRules not implemented")
+}
+func (UnimplementedMdmServiceServer) CreateProductChannelRule(context.Context, *CreateProductChannelRuleRequest) (*ProductChannelRule, error) {
+	return nil, status.Error(codes.Unimplemented, "method CreateProductChannelRule not implemented")
+}
+func (UnimplementedMdmServiceServer) UpdateProductChannelRule(context.Context, *UpdateProductChannelRuleRequest) (*ProductChannelRule, error) {
+	return nil, status.Error(codes.Unimplemented, "method UpdateProductChannelRule not implemented")
+}
+func (UnimplementedMdmServiceServer) DeleteProductChannelRule(context.Context, *DeleteProductChannelRuleRequest) (*DeleteResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method DeleteProductChannelRule not implemented")
 }
 func (UnimplementedMdmServiceServer) mustEmbedUnimplementedMdmServiceServer() {}
 func (UnimplementedMdmServiceServer) testEmbeddedByValue()                    {}
@@ -3062,6 +3254,222 @@ func _MdmService_ApproveFxRate_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
+func _MdmService_ListBankingProducts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListBankingProductsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).ListBankingProducts(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_ListBankingProducts_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).ListBankingProducts(ctx, req.(*ListBankingProductsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MdmService_CreateBankingProduct_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateBankingProductRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).CreateBankingProduct(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_CreateBankingProduct_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).CreateBankingProduct(ctx, req.(*CreateBankingProductRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MdmService_UpdateBankingProduct_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateBankingProductRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).UpdateBankingProduct(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_UpdateBankingProduct_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).UpdateBankingProduct(ctx, req.(*UpdateBankingProductRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MdmService_DeleteBankingProduct_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteBankingProductRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).DeleteBankingProduct(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_DeleteBankingProduct_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).DeleteBankingProduct(ctx, req.(*DeleteBankingProductRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MdmService_ListServiceChannels_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListServiceChannelsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).ListServiceChannels(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_ListServiceChannels_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).ListServiceChannels(ctx, req.(*ListServiceChannelsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MdmService_CreateServiceChannel_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateServiceChannelRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).CreateServiceChannel(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_CreateServiceChannel_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).CreateServiceChannel(ctx, req.(*CreateServiceChannelRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MdmService_UpdateServiceChannel_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateServiceChannelRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).UpdateServiceChannel(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_UpdateServiceChannel_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).UpdateServiceChannel(ctx, req.(*UpdateServiceChannelRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MdmService_DeleteServiceChannel_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteServiceChannelRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).DeleteServiceChannel(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_DeleteServiceChannel_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).DeleteServiceChannel(ctx, req.(*DeleteServiceChannelRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MdmService_ListProductChannelRules_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListProductChannelRulesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).ListProductChannelRules(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_ListProductChannelRules_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).ListProductChannelRules(ctx, req.(*ListProductChannelRulesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MdmService_CreateProductChannelRule_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateProductChannelRuleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).CreateProductChannelRule(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_CreateProductChannelRule_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).CreateProductChannelRule(ctx, req.(*CreateProductChannelRuleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MdmService_UpdateProductChannelRule_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateProductChannelRuleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).UpdateProductChannelRule(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_UpdateProductChannelRule_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).UpdateProductChannelRule(ctx, req.(*UpdateProductChannelRuleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MdmService_DeleteProductChannelRule_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteProductChannelRuleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).DeleteProductChannelRule(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_DeleteProductChannelRule_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).DeleteProductChannelRule(ctx, req.(*DeleteProductChannelRuleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // MdmService_ServiceDesc is the grpc.ServiceDesc for MdmService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -3420,6 +3828,54 @@ var MdmService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ApproveFxRate",
 			Handler:    _MdmService_ApproveFxRate_Handler,
+		},
+		{
+			MethodName: "ListBankingProducts",
+			Handler:    _MdmService_ListBankingProducts_Handler,
+		},
+		{
+			MethodName: "CreateBankingProduct",
+			Handler:    _MdmService_CreateBankingProduct_Handler,
+		},
+		{
+			MethodName: "UpdateBankingProduct",
+			Handler:    _MdmService_UpdateBankingProduct_Handler,
+		},
+		{
+			MethodName: "DeleteBankingProduct",
+			Handler:    _MdmService_DeleteBankingProduct_Handler,
+		},
+		{
+			MethodName: "ListServiceChannels",
+			Handler:    _MdmService_ListServiceChannels_Handler,
+		},
+		{
+			MethodName: "CreateServiceChannel",
+			Handler:    _MdmService_CreateServiceChannel_Handler,
+		},
+		{
+			MethodName: "UpdateServiceChannel",
+			Handler:    _MdmService_UpdateServiceChannel_Handler,
+		},
+		{
+			MethodName: "DeleteServiceChannel",
+			Handler:    _MdmService_DeleteServiceChannel_Handler,
+		},
+		{
+			MethodName: "ListProductChannelRules",
+			Handler:    _MdmService_ListProductChannelRules_Handler,
+		},
+		{
+			MethodName: "CreateProductChannelRule",
+			Handler:    _MdmService_CreateProductChannelRule_Handler,
+		},
+		{
+			MethodName: "UpdateProductChannelRule",
+			Handler:    _MdmService_UpdateProductChannelRule_Handler,
+		},
+		{
+			MethodName: "DeleteProductChannelRule",
+			Handler:    _MdmService_DeleteProductChannelRule_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

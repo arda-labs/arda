@@ -495,6 +495,94 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/mdm.v1.DeleteResponse'
+    /v1/mdm/banking-products:
+        get:
+            tags:
+                - MdmService
+            operationId: MdmService_ListBankingProducts
+            parameters:
+                - name: status
+                  in: query
+                  schema:
+                    type: string
+                - name: keyword
+                  in: query
+                  schema:
+                    type: string
+                - name: pageSize
+                  in: query
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pageToken
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.ListBankingProductsResponse'
+        post:
+            tags:
+                - MdmService
+            operationId: MdmService_CreateBankingProduct
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/mdm.v1.CreateBankingProductRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.BankingProduct'
+    /v1/mdm/banking-products/{id}:
+        put:
+            tags:
+                - MdmService
+            operationId: MdmService_UpdateBankingProduct
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/mdm.v1.UpdateBankingProductRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.BankingProduct'
+        delete:
+            tags:
+                - MdmService
+            operationId: MdmService_DeleteBankingProduct
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.DeleteResponse'
     /v1/mdm/business-calendars:
         get:
             tags:
@@ -1496,6 +1584,94 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/mdm.v1.FxRate'
+    /v1/mdm/product-channel-rules:
+        get:
+            tags:
+                - MdmService
+            operationId: MdmService_ListProductChannelRules
+            parameters:
+                - name: status
+                  in: query
+                  schema:
+                    type: string
+                - name: keyword
+                  in: query
+                  schema:
+                    type: string
+                - name: pageSize
+                  in: query
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pageToken
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.ListProductChannelRulesResponse'
+        post:
+            tags:
+                - MdmService
+            operationId: MdmService_CreateProductChannelRule
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/mdm.v1.CreateProductChannelRuleRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.ProductChannelRule'
+    /v1/mdm/product-channel-rules/{id}:
+        put:
+            tags:
+                - MdmService
+            operationId: MdmService_UpdateProductChannelRule
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/mdm.v1.UpdateProductChannelRuleRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.ProductChannelRule'
+        delete:
+            tags:
+                - MdmService
+            operationId: MdmService_DeleteProductChannelRule
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.DeleteResponse'
     /v1/mdm/provinces:
         get:
             tags:
@@ -1569,6 +1745,94 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/mdm.v1.ListAdministrativeUnitsResponse'
+    /v1/mdm/service-channels:
+        get:
+            tags:
+                - MdmService
+            operationId: MdmService_ListServiceChannels
+            parameters:
+                - name: status
+                  in: query
+                  schema:
+                    type: string
+                - name: keyword
+                  in: query
+                  schema:
+                    type: string
+                - name: pageSize
+                  in: query
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pageToken
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.ListServiceChannelsResponse'
+        post:
+            tags:
+                - MdmService
+            operationId: MdmService_CreateServiceChannel
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/mdm.v1.CreateServiceChannelRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.ServiceChannel'
+    /v1/mdm/service-channels/{id}:
+        put:
+            tags:
+                - MdmService
+            operationId: MdmService_UpdateServiceChannel
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/mdm.v1.UpdateServiceChannelRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.ServiceChannel'
+        delete:
+            tags:
+                - MdmService
+            operationId: MdmService_DeleteServiceChannel
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.DeleteResponse'
     /v1/mdm/standard-limits:
         get:
             tags:
@@ -2129,6 +2393,37 @@ components:
                     type: string
                 scopeType:
                     type: string
+        mdm.v1.BankingProduct:
+            type: object
+            properties:
+                id:
+                    type: string
+                code:
+                    type: string
+                name:
+                    type: string
+                productType:
+                    type: string
+                category:
+                    type: string
+                customerSegment:
+                    type: string
+                currency:
+                    type: string
+                effectiveFrom:
+                    type: string
+                effectiveTo:
+                    type: string
+                description:
+                    type: string
+                status:
+                    type: string
+                createdAt:
+                    type: string
+                    format: date-time
+                updatedAt:
+                    type: string
+                    format: date-time
         mdm.v1.BusinessCalendar:
             type: object
             properties:
@@ -2291,6 +2586,11 @@ components:
             properties:
                 areaType:
                     $ref: '#/components/schemas/mdm.v1.AreaType'
+        mdm.v1.CreateBankingProductRequest:
+            type: object
+            properties:
+                bankingProduct:
+                    $ref: '#/components/schemas/mdm.v1.BankingProduct'
         mdm.v1.CreateBusinessCalendarRequest:
             type: object
             properties:
@@ -2340,6 +2640,16 @@ components:
             properties:
                 source:
                     $ref: '#/components/schemas/mdm.v1.FxRateSource'
+        mdm.v1.CreateProductChannelRuleRequest:
+            type: object
+            properties:
+                productChannelRule:
+                    $ref: '#/components/schemas/mdm.v1.ProductChannelRule'
+        mdm.v1.CreateServiceChannelRequest:
+            type: object
+            properties:
+                serviceChannel:
+                    $ref: '#/components/schemas/mdm.v1.ServiceChannel'
         mdm.v1.CreateStandardLimitRequest:
             type: object
             properties:
@@ -2602,6 +2912,15 @@ components:
                         $ref: '#/components/schemas/mdm.v1.Area'
                 nextPageToken:
                     type: string
+        mdm.v1.ListBankingProductsResponse:
+            type: object
+            properties:
+                bankingProducts:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/mdm.v1.BankingProduct'
+                nextPageToken:
+                    type: string
         mdm.v1.ListBusinessCalendarsResponse:
             type: object
             properties:
@@ -2681,6 +3000,24 @@ components:
                         $ref: '#/components/schemas/mdm.v1.FxRate'
                 nextPageToken:
                     type: string
+        mdm.v1.ListProductChannelRulesResponse:
+            type: object
+            properties:
+                productChannelRules:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/mdm.v1.ProductChannelRule'
+                nextPageToken:
+                    type: string
+        mdm.v1.ListServiceChannelsResponse:
+            type: object
+            properties:
+                serviceChannels:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/mdm.v1.ServiceChannel'
+                nextPageToken:
+                    type: string
         mdm.v1.ListStandardLimitsResponse:
             type: object
             properties:
@@ -2715,6 +3052,65 @@ components:
                     type: array
                     items:
                         $ref: '#/components/schemas/mdm.v1.WorkingHour'
+        mdm.v1.ProductChannelRule:
+            type: object
+            properties:
+                id:
+                    type: string
+                productCode:
+                    type: string
+                channelCode:
+                    type: string
+                transactionType:
+                    type: string
+                enabled:
+                    type: boolean
+                priority:
+                    type: integer
+                    format: int32
+                feeScheduleCode:
+                    type: string
+                limitProfileCode:
+                    type: string
+                effectiveFrom:
+                    type: string
+                effectiveTo:
+                    type: string
+                description:
+                    type: string
+                status:
+                    type: string
+                createdAt:
+                    type: string
+                    format: date-time
+                updatedAt:
+                    type: string
+                    format: date-time
+        mdm.v1.ServiceChannel:
+            type: object
+            properties:
+                id:
+                    type: string
+                code:
+                    type: string
+                name:
+                    type: string
+                channelType:
+                    type: string
+                availability:
+                    type: string
+                timezone:
+                    type: string
+                description:
+                    type: string
+                status:
+                    type: string
+                createdAt:
+                    type: string
+                    format: date-time
+                updatedAt:
+                    type: string
+                    format: date-time
         mdm.v1.StandardLimit:
             type: object
             properties:
@@ -2900,6 +3296,13 @@ components:
                     type: string
                 areaType:
                     $ref: '#/components/schemas/mdm.v1.AreaType'
+        mdm.v1.UpdateBankingProductRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                bankingProduct:
+                    $ref: '#/components/schemas/mdm.v1.BankingProduct'
         mdm.v1.UpdateBusinessCalendarRequest:
             type: object
             properties:
@@ -2963,6 +3366,20 @@ components:
                     type: string
                 source:
                     $ref: '#/components/schemas/mdm.v1.FxRateSource'
+        mdm.v1.UpdateProductChannelRuleRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                productChannelRule:
+                    $ref: '#/components/schemas/mdm.v1.ProductChannelRule'
+        mdm.v1.UpdateServiceChannelRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                serviceChannel:
+                    $ref: '#/components/schemas/mdm.v1.ServiceChannel'
         mdm.v1.UpdateStandardLimitRequest:
             type: object
             properties:

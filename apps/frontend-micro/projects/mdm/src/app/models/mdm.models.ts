@@ -296,3 +296,43 @@ export interface FxRate {
   changeNote: string;
   status: string;
 }
+
+export interface BankingProduct {
+  id: string;
+  code: string;
+  name: string;
+  productType: string;
+  category: string;
+  customerSegment: string;
+  currency: string;
+  effectiveFrom: string;
+  effectiveTo: string;
+  description: string;
+  status: string;
+}
+
+export interface ServiceChannel {
+  id: string;
+  code: string;
+  name: string;
+  channelType: string;
+  availability: string;
+  timezone: string;
+  description: string;
+  status: string;
+}
+
+export interface ProductChannelRule {
+  id: string;
+  productCode: string;
+  channelCode: string;
+  transactionType: string;
+  enabled: boolean;
+  priority: number;
+  feeScheduleCode: string;
+  limitProfileCode: string;
+  effectiveFrom: string;
+  effectiveTo: string;
+  description: string;
+  status: string;
+}

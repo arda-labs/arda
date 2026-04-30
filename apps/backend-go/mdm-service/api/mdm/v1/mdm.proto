@@ -280,6 +280,43 @@ service MdmService {
   rpc ApproveFxRate(ApprovePricingRuleRequest) returns (FxRate) {
     option (google.api.http) = { post: "/v1/mdm/fx-rates/{id}/approve" body: "*" };
   }
+
+  rpc ListBankingProducts(ListBankingProductsRequest) returns (ListBankingProductsResponse) {
+    option (google.api.http) = { get: "/v1/mdm/banking-products" };
+  }
+  rpc CreateBankingProduct(CreateBankingProductRequest) returns (BankingProduct) {
+    option (google.api.http) = { post: "/v1/mdm/banking-products" body: "*" };
+  }
+  rpc UpdateBankingProduct(UpdateBankingProductRequest) returns (BankingProduct) {
+    option (google.api.http) = { put: "/v1/mdm/banking-products/{id}" body: "*" };
+  }
+  rpc DeleteBankingProduct(DeleteBankingProductRequest) returns (DeleteResponse) {
+    option (google.api.http) = { delete: "/v1/mdm/banking-products/{id}" };
+  }
+  rpc ListServiceChannels(ListServiceChannelsRequest) returns (ListServiceChannelsResponse) {
+    option (google.api.http) = { get: "/v1/mdm/service-channels" };
+  }
+  rpc CreateServiceChannel(CreateServiceChannelRequest) returns (ServiceChannel) {
+    option (google.api.http) = { post: "/v1/mdm/service-channels" body: "*" };
+  }
+  rpc UpdateServiceChannel(UpdateServiceChannelRequest) returns (ServiceChannel) {
+    option (google.api.http) = { put: "/v1/mdm/service-channels/{id}" body: "*" };
+  }
+  rpc DeleteServiceChannel(DeleteServiceChannelRequest) returns (DeleteResponse) {
+    option (google.api.http) = { delete: "/v1/mdm/service-channels/{id}" };
+  }
+  rpc ListProductChannelRules(ListProductChannelRulesRequest) returns (ListProductChannelRulesResponse) {
+    option (google.api.http) = { get: "/v1/mdm/product-channel-rules" };
+  }
+  rpc CreateProductChannelRule(CreateProductChannelRuleRequest) returns (ProductChannelRule) {
+    option (google.api.http) = { post: "/v1/mdm/product-channel-rules" body: "*" };
+  }
+  rpc UpdateProductChannelRule(UpdateProductChannelRuleRequest) returns (ProductChannelRule) {
+    option (google.api.http) = { put: "/v1/mdm/product-channel-rules/{id}" body: "*" };
+  }
+  rpc DeleteProductChannelRule(DeleteProductChannelRuleRequest) returns (DeleteResponse) {
+    option (google.api.http) = { delete: "/v1/mdm/product-channel-rules/{id}" };
+  }
 }
 
 message AdministrativeUnit {
@@ -582,6 +619,52 @@ message FxRate {
   string status = 15;
   google.protobuf.Timestamp created_at = 16;
   google.protobuf.Timestamp updated_at = 17;
+}
+
+message BankingProduct {
+  string id = 1;
+  string code = 2;
+  string name = 3;
+  string product_type = 4;
+  string category = 5;
+  string customer_segment = 6;
+  string currency = 7;
+  string effective_from = 8;
+  string effective_to = 9;
+  string description = 10;
+  string status = 11;
+  google.protobuf.Timestamp created_at = 12;
+  google.protobuf.Timestamp updated_at = 13;
+}
+
+message ServiceChannel {
+  string id = 1;
+  string code = 2;
+  string name = 3;
+  string channel_type = 4;
+  string availability = 5;
+  string timezone = 6;
+  string description = 7;
+  string status = 8;
+  google.protobuf.Timestamp created_at = 9;
+  google.protobuf.Timestamp updated_at = 10;
+}
+
+message ProductChannelRule {
+  string id = 1;
+  string product_code = 2;
+  string channel_code = 3;
+  string transaction_type = 4;
+  bool enabled = 5;
+  int32 priority = 6;
+  string fee_schedule_code = 7;
+  string limit_profile_code = 8;
+  string effective_from = 9;
+  string effective_to = 10;
+  string description = 11;
+  string status = 12;
+  google.protobuf.Timestamp created_at = 13;
+  google.protobuf.Timestamp updated_at = 14;
 }
 
 message DeleteResponse {}
@@ -940,3 +1023,54 @@ message UpdateFxRateRequest {
   FxRate fx_rate = 2;
 }
 message DeleteFxRateRequest { string id = 1; }
+
+message ListBankingProductsRequest {
+  string status = 1;
+  string keyword = 2;
+  int32 page_size = 3;
+  string page_token = 4;
+}
+message ListBankingProductsResponse {
+  repeated BankingProduct banking_products = 1;
+  string next_page_token = 2;
+}
+message CreateBankingProductRequest { BankingProduct banking_product = 1; }
+message UpdateBankingProductRequest {
+  string id = 1;
+  BankingProduct banking_product = 2;
+}
+message DeleteBankingProductRequest { string id = 1; }
+
+message ListServiceChannelsRequest {
+  string status = 1;
+  string keyword = 2;
+  int32 page_size = 3;
+  string page_token = 4;
+}
+message ListServiceChannelsResponse {
+  repeated ServiceChannel service_channels = 1;
+  string next_page_token = 2;
+}
+message CreateServiceChannelRequest { ServiceChannel service_channel = 1; }
+message UpdateServiceChannelRequest {
+  string id = 1;
+  ServiceChannel service_channel = 2;
+}
+message DeleteServiceChannelRequest { string id = 1; }
+
+message ListProductChannelRulesRequest {
+  string status = 1;
+  string keyword = 2;
+  int32 page_size = 3;
+  string page_token = 4;
+}
+message ListProductChannelRulesResponse {
+  repeated ProductChannelRule product_channel_rules = 1;
+  string next_page_token = 2;
+}
+message CreateProductChannelRuleRequest { ProductChannelRule product_channel_rule = 1; }
+message UpdateProductChannelRuleRequest {
+  string id = 1;
+  ProductChannelRule product_channel_rule = 2;
+}
+message DeleteProductChannelRuleRequest { string id = 1; }

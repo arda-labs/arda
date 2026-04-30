@@ -50,6 +50,10 @@ export const remoteRoutes: Routes = [
     path: 'banking/currency-fx',
     loadComponent: () => import('./pages/banking/currency-fx.page').then(m => m.CurrencyFxPage),
   },
+  {
+    path: 'banking/product-channels',
+    loadComponent: () => import('./pages/banking/product-channels.page').then(m => m.ProductChannelsPage),
+  },
 ];
 
 export const routes: Routes = remoteRoutes;

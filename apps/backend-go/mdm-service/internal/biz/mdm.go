@@ -120,6 +120,21 @@ type MdmRepo interface {
 	UpdateFxRate(ctx context.Context, item *FxRate) (*FxRate, error)
 	DeleteFxRate(ctx context.Context, id string) error
 	ApproveFxRate(ctx context.Context, id, actor, note string) (*FxRate, error)
+
+	ListBankingProducts(ctx context.Context, filter PageFilter) ([]*BankingProduct, string, error)
+	CreateBankingProduct(ctx context.Context, item *BankingProduct) (*BankingProduct, error)
+	UpdateBankingProduct(ctx context.Context, item *BankingProduct) (*BankingProduct, error)
+	DeleteBankingProduct(ctx context.Context, id string) error
+
+	ListServiceChannels(ctx context.Context, filter PageFilter) ([]*ServiceChannel, string, error)
+	CreateServiceChannel(ctx context.Context, item *ServiceChannel) (*ServiceChannel, error)
+	UpdateServiceChannel(ctx context.Context, item *ServiceChannel) (*ServiceChannel, error)
+	DeleteServiceChannel(ctx context.Context, id string) error
+
+	ListProductChannelRules(ctx context.Context, filter PageFilter) ([]*ProductChannelRule, string, error)
+	CreateProductChannelRule(ctx context.Context, item *ProductChannelRule) (*ProductChannelRule, error)
+	UpdateProductChannelRule(ctx context.Context, item *ProductChannelRule) (*ProductChannelRule, error)
+	DeleteProductChannelRule(ctx context.Context, id string) error
 }
 
 type MdmUsecase struct {

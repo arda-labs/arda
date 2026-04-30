@@ -119,6 +119,14 @@ const (
 	MdmService_CreateProductChannelRule_FullMethodName              = "/mdm.v1.MdmService/CreateProductChannelRule"
 	MdmService_UpdateProductChannelRule_FullMethodName              = "/mdm.v1.MdmService/UpdateProductChannelRule"
 	MdmService_DeleteProductChannelRule_FullMethodName              = "/mdm.v1.MdmService/DeleteProductChannelRule"
+	MdmService_ListBankBranches_FullMethodName                      = "/mdm.v1.MdmService/ListBankBranches"
+	MdmService_CreateBankBranch_FullMethodName                      = "/mdm.v1.MdmService/CreateBankBranch"
+	MdmService_UpdateBankBranch_FullMethodName                      = "/mdm.v1.MdmService/UpdateBankBranch"
+	MdmService_DeleteBankBranch_FullMethodName                      = "/mdm.v1.MdmService/DeleteBankBranch"
+	MdmService_ListPaymentNetworks_FullMethodName                   = "/mdm.v1.MdmService/ListPaymentNetworks"
+	MdmService_CreatePaymentNetwork_FullMethodName                  = "/mdm.v1.MdmService/CreatePaymentNetwork"
+	MdmService_UpdatePaymentNetwork_FullMethodName                  = "/mdm.v1.MdmService/UpdatePaymentNetwork"
+	MdmService_DeletePaymentNetwork_FullMethodName                  = "/mdm.v1.MdmService/DeletePaymentNetwork"
 )
 
 // MdmServiceClient is the client API for MdmService service.
@@ -225,6 +233,14 @@ type MdmServiceClient interface {
 	CreateProductChannelRule(ctx context.Context, in *CreateProductChannelRuleRequest, opts ...grpc.CallOption) (*ProductChannelRule, error)
 	UpdateProductChannelRule(ctx context.Context, in *UpdateProductChannelRuleRequest, opts ...grpc.CallOption) (*ProductChannelRule, error)
 	DeleteProductChannelRule(ctx context.Context, in *DeleteProductChannelRuleRequest, opts ...grpc.CallOption) (*DeleteResponse, error)
+	ListBankBranches(ctx context.Context, in *ListBankBranchesRequest, opts ...grpc.CallOption) (*ListBankBranchesResponse, error)
+	CreateBankBranch(ctx context.Context, in *CreateBankBranchRequest, opts ...grpc.CallOption) (*BankBranch, error)
+	UpdateBankBranch(ctx context.Context, in *UpdateBankBranchRequest, opts ...grpc.CallOption) (*BankBranch, error)
+	DeleteBankBranch(ctx context.Context, in *DeleteBankBranchRequest, opts ...grpc.CallOption) (*DeleteResponse, error)
+	ListPaymentNetworks(ctx context.Context, in *ListPaymentNetworksRequest, opts ...grpc.CallOption) (*ListPaymentNetworksResponse, error)
+	CreatePaymentNetwork(ctx context.Context, in *CreatePaymentNetworkRequest, opts ...grpc.CallOption) (*PaymentNetwork, error)
+	UpdatePaymentNetwork(ctx context.Context, in *UpdatePaymentNetworkRequest, opts ...grpc.CallOption) (*PaymentNetwork, error)
+	DeletePaymentNetwork(ctx context.Context, in *DeletePaymentNetworkRequest, opts ...grpc.CallOption) (*DeleteResponse, error)
 }
 
 type mdmServiceClient struct {
@@ -1235,6 +1251,86 @@ func (c *mdmServiceClient) DeleteProductChannelRule(ctx context.Context, in *Del
 	return out, nil
 }
 
+func (c *mdmServiceClient) ListBankBranches(ctx context.Context, in *ListBankBranchesRequest, opts ...grpc.CallOption) (*ListBankBranchesResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListBankBranchesResponse)
+	err := c.cc.Invoke(ctx, MdmService_ListBankBranches_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mdmServiceClient) CreateBankBranch(ctx context.Context, in *CreateBankBranchRequest, opts ...grpc.CallOption) (*BankBranch, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(BankBranch)
+	err := c.cc.Invoke(ctx, MdmService_CreateBankBranch_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mdmServiceClient) UpdateBankBranch(ctx context.Context, in *UpdateBankBranchRequest, opts ...grpc.CallOption) (*BankBranch, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(BankBranch)
+	err := c.cc.Invoke(ctx, MdmService_UpdateBankBranch_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mdmServiceClient) DeleteBankBranch(ctx context.Context, in *DeleteBankBranchRequest, opts ...grpc.CallOption) (*DeleteResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteResponse)
+	err := c.cc.Invoke(ctx, MdmService_DeleteBankBranch_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mdmServiceClient) ListPaymentNetworks(ctx context.Context, in *ListPaymentNetworksRequest, opts ...grpc.CallOption) (*ListPaymentNetworksResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListPaymentNetworksResponse)
+	err := c.cc.Invoke(ctx, MdmService_ListPaymentNetworks_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mdmServiceClient) CreatePaymentNetwork(ctx context.Context, in *CreatePaymentNetworkRequest, opts ...grpc.CallOption) (*PaymentNetwork, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(PaymentNetwork)
+	err := c.cc.Invoke(ctx, MdmService_CreatePaymentNetwork_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mdmServiceClient) UpdatePaymentNetwork(ctx context.Context, in *UpdatePaymentNetworkRequest, opts ...grpc.CallOption) (*PaymentNetwork, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(PaymentNetwork)
+	err := c.cc.Invoke(ctx, MdmService_UpdatePaymentNetwork_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mdmServiceClient) DeletePaymentNetwork(ctx context.Context, in *DeletePaymentNetworkRequest, opts ...grpc.CallOption) (*DeleteResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteResponse)
+	err := c.cc.Invoke(ctx, MdmService_DeletePaymentNetwork_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MdmServiceServer is the server API for MdmService service.
 // All implementations must embed UnimplementedMdmServiceServer
 // for forward compatibility.
@@ -1339,6 +1435,14 @@ type MdmServiceServer interface {
 	CreateProductChannelRule(context.Context, *CreateProductChannelRuleRequest) (*ProductChannelRule, error)
 	UpdateProductChannelRule(context.Context, *UpdateProductChannelRuleRequest) (*ProductChannelRule, error)
 	DeleteProductChannelRule(context.Context, *DeleteProductChannelRuleRequest) (*DeleteResponse, error)
+	ListBankBranches(context.Context, *ListBankBranchesRequest) (*ListBankBranchesResponse, error)
+	CreateBankBranch(context.Context, *CreateBankBranchRequest) (*BankBranch, error)
+	UpdateBankBranch(context.Context, *UpdateBankBranchRequest) (*BankBranch, error)
+	DeleteBankBranch(context.Context, *DeleteBankBranchRequest) (*DeleteResponse, error)
+	ListPaymentNetworks(context.Context, *ListPaymentNetworksRequest) (*ListPaymentNetworksResponse, error)
+	CreatePaymentNetwork(context.Context, *CreatePaymentNetworkRequest) (*PaymentNetwork, error)
+	UpdatePaymentNetwork(context.Context, *UpdatePaymentNetworkRequest) (*PaymentNetwork, error)
+	DeletePaymentNetwork(context.Context, *DeletePaymentNetworkRequest) (*DeleteResponse, error)
 	mustEmbedUnimplementedMdmServiceServer()
 }
 
@@ -1648,6 +1752,30 @@ func (UnimplementedMdmServiceServer) UpdateProductChannelRule(context.Context, *
 }
 func (UnimplementedMdmServiceServer) DeleteProductChannelRule(context.Context, *DeleteProductChannelRuleRequest) (*DeleteResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method DeleteProductChannelRule not implemented")
+}
+func (UnimplementedMdmServiceServer) ListBankBranches(context.Context, *ListBankBranchesRequest) (*ListBankBranchesResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListBankBranches not implemented")
+}
+func (UnimplementedMdmServiceServer) CreateBankBranch(context.Context, *CreateBankBranchRequest) (*BankBranch, error) {
+	return nil, status.Error(codes.Unimplemented, "method CreateBankBranch not implemented")
+}
+func (UnimplementedMdmServiceServer) UpdateBankBranch(context.Context, *UpdateBankBranchRequest) (*BankBranch, error) {
+	return nil, status.Error(codes.Unimplemented, "method UpdateBankBranch not implemented")
+}
+func (UnimplementedMdmServiceServer) DeleteBankBranch(context.Context, *DeleteBankBranchRequest) (*DeleteResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method DeleteBankBranch not implemented")
+}
+func (UnimplementedMdmServiceServer) ListPaymentNetworks(context.Context, *ListPaymentNetworksRequest) (*ListPaymentNetworksResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListPaymentNetworks not implemented")
+}
+func (UnimplementedMdmServiceServer) CreatePaymentNetwork(context.Context, *CreatePaymentNetworkRequest) (*PaymentNetwork, error) {
+	return nil, status.Error(codes.Unimplemented, "method CreatePaymentNetwork not implemented")
+}
+func (UnimplementedMdmServiceServer) UpdatePaymentNetwork(context.Context, *UpdatePaymentNetworkRequest) (*PaymentNetwork, error) {
+	return nil, status.Error(codes.Unimplemented, "method UpdatePaymentNetwork not implemented")
+}
+func (UnimplementedMdmServiceServer) DeletePaymentNetwork(context.Context, *DeletePaymentNetworkRequest) (*DeleteResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method DeletePaymentNetwork not implemented")
 }
 func (UnimplementedMdmServiceServer) mustEmbedUnimplementedMdmServiceServer() {}
 func (UnimplementedMdmServiceServer) testEmbeddedByValue()                    {}
@@ -3470,6 +3598,150 @@ func _MdmService_DeleteProductChannelRule_Handler(srv interface{}, ctx context.C
 	return interceptor(ctx, in, info, handler)
 }
 
+func _MdmService_ListBankBranches_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListBankBranchesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).ListBankBranches(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_ListBankBranches_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).ListBankBranches(ctx, req.(*ListBankBranchesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MdmService_CreateBankBranch_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateBankBranchRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).CreateBankBranch(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_CreateBankBranch_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).CreateBankBranch(ctx, req.(*CreateBankBranchRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MdmService_UpdateBankBranch_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateBankBranchRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).UpdateBankBranch(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_UpdateBankBranch_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).UpdateBankBranch(ctx, req.(*UpdateBankBranchRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MdmService_DeleteBankBranch_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteBankBranchRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).DeleteBankBranch(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_DeleteBankBranch_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).DeleteBankBranch(ctx, req.(*DeleteBankBranchRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MdmService_ListPaymentNetworks_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListPaymentNetworksRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).ListPaymentNetworks(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_ListPaymentNetworks_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).ListPaymentNetworks(ctx, req.(*ListPaymentNetworksRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MdmService_CreatePaymentNetwork_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreatePaymentNetworkRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).CreatePaymentNetwork(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_CreatePaymentNetwork_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).CreatePaymentNetwork(ctx, req.(*CreatePaymentNetworkRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MdmService_UpdatePaymentNetwork_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdatePaymentNetworkRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).UpdatePaymentNetwork(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_UpdatePaymentNetwork_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).UpdatePaymentNetwork(ctx, req.(*UpdatePaymentNetworkRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MdmService_DeletePaymentNetwork_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeletePaymentNetworkRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).DeletePaymentNetwork(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_DeletePaymentNetwork_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).DeletePaymentNetwork(ctx, req.(*DeletePaymentNetworkRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // MdmService_ServiceDesc is the grpc.ServiceDesc for MdmService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -3876,6 +4148,38 @@ var MdmService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteProductChannelRule",
 			Handler:    _MdmService_DeleteProductChannelRule_Handler,
+		},
+		{
+			MethodName: "ListBankBranches",
+			Handler:    _MdmService_ListBankBranches_Handler,
+		},
+		{
+			MethodName: "CreateBankBranch",
+			Handler:    _MdmService_CreateBankBranch_Handler,
+		},
+		{
+			MethodName: "UpdateBankBranch",
+			Handler:    _MdmService_UpdateBankBranch_Handler,
+		},
+		{
+			MethodName: "DeleteBankBranch",
+			Handler:    _MdmService_DeleteBankBranch_Handler,
+		},
+		{
+			MethodName: "ListPaymentNetworks",
+			Handler:    _MdmService_ListPaymentNetworks_Handler,
+		},
+		{
+			MethodName: "CreatePaymentNetwork",
+			Handler:    _MdmService_CreatePaymentNetwork_Handler,
+		},
+		{
+			MethodName: "UpdatePaymentNetwork",
+			Handler:    _MdmService_UpdatePaymentNetwork_Handler,
+		},
+		{
+			MethodName: "DeletePaymentNetwork",
+			Handler:    _MdmService_DeletePaymentNetwork_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

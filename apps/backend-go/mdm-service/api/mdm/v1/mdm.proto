@@ -317,6 +317,31 @@ service MdmService {
   rpc DeleteProductChannelRule(DeleteProductChannelRuleRequest) returns (DeleteResponse) {
     option (google.api.http) = { delete: "/v1/mdm/product-channel-rules/{id}" };
   }
+
+  rpc ListBankBranches(ListBankBranchesRequest) returns (ListBankBranchesResponse) {
+    option (google.api.http) = { get: "/v1/mdm/bank-branches" };
+  }
+  rpc CreateBankBranch(CreateBankBranchRequest) returns (BankBranch) {
+    option (google.api.http) = { post: "/v1/mdm/bank-branches" body: "*" };
+  }
+  rpc UpdateBankBranch(UpdateBankBranchRequest) returns (BankBranch) {
+    option (google.api.http) = { put: "/v1/mdm/bank-branches/{id}" body: "*" };
+  }
+  rpc DeleteBankBranch(DeleteBankBranchRequest) returns (DeleteResponse) {
+    option (google.api.http) = { delete: "/v1/mdm/bank-branches/{id}" };
+  }
+  rpc ListPaymentNetworks(ListPaymentNetworksRequest) returns (ListPaymentNetworksResponse) {
+    option (google.api.http) = { get: "/v1/mdm/payment-networks" };
+  }
+  rpc CreatePaymentNetwork(CreatePaymentNetworkRequest) returns (PaymentNetwork) {
+    option (google.api.http) = { post: "/v1/mdm/payment-networks" body: "*" };
+  }
+  rpc UpdatePaymentNetwork(UpdatePaymentNetworkRequest) returns (PaymentNetwork) {
+    option (google.api.http) = { put: "/v1/mdm/payment-networks/{id}" body: "*" };
+  }
+  rpc DeletePaymentNetwork(DeletePaymentNetworkRequest) returns (DeleteResponse) {
+    option (google.api.http) = { delete: "/v1/mdm/payment-networks/{id}" };
+  }
 }
 
 message AdministrativeUnit {
@@ -665,6 +690,37 @@ message ProductChannelRule {
   string status = 12;
   google.protobuf.Timestamp created_at = 13;
   google.protobuf.Timestamp updated_at = 14;
+}
+
+message BankBranch {
+  string id = 1;
+  string institution_code = 2;
+  string code = 3;
+  string name = 4;
+  string branch_type = 5;
+  string address = 6;
+  string province_code = 7;
+  string phone = 8;
+  string swift_code = 9;
+  string napas_code = 10;
+  string status = 11;
+  google.protobuf.Timestamp created_at = 12;
+  google.protobuf.Timestamp updated_at = 13;
+}
+
+message PaymentNetwork {
+  string id = 1;
+  string code = 2;
+  string name = 3;
+  string network_type = 4;
+  string clearing_method = 5;
+  string settlement_currency = 6;
+  string operator = 7;
+  string availability = 8;
+  string description = 9;
+  string status = 10;
+  google.protobuf.Timestamp created_at = 11;
+  google.protobuf.Timestamp updated_at = 12;
 }
 
 message DeleteResponse {}
@@ -1074,3 +1130,37 @@ message UpdateProductChannelRuleRequest {
   ProductChannelRule product_channel_rule = 2;
 }
 message DeleteProductChannelRuleRequest { string id = 1; }
+
+message ListBankBranchesRequest {
+  string status = 1;
+  string keyword = 2;
+  int32 page_size = 3;
+  string page_token = 4;
+}
+message ListBankBranchesResponse {
+  repeated BankBranch bank_branches = 1;
+  string next_page_token = 2;
+}
+message CreateBankBranchRequest { BankBranch bank_branch = 1; }
+message UpdateBankBranchRequest {
+  string id = 1;
+  BankBranch bank_branch = 2;
+}
+message DeleteBankBranchRequest { string id = 1; }
+
+message ListPaymentNetworksRequest {
+  string status = 1;
+  string keyword = 2;
+  int32 page_size = 3;
+  string page_token = 4;
+}
+message ListPaymentNetworksResponse {
+  repeated PaymentNetwork payment_networks = 1;
+  string next_page_token = 2;
+}
+message CreatePaymentNetworkRequest { PaymentNetwork payment_network = 1; }
+message UpdatePaymentNetworkRequest {
+  string id = 1;
+  PaymentNetwork payment_network = 2;
+}
+message DeletePaymentNetworkRequest { string id = 1; }

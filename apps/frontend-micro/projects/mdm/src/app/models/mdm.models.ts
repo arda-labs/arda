@@ -336,3 +336,30 @@ export interface ProductChannelRule {
   description: string;
   status: string;
 }
+
+export interface BankBranch {
+  id: string;
+  institutionCode: string;
+  code: string;
+  name: string;
+  branchType: string;
+  address: string;
+  provinceCode: string;
+  phone: string;
+  swiftCode: string;
+  napasCode: string;
+  status: string;
+}
+
+export interface PaymentNetwork {
+  id: string;
+  code: string;
+  name: string;
+  networkType: string;
+  clearingMethod: string;
+  settlementCurrency: string;
+  operator: string;
+  availability: string;
+  description: string;
+  status: string;
+}

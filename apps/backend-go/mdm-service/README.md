@@ -50,6 +50,8 @@ Main resources:
   payment, accounting, and reporting flows.
 - Banking products, service channels, and product-channel enablement rules for
   product operations and digital banking configuration.
+- Bank branches and payment networks for routing, clearing, SWIFT/NAPAS, and
+  interbank transfer reference data.
 
 ### Business Calendars
 
@@ -129,6 +131,20 @@ used without hard-coding channel rules in transaction services.
 The default seed includes common retail/SME account, savings, and card products
 plus branch, internet banking, mobile banking, and ATM channels. Operators
 manage these from the `Sản phẩm và kênh dịch vụ` frontend page.
+
+### Branches And Payment Networks
+
+Payment and core banking platforms need governed routing reference data for
+domestic and cross-border transfers. MDM stores:
+
+- `bank_branches`: institution code, branch code, branch type, address,
+  province, phone, SWIFT/BIC, NAPAS code, and status.
+- `payment_networks`: network code, type, clearing method, settlement currency,
+  operator, availability, description, and status.
+
+The default seed includes common Vietcombank/BIDV branches plus NAPAS, SWIFT,
+and IBFT payment networks. Operators manage these from the `Chi nhánh và mạng
+thanh toán` frontend page.
 
 ### Administrative Unit Sync
 

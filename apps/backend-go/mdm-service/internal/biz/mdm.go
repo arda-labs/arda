@@ -135,6 +135,16 @@ type MdmRepo interface {
 	CreateProductChannelRule(ctx context.Context, item *ProductChannelRule) (*ProductChannelRule, error)
 	UpdateProductChannelRule(ctx context.Context, item *ProductChannelRule) (*ProductChannelRule, error)
 	DeleteProductChannelRule(ctx context.Context, id string) error
+
+	ListBankBranches(ctx context.Context, filter PageFilter) ([]*BankBranch, string, error)
+	CreateBankBranch(ctx context.Context, item *BankBranch) (*BankBranch, error)
+	UpdateBankBranch(ctx context.Context, item *BankBranch) (*BankBranch, error)
+	DeleteBankBranch(ctx context.Context, id string) error
+
+	ListPaymentNetworks(ctx context.Context, filter PageFilter) ([]*PaymentNetwork, string, error)
+	CreatePaymentNetwork(ctx context.Context, item *PaymentNetwork) (*PaymentNetwork, error)
+	UpdatePaymentNetwork(ctx context.Context, item *PaymentNetwork) (*PaymentNetwork, error)
+	DeletePaymentNetwork(ctx context.Context, id string) error
 }
 
 type MdmUsecase struct {

@@ -1,0 +1,102 @@
+<p-toast />
+<p-confirmDialog />
+
+<section class="space-y-4 p-4">
+  <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+    <div>
+      <div class="text-xs font-semibold uppercase tracking-normal text-primary">Tài chính ngân hàng</div>
+      <h1 class="text-2xl font-semibold text-surface-900 dark:text-white">Chi nhánh và mạng thanh toán</h1>
+      <p class="text-sm text-surface-500">Quản lý chi nhánh ngân hàng, mã SWIFT/NAPAS và mạng thanh toán liên ngân hàng.</p>
+    </div>
+    <div class="flex flex-wrap gap-2">
+      <p-button icon="pi pi-refresh" severity="secondary" label="Làm mới" (onClick)="reload()" />
+      @if (activeTab() === 'branches') { <p-button icon="pi pi-plus" label="Thêm chi nhánh" (onClick)="openBranch()" /> }
+      @if (activeTab() === 'networks') { <p-button icon="pi pi-plus" label="Thêm mạng" (onClick)="openNetwork()" /> }
+    </div>
+  </div>
+
+  <div class="grid gap-3 md:grid-cols-4">
+    <div class="rounded-md border border-surface-200 bg-surface-0 p-3 dark:border-surface-800 dark:bg-surface-900"><div class="text-xs text-surface-500">Chi nhánh</div><div class="mt-1 text-2xl font-semibold">{{ branches().length }}</div></div>
+    <div class="rounded-md border border-surface-200 bg-surface-0 p-3 dark:border-surface-800 dark:bg-surface-900"><div class="text-xs text-surface-500">Chi nhánh hiệu lực</div><div class="mt-1 text-2xl font-semibold text-emerald-600">{{ activeBranches() }}</div></div>
+    <div class="rounded-md border border-surface-200 bg-surface-0 p-3 dark:border-surface-800 dark:bg-surface-900"><div class="text-xs text-surface-500">Mạng thanh toán</div><div class="mt-1 text-2xl font-semibold">{{ networks().length }}</div></div>
+    <div class="rounded-md border border-surface-200 bg-surface-0 p-3 dark:border-surface-800 dark:bg-surface-900"><div class="text-xs text-surface-500">Mạng hiệu lực</div><div class="mt-1 text-2xl font-semibold text-emerald-600">{{ activeNetworks() }}</div></div>
+  </div>
+
+  <div class="rounded-lg border border-surface-200 bg-surface-0 p-3 dark:border-surface-800 dark:bg-surface-900">
+    <div class="grid gap-3 lg:grid-cols-[auto_minmax(220px,1fr)] lg:items-end">
+      <div class="flex flex-wrap gap-1 rounded-md bg-surface-100 p-1 dark:bg-surface-800">
+        <p-button label="Chi nhánh" [severity]="activeTab() === 'branches' ? 'primary' : 'secondary'" [variant]="activeTab() === 'branches' ? undefined : 'text'" (onClick)="setTab('branches')" />
+        <p-button label="Mạng thanh toán" [severity]="activeTab() === 'networks' ? 'primary' : 'secondary'" [variant]="activeTab() === 'networks' ? undefined : 'text'" (onClick)="setTab('networks')" />
+      </div>
+      <div class="flex flex-col gap-2">
+        <label for="paymentKeyword" class="text-xs font-semibold text-surface-600 dark:text-surface-300">Tìm kiếm</label>
+        <input pInputText id="paymentKeyword" type="search" class="w-full" placeholder="Ngân hàng, chi nhánh, SWIFT, NAPAS, mạng" [ngModel]="keyword()" (ngModelChange)="keyword.set($event)" />
+      </div>
+    </div>
+  </div>
+
+  @if (activeTab() === 'branches') {
+    <div class="overflow-hidden rounded-lg border border-surface-200 bg-surface-0 dark:border-surface-800 dark:bg-surface-900">
+      <p-table [value]="filteredBranches()" [loading]="branchResource.isLoading()" [rows]="15" [paginator]="true" class="p-datatable-sm" responsiveLayout="scroll">
+        <ng-template pTemplate="header"><tr><th>Ngân hàng</th><th>Mã chi nhánh</th><th>Tên chi nhánh</th><th>Loại</th><th>SWIFT/NAPAS</th><th>Tỉnh</th><th>Trạng thái</th><th class="text-right">Hành động</th></tr></ng-template>
+        <ng-template pTemplate="body" let-item><tr>
+          <td><span class="font-mono text-xs">{{ item.institutionCode }}</span></td>
+          <td><span class="font-mono text-xs">{{ item.code }}</span></td>
+          <td><button type="button" class="text-left font-semibold hover:text-primary hover:underline" (click)="openBranch(item)">{{ item.name }}</button><div class="text-xs text-surface-500">{{ item.address || '-' }}</div></td>
+          <td>{{ item.branchType }}</td><td><div class="font-mono text-xs">{{ item.swiftCode || '-' }}</div><div class="font-mono text-xs text-surface-500">{{ item.napasCode || '-' }}</div></td><td>{{ item.provinceCode || '-' }}</td>
+          <td><p-tag [value]="item.status" [severity]="statusSeverity(item.status)" /></td>
+          <td class="text-right"><p-button icon="pi pi-pencil" size="small" variant="text" pTooltip="Sửa" (onClick)="openBranch(item)" /><p-button icon="pi pi-trash" size="small" severity="danger" variant="text" pTooltip="Xóa" (onClick)="deleteBranch(item)" /></td>
+        </tr></ng-template>
+      </p-table>
+    </div>
+  }
+
+  @if (activeTab() === 'networks') {
+    <div class="overflow-hidden rounded-lg border border-surface-200 bg-surface-0 dark:border-surface-800 dark:bg-surface-900">
+      <p-table [value]="filteredNetworks()" [loading]="networkResource.isLoading()" [rows]="15" [paginator]="true" class="p-datatable-sm" responsiveLayout="scroll">
+        <ng-template pTemplate="header"><tr><th>Mã</th><th>Tên mạng</th><th>Loại</th><th>Clearing</th><th>Tiền tệ</th><th>Operator</th><th>Availability</th><th>Trạng thái</th><th class="text-right">Hành động</th></tr></ng-template>
+        <ng-template pTemplate="body" let-item><tr>
+          <td><span class="font-mono text-xs">{{ item.code }}</span></td>
+          <td><button type="button" class="text-left font-semibold hover:text-primary hover:underline" (click)="openNetwork(item)">{{ item.name }}</button><div class="text-xs text-surface-500">{{ item.description || '-' }}</div></td>
+          <td>{{ item.networkType }}</td><td>{{ item.clearingMethod || '-' }}</td><td>{{ item.settlementCurrency }}</td><td>{{ item.operator || '-' }}</td><td>{{ item.availability }}</td>
+          <td><p-tag [value]="item.status" [severity]="statusSeverity(item.status)" /></td>
+          <td class="text-right"><p-button icon="pi pi-pencil" size="small" variant="text" pTooltip="Sửa" (onClick)="openNetwork(item)" /><p-button icon="pi pi-trash" size="small" severity="danger" variant="text" pTooltip="Xóa" (onClick)="deleteNetwork(item)" /></td>
+        </tr></ng-template>
+      </p-table>
+    </div>
+  }
+</section>
+
+<p-dialog [visible]="dialogVisible()" (visibleChange)="dialogVisible.set($event)" [modal]="true" [draggable]="false" [resizable]="false" [style]="{width: '860px'}" [header]="activeTab() === 'branches' ? 'Cấu hình chi nhánh' : 'Cấu hình mạng thanh toán'">
+  @if (activeTab() === 'branches') {
+    <div [formGroup]="branchForm" class="grid gap-4 py-4 md:grid-cols-3">
+      <div class="flex flex-col gap-2"><label class="text-sm font-medium">Mã ngân hàng <span class="text-red-500">*</span></label><input pInputText formControlName="institutionCode" placeholder="VCB" /></div>
+      <div class="flex flex-col gap-2"><label class="text-sm font-medium">Mã chi nhánh <span class="text-red-500">*</span></label><input pInputText formControlName="code" /></div>
+      <div class="flex flex-col gap-2"><label class="text-sm font-medium">Loại</label><p-select formControlName="branchType" [options]="branchTypeOptions" optionLabel="label" optionValue="value" appendTo="body" /></div>
+      <div class="flex flex-col gap-2 md:col-span-2"><label class="text-sm font-medium">Tên chi nhánh <span class="text-red-500">*</span></label><input pInputText formControlName="name" /></div>
+      <div class="flex flex-col gap-2"><label class="text-sm font-medium">Tỉnh/thành</label><input pInputText formControlName="provinceCode" /></div>
+      <div class="flex flex-col gap-2 md:col-span-3"><label class="text-sm font-medium">Địa chỉ</label><input pInputText formControlName="address" /></div>
+      <div class="flex flex-col gap-2"><label class="text-sm font-medium">Điện thoại</label><input pInputText formControlName="phone" /></div>
+      <div class="flex flex-col gap-2"><label class="text-sm font-medium">SWIFT</label><input pInputText formControlName="swiftCode" /></div>
+      <div class="flex flex-col gap-2"><label class="text-sm font-medium">NAPAS</label><input pInputText formControlName="napasCode" /></div>
+      <div class="flex flex-col gap-2"><label class="text-sm font-medium">Trạng thái</label><p-select formControlName="status" [options]="statusOptions" optionLabel="label" optionValue="value" appendTo="body" /></div>
+    </div>
+  }
+  @if (activeTab() === 'networks') {
+    <div [formGroup]="networkForm" class="grid gap-4 py-4 md:grid-cols-3">
+      <div class="flex flex-col gap-2"><label class="text-sm font-medium">Mã <span class="text-red-500">*</span></label><input pInputText formControlName="code" /></div>
+      <div class="flex flex-col gap-2 md:col-span-2"><label class="text-sm font-medium">Tên mạng <span class="text-red-500">*</span></label><input pInputText formControlName="name" /></div>
+      <div class="flex flex-col gap-2"><label class="text-sm font-medium">Loại</label><p-select formControlName="networkType" [options]="networkTypeOptions" optionLabel="label" optionValue="value" appendTo="body" /></div>
+      <div class="flex flex-col gap-2"><label class="text-sm font-medium">Clearing</label><input pInputText formControlName="clearingMethod" /></div>
+      <div class="flex flex-col gap-2"><label class="text-sm font-medium">Tiền tệ</label><input pInputText formControlName="settlementCurrency" /></div>
+      <div class="flex flex-col gap-2"><label class="text-sm font-medium">Operator</label><input pInputText formControlName="operator" /></div>
+      <div class="flex flex-col gap-2"><label class="text-sm font-medium">Availability</label><p-select formControlName="availability" [options]="availabilityOptions" optionLabel="label" optionValue="value" appendTo="body" /></div>
+      <div class="flex flex-col gap-2"><label class="text-sm font-medium">Trạng thái</label><p-select formControlName="status" [options]="statusOptions" optionLabel="label" optionValue="value" appendTo="body" /></div>
+      <div class="flex flex-col gap-2 md:col-span-3"><label class="text-sm font-medium">Mô tả</label><textarea pTextarea formControlName="description" rows="3"></textarea></div>
+    </div>
+  }
+  <ng-template pTemplate="footer">
+    <p-button label="Hủy" severity="secondary" variant="text" (onClick)="dialogVisible.set(false)" />
+    <p-button label="Lưu" icon="pi pi-check" [loading]="isSaving()" (onClick)="save()" />
+  </ng-template>
+</p-dialog>

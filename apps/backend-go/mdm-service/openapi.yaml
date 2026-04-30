@@ -495,6 +495,94 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/mdm.v1.DeleteResponse'
+    /v1/mdm/bank-branches:
+        get:
+            tags:
+                - MdmService
+            operationId: MdmService_ListBankBranches
+            parameters:
+                - name: status
+                  in: query
+                  schema:
+                    type: string
+                - name: keyword
+                  in: query
+                  schema:
+                    type: string
+                - name: pageSize
+                  in: query
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pageToken
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.ListBankBranchesResponse'
+        post:
+            tags:
+                - MdmService
+            operationId: MdmService_CreateBankBranch
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/mdm.v1.CreateBankBranchRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.BankBranch'
+    /v1/mdm/bank-branches/{id}:
+        put:
+            tags:
+                - MdmService
+            operationId: MdmService_UpdateBankBranch
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/mdm.v1.UpdateBankBranchRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.BankBranch'
+        delete:
+            tags:
+                - MdmService
+            operationId: MdmService_DeleteBankBranch
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.DeleteResponse'
     /v1/mdm/banking-products:
         get:
             tags:
@@ -1584,6 +1672,94 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/mdm.v1.FxRate'
+    /v1/mdm/payment-networks:
+        get:
+            tags:
+                - MdmService
+            operationId: MdmService_ListPaymentNetworks
+            parameters:
+                - name: status
+                  in: query
+                  schema:
+                    type: string
+                - name: keyword
+                  in: query
+                  schema:
+                    type: string
+                - name: pageSize
+                  in: query
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pageToken
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.ListPaymentNetworksResponse'
+        post:
+            tags:
+                - MdmService
+            operationId: MdmService_CreatePaymentNetwork
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/mdm.v1.CreatePaymentNetworkRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.PaymentNetwork'
+    /v1/mdm/payment-networks/{id}:
+        put:
+            tags:
+                - MdmService
+            operationId: MdmService_UpdatePaymentNetwork
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/mdm.v1.UpdatePaymentNetworkRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.PaymentNetwork'
+        delete:
+            tags:
+                - MdmService
+            operationId: MdmService_DeletePaymentNetwork
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.DeleteResponse'
     /v1/mdm/product-channel-rules:
         get:
             tags:
@@ -2393,6 +2569,37 @@ components:
                     type: string
                 scopeType:
                     type: string
+        mdm.v1.BankBranch:
+            type: object
+            properties:
+                id:
+                    type: string
+                institutionCode:
+                    type: string
+                code:
+                    type: string
+                name:
+                    type: string
+                branchType:
+                    type: string
+                address:
+                    type: string
+                provinceCode:
+                    type: string
+                phone:
+                    type: string
+                swiftCode:
+                    type: string
+                napasCode:
+                    type: string
+                status:
+                    type: string
+                createdAt:
+                    type: string
+                    format: date-time
+                updatedAt:
+                    type: string
+                    format: date-time
         mdm.v1.BankingProduct:
             type: object
             properties:
@@ -2586,6 +2793,11 @@ components:
             properties:
                 areaType:
                     $ref: '#/components/schemas/mdm.v1.AreaType'
+        mdm.v1.CreateBankBranchRequest:
+            type: object
+            properties:
+                bankBranch:
+                    $ref: '#/components/schemas/mdm.v1.BankBranch'
         mdm.v1.CreateBankingProductRequest:
             type: object
             properties:
@@ -2640,6 +2852,11 @@ components:
             properties:
                 source:
                     $ref: '#/components/schemas/mdm.v1.FxRateSource'
+        mdm.v1.CreatePaymentNetworkRequest:
+            type: object
+            properties:
+                paymentNetwork:
+                    $ref: '#/components/schemas/mdm.v1.PaymentNetwork'
         mdm.v1.CreateProductChannelRuleRequest:
             type: object
             properties:
@@ -2912,6 +3129,15 @@ components:
                         $ref: '#/components/schemas/mdm.v1.Area'
                 nextPageToken:
                     type: string
+        mdm.v1.ListBankBranchesResponse:
+            type: object
+            properties:
+                bankBranches:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/mdm.v1.BankBranch'
+                nextPageToken:
+                    type: string
         mdm.v1.ListBankingProductsResponse:
             type: object
             properties:
@@ -3000,6 +3226,15 @@ components:
                         $ref: '#/components/schemas/mdm.v1.FxRate'
                 nextPageToken:
                     type: string
+        mdm.v1.ListPaymentNetworksResponse:
+            type: object
+            properties:
+                paymentNetworks:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/mdm.v1.PaymentNetwork'
+                nextPageToken:
+                    type: string
         mdm.v1.ListProductChannelRulesResponse:
             type: object
             properties:
@@ -3052,6 +3287,35 @@ components:
                     type: array
                     items:
                         $ref: '#/components/schemas/mdm.v1.WorkingHour'
+        mdm.v1.PaymentNetwork:
+            type: object
+            properties:
+                id:
+                    type: string
+                code:
+                    type: string
+                name:
+                    type: string
+                networkType:
+                    type: string
+                clearingMethod:
+                    type: string
+                settlementCurrency:
+                    type: string
+                operator:
+                    type: string
+                availability:
+                    type: string
+                description:
+                    type: string
+                status:
+                    type: string
+                createdAt:
+                    type: string
+                    format: date-time
+                updatedAt:
+                    type: string
+                    format: date-time
         mdm.v1.ProductChannelRule:
             type: object
             properties:
@@ -3296,6 +3560,13 @@ components:
                     type: string
                 areaType:
                     $ref: '#/components/schemas/mdm.v1.AreaType'
+        mdm.v1.UpdateBankBranchRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                bankBranch:
+                    $ref: '#/components/schemas/mdm.v1.BankBranch'
         mdm.v1.UpdateBankingProductRequest:
             type: object
             properties:
@@ -3366,6 +3637,13 @@ components:
                     type: string
                 source:
                     $ref: '#/components/schemas/mdm.v1.FxRateSource'
+        mdm.v1.UpdatePaymentNetworkRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                paymentNetwork:
+                    $ref: '#/components/schemas/mdm.v1.PaymentNetwork'
         mdm.v1.UpdateProductChannelRuleRequest:
             type: object
             properties:

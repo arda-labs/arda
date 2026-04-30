@@ -54,6 +54,10 @@ export const remoteRoutes: Routes = [
     path: 'banking/product-channels',
     loadComponent: () => import('./pages/banking/product-channels.page').then(m => m.ProductChannelsPage),
   },
+  {
+    path: 'banking/payment-networks',
+    loadComponent: () => import('./pages/banking/payment-networks.page').then(m => m.PaymentNetworksPage),
+  },
 ];
 
 export const routes: Routes = remoteRoutes;

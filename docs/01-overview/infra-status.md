@@ -29,6 +29,7 @@ using this page during an incident.
 | `mfe-shell` | `apps/mfe-shell/overlays/dev` | `arda-apps` |
 | `mfe-iam` | `apps/mfe-iam/overlays/dev` | `arda-apps` |
 | `mfe-mdm` | `apps/mfe-mdm/overlays/dev` | `arda-apps` |
+| `mfe-ntf` | `apps/mfe-ntf/overlays/dev` | `arda-apps` |
 | `cloudflared` | `apps/ingress/cloudflared/overlays` | `infra` |
 | `zitadel-routes` | `apps/identity/zitadel/base` | `identity` |
 
@@ -39,6 +40,7 @@ using this page during an incident.
 | `/*` | `mfe-shell` |
 | `/mfe-iam/*` | `mfe-iam` |
 | `/mfe-mdm/*` | `mfe-mdm` |
+| `/mfe-ntf/*` | `mfe-ntf` |
 | `/api/v1/*` | `iam-service` |
 | `/api/v1/mdm/*` | `mdm-service` |
 | `/api/v1/notifications/*` | `notification-service` |

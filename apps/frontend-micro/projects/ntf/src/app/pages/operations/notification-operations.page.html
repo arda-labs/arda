@@ -1,0 +1,204 @@
+<p-toast />
+
+<div class="min-h-screen bg-surface-50 dark:bg-surface-950 px-6 py-5">
+  <div class="flex flex-col gap-5">
+    <header class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+      <div>
+        <div class="text-xs font-semibold uppercase tracking-wide text-primary-600">NTF</div>
+        <h1 class="mt-1 text-2xl font-bold text-surface-950 dark:text-surface-0">Vận hành thông báo</h1>
+        <p class="mt-1 text-sm text-surface-500">Quản lý mẫu, hàng đợi gửi và cấu hình kênh thông báo.</p>
+      </div>
+      <div class="flex flex-wrap items-center gap-2">
+        <input pInputText class="w-72" placeholder="Tìm kiếm" [ngModel]="keyword()" (ngModelChange)="keyword.set($event)" />
+        <p-button icon="pi pi-refresh" label="Tải lại" severity="secondary" [outlined]="true" (onClick)="reload()" />
+      </div>
+    </header>
+
+    <section class="grid grid-cols-1 gap-3 md:grid-cols-4">
+      <div class="rounded-lg border border-surface-200 bg-white p-4 dark:border-surface-800 dark:bg-surface-900">
+        <div class="text-xs font-semibold text-surface-500">Queued</div>
+        <div class="mt-2 text-2xl font-bold text-surface-950 dark:text-surface-0">{{ queuedCount() }}</div>
+      </div>
+      <div class="rounded-lg border border-surface-200 bg-white p-4 dark:border-surface-800 dark:bg-surface-900">
+        <div class="text-xs font-semibold text-surface-500">Retrying</div>
+        <div class="mt-2 text-2xl font-bold text-amber-600">{{ retryingCount() }}</div>
+      </div>
+      <div class="rounded-lg border border-surface-200 bg-white p-4 dark:border-surface-800 dark:bg-surface-900">
+        <div class="text-xs font-semibold text-surface-500">Dead letter</div>
+        <div class="mt-2 text-2xl font-bold text-red-600">{{ deadLetterCount() }}</div>
+      </div>
+      <div class="rounded-lg border border-surface-200 bg-white p-4 dark:border-surface-800 dark:bg-surface-900">
+        <div class="text-xs font-semibold text-surface-500">Delivered</div>
+        <div class="mt-2 text-2xl font-bold text-emerald-600">{{ deliveredCount() }}</div>
+      </div>
+    </section>
+
+    <div class="flex flex-wrap gap-2 border-b border-surface-200 dark:border-surface-800">
+      <button type="button" class="px-4 py-3 text-sm font-semibold" [class.text-primary-600]="activeTab() === 'templates'" [class.border-b-2]="activeTab() === 'templates'" (click)="setTab('templates')">Mẫu thông báo</button>
+      <button type="button" class="px-4 py-3 text-sm font-semibold" [class.text-primary-600]="activeTab() === 'queue'" [class.border-b-2]="activeTab() === 'queue'" (click)="setTab('queue')">Hàng đợi gửi</button>
+      <button type="button" class="px-4 py-3 text-sm font-semibold" [class.text-primary-600]="activeTab() === 'providers'" [class.border-b-2]="activeTab() === 'providers'" (click)="setTab('providers')">Kênh gửi</button>
+    </div>
+
+    @if (activeTab() === 'templates') {
+      <section class="flex flex-col gap-3">
+        <div class="flex justify-end">
+          <p-button icon="pi pi-plus" label="Thêm mẫu" (onClick)="openTemplate()" />
+        </div>
+        <p-table [value]="filteredTemplates()" [rowHover]="true" [paginator]="true" [rows]="10" styleClass="p-datatable-sm">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Mã mẫu</th>
+              <th>Tên mẫu</th>
+              <th>Nhóm</th>
+              <th>Kênh mặc định</th>
+              <th>Trạng thái</th>
+              <th class="w-32"></th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-item>
+            <tr>
+              <td class="font-semibold">{{ item.code }}</td>
+              <td>{{ item.name }}</td>
+              <td>{{ item.category }}</td>
+              <td>{{ item.defaultChannel }}</td>
+              <td><p-tag [value]="item.status" [severity]="statusSeverity(item.status)" /></td>
+              <td class="text-right">
+                <p-button icon="pi pi-list" [text]="true" pTooltip="Phiên bản" (onClick)="openVersions(item)" />
+                <p-button icon="pi pi-pencil" [text]="true" pTooltip="Sửa" (onClick)="openTemplate(item)" />
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </section>
+    }
+
+    @if (activeTab() === 'queue') {
+      <section class="flex flex-col gap-3">
+        <div class="flex justify-end">
+          <p-button icon="pi pi-play" label="Chạy worker một lượt" severity="secondary" [outlined]="true" (onClick)="runWorkerOnce()" />
+        </div>
+        <p-table [value]="filteredDeliveries()" [rowHover]="true" [paginator]="true" [rows]="10" styleClass="p-datatable-sm">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Thông báo</th>
+              <th>Kênh</th>
+              <th>Người nhận</th>
+              <th>Trạng thái</th>
+              <th>Lần thử</th>
+              <th>Lỗi</th>
+              <th class="w-20"></th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-item>
+            <tr>
+              <td>
+                <div class="font-semibold">{{ item.subject || '(Không tiêu đề)' }}</div>
+                <div class="max-w-xl truncate text-xs text-surface-500">{{ item.body }}</div>
+              </td>
+              <td>{{ item.channel }}</td>
+              <td>{{ item.recipientId }}</td>
+              <td><p-tag [value]="item.status" [severity]="statusSeverity(item.status)" /></td>
+              <td>{{ item.attemptCount }}/{{ item.maxAttempts }}</td>
+              <td class="max-w-xs truncate text-xs text-red-600">{{ item.errorMessage }}</td>
+              <td class="text-right">
+                <p-button icon="pi pi-replay" [text]="true" pTooltip="Retry" [disabled]="item.status === 'DELIVERED'" (onClick)="retryDelivery(item)" />
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </section>
+    }
+
+    @if (activeTab() === 'providers') {
+      <section class="flex flex-col gap-3">
+        <div class="flex justify-end">
+          <p-button icon="pi pi-plus" label="Thêm kênh" (onClick)="openProvider()" />
+        </div>
+        <p-table [value]="filteredProviders()" [rowHover]="true" [paginator]="true" [rows]="10" styleClass="p-datatable-sm">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Mã provider</th>
+              <th>Tên</th>
+              <th>Kênh</th>
+              <th>Ưu tiên</th>
+              <th>Rate/min</th>
+              <th>Trạng thái</th>
+              <th class="w-20"></th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-item>
+            <tr>
+              <td class="font-semibold">{{ item.code }}</td>
+              <td>{{ item.name }}</td>
+              <td>{{ item.channel }}</td>
+              <td>{{ item.priority }}</td>
+              <td>{{ item.rateLimitPerMinute }}</td>
+              <td><p-tag [value]="item.status" [severity]="statusSeverity(item.status)" /></td>
+              <td class="text-right">
+                <p-button icon="pi pi-pencil" [text]="true" pTooltip="Sửa" (onClick)="openProvider(item)" />
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </section>
+    }
+  </div>
+</div>
+
+<p-dialog header="Mẫu thông báo" [modal]="true" [visible]="dialogVisible()" (visibleChange)="dialogVisible.set($event)" [style]="{ width: '720px' }">
+  <form class="grid grid-cols-1 gap-4 md:grid-cols-2" [formGroup]="templateForm">
+    <label class="flex flex-col gap-1 text-sm font-semibold">Mã mẫu <input pInputText formControlName="code" /></label>
+    <label class="flex flex-col gap-1 text-sm font-semibold">Tên mẫu <input pInputText formControlName="name" /></label>
+    <label class="flex flex-col gap-1 text-sm font-semibold">Nhóm <input pInputText formControlName="category" /></label>
+    <label class="flex flex-col gap-1 text-sm font-semibold">Kênh mặc định <p-select [options]="channelOptions" formControlName="defaultChannel" /></label>
+    <label class="flex flex-col gap-1 text-sm font-semibold md:col-span-2">Mô tả <textarea pTextarea rows="3" formControlName="description"></textarea></label>
+    <label class="flex flex-col gap-1 text-sm font-semibold">Trạng thái <p-select [options]="statusOptions" formControlName="status" /></label>
+  </form>
+  <ng-template pTemplate="footer">
+    <p-button label="Hủy" severity="secondary" [outlined]="true" (onClick)="dialogVisible.set(false)" />
+    <p-button label="Lưu" icon="pi pi-save" [loading]="isSaving()" (onClick)="saveTemplate()" />
+  </ng-template>
+</p-dialog>
+
+<p-dialog header="Phiên bản mẫu" [modal]="true" [visible]="versionDialogVisible()" (visibleChange)="versionDialogVisible.set($event)" [style]="{ width: '960px' }">
+  <div class="grid grid-cols-1 gap-5 lg:grid-cols-[360px_1fr]">
+    <form class="flex flex-col gap-3" [formGroup]="versionForm">
+      <label class="flex flex-col gap-1 text-sm font-semibold">Version <p-inputnumber formControlName="version" /></label>
+      <label class="flex flex-col gap-1 text-sm font-semibold">Kênh <p-select [options]="channelOptions" formControlName="channel" /></label>
+      <label class="flex flex-col gap-1 text-sm font-semibold">Ngôn ngữ <input pInputText formControlName="language" /></label>
+      <label class="flex flex-col gap-1 text-sm font-semibold">Tiêu đề <input pInputText formControlName="subject" /></label>
+      <label class="flex flex-col gap-1 text-sm font-semibold">Nội dung <textarea pTextarea rows="5" formControlName="body"></textarea></label>
+      <label class="flex flex-col gap-1 text-sm font-semibold">Payload schema <textarea pTextarea rows="3" formControlName="payloadSchemaJson"></textarea></label>
+      <label class="flex flex-col gap-1 text-sm font-semibold">Approval <p-select [options]="approvalOptions" formControlName="approvalStatus" /></label>
+      <p-button label="Thêm version" icon="pi pi-plus" [loading]="isSaving()" (onClick)="addVersion()" />
+    </form>
+    <p-table [value]="templateVersions()" [rowHover]="true" styleClass="p-datatable-sm">
+      <ng-template pTemplate="header"><tr><th>Version</th><th>Kênh</th><th>Tiêu đề</th><th>Approval</th><th></th></tr></ng-template>
+      <ng-template pTemplate="body" let-item>
+        <tr>
+          <td>{{ item.version }}</td>
+          <td>{{ item.channel }}/{{ item.language }}</td>
+          <td>{{ item.subject }}</td>
+          <td><p-tag [value]="item.approvalStatus" [severity]="statusSeverity(item.approvalStatus)" /></td>
+          <td class="text-right"><p-button icon="pi pi-check" [text]="true" pTooltip="Approve" [disabled]="item.approvalStatus === 'APPROVED'" (onClick)="approveVersion(item)" /></td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</p-dialog>
+
+<p-dialog header="Cấu hình kênh gửi" [modal]="true" [visible]="providerDialogVisible()" (visibleChange)="providerDialogVisible.set($event)" [style]="{ width: '720px' }">
+  <form class="grid grid-cols-1 gap-4 md:grid-cols-2" [formGroup]="providerForm">
+    <label class="flex flex-col gap-1 text-sm font-semibold">Mã provider <input pInputText formControlName="code" /></label>
+    <label class="flex flex-col gap-1 text-sm font-semibold">Kênh <p-select [options]="channelOptions" formControlName="channel" /></label>
+    <label class="flex flex-col gap-1 text-sm font-semibold md:col-span-2">Tên <input pInputText formControlName="name" /></label>
+    <label class="flex flex-col gap-1 text-sm font-semibold">Ưu tiên <p-inputnumber formControlName="priority" /></label>
+    <label class="flex flex-col gap-1 text-sm font-semibold">Rate/min <p-inputnumber formControlName="rateLimitPerMinute" /></label>
+    <label class="flex flex-col gap-1 text-sm font-semibold md:col-span-2">Options JSON <textarea pTextarea rows="4" formControlName="optionsJson"></textarea></label>
+    <label class="flex flex-col gap-1 text-sm font-semibold">Trạng thái <p-select [options]="statusOptions" formControlName="status" /></label>
+  </form>
+  <ng-template pTemplate="footer">
+    <p-button label="Hủy" severity="secondary" [outlined]="true" (onClick)="providerDialogVisible.set(false)" />
+    <p-button label="Lưu" icon="pi pi-save" [loading]="isSaving()" (onClick)="saveProvider()" />
+  </ng-template>
+</p-dialog>

@@ -19,7 +19,7 @@ push to arda/main
 
 | Workflow | Builds |
 | --- | --- |
-| `ci-mfe.yml` | `mfe-shell`, `mfe-iam`, `mfe-mdm` |
+| `ci-mfe.yml` | `mfe-shell`, `mfe-iam`, `mfe-mdm`, `mfe-ntf` |
 | `ci-go.yml` | `iam-service`, `mdm-service`, `notification-service` |
 | `ci-java.yml` | Placeholder; currently points to future `accounting` path |
 | `gitops-update.yml` | Updates image tags in `arda-infra` |
@@ -31,6 +31,7 @@ push to arda/main
 | Shell MFE | `ghcr.io/arda-labs/mfe-shell:<tag>` |
 | IAM MFE | `ghcr.io/arda-labs/mfe-iam:<tag>` |
 | MDM MFE | `ghcr.io/arda-labs/mfe-mdm:<tag>` |
+| NTF MFE | `ghcr.io/arda-labs/mfe-ntf:<tag>` |
 | IAM service | `ghcr.io/arda-labs/iam-service:<tag>` |
 | MDM service | `ghcr.io/arda-labs/mdm-service:<tag>` |
 | Notification service | `ghcr.io/arda-labs/notification-service:<tag>` |
@@ -49,6 +50,7 @@ arda-infra/apps/notification-service/overlays/dev
 arda-infra/apps/mfe-shell/overlays/dev
 arda-infra/apps/mfe-iam/overlays/dev
 arda-infra/apps/mfe-mdm/overlays/dev
+arda-infra/apps/mfe-ntf/overlays/dev
 ```
 
 ## Rules

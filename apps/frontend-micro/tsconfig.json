@@ -45,6 +45,12 @@
       "path": "./projects/mdm/tsconfig.spec.json"
     },
     {
+      "path": "./projects/ntf/tsconfig.app.json"
+    },
+    {
+      "path": "./projects/ntf/tsconfig.spec.json"
+    },
+    {
       "path": "./projects/core/tsconfig.lib.json"
     },
     {

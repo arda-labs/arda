@@ -29,6 +29,7 @@ arda/
 │   │       ├── shell/           # Host app, layout, auth callback, workspace UI
 │   │       ├── iam/             # IAM remote MFE
 │   │       ├── mdm/             # MDM remote MFE
+│   │       ├── ntf/             # Notification operations remote MFE
 │   │       └── core/            # Shared Angular library
 │   ├── backend-go/              # Go workspace for Kratos services
 │   │   ├── iam-service/         # Identity, tenants, menus, permissions
@@ -52,6 +53,7 @@ Runtime manifests live in the sibling repo `../arda-infra`.
 | Shell MFE | Active, runs on port `3000`, loads remotes from runtime `env.js` |
 | IAM MFE | Active remote, runs on port `3002`, route `/app/iam/*` |
 | MDM MFE | Active remote, runs on port `3001`, route `/app/mdm/*` |
+| NTF MFE | Active remote, runs on port `3003`, route `/app/ntf/*` |
 | IAM service | Active Go/Kratos service, default HTTP `8000`, gRPC `9000` |
 | MDM service | Active Go/Kratos service, default HTTP `8001`, gRPC `9001` |
 | Notification service | Active Go/Kratos service; templates, delivery queue, in-app inbox, provider config |
@@ -75,6 +77,7 @@ npm install
 npx ng serve shell
 npx ng serve iam
 npx ng serve mdm
+npx ng serve ntf
 ```
 
 Run Go services from `apps/backend-go`:
@@ -105,6 +108,7 @@ Main local gateway routes:
 | `/api/v1/notifications/*` | Notification service, rewritten to `/v1/notifications/*` |
 | `/mfe-iam/*` | IAM remote assets |
 | `/mfe-mdm/*` | MDM remote assets |
+| `/mfe-ntf/*` | NTF remote assets |
 | `/*` | Shell app |
 
 ## Build And Test
@@ -116,6 +120,7 @@ cd apps\frontend-micro
 npx ng build shell
 npx ng build iam
 npx ng build mdm
+npx ng build ntf
 ```
 
 Go services:

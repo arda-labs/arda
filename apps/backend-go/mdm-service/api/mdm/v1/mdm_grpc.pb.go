@@ -94,6 +94,19 @@ const (
 	MdmService_UpdateStandardLimit_FullMethodName                   = "/mdm.v1.MdmService/UpdateStandardLimit"
 	MdmService_DeleteStandardLimit_FullMethodName                   = "/mdm.v1.MdmService/DeleteStandardLimit"
 	MdmService_ApproveStandardLimit_FullMethodName                  = "/mdm.v1.MdmService/ApproveStandardLimit"
+	MdmService_ListCurrencies_FullMethodName                        = "/mdm.v1.MdmService/ListCurrencies"
+	MdmService_CreateCurrency_FullMethodName                        = "/mdm.v1.MdmService/CreateCurrency"
+	MdmService_UpdateCurrency_FullMethodName                        = "/mdm.v1.MdmService/UpdateCurrency"
+	MdmService_DeleteCurrency_FullMethodName                        = "/mdm.v1.MdmService/DeleteCurrency"
+	MdmService_ListFxRateSources_FullMethodName                     = "/mdm.v1.MdmService/ListFxRateSources"
+	MdmService_CreateFxRateSource_FullMethodName                    = "/mdm.v1.MdmService/CreateFxRateSource"
+	MdmService_UpdateFxRateSource_FullMethodName                    = "/mdm.v1.MdmService/UpdateFxRateSource"
+	MdmService_DeleteFxRateSource_FullMethodName                    = "/mdm.v1.MdmService/DeleteFxRateSource"
+	MdmService_ListFxRates_FullMethodName                           = "/mdm.v1.MdmService/ListFxRates"
+	MdmService_CreateFxRate_FullMethodName                          = "/mdm.v1.MdmService/CreateFxRate"
+	MdmService_UpdateFxRate_FullMethodName                          = "/mdm.v1.MdmService/UpdateFxRate"
+	MdmService_DeleteFxRate_FullMethodName                          = "/mdm.v1.MdmService/DeleteFxRate"
+	MdmService_ApproveFxRate_FullMethodName                         = "/mdm.v1.MdmService/ApproveFxRate"
 )
 
 // MdmServiceClient is the client API for MdmService service.
@@ -175,6 +188,19 @@ type MdmServiceClient interface {
 	UpdateStandardLimit(ctx context.Context, in *UpdateStandardLimitRequest, opts ...grpc.CallOption) (*StandardLimit, error)
 	DeleteStandardLimit(ctx context.Context, in *DeleteStandardLimitRequest, opts ...grpc.CallOption) (*DeleteResponse, error)
 	ApproveStandardLimit(ctx context.Context, in *ApprovePricingRuleRequest, opts ...grpc.CallOption) (*StandardLimit, error)
+	ListCurrencies(ctx context.Context, in *ListCurrenciesRequest, opts ...grpc.CallOption) (*ListCurrenciesResponse, error)
+	CreateCurrency(ctx context.Context, in *CreateCurrencyRequest, opts ...grpc.CallOption) (*Currency, error)
+	UpdateCurrency(ctx context.Context, in *UpdateCurrencyRequest, opts ...grpc.CallOption) (*Currency, error)
+	DeleteCurrency(ctx context.Context, in *DeleteCurrencyRequest, opts ...grpc.CallOption) (*DeleteResponse, error)
+	ListFxRateSources(ctx context.Context, in *ListFxRateSourcesRequest, opts ...grpc.CallOption) (*ListFxRateSourcesResponse, error)
+	CreateFxRateSource(ctx context.Context, in *CreateFxRateSourceRequest, opts ...grpc.CallOption) (*FxRateSource, error)
+	UpdateFxRateSource(ctx context.Context, in *UpdateFxRateSourceRequest, opts ...grpc.CallOption) (*FxRateSource, error)
+	DeleteFxRateSource(ctx context.Context, in *DeleteFxRateSourceRequest, opts ...grpc.CallOption) (*DeleteResponse, error)
+	ListFxRates(ctx context.Context, in *ListFxRatesRequest, opts ...grpc.CallOption) (*ListFxRatesResponse, error)
+	CreateFxRate(ctx context.Context, in *CreateFxRateRequest, opts ...grpc.CallOption) (*FxRate, error)
+	UpdateFxRate(ctx context.Context, in *UpdateFxRateRequest, opts ...grpc.CallOption) (*FxRate, error)
+	DeleteFxRate(ctx context.Context, in *DeleteFxRateRequest, opts ...grpc.CallOption) (*DeleteResponse, error)
+	ApproveFxRate(ctx context.Context, in *ApprovePricingRuleRequest, opts ...grpc.CallOption) (*FxRate, error)
 }
 
 type mdmServiceClient struct {
@@ -935,6 +961,136 @@ func (c *mdmServiceClient) ApproveStandardLimit(ctx context.Context, in *Approve
 	return out, nil
 }
 
+func (c *mdmServiceClient) ListCurrencies(ctx context.Context, in *ListCurrenciesRequest, opts ...grpc.CallOption) (*ListCurrenciesResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListCurrenciesResponse)
+	err := c.cc.Invoke(ctx, MdmService_ListCurrencies_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mdmServiceClient) CreateCurrency(ctx context.Context, in *CreateCurrencyRequest, opts ...grpc.CallOption) (*Currency, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Currency)
+	err := c.cc.Invoke(ctx, MdmService_CreateCurrency_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mdmServiceClient) UpdateCurrency(ctx context.Context, in *UpdateCurrencyRequest, opts ...grpc.CallOption) (*Currency, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Currency)
+	err := c.cc.Invoke(ctx, MdmService_UpdateCurrency_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mdmServiceClient) DeleteCurrency(ctx context.Context, in *DeleteCurrencyRequest, opts ...grpc.CallOption) (*DeleteResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteResponse)
+	err := c.cc.Invoke(ctx, MdmService_DeleteCurrency_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mdmServiceClient) ListFxRateSources(ctx context.Context, in *ListFxRateSourcesRequest, opts ...grpc.CallOption) (*ListFxRateSourcesResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListFxRateSourcesResponse)
+	err := c.cc.Invoke(ctx, MdmService_ListFxRateSources_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mdmServiceClient) CreateFxRateSource(ctx context.Context, in *CreateFxRateSourceRequest, opts ...grpc.CallOption) (*FxRateSource, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(FxRateSource)
+	err := c.cc.Invoke(ctx, MdmService_CreateFxRateSource_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mdmServiceClient) UpdateFxRateSource(ctx context.Context, in *UpdateFxRateSourceRequest, opts ...grpc.CallOption) (*FxRateSource, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(FxRateSource)
+	err := c.cc.Invoke(ctx, MdmService_UpdateFxRateSource_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mdmServiceClient) DeleteFxRateSource(ctx context.Context, in *DeleteFxRateSourceRequest, opts ...grpc.CallOption) (*DeleteResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteResponse)
+	err := c.cc.Invoke(ctx, MdmService_DeleteFxRateSource_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mdmServiceClient) ListFxRates(ctx context.Context, in *ListFxRatesRequest, opts ...grpc.CallOption) (*ListFxRatesResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListFxRatesResponse)
+	err := c.cc.Invoke(ctx, MdmService_ListFxRates_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mdmServiceClient) CreateFxRate(ctx context.Context, in *CreateFxRateRequest, opts ...grpc.CallOption) (*FxRate, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(FxRate)
+	err := c.cc.Invoke(ctx, MdmService_CreateFxRate_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mdmServiceClient) UpdateFxRate(ctx context.Context, in *UpdateFxRateRequest, opts ...grpc.CallOption) (*FxRate, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(FxRate)
+	err := c.cc.Invoke(ctx, MdmService_UpdateFxRate_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mdmServiceClient) DeleteFxRate(ctx context.Context, in *DeleteFxRateRequest, opts ...grpc.CallOption) (*DeleteResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteResponse)
+	err := c.cc.Invoke(ctx, MdmService_DeleteFxRate_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mdmServiceClient) ApproveFxRate(ctx context.Context, in *ApprovePricingRuleRequest, opts ...grpc.CallOption) (*FxRate, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(FxRate)
+	err := c.cc.Invoke(ctx, MdmService_ApproveFxRate_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MdmServiceServer is the server API for MdmService service.
 // All implementations must embed UnimplementedMdmServiceServer
 // for forward compatibility.
@@ -1014,6 +1170,19 @@ type MdmServiceServer interface {
 	UpdateStandardLimit(context.Context, *UpdateStandardLimitRequest) (*StandardLimit, error)
 	DeleteStandardLimit(context.Context, *DeleteStandardLimitRequest) (*DeleteResponse, error)
 	ApproveStandardLimit(context.Context, *ApprovePricingRuleRequest) (*StandardLimit, error)
+	ListCurrencies(context.Context, *ListCurrenciesRequest) (*ListCurrenciesResponse, error)
+	CreateCurrency(context.Context, *CreateCurrencyRequest) (*Currency, error)
+	UpdateCurrency(context.Context, *UpdateCurrencyRequest) (*Currency, error)
+	DeleteCurrency(context.Context, *DeleteCurrencyRequest) (*DeleteResponse, error)
+	ListFxRateSources(context.Context, *ListFxRateSourcesRequest) (*ListFxRateSourcesResponse, error)
+	CreateFxRateSource(context.Context, *CreateFxRateSourceRequest) (*FxRateSource, error)
+	UpdateFxRateSource(context.Context, *UpdateFxRateSourceRequest) (*FxRateSource, error)
+	DeleteFxRateSource(context.Context, *DeleteFxRateSourceRequest) (*DeleteResponse, error)
+	ListFxRates(context.Context, *ListFxRatesRequest) (*ListFxRatesResponse, error)
+	CreateFxRate(context.Context, *CreateFxRateRequest) (*FxRate, error)
+	UpdateFxRate(context.Context, *UpdateFxRateRequest) (*FxRate, error)
+	DeleteFxRate(context.Context, *DeleteFxRateRequest) (*DeleteResponse, error)
+	ApproveFxRate(context.Context, *ApprovePricingRuleRequest) (*FxRate, error)
 	mustEmbedUnimplementedMdmServiceServer()
 }
 
@@ -1248,6 +1417,45 @@ func (UnimplementedMdmServiceServer) DeleteStandardLimit(context.Context, *Delet
 }
 func (UnimplementedMdmServiceServer) ApproveStandardLimit(context.Context, *ApprovePricingRuleRequest) (*StandardLimit, error) {
 	return nil, status.Error(codes.Unimplemented, "method ApproveStandardLimit not implemented")
+}
+func (UnimplementedMdmServiceServer) ListCurrencies(context.Context, *ListCurrenciesRequest) (*ListCurrenciesResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListCurrencies not implemented")
+}
+func (UnimplementedMdmServiceServer) CreateCurrency(context.Context, *CreateCurrencyRequest) (*Currency, error) {
+	return nil, status.Error(codes.Unimplemented, "method CreateCurrency not implemented")
+}
+func (UnimplementedMdmServiceServer) UpdateCurrency(context.Context, *UpdateCurrencyRequest) (*Currency, error) {
+	return nil, status.Error(codes.Unimplemented, "method UpdateCurrency not implemented")
+}
+func (UnimplementedMdmServiceServer) DeleteCurrency(context.Context, *DeleteCurrencyRequest) (*DeleteResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method DeleteCurrency not implemented")
+}
+func (UnimplementedMdmServiceServer) ListFxRateSources(context.Context, *ListFxRateSourcesRequest) (*ListFxRateSourcesResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListFxRateSources not implemented")
+}
+func (UnimplementedMdmServiceServer) CreateFxRateSource(context.Context, *CreateFxRateSourceRequest) (*FxRateSource, error) {
+	return nil, status.Error(codes.Unimplemented, "method CreateFxRateSource not implemented")
+}
+func (UnimplementedMdmServiceServer) UpdateFxRateSource(context.Context, *UpdateFxRateSourceRequest) (*FxRateSource, error) {
+	return nil, status.Error(codes.Unimplemented, "method UpdateFxRateSource not implemented")
+}
+func (UnimplementedMdmServiceServer) DeleteFxRateSource(context.Context, *DeleteFxRateSourceRequest) (*DeleteResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method DeleteFxRateSource not implemented")
+}
+func (UnimplementedMdmServiceServer) ListFxRates(context.Context, *ListFxRatesRequest) (*ListFxRatesResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListFxRates not implemented")
+}
+func (UnimplementedMdmServiceServer) CreateFxRate(context.Context, *CreateFxRateRequest) (*FxRate, error) {
+	return nil, status.Error(codes.Unimplemented, "method CreateFxRate not implemented")
+}
+func (UnimplementedMdmServiceServer) UpdateFxRate(context.Context, *UpdateFxRateRequest) (*FxRate, error) {
+	return nil, status.Error(codes.Unimplemented, "method UpdateFxRate not implemented")
+}
+func (UnimplementedMdmServiceServer) DeleteFxRate(context.Context, *DeleteFxRateRequest) (*DeleteResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method DeleteFxRate not implemented")
+}
+func (UnimplementedMdmServiceServer) ApproveFxRate(context.Context, *ApprovePricingRuleRequest) (*FxRate, error) {
+	return nil, status.Error(codes.Unimplemented, "method ApproveFxRate not implemented")
 }
 func (UnimplementedMdmServiceServer) mustEmbedUnimplementedMdmServiceServer() {}
 func (UnimplementedMdmServiceServer) testEmbeddedByValue()                    {}
@@ -2620,6 +2828,240 @@ func _MdmService_ApproveStandardLimit_Handler(srv interface{}, ctx context.Conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _MdmService_ListCurrencies_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListCurrenciesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).ListCurrencies(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_ListCurrencies_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).ListCurrencies(ctx, req.(*ListCurrenciesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MdmService_CreateCurrency_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateCurrencyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).CreateCurrency(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_CreateCurrency_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).CreateCurrency(ctx, req.(*CreateCurrencyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MdmService_UpdateCurrency_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateCurrencyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).UpdateCurrency(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_UpdateCurrency_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).UpdateCurrency(ctx, req.(*UpdateCurrencyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MdmService_DeleteCurrency_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteCurrencyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).DeleteCurrency(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_DeleteCurrency_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).DeleteCurrency(ctx, req.(*DeleteCurrencyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MdmService_ListFxRateSources_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListFxRateSourcesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).ListFxRateSources(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_ListFxRateSources_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).ListFxRateSources(ctx, req.(*ListFxRateSourcesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MdmService_CreateFxRateSource_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateFxRateSourceRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).CreateFxRateSource(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_CreateFxRateSource_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).CreateFxRateSource(ctx, req.(*CreateFxRateSourceRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MdmService_UpdateFxRateSource_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateFxRateSourceRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).UpdateFxRateSource(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_UpdateFxRateSource_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).UpdateFxRateSource(ctx, req.(*UpdateFxRateSourceRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MdmService_DeleteFxRateSource_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteFxRateSourceRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).DeleteFxRateSource(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_DeleteFxRateSource_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).DeleteFxRateSource(ctx, req.(*DeleteFxRateSourceRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MdmService_ListFxRates_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListFxRatesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).ListFxRates(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_ListFxRates_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).ListFxRates(ctx, req.(*ListFxRatesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MdmService_CreateFxRate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateFxRateRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).CreateFxRate(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_CreateFxRate_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).CreateFxRate(ctx, req.(*CreateFxRateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MdmService_UpdateFxRate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateFxRateRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).UpdateFxRate(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_UpdateFxRate_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).UpdateFxRate(ctx, req.(*UpdateFxRateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MdmService_DeleteFxRate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteFxRateRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).DeleteFxRate(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_DeleteFxRate_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).DeleteFxRate(ctx, req.(*DeleteFxRateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MdmService_ApproveFxRate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ApprovePricingRuleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).ApproveFxRate(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_ApproveFxRate_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).ApproveFxRate(ctx, req.(*ApprovePricingRuleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // MdmService_ServiceDesc is the grpc.ServiceDesc for MdmService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -2926,6 +3368,58 @@ var MdmService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ApproveStandardLimit",
 			Handler:    _MdmService_ApproveStandardLimit_Handler,
+		},
+		{
+			MethodName: "ListCurrencies",
+			Handler:    _MdmService_ListCurrencies_Handler,
+		},
+		{
+			MethodName: "CreateCurrency",
+			Handler:    _MdmService_CreateCurrency_Handler,
+		},
+		{
+			MethodName: "UpdateCurrency",
+			Handler:    _MdmService_UpdateCurrency_Handler,
+		},
+		{
+			MethodName: "DeleteCurrency",
+			Handler:    _MdmService_DeleteCurrency_Handler,
+		},
+		{
+			MethodName: "ListFxRateSources",
+			Handler:    _MdmService_ListFxRateSources_Handler,
+		},
+		{
+			MethodName: "CreateFxRateSource",
+			Handler:    _MdmService_CreateFxRateSource_Handler,
+		},
+		{
+			MethodName: "UpdateFxRateSource",
+			Handler:    _MdmService_UpdateFxRateSource_Handler,
+		},
+		{
+			MethodName: "DeleteFxRateSource",
+			Handler:    _MdmService_DeleteFxRateSource_Handler,
+		},
+		{
+			MethodName: "ListFxRates",
+			Handler:    _MdmService_ListFxRates_Handler,
+		},
+		{
+			MethodName: "CreateFxRate",
+			Handler:    _MdmService_CreateFxRate_Handler,
+		},
+		{
+			MethodName: "UpdateFxRate",
+			Handler:    _MdmService_UpdateFxRate_Handler,
+		},
+		{
+			MethodName: "DeleteFxRate",
+			Handler:    _MdmService_DeleteFxRate_Handler,
+		},
+		{
+			MethodName: "ApproveFxRate",
+			Handler:    _MdmService_ApproveFxRate_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

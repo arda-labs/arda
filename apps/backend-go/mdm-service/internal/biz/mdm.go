@@ -104,6 +104,22 @@ type MdmRepo interface {
 	UpdateStandardLimit(ctx context.Context, item *StandardLimit) (*StandardLimit, error)
 	DeleteStandardLimit(ctx context.Context, id string) error
 	ApproveStandardLimit(ctx context.Context, id, actor, note string) (*StandardLimit, error)
+
+	ListCurrencies(ctx context.Context, filter PageFilter) ([]*Currency, string, error)
+	CreateCurrency(ctx context.Context, item *Currency) (*Currency, error)
+	UpdateCurrency(ctx context.Context, item *Currency) (*Currency, error)
+	DeleteCurrency(ctx context.Context, id string) error
+
+	ListFxRateSources(ctx context.Context, filter PageFilter) ([]*FxRateSource, string, error)
+	CreateFxRateSource(ctx context.Context, item *FxRateSource) (*FxRateSource, error)
+	UpdateFxRateSource(ctx context.Context, item *FxRateSource) (*FxRateSource, error)
+	DeleteFxRateSource(ctx context.Context, id string) error
+
+	ListFxRates(ctx context.Context, filter PageFilter) ([]*FxRate, string, error)
+	CreateFxRate(ctx context.Context, item *FxRate) (*FxRate, error)
+	UpdateFxRate(ctx context.Context, item *FxRate) (*FxRate, error)
+	DeleteFxRate(ctx context.Context, id string) error
+	ApproveFxRate(ctx context.Context, id, actor, note string) (*FxRate, error)
 }
 
 type MdmUsecase struct {

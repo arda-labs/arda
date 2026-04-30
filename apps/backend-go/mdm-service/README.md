@@ -46,6 +46,8 @@ Main resources:
   business-day calculations.
 - Fee schedules, tax rules, and standard limits for channel/product/currency
   based banking configuration.
+- Currencies, FX rate sources, and reference exchange rates for treasury,
+  payment, accounting, and reporting flows.
 
 ### Business Calendars
 
@@ -89,6 +91,24 @@ Pricing rules include governance metadata: approval status, version, approver,
 approval timestamp, change note, and audit log entries. New or edited rules
 start as draft unless explicitly approved through the approve endpoints or the
 frontend approve action.
+
+### Currencies And Reference FX Rates
+
+Banking platforms should treat currency and FX data as governed reference data,
+not as constants in payment or accounting services. MDM stores this in three
+layers:
+
+- `currencies`: ISO-style currency code, numeric code, symbol, minor unit,
+  country code, and status.
+- `fx_rate_sources`: source code, source type, priority, timezone, and status
+  for official, treasury, manual, or partner feeds.
+- `fx_rates`: base/quote currency pair, source, rate date, buy/sell/mid rates,
+  approval status, version, approver, and change note.
+
+The default seed includes VND, USD, EUR, JPY, common sources such as SBV and
+Treasury, plus example USD/VND and EUR/VND reference rates. Operators manage
+this from the `Tiền tệ và tỷ giá` frontend page and approve reference rates
+before downstream systems consume them.
 
 ### Administrative Unit Sync
 

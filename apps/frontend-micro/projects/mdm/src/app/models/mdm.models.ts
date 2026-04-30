@@ -258,3 +258,41 @@ export interface StandardLimit {
   approvedBy: string;
   changeNote: string;
 }
+
+export interface Currency {
+  id: string;
+  code: string;
+  numericCode: string;
+  name: string;
+  minorUnit: number;
+  symbol: string;
+  countryCode: string;
+  status: string;
+}
+
+export interface FxRateSource {
+  id: string;
+  code: string;
+  name: string;
+  sourceType: string;
+  priority: number;
+  timezone: string;
+  description: string;
+  status: string;
+}
+
+export interface FxRate {
+  id: string;
+  baseCurrency: string;
+  quoteCurrency: string;
+  sourceCode: string;
+  rateDate: string;
+  buyRate: number;
+  sellRate: number;
+  midRate: number;
+  approvalStatus: string;
+  version: number;
+  approvedBy: string;
+  changeNote: string;
+  status: string;
+}

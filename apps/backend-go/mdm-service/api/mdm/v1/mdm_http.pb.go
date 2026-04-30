@@ -20,6 +20,7 @@ var _ = binding.EncodeURL
 const _ = http.SupportPackageIsVersion1
 
 const OperationMdmServiceApproveFeeSchedule = "/mdm.v1.MdmService/ApproveFeeSchedule"
+const OperationMdmServiceApproveFxRate = "/mdm.v1.MdmService/ApproveFxRate"
 const OperationMdmServiceApproveStandardLimit = "/mdm.v1.MdmService/ApproveStandardLimit"
 const OperationMdmServiceApproveTaxRule = "/mdm.v1.MdmService/ApproveTaxRule"
 const OperationMdmServiceAssignAreaAdministrativeUnit = "/mdm.v1.MdmService/AssignAreaAdministrativeUnit"
@@ -32,7 +33,10 @@ const OperationMdmServiceCreateCalendarException = "/mdm.v1.MdmService/CreateCal
 const OperationMdmServiceCreateCodeItem = "/mdm.v1.MdmService/CreateCodeItem"
 const OperationMdmServiceCreateCodeSet = "/mdm.v1.MdmService/CreateCodeSet"
 const OperationMdmServiceCreateCreditInstitution = "/mdm.v1.MdmService/CreateCreditInstitution"
+const OperationMdmServiceCreateCurrency = "/mdm.v1.MdmService/CreateCurrency"
 const OperationMdmServiceCreateFeeSchedule = "/mdm.v1.MdmService/CreateFeeSchedule"
+const OperationMdmServiceCreateFxRate = "/mdm.v1.MdmService/CreateFxRate"
+const OperationMdmServiceCreateFxRateSource = "/mdm.v1.MdmService/CreateFxRateSource"
 const OperationMdmServiceCreateStandardLimit = "/mdm.v1.MdmService/CreateStandardLimit"
 const OperationMdmServiceCreateSystemParameter = "/mdm.v1.MdmService/CreateSystemParameter"
 const OperationMdmServiceCreateTaxRule = "/mdm.v1.MdmService/CreateTaxRule"
@@ -45,7 +49,10 @@ const OperationMdmServiceDeleteCalendarException = "/mdm.v1.MdmService/DeleteCal
 const OperationMdmServiceDeleteCodeItem = "/mdm.v1.MdmService/DeleteCodeItem"
 const OperationMdmServiceDeleteCodeSet = "/mdm.v1.MdmService/DeleteCodeSet"
 const OperationMdmServiceDeleteCreditInstitution = "/mdm.v1.MdmService/DeleteCreditInstitution"
+const OperationMdmServiceDeleteCurrency = "/mdm.v1.MdmService/DeleteCurrency"
 const OperationMdmServiceDeleteFeeSchedule = "/mdm.v1.MdmService/DeleteFeeSchedule"
+const OperationMdmServiceDeleteFxRate = "/mdm.v1.MdmService/DeleteFxRate"
+const OperationMdmServiceDeleteFxRateSource = "/mdm.v1.MdmService/DeleteFxRateSource"
 const OperationMdmServiceDeleteStandardLimit = "/mdm.v1.MdmService/DeleteStandardLimit"
 const OperationMdmServiceDeleteSystemParameter = "/mdm.v1.MdmService/DeleteSystemParameter"
 const OperationMdmServiceDeleteTaxRule = "/mdm.v1.MdmService/DeleteTaxRule"
@@ -72,7 +79,10 @@ const OperationMdmServiceListCalendarExceptions = "/mdm.v1.MdmService/ListCalend
 const OperationMdmServiceListCodeItems = "/mdm.v1.MdmService/ListCodeItems"
 const OperationMdmServiceListCodeSets = "/mdm.v1.MdmService/ListCodeSets"
 const OperationMdmServiceListCreditInstitutions = "/mdm.v1.MdmService/ListCreditInstitutions"
+const OperationMdmServiceListCurrencies = "/mdm.v1.MdmService/ListCurrencies"
 const OperationMdmServiceListFeeSchedules = "/mdm.v1.MdmService/ListFeeSchedules"
+const OperationMdmServiceListFxRateSources = "/mdm.v1.MdmService/ListFxRateSources"
+const OperationMdmServiceListFxRates = "/mdm.v1.MdmService/ListFxRates"
 const OperationMdmServiceListProvinces = "/mdm.v1.MdmService/ListProvinces"
 const OperationMdmServiceListStandardLimits = "/mdm.v1.MdmService/ListStandardLimits"
 const OperationMdmServiceListSystemParameters = "/mdm.v1.MdmService/ListSystemParameters"
@@ -89,7 +99,10 @@ const OperationMdmServiceUpdateCalendarException = "/mdm.v1.MdmService/UpdateCal
 const OperationMdmServiceUpdateCodeItem = "/mdm.v1.MdmService/UpdateCodeItem"
 const OperationMdmServiceUpdateCodeSet = "/mdm.v1.MdmService/UpdateCodeSet"
 const OperationMdmServiceUpdateCreditInstitution = "/mdm.v1.MdmService/UpdateCreditInstitution"
+const OperationMdmServiceUpdateCurrency = "/mdm.v1.MdmService/UpdateCurrency"
 const OperationMdmServiceUpdateFeeSchedule = "/mdm.v1.MdmService/UpdateFeeSchedule"
+const OperationMdmServiceUpdateFxRate = "/mdm.v1.MdmService/UpdateFxRate"
+const OperationMdmServiceUpdateFxRateSource = "/mdm.v1.MdmService/UpdateFxRateSource"
 const OperationMdmServiceUpdateStandardLimit = "/mdm.v1.MdmService/UpdateStandardLimit"
 const OperationMdmServiceUpdateSystemParameter = "/mdm.v1.MdmService/UpdateSystemParameter"
 const OperationMdmServiceUpdateTaxRule = "/mdm.v1.MdmService/UpdateTaxRule"
@@ -97,6 +110,7 @@ const OperationMdmServiceUpdateWorkingHour = "/mdm.v1.MdmService/UpdateWorkingHo
 
 type MdmServiceHTTPServer interface {
 	ApproveFeeSchedule(context.Context, *ApprovePricingRuleRequest) (*FeeSchedule, error)
+	ApproveFxRate(context.Context, *ApprovePricingRuleRequest) (*FxRate, error)
 	ApproveStandardLimit(context.Context, *ApprovePricingRuleRequest) (*StandardLimit, error)
 	ApproveTaxRule(context.Context, *ApprovePricingRuleRequest) (*TaxRule, error)
 	AssignAreaAdministrativeUnit(context.Context, *AssignAreaAdministrativeUnitRequest) (*AreaAdministrativeUnit, error)
@@ -109,7 +123,10 @@ type MdmServiceHTTPServer interface {
 	CreateCodeItem(context.Context, *CreateCodeItemRequest) (*CodeItem, error)
 	CreateCodeSet(context.Context, *CreateCodeSetRequest) (*CodeSet, error)
 	CreateCreditInstitution(context.Context, *CreateCreditInstitutionRequest) (*CreditInstitution, error)
+	CreateCurrency(context.Context, *CreateCurrencyRequest) (*Currency, error)
 	CreateFeeSchedule(context.Context, *CreateFeeScheduleRequest) (*FeeSchedule, error)
+	CreateFxRate(context.Context, *CreateFxRateRequest) (*FxRate, error)
+	CreateFxRateSource(context.Context, *CreateFxRateSourceRequest) (*FxRateSource, error)
 	CreateStandardLimit(context.Context, *CreateStandardLimitRequest) (*StandardLimit, error)
 	CreateSystemParameter(context.Context, *CreateSystemParameterRequest) (*SystemParameter, error)
 	CreateTaxRule(context.Context, *CreateTaxRuleRequest) (*TaxRule, error)
@@ -122,7 +139,10 @@ type MdmServiceHTTPServer interface {
 	DeleteCodeItem(context.Context, *DeleteCodeItemRequest) (*DeleteResponse, error)
 	DeleteCodeSet(context.Context, *DeleteCodeSetRequest) (*DeleteResponse, error)
 	DeleteCreditInstitution(context.Context, *DeleteCreditInstitutionRequest) (*DeleteResponse, error)
+	DeleteCurrency(context.Context, *DeleteCurrencyRequest) (*DeleteResponse, error)
 	DeleteFeeSchedule(context.Context, *DeleteFeeScheduleRequest) (*DeleteResponse, error)
+	DeleteFxRate(context.Context, *DeleteFxRateRequest) (*DeleteResponse, error)
+	DeleteFxRateSource(context.Context, *DeleteFxRateSourceRequest) (*DeleteResponse, error)
 	DeleteStandardLimit(context.Context, *DeleteStandardLimitRequest) (*DeleteResponse, error)
 	DeleteSystemParameter(context.Context, *DeleteSystemParameterRequest) (*DeleteResponse, error)
 	DeleteTaxRule(context.Context, *DeleteTaxRuleRequest) (*DeleteResponse, error)
@@ -149,7 +169,10 @@ type MdmServiceHTTPServer interface {
 	ListCodeItems(context.Context, *ListCodeItemsRequest) (*ListCodeItemsResponse, error)
 	ListCodeSets(context.Context, *ListCodeSetsRequest) (*ListCodeSetsResponse, error)
 	ListCreditInstitutions(context.Context, *ListCreditInstitutionsRequest) (*ListCreditInstitutionsResponse, error)
+	ListCurrencies(context.Context, *ListCurrenciesRequest) (*ListCurrenciesResponse, error)
 	ListFeeSchedules(context.Context, *ListFeeSchedulesRequest) (*ListFeeSchedulesResponse, error)
+	ListFxRateSources(context.Context, *ListFxRateSourcesRequest) (*ListFxRateSourcesResponse, error)
+	ListFxRates(context.Context, *ListFxRatesRequest) (*ListFxRatesResponse, error)
 	ListProvinces(context.Context, *ListAdministrativeUnitsRequest) (*ListAdministrativeUnitsResponse, error)
 	ListStandardLimits(context.Context, *ListStandardLimitsRequest) (*ListStandardLimitsResponse, error)
 	ListSystemParameters(context.Context, *ListSystemParametersRequest) (*ListSystemParametersResponse, error)
@@ -166,7 +189,10 @@ type MdmServiceHTTPServer interface {
 	UpdateCodeItem(context.Context, *UpdateCodeItemRequest) (*CodeItem, error)
 	UpdateCodeSet(context.Context, *UpdateCodeSetRequest) (*CodeSet, error)
 	UpdateCreditInstitution(context.Context, *UpdateCreditInstitutionRequest) (*CreditInstitution, error)
+	UpdateCurrency(context.Context, *UpdateCurrencyRequest) (*Currency, error)
 	UpdateFeeSchedule(context.Context, *UpdateFeeScheduleRequest) (*FeeSchedule, error)
+	UpdateFxRate(context.Context, *UpdateFxRateRequest) (*FxRate, error)
+	UpdateFxRateSource(context.Context, *UpdateFxRateSourceRequest) (*FxRateSource, error)
 	UpdateStandardLimit(context.Context, *UpdateStandardLimitRequest) (*StandardLimit, error)
 	UpdateSystemParameter(context.Context, *UpdateSystemParameterRequest) (*SystemParameter, error)
 	UpdateTaxRule(context.Context, *UpdateTaxRuleRequest) (*TaxRule, error)
@@ -250,6 +276,19 @@ func RegisterMdmServiceHTTPServer(s *http.Server, srv MdmServiceHTTPServer) {
 	r.PUT("/v1/mdm/standard-limits/{id}", _MdmService_UpdateStandardLimit0_HTTP_Handler(srv))
 	r.DELETE("/v1/mdm/standard-limits/{id}", _MdmService_DeleteStandardLimit0_HTTP_Handler(srv))
 	r.POST("/v1/mdm/standard-limits/{id}/approve", _MdmService_ApproveStandardLimit0_HTTP_Handler(srv))
+	r.GET("/v1/mdm/currencies", _MdmService_ListCurrencies0_HTTP_Handler(srv))
+	r.POST("/v1/mdm/currencies", _MdmService_CreateCurrency0_HTTP_Handler(srv))
+	r.PUT("/v1/mdm/currencies/{id}", _MdmService_UpdateCurrency0_HTTP_Handler(srv))
+	r.DELETE("/v1/mdm/currencies/{id}", _MdmService_DeleteCurrency0_HTTP_Handler(srv))
+	r.GET("/v1/mdm/fx-rate-sources", _MdmService_ListFxRateSources0_HTTP_Handler(srv))
+	r.POST("/v1/mdm/fx-rate-sources", _MdmService_CreateFxRateSource0_HTTP_Handler(srv))
+	r.PUT("/v1/mdm/fx-rate-sources/{id}", _MdmService_UpdateFxRateSource0_HTTP_Handler(srv))
+	r.DELETE("/v1/mdm/fx-rate-sources/{id}", _MdmService_DeleteFxRateSource0_HTTP_Handler(srv))
+	r.GET("/v1/mdm/fx-rates", _MdmService_ListFxRates0_HTTP_Handler(srv))
+	r.POST("/v1/mdm/fx-rates", _MdmService_CreateFxRate0_HTTP_Handler(srv))
+	r.PUT("/v1/mdm/fx-rates/{id}", _MdmService_UpdateFxRate0_HTTP_Handler(srv))
+	r.DELETE("/v1/mdm/fx-rates/{id}", _MdmService_DeleteFxRate0_HTTP_Handler(srv))
+	r.POST("/v1/mdm/fx-rates/{id}/approve", _MdmService_ApproveFxRate0_HTTP_Handler(srv))
 }
 
 func _MdmService_ListAdministrativeUnits0_HTTP_Handler(srv MdmServiceHTTPServer) func(ctx http.Context) error {
@@ -1923,8 +1962,298 @@ func _MdmService_ApproveStandardLimit0_HTTP_Handler(srv MdmServiceHTTPServer) fu
 	}
 }
 
+func _MdmService_ListCurrencies0_HTTP_Handler(srv MdmServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in ListCurrenciesRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationMdmServiceListCurrencies)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.ListCurrencies(ctx, req.(*ListCurrenciesRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*ListCurrenciesResponse)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _MdmService_CreateCurrency0_HTTP_Handler(srv MdmServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in CreateCurrencyRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationMdmServiceCreateCurrency)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.CreateCurrency(ctx, req.(*CreateCurrencyRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*Currency)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _MdmService_UpdateCurrency0_HTTP_Handler(srv MdmServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in UpdateCurrencyRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationMdmServiceUpdateCurrency)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.UpdateCurrency(ctx, req.(*UpdateCurrencyRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*Currency)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _MdmService_DeleteCurrency0_HTTP_Handler(srv MdmServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in DeleteCurrencyRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationMdmServiceDeleteCurrency)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.DeleteCurrency(ctx, req.(*DeleteCurrencyRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*DeleteResponse)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _MdmService_ListFxRateSources0_HTTP_Handler(srv MdmServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in ListFxRateSourcesRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationMdmServiceListFxRateSources)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.ListFxRateSources(ctx, req.(*ListFxRateSourcesRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*ListFxRateSourcesResponse)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _MdmService_CreateFxRateSource0_HTTP_Handler(srv MdmServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in CreateFxRateSourceRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationMdmServiceCreateFxRateSource)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.CreateFxRateSource(ctx, req.(*CreateFxRateSourceRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*FxRateSource)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _MdmService_UpdateFxRateSource0_HTTP_Handler(srv MdmServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in UpdateFxRateSourceRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationMdmServiceUpdateFxRateSource)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.UpdateFxRateSource(ctx, req.(*UpdateFxRateSourceRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*FxRateSource)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _MdmService_DeleteFxRateSource0_HTTP_Handler(srv MdmServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in DeleteFxRateSourceRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationMdmServiceDeleteFxRateSource)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.DeleteFxRateSource(ctx, req.(*DeleteFxRateSourceRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*DeleteResponse)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _MdmService_ListFxRates0_HTTP_Handler(srv MdmServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in ListFxRatesRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationMdmServiceListFxRates)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.ListFxRates(ctx, req.(*ListFxRatesRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*ListFxRatesResponse)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _MdmService_CreateFxRate0_HTTP_Handler(srv MdmServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in CreateFxRateRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationMdmServiceCreateFxRate)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.CreateFxRate(ctx, req.(*CreateFxRateRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*FxRate)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _MdmService_UpdateFxRate0_HTTP_Handler(srv MdmServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in UpdateFxRateRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationMdmServiceUpdateFxRate)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.UpdateFxRate(ctx, req.(*UpdateFxRateRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*FxRate)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _MdmService_DeleteFxRate0_HTTP_Handler(srv MdmServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in DeleteFxRateRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationMdmServiceDeleteFxRate)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.DeleteFxRate(ctx, req.(*DeleteFxRateRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*DeleteResponse)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _MdmService_ApproveFxRate0_HTTP_Handler(srv MdmServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in ApprovePricingRuleRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationMdmServiceApproveFxRate)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.ApproveFxRate(ctx, req.(*ApprovePricingRuleRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*FxRate)
+		return ctx.Result(200, reply)
+	}
+}
+
 type MdmServiceHTTPClient interface {
 	ApproveFeeSchedule(ctx context.Context, req *ApprovePricingRuleRequest, opts ...http.CallOption) (rsp *FeeSchedule, err error)
+	ApproveFxRate(ctx context.Context, req *ApprovePricingRuleRequest, opts ...http.CallOption) (rsp *FxRate, err error)
 	ApproveStandardLimit(ctx context.Context, req *ApprovePricingRuleRequest, opts ...http.CallOption) (rsp *StandardLimit, err error)
 	ApproveTaxRule(ctx context.Context, req *ApprovePricingRuleRequest, opts ...http.CallOption) (rsp *TaxRule, err error)
 	AssignAreaAdministrativeUnit(ctx context.Context, req *AssignAreaAdministrativeUnitRequest, opts ...http.CallOption) (rsp *AreaAdministrativeUnit, err error)
@@ -1937,7 +2266,10 @@ type MdmServiceHTTPClient interface {
 	CreateCodeItem(ctx context.Context, req *CreateCodeItemRequest, opts ...http.CallOption) (rsp *CodeItem, err error)
 	CreateCodeSet(ctx context.Context, req *CreateCodeSetRequest, opts ...http.CallOption) (rsp *CodeSet, err error)
 	CreateCreditInstitution(ctx context.Context, req *CreateCreditInstitutionRequest, opts ...http.CallOption) (rsp *CreditInstitution, err error)
+	CreateCurrency(ctx context.Context, req *CreateCurrencyRequest, opts ...http.CallOption) (rsp *Currency, err error)
 	CreateFeeSchedule(ctx context.Context, req *CreateFeeScheduleRequest, opts ...http.CallOption) (rsp *FeeSchedule, err error)
+	CreateFxRate(ctx context.Context, req *CreateFxRateRequest, opts ...http.CallOption) (rsp *FxRate, err error)
+	CreateFxRateSource(ctx context.Context, req *CreateFxRateSourceRequest, opts ...http.CallOption) (rsp *FxRateSource, err error)
 	CreateStandardLimit(ctx context.Context, req *CreateStandardLimitRequest, opts ...http.CallOption) (rsp *StandardLimit, err error)
 	CreateSystemParameter(ctx context.Context, req *CreateSystemParameterRequest, opts ...http.CallOption) (rsp *SystemParameter, err error)
 	CreateTaxRule(ctx context.Context, req *CreateTaxRuleRequest, opts ...http.CallOption) (rsp *TaxRule, err error)
@@ -1950,7 +2282,10 @@ type MdmServiceHTTPClient interface {
 	DeleteCodeItem(ctx context.Context, req *DeleteCodeItemRequest, opts ...http.CallOption) (rsp *DeleteResponse, err error)
 	DeleteCodeSet(ctx context.Context, req *DeleteCodeSetRequest, opts ...http.CallOption) (rsp *DeleteResponse, err error)
 	DeleteCreditInstitution(ctx context.Context, req *DeleteCreditInstitutionRequest, opts ...http.CallOption) (rsp *DeleteResponse, err error)
+	DeleteCurrency(ctx context.Context, req *DeleteCurrencyRequest, opts ...http.CallOption) (rsp *DeleteResponse, err error)
 	DeleteFeeSchedule(ctx context.Context, req *DeleteFeeScheduleRequest, opts ...http.CallOption) (rsp *DeleteResponse, err error)
+	DeleteFxRate(ctx context.Context, req *DeleteFxRateRequest, opts ...http.CallOption) (rsp *DeleteResponse, err error)
+	DeleteFxRateSource(ctx context.Context, req *DeleteFxRateSourceRequest, opts ...http.CallOption) (rsp *DeleteResponse, err error)
 	DeleteStandardLimit(ctx context.Context, req *DeleteStandardLimitRequest, opts ...http.CallOption) (rsp *DeleteResponse, err error)
 	DeleteSystemParameter(ctx context.Context, req *DeleteSystemParameterRequest, opts ...http.CallOption) (rsp *DeleteResponse, err error)
 	DeleteTaxRule(ctx context.Context, req *DeleteTaxRuleRequest, opts ...http.CallOption) (rsp *DeleteResponse, err error)
@@ -1977,7 +2312,10 @@ type MdmServiceHTTPClient interface {
 	ListCodeItems(ctx context.Context, req *ListCodeItemsRequest, opts ...http.CallOption) (rsp *ListCodeItemsResponse, err error)
 	ListCodeSets(ctx context.Context, req *ListCodeSetsRequest, opts ...http.CallOption) (rsp *ListCodeSetsResponse, err error)
 	ListCreditInstitutions(ctx context.Context, req *ListCreditInstitutionsRequest, opts ...http.CallOption) (rsp *ListCreditInstitutionsResponse, err error)
+	ListCurrencies(ctx context.Context, req *ListCurrenciesRequest, opts ...http.CallOption) (rsp *ListCurrenciesResponse, err error)
 	ListFeeSchedules(ctx context.Context, req *ListFeeSchedulesRequest, opts ...http.CallOption) (rsp *ListFeeSchedulesResponse, err error)
+	ListFxRateSources(ctx context.Context, req *ListFxRateSourcesRequest, opts ...http.CallOption) (rsp *ListFxRateSourcesResponse, err error)
+	ListFxRates(ctx context.Context, req *ListFxRatesRequest, opts ...http.CallOption) (rsp *ListFxRatesResponse, err error)
 	ListProvinces(ctx context.Context, req *ListAdministrativeUnitsRequest, opts ...http.CallOption) (rsp *ListAdministrativeUnitsResponse, err error)
 	ListStandardLimits(ctx context.Context, req *ListStandardLimitsRequest, opts ...http.CallOption) (rsp *ListStandardLimitsResponse, err error)
 	ListSystemParameters(ctx context.Context, req *ListSystemParametersRequest, opts ...http.CallOption) (rsp *ListSystemParametersResponse, err error)
@@ -1994,7 +2332,10 @@ type MdmServiceHTTPClient interface {
 	UpdateCodeItem(ctx context.Context, req *UpdateCodeItemRequest, opts ...http.CallOption) (rsp *CodeItem, err error)
 	UpdateCodeSet(ctx context.Context, req *UpdateCodeSetRequest, opts ...http.CallOption) (rsp *CodeSet, err error)
 	UpdateCreditInstitution(ctx context.Context, req *UpdateCreditInstitutionRequest, opts ...http.CallOption) (rsp *CreditInstitution, err error)
+	UpdateCurrency(ctx context.Context, req *UpdateCurrencyRequest, opts ...http.CallOption) (rsp *Currency, err error)
 	UpdateFeeSchedule(ctx context.Context, req *UpdateFeeScheduleRequest, opts ...http.CallOption) (rsp *FeeSchedule, err error)
+	UpdateFxRate(ctx context.Context, req *UpdateFxRateRequest, opts ...http.CallOption) (rsp *FxRate, err error)
+	UpdateFxRateSource(ctx context.Context, req *UpdateFxRateSourceRequest, opts ...http.CallOption) (rsp *FxRateSource, err error)
 	UpdateStandardLimit(ctx context.Context, req *UpdateStandardLimitRequest, opts ...http.CallOption) (rsp *StandardLimit, err error)
 	UpdateSystemParameter(ctx context.Context, req *UpdateSystemParameterRequest, opts ...http.CallOption) (rsp *SystemParameter, err error)
 	UpdateTaxRule(ctx context.Context, req *UpdateTaxRuleRequest, opts ...http.CallOption) (rsp *TaxRule, err error)
@@ -2014,6 +2355,19 @@ func (c *MdmServiceHTTPClientImpl) ApproveFeeSchedule(ctx context.Context, in *A
 	pattern := "/v1/mdm/fee-schedules/{id}/approve"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationMdmServiceApproveFeeSchedule))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *MdmServiceHTTPClientImpl) ApproveFxRate(ctx context.Context, in *ApprovePricingRuleRequest, opts ...http.CallOption) (*FxRate, error) {
+	var out FxRate
+	pattern := "/v1/mdm/fx-rates/{id}/approve"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationMdmServiceApproveFxRate))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
 	if err != nil {
@@ -2178,11 +2532,50 @@ func (c *MdmServiceHTTPClientImpl) CreateCreditInstitution(ctx context.Context, 
 	return &out, nil
 }
 
+func (c *MdmServiceHTTPClientImpl) CreateCurrency(ctx context.Context, in *CreateCurrencyRequest, opts ...http.CallOption) (*Currency, error) {
+	var out Currency
+	pattern := "/v1/mdm/currencies"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationMdmServiceCreateCurrency))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
 func (c *MdmServiceHTTPClientImpl) CreateFeeSchedule(ctx context.Context, in *CreateFeeScheduleRequest, opts ...http.CallOption) (*FeeSchedule, error) {
 	var out FeeSchedule
 	pattern := "/v1/mdm/fee-schedules"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationMdmServiceCreateFeeSchedule))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *MdmServiceHTTPClientImpl) CreateFxRate(ctx context.Context, in *CreateFxRateRequest, opts ...http.CallOption) (*FxRate, error) {
+	var out FxRate
+	pattern := "/v1/mdm/fx-rates"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationMdmServiceCreateFxRate))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *MdmServiceHTTPClientImpl) CreateFxRateSource(ctx context.Context, in *CreateFxRateSourceRequest, opts ...http.CallOption) (*FxRateSource, error) {
+	var out FxRateSource
+	pattern := "/v1/mdm/fx-rate-sources"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationMdmServiceCreateFxRateSource))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
 	if err != nil {
@@ -2347,11 +2740,50 @@ func (c *MdmServiceHTTPClientImpl) DeleteCreditInstitution(ctx context.Context, 
 	return &out, nil
 }
 
+func (c *MdmServiceHTTPClientImpl) DeleteCurrency(ctx context.Context, in *DeleteCurrencyRequest, opts ...http.CallOption) (*DeleteResponse, error) {
+	var out DeleteResponse
+	pattern := "/v1/mdm/currencies/{id}"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationMdmServiceDeleteCurrency))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "DELETE", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
 func (c *MdmServiceHTTPClientImpl) DeleteFeeSchedule(ctx context.Context, in *DeleteFeeScheduleRequest, opts ...http.CallOption) (*DeleteResponse, error) {
 	var out DeleteResponse
 	pattern := "/v1/mdm/fee-schedules/{id}"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationMdmServiceDeleteFeeSchedule))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "DELETE", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *MdmServiceHTTPClientImpl) DeleteFxRate(ctx context.Context, in *DeleteFxRateRequest, opts ...http.CallOption) (*DeleteResponse, error) {
+	var out DeleteResponse
+	pattern := "/v1/mdm/fx-rates/{id}"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationMdmServiceDeleteFxRate))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "DELETE", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *MdmServiceHTTPClientImpl) DeleteFxRateSource(ctx context.Context, in *DeleteFxRateSourceRequest, opts ...http.CallOption) (*DeleteResponse, error) {
+	var out DeleteResponse
+	pattern := "/v1/mdm/fx-rate-sources/{id}"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationMdmServiceDeleteFxRateSource))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "DELETE", path, nil, &out, opts...)
 	if err != nil {
@@ -2698,11 +3130,50 @@ func (c *MdmServiceHTTPClientImpl) ListCreditInstitutions(ctx context.Context, i
 	return &out, nil
 }
 
+func (c *MdmServiceHTTPClientImpl) ListCurrencies(ctx context.Context, in *ListCurrenciesRequest, opts ...http.CallOption) (*ListCurrenciesResponse, error) {
+	var out ListCurrenciesResponse
+	pattern := "/v1/mdm/currencies"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationMdmServiceListCurrencies))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
 func (c *MdmServiceHTTPClientImpl) ListFeeSchedules(ctx context.Context, in *ListFeeSchedulesRequest, opts ...http.CallOption) (*ListFeeSchedulesResponse, error) {
 	var out ListFeeSchedulesResponse
 	pattern := "/v1/mdm/fee-schedules"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationMdmServiceListFeeSchedules))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *MdmServiceHTTPClientImpl) ListFxRateSources(ctx context.Context, in *ListFxRateSourcesRequest, opts ...http.CallOption) (*ListFxRateSourcesResponse, error) {
+	var out ListFxRateSourcesResponse
+	pattern := "/v1/mdm/fx-rate-sources"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationMdmServiceListFxRateSources))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *MdmServiceHTTPClientImpl) ListFxRates(ctx context.Context, in *ListFxRatesRequest, opts ...http.CallOption) (*ListFxRatesResponse, error) {
+	var out ListFxRatesResponse
+	pattern := "/v1/mdm/fx-rates"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationMdmServiceListFxRates))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
 	if err != nil {
@@ -2919,11 +3390,50 @@ func (c *MdmServiceHTTPClientImpl) UpdateCreditInstitution(ctx context.Context, 
 	return &out, nil
 }
 
+func (c *MdmServiceHTTPClientImpl) UpdateCurrency(ctx context.Context, in *UpdateCurrencyRequest, opts ...http.CallOption) (*Currency, error) {
+	var out Currency
+	pattern := "/v1/mdm/currencies/{id}"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationMdmServiceUpdateCurrency))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "PUT", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
 func (c *MdmServiceHTTPClientImpl) UpdateFeeSchedule(ctx context.Context, in *UpdateFeeScheduleRequest, opts ...http.CallOption) (*FeeSchedule, error) {
 	var out FeeSchedule
 	pattern := "/v1/mdm/fee-schedules/{id}"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationMdmServiceUpdateFeeSchedule))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "PUT", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *MdmServiceHTTPClientImpl) UpdateFxRate(ctx context.Context, in *UpdateFxRateRequest, opts ...http.CallOption) (*FxRate, error) {
+	var out FxRate
+	pattern := "/v1/mdm/fx-rates/{id}"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationMdmServiceUpdateFxRate))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "PUT", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *MdmServiceHTTPClientImpl) UpdateFxRateSource(ctx context.Context, in *UpdateFxRateSourceRequest, opts ...http.CallOption) (*FxRateSource, error) {
+	var out FxRateSource
+	pattern := "/v1/mdm/fx-rate-sources/{id}"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationMdmServiceUpdateFxRateSource))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "PUT", path, in, &out, opts...)
 	if err != nil {

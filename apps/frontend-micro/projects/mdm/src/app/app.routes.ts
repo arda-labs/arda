@@ -46,6 +46,10 @@ export const remoteRoutes: Routes = [
     path: 'banking/pricing-rules',
     loadComponent: () => import('./pages/banking/pricing-rules.page').then(m => m.PricingRulesPage),
   },
+  {
+    path: 'banking/currency-fx',
+    loadComponent: () => import('./pages/banking/currency-fx.page').then(m => m.CurrencyFxPage),
+  },
 ];
 
 export const routes: Routes = remoteRoutes;

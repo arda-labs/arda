@@ -240,6 +240,46 @@ service MdmService {
   rpc ApproveStandardLimit(ApprovePricingRuleRequest) returns (StandardLimit) {
     option (google.api.http) = { post: "/v1/mdm/standard-limits/{id}/approve" body: "*" };
   }
+
+  rpc ListCurrencies(ListCurrenciesRequest) returns (ListCurrenciesResponse) {
+    option (google.api.http) = { get: "/v1/mdm/currencies" };
+  }
+  rpc CreateCurrency(CreateCurrencyRequest) returns (Currency) {
+    option (google.api.http) = { post: "/v1/mdm/currencies" body: "*" };
+  }
+  rpc UpdateCurrency(UpdateCurrencyRequest) returns (Currency) {
+    option (google.api.http) = { put: "/v1/mdm/currencies/{id}" body: "*" };
+  }
+  rpc DeleteCurrency(DeleteCurrencyRequest) returns (DeleteResponse) {
+    option (google.api.http) = { delete: "/v1/mdm/currencies/{id}" };
+  }
+  rpc ListFxRateSources(ListFxRateSourcesRequest) returns (ListFxRateSourcesResponse) {
+    option (google.api.http) = { get: "/v1/mdm/fx-rate-sources" };
+  }
+  rpc CreateFxRateSource(CreateFxRateSourceRequest) returns (FxRateSource) {
+    option (google.api.http) = { post: "/v1/mdm/fx-rate-sources" body: "*" };
+  }
+  rpc UpdateFxRateSource(UpdateFxRateSourceRequest) returns (FxRateSource) {
+    option (google.api.http) = { put: "/v1/mdm/fx-rate-sources/{id}" body: "*" };
+  }
+  rpc DeleteFxRateSource(DeleteFxRateSourceRequest) returns (DeleteResponse) {
+    option (google.api.http) = { delete: "/v1/mdm/fx-rate-sources/{id}" };
+  }
+  rpc ListFxRates(ListFxRatesRequest) returns (ListFxRatesResponse) {
+    option (google.api.http) = { get: "/v1/mdm/fx-rates" };
+  }
+  rpc CreateFxRate(CreateFxRateRequest) returns (FxRate) {
+    option (google.api.http) = { post: "/v1/mdm/fx-rates" body: "*" };
+  }
+  rpc UpdateFxRate(UpdateFxRateRequest) returns (FxRate) {
+    option (google.api.http) = { put: "/v1/mdm/fx-rates/{id}" body: "*" };
+  }
+  rpc DeleteFxRate(DeleteFxRateRequest) returns (DeleteResponse) {
+    option (google.api.http) = { delete: "/v1/mdm/fx-rates/{id}" };
+  }
+  rpc ApproveFxRate(ApprovePricingRuleRequest) returns (FxRate) {
+    option (google.api.http) = { post: "/v1/mdm/fx-rates/{id}/approve" body: "*" };
+  }
 }
 
 message AdministrativeUnit {
@@ -496,6 +536,52 @@ message StandardLimit {
   string change_note = 22;
   google.protobuf.Timestamp created_at = 23;
   google.protobuf.Timestamp updated_at = 24;
+}
+
+message Currency {
+  string id = 1;
+  string code = 2;
+  string numeric_code = 3;
+  string name = 4;
+  int32 minor_unit = 5;
+  string symbol = 6;
+  string country_code = 7;
+  string status = 8;
+  google.protobuf.Timestamp created_at = 9;
+  google.protobuf.Timestamp updated_at = 10;
+}
+
+message FxRateSource {
+  string id = 1;
+  string code = 2;
+  string name = 3;
+  string source_type = 4;
+  int32 priority = 5;
+  string timezone = 6;
+  string description = 7;
+  string status = 8;
+  google.protobuf.Timestamp created_at = 9;
+  google.protobuf.Timestamp updated_at = 10;
+}
+
+message FxRate {
+  string id = 1;
+  string base_currency = 2;
+  string quote_currency = 3;
+  string source_code = 4;
+  string rate_date = 5;
+  google.protobuf.Timestamp effective_at = 6;
+  double buy_rate = 7;
+  double sell_rate = 8;
+  double mid_rate = 9;
+  string approval_status = 10;
+  int32 version = 11;
+  string approved_by = 12;
+  google.protobuf.Timestamp approved_at = 13;
+  string change_note = 14;
+  string status = 15;
+  google.protobuf.Timestamp created_at = 16;
+  google.protobuf.Timestamp updated_at = 17;
 }
 
 message DeleteResponse {}
@@ -803,3 +889,54 @@ message ApprovePricingRuleRequest {
   string actor = 2;
   string note = 3;
 }
+
+message ListCurrenciesRequest {
+  string status = 1;
+  string keyword = 2;
+  int32 page_size = 3;
+  string page_token = 4;
+}
+message ListCurrenciesResponse {
+  repeated Currency currencies = 1;
+  string next_page_token = 2;
+}
+message CreateCurrencyRequest { Currency currency = 1; }
+message UpdateCurrencyRequest {
+  string id = 1;
+  Currency currency = 2;
+}
+message DeleteCurrencyRequest { string id = 1; }
+
+message ListFxRateSourcesRequest {
+  string status = 1;
+  string keyword = 2;
+  int32 page_size = 3;
+  string page_token = 4;
+}
+message ListFxRateSourcesResponse {
+  repeated FxRateSource sources = 1;
+  string next_page_token = 2;
+}
+message CreateFxRateSourceRequest { FxRateSource source = 1; }
+message UpdateFxRateSourceRequest {
+  string id = 1;
+  FxRateSource source = 2;
+}
+message DeleteFxRateSourceRequest { string id = 1; }
+
+message ListFxRatesRequest {
+  string status = 1;
+  string keyword = 2;
+  int32 page_size = 3;
+  string page_token = 4;
+}
+message ListFxRatesResponse {
+  repeated FxRate fx_rates = 1;
+  string next_page_token = 2;
+}
+message CreateFxRateRequest { FxRate fx_rate = 1; }
+message UpdateFxRateRequest {
+  string id = 1;
+  FxRate fx_rate = 2;
+}
+message DeleteFxRateRequest { string id = 1; }

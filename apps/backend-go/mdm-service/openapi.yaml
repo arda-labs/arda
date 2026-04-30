@@ -1079,6 +1079,94 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/mdm.v1.DeleteResponse'
+    /v1/mdm/currencies:
+        get:
+            tags:
+                - MdmService
+            operationId: MdmService_ListCurrencies
+            parameters:
+                - name: status
+                  in: query
+                  schema:
+                    type: string
+                - name: keyword
+                  in: query
+                  schema:
+                    type: string
+                - name: pageSize
+                  in: query
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pageToken
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.ListCurrenciesResponse'
+        post:
+            tags:
+                - MdmService
+            operationId: MdmService_CreateCurrency
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/mdm.v1.CreateCurrencyRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.Currency'
+    /v1/mdm/currencies/{id}:
+        put:
+            tags:
+                - MdmService
+            operationId: MdmService_UpdateCurrency
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/mdm.v1.UpdateCurrencyRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.Currency'
+        delete:
+            tags:
+                - MdmService
+            operationId: MdmService_DeleteCurrency
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.DeleteResponse'
     /v1/mdm/fee-schedules:
         get:
             tags:
@@ -1208,6 +1296,206 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/mdm.v1.FeeSchedule'
+    /v1/mdm/fx-rate-sources:
+        get:
+            tags:
+                - MdmService
+            operationId: MdmService_ListFxRateSources
+            parameters:
+                - name: status
+                  in: query
+                  schema:
+                    type: string
+                - name: keyword
+                  in: query
+                  schema:
+                    type: string
+                - name: pageSize
+                  in: query
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pageToken
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.ListFxRateSourcesResponse'
+        post:
+            tags:
+                - MdmService
+            operationId: MdmService_CreateFxRateSource
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/mdm.v1.CreateFxRateSourceRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.FxRateSource'
+    /v1/mdm/fx-rate-sources/{id}:
+        put:
+            tags:
+                - MdmService
+            operationId: MdmService_UpdateFxRateSource
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/mdm.v1.UpdateFxRateSourceRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.FxRateSource'
+        delete:
+            tags:
+                - MdmService
+            operationId: MdmService_DeleteFxRateSource
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.DeleteResponse'
+    /v1/mdm/fx-rates:
+        get:
+            tags:
+                - MdmService
+            operationId: MdmService_ListFxRates
+            parameters:
+                - name: status
+                  in: query
+                  schema:
+                    type: string
+                - name: keyword
+                  in: query
+                  schema:
+                    type: string
+                - name: pageSize
+                  in: query
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pageToken
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.ListFxRatesResponse'
+        post:
+            tags:
+                - MdmService
+            operationId: MdmService_CreateFxRate
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/mdm.v1.CreateFxRateRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.FxRate'
+    /v1/mdm/fx-rates/{id}:
+        put:
+            tags:
+                - MdmService
+            operationId: MdmService_UpdateFxRate
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/mdm.v1.UpdateFxRateRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.FxRate'
+        delete:
+            tags:
+                - MdmService
+            operationId: MdmService_DeleteFxRate
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.DeleteResponse'
+    /v1/mdm/fx-rates/{id}/approve:
+        post:
+            tags:
+                - MdmService
+            operationId: MdmService_ApproveFxRate
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/mdm.v1.ApprovePricingRuleRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.FxRate'
     /v1/mdm/provinces:
         get:
             tags:
@@ -2032,11 +2320,26 @@ components:
             properties:
                 creditInstitution:
                     $ref: '#/components/schemas/mdm.v1.CreditInstitution'
+        mdm.v1.CreateCurrencyRequest:
+            type: object
+            properties:
+                currency:
+                    $ref: '#/components/schemas/mdm.v1.Currency'
         mdm.v1.CreateFeeScheduleRequest:
             type: object
             properties:
                 feeSchedule:
                     $ref: '#/components/schemas/mdm.v1.FeeSchedule'
+        mdm.v1.CreateFxRateRequest:
+            type: object
+            properties:
+                fxRate:
+                    $ref: '#/components/schemas/mdm.v1.FxRate'
+        mdm.v1.CreateFxRateSourceRequest:
+            type: object
+            properties:
+                source:
+                    $ref: '#/components/schemas/mdm.v1.FxRateSource'
         mdm.v1.CreateStandardLimitRequest:
             type: object
             properties:
@@ -2085,6 +2388,32 @@ components:
                 website:
                     type: string
                 note:
+                    type: string
+                status:
+                    type: string
+                createdAt:
+                    type: string
+                    format: date-time
+                updatedAt:
+                    type: string
+                    format: date-time
+        mdm.v1.Currency:
+            type: object
+            properties:
+                id:
+                    type: string
+                code:
+                    type: string
+                numericCode:
+                    type: string
+                name:
+                    type: string
+                minorUnit:
+                    type: integer
+                    format: int32
+                symbol:
+                    type: string
+                countryCode:
                     type: string
                 status:
                     type: string
@@ -2147,6 +2476,77 @@ components:
                     type: string
                     format: date-time
                 changeNote:
+                    type: string
+                createdAt:
+                    type: string
+                    format: date-time
+                updatedAt:
+                    type: string
+                    format: date-time
+        mdm.v1.FxRate:
+            type: object
+            properties:
+                id:
+                    type: string
+                baseCurrency:
+                    type: string
+                quoteCurrency:
+                    type: string
+                sourceCode:
+                    type: string
+                rateDate:
+                    type: string
+                effectiveAt:
+                    type: string
+                    format: date-time
+                buyRate:
+                    type: number
+                    format: double
+                sellRate:
+                    type: number
+                    format: double
+                midRate:
+                    type: number
+                    format: double
+                approvalStatus:
+                    type: string
+                version:
+                    type: integer
+                    format: int32
+                approvedBy:
+                    type: string
+                approvedAt:
+                    type: string
+                    format: date-time
+                changeNote:
+                    type: string
+                status:
+                    type: string
+                createdAt:
+                    type: string
+                    format: date-time
+                updatedAt:
+                    type: string
+                    format: date-time
+        mdm.v1.FxRateSource:
+            type: object
+            properties:
+                id:
+                    type: string
+                code:
+                    type: string
+                name:
+                    type: string
+                sourceType:
+                    type: string
+                priority:
+                    type: integer
+                    format: int32
+                timezone:
+                    type: string
+                description:
+                    type: string
+                status:
                     type: string
                 createdAt:
                     type: string
@@ -2245,6 +2645,15 @@ components:
                         $ref: '#/components/schemas/mdm.v1.CreditInstitution'
                 nextPageToken:
                     type: string
+        mdm.v1.ListCurrenciesResponse:
+            type: object
+            properties:
+                currencies:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/mdm.v1.Currency'
+                nextPageToken:
+                    type: string
         mdm.v1.ListFeeSchedulesResponse:
             type: object
             properties:
@@ -2252,6 +2661,24 @@ components:
                     type: array
                     items:
                         $ref: '#/components/schemas/mdm.v1.FeeSchedule'
+                nextPageToken:
+                    type: string
+        mdm.v1.ListFxRateSourcesResponse:
+            type: object
+            properties:
+                sources:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/mdm.v1.FxRateSource'
+                nextPageToken:
+                    type: string
+        mdm.v1.ListFxRatesResponse:
+            type: object
+            properties:
+                fxRates:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/mdm.v1.FxRate'
                 nextPageToken:
                     type: string
         mdm.v1.ListStandardLimitsResponse:
@@ -2508,6 +2935,13 @@ components:
                     type: string
                 creditInstitution:
                     $ref: '#/components/schemas/mdm.v1.CreditInstitution'
+        mdm.v1.UpdateCurrencyRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                currency:
+                    $ref: '#/components/schemas/mdm.v1.Currency'
         mdm.v1.UpdateFeeScheduleRequest:
             type: object
             properties:
@@ -2515,6 +2949,20 @@ components:
                     type: string
                 feeSchedule:
                     $ref: '#/components/schemas/mdm.v1.FeeSchedule'
+        mdm.v1.UpdateFxRateRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                fxRate:
+                    $ref: '#/components/schemas/mdm.v1.FxRate'
+        mdm.v1.UpdateFxRateSourceRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                source:
+                    $ref: '#/components/schemas/mdm.v1.FxRateSource'
         mdm.v1.UpdateStandardLimitRequest:
             type: object
             properties:

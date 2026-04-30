@@ -1079,6 +1079,111 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/mdm.v1.DeleteResponse'
+    /v1/mdm/fee-schedules:
+        get:
+            tags:
+                - MdmService
+            operationId: MdmService_ListFeeSchedules
+            parameters:
+                - name: status
+                  in: query
+                  schema:
+                    type: string
+                - name: keyword
+                  in: query
+                  schema:
+                    type: string
+                - name: pageSize
+                  in: query
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pageToken
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.ListFeeSchedulesResponse'
+        post:
+            tags:
+                - MdmService
+            operationId: MdmService_CreateFeeSchedule
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/mdm.v1.CreateFeeScheduleRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.FeeSchedule'
+    /v1/mdm/fee-schedules/{id}:
+        get:
+            tags:
+                - MdmService
+            operationId: MdmService_GetFeeSchedule
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.FeeSchedule'
+        put:
+            tags:
+                - MdmService
+            operationId: MdmService_UpdateFeeSchedule
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/mdm.v1.UpdateFeeScheduleRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.FeeSchedule'
+        delete:
+            tags:
+                - MdmService
+            operationId: MdmService_DeleteFeeSchedule
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.DeleteResponse'
     /v1/mdm/provinces:
         get:
             tags:
@@ -1152,6 +1257,111 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/mdm.v1.ListAdministrativeUnitsResponse'
+    /v1/mdm/standard-limits:
+        get:
+            tags:
+                - MdmService
+            operationId: MdmService_ListStandardLimits
+            parameters:
+                - name: status
+                  in: query
+                  schema:
+                    type: string
+                - name: keyword
+                  in: query
+                  schema:
+                    type: string
+                - name: pageSize
+                  in: query
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pageToken
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.ListStandardLimitsResponse'
+        post:
+            tags:
+                - MdmService
+            operationId: MdmService_CreateStandardLimit
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/mdm.v1.CreateStandardLimitRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.StandardLimit'
+    /v1/mdm/standard-limits/{id}:
+        get:
+            tags:
+                - MdmService
+            operationId: MdmService_GetStandardLimit
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.StandardLimit'
+        put:
+            tags:
+                - MdmService
+            operationId: MdmService_UpdateStandardLimit
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/mdm.v1.UpdateStandardLimitRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.StandardLimit'
+        delete:
+            tags:
+                - MdmService
+            operationId: MdmService_DeleteStandardLimit
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.DeleteResponse'
     /v1/mdm/system-parameters:
         get:
             tags:
@@ -1250,6 +1460,111 @@ paths:
             operationId: MdmService_DeleteSystemParameter
             parameters:
                 - name: key
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.DeleteResponse'
+    /v1/mdm/tax-rules:
+        get:
+            tags:
+                - MdmService
+            operationId: MdmService_ListTaxRules
+            parameters:
+                - name: status
+                  in: query
+                  schema:
+                    type: string
+                - name: keyword
+                  in: query
+                  schema:
+                    type: string
+                - name: pageSize
+                  in: query
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pageToken
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.ListTaxRulesResponse'
+        post:
+            tags:
+                - MdmService
+            operationId: MdmService_CreateTaxRule
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/mdm.v1.CreateTaxRuleRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.TaxRule'
+    /v1/mdm/tax-rules/{id}:
+        get:
+            tags:
+                - MdmService
+            operationId: MdmService_GetTaxRule
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.TaxRule'
+        put:
+            tags:
+                - MdmService
+            operationId: MdmService_UpdateTaxRule
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/mdm.v1.UpdateTaxRuleRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.TaxRule'
+        delete:
+            tags:
+                - MdmService
+            operationId: MdmService_DeleteTaxRule
+            parameters:
+                - name: id
                   in: path
                   required: true
                   schema:
@@ -1636,11 +1951,26 @@ components:
             properties:
                 creditInstitution:
                     $ref: '#/components/schemas/mdm.v1.CreditInstitution'
+        mdm.v1.CreateFeeScheduleRequest:
+            type: object
+            properties:
+                feeSchedule:
+                    $ref: '#/components/schemas/mdm.v1.FeeSchedule'
+        mdm.v1.CreateStandardLimitRequest:
+            type: object
+            properties:
+                standardLimit:
+                    $ref: '#/components/schemas/mdm.v1.StandardLimit'
         mdm.v1.CreateSystemParameterRequest:
             type: object
             properties:
                 parameter:
                     $ref: '#/components/schemas/mdm.v1.SystemParameter'
+        mdm.v1.CreateTaxRuleRequest:
+            type: object
+            properties:
+                taxRule:
+                    $ref: '#/components/schemas/mdm.v1.TaxRule'
         mdm.v1.CreateWorkingHourRequest:
             type: object
             properties:
@@ -1686,6 +2016,51 @@ components:
         mdm.v1.DeleteResponse:
             type: object
             properties: {}
+        mdm.v1.FeeSchedule:
+            type: object
+            properties:
+                id:
+                    type: string
+                code:
+                    type: string
+                name:
+                    type: string
+                feeType:
+                    type: string
+                calculationMethod:
+                    type: string
+                currency:
+                    type: string
+                fixedAmount:
+                    type: number
+                    format: double
+                ratePercent:
+                    type: number
+                    format: double
+                minAmount:
+                    type: number
+                    format: double
+                maxAmount:
+                    type: number
+                    format: double
+                channel:
+                    type: string
+                productCode:
+                    type: string
+                effectiveFrom:
+                    type: string
+                effectiveTo:
+                    type: string
+                description:
+                    type: string
+                status:
+                    type: string
+                createdAt:
+                    type: string
+                    format: date-time
+                updatedAt:
+                    type: string
+                    format: date-time
         mdm.v1.ListAdministrativeUnitTreeResponse:
             type: object
             properties:
@@ -1777,6 +2152,24 @@ components:
                         $ref: '#/components/schemas/mdm.v1.CreditInstitution'
                 nextPageToken:
                     type: string
+        mdm.v1.ListFeeSchedulesResponse:
+            type: object
+            properties:
+                feeSchedules:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/mdm.v1.FeeSchedule'
+                nextPageToken:
+                    type: string
+        mdm.v1.ListStandardLimitsResponse:
+            type: object
+            properties:
+                standardLimits:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/mdm.v1.StandardLimit'
+                nextPageToken:
+                    type: string
         mdm.v1.ListSystemParametersResponse:
             type: object
             properties:
@@ -1786,6 +2179,15 @@ components:
                         $ref: '#/components/schemas/mdm.v1.SystemParameter'
                 nextPageToken:
                     type: string
+        mdm.v1.ListTaxRulesResponse:
+            type: object
+            properties:
+                taxRules:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/mdm.v1.TaxRule'
+                nextPageToken:
+                    type: string
         mdm.v1.ListWorkingHoursResponse:
             type: object
             properties:
@@ -1793,6 +2195,54 @@ components:
                     type: array
                     items:
                         $ref: '#/components/schemas/mdm.v1.WorkingHour'
+        mdm.v1.StandardLimit:
+            type: object
+            properties:
+                id:
+                    type: string
+                code:
+                    type: string
+                name:
+                    type: string
+                limitType:
+                    type: string
+                subjectType:
+                    type: string
+                currency:
+                    type: string
+                minAmount:
+                    type: number
+                    format: double
+                perTxnAmount:
+                    type: number
+                    format: double
+                dailyAmount:
+                    type: number
+                    format: double
+                monthlyAmount:
+                    type: number
+                    format: double
+                countLimit:
+                    type: integer
+                    format: int32
+                channel:
+                    type: string
+                productCode:
+                    type: string
+                effectiveFrom:
+                    type: string
+                effectiveTo:
+                    type: string
+                description:
+                    type: string
+                status:
+                    type: string
+                createdAt:
+                    type: string
+                    format: date-time
+                updatedAt:
+                    type: string
+                    format: date-time
         mdm.v1.SyncAdministrativeUnitsFromAddressKitRequest:
             type: object
             properties: {}
@@ -1846,6 +2296,38 @@ components:
                 status:
                     type: string
                 updatedBy:
+                    type: string
+                createdAt:
+                    type: string
+                    format: date-time
+                updatedAt:
+                    type: string
+                    format: date-time
+        mdm.v1.TaxRule:
+            type: object
+            properties:
+                id:
+                    type: string
+                code:
+                    type: string
+                name:
+                    type: string
+                taxType:
+                    type: string
+                ratePercent:
+                    type: number
+                    format: double
+                inclusive:
+                    type: boolean
+                jurisdiction:
+                    type: string
+                effectiveFrom:
+                    type: string
+                effectiveTo:
+                    type: string
+                description:
+                    type: string
+                status:
                     type: string
                 createdAt:
                     type: string
@@ -1909,6 +2391,20 @@ components:
                     type: string
                 creditInstitution:
                     $ref: '#/components/schemas/mdm.v1.CreditInstitution'
+        mdm.v1.UpdateFeeScheduleRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                feeSchedule:
+                    $ref: '#/components/schemas/mdm.v1.FeeSchedule'
+        mdm.v1.UpdateStandardLimitRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                standardLimit:
+                    $ref: '#/components/schemas/mdm.v1.StandardLimit'
         mdm.v1.UpdateSystemParameterRequest:
             type: object
             properties:
@@ -1916,6 +2412,13 @@ components:
                     type: string
                 parameter:
                     $ref: '#/components/schemas/mdm.v1.SystemParameter'
+        mdm.v1.UpdateTaxRuleRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                taxRule:
+                    $ref: '#/components/schemas/mdm.v1.TaxRule'
         mdm.v1.UpdateWorkingHourRequest:
             type: object
             properties:

@@ -193,3 +193,56 @@ export interface BusinessDayCalculationResult {
   skippedDates: string[];
   isBusinessDay: boolean;
 }
+
+export interface FeeSchedule {
+  id: string;
+  code: string;
+  name: string;
+  feeType: string;
+  calculationMethod: string;
+  currency: string;
+  fixedAmount: number;
+  ratePercent: number;
+  minAmount: number;
+  maxAmount: number;
+  channel: string;
+  productCode: string;
+  effectiveFrom: string;
+  effectiveTo: string;
+  description: string;
+  status: string;
+}
+
+export interface TaxRule {
+  id: string;
+  code: string;
+  name: string;
+  taxType: string;
+  ratePercent: number;
+  inclusive: boolean;
+  jurisdiction: string;
+  effectiveFrom: string;
+  effectiveTo: string;
+  description: string;
+  status: string;
+}
+
+export interface StandardLimit {
+  id: string;
+  code: string;
+  name: string;
+  limitType: string;
+  subjectType: string;
+  currency: string;
+  minAmount: number;
+  perTxnAmount: number;
+  dailyAmount: number;
+  monthlyAmount: number;
+  countLimit: number;
+  channel: string;
+  productCode: string;
+  effectiveFrom: string;
+  effectiveTo: string;
+  description: string;
+  status: string;
+}

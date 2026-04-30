@@ -76,6 +76,21 @@ const (
 	MdmService_UpdateCalendarException_FullMethodName               = "/mdm.v1.MdmService/UpdateCalendarException"
 	MdmService_DeleteCalendarException_FullMethodName               = "/mdm.v1.MdmService/DeleteCalendarException"
 	MdmService_CalculateBusinessDay_FullMethodName                  = "/mdm.v1.MdmService/CalculateBusinessDay"
+	MdmService_ListFeeSchedules_FullMethodName                      = "/mdm.v1.MdmService/ListFeeSchedules"
+	MdmService_GetFeeSchedule_FullMethodName                        = "/mdm.v1.MdmService/GetFeeSchedule"
+	MdmService_CreateFeeSchedule_FullMethodName                     = "/mdm.v1.MdmService/CreateFeeSchedule"
+	MdmService_UpdateFeeSchedule_FullMethodName                     = "/mdm.v1.MdmService/UpdateFeeSchedule"
+	MdmService_DeleteFeeSchedule_FullMethodName                     = "/mdm.v1.MdmService/DeleteFeeSchedule"
+	MdmService_ListTaxRules_FullMethodName                          = "/mdm.v1.MdmService/ListTaxRules"
+	MdmService_GetTaxRule_FullMethodName                            = "/mdm.v1.MdmService/GetTaxRule"
+	MdmService_CreateTaxRule_FullMethodName                         = "/mdm.v1.MdmService/CreateTaxRule"
+	MdmService_UpdateTaxRule_FullMethodName                         = "/mdm.v1.MdmService/UpdateTaxRule"
+	MdmService_DeleteTaxRule_FullMethodName                         = "/mdm.v1.MdmService/DeleteTaxRule"
+	MdmService_ListStandardLimits_FullMethodName                    = "/mdm.v1.MdmService/ListStandardLimits"
+	MdmService_GetStandardLimit_FullMethodName                      = "/mdm.v1.MdmService/GetStandardLimit"
+	MdmService_CreateStandardLimit_FullMethodName                   = "/mdm.v1.MdmService/CreateStandardLimit"
+	MdmService_UpdateStandardLimit_FullMethodName                   = "/mdm.v1.MdmService/UpdateStandardLimit"
+	MdmService_DeleteStandardLimit_FullMethodName                   = "/mdm.v1.MdmService/DeleteStandardLimit"
 )
 
 // MdmServiceClient is the client API for MdmService service.
@@ -139,6 +154,21 @@ type MdmServiceClient interface {
 	UpdateCalendarException(ctx context.Context, in *UpdateCalendarExceptionRequest, opts ...grpc.CallOption) (*CalendarException, error)
 	DeleteCalendarException(ctx context.Context, in *DeleteCalendarExceptionRequest, opts ...grpc.CallOption) (*DeleteResponse, error)
 	CalculateBusinessDay(ctx context.Context, in *CalculateBusinessDayRequest, opts ...grpc.CallOption) (*CalculateBusinessDayResponse, error)
+	ListFeeSchedules(ctx context.Context, in *ListFeeSchedulesRequest, opts ...grpc.CallOption) (*ListFeeSchedulesResponse, error)
+	GetFeeSchedule(ctx context.Context, in *GetFeeScheduleRequest, opts ...grpc.CallOption) (*FeeSchedule, error)
+	CreateFeeSchedule(ctx context.Context, in *CreateFeeScheduleRequest, opts ...grpc.CallOption) (*FeeSchedule, error)
+	UpdateFeeSchedule(ctx context.Context, in *UpdateFeeScheduleRequest, opts ...grpc.CallOption) (*FeeSchedule, error)
+	DeleteFeeSchedule(ctx context.Context, in *DeleteFeeScheduleRequest, opts ...grpc.CallOption) (*DeleteResponse, error)
+	ListTaxRules(ctx context.Context, in *ListTaxRulesRequest, opts ...grpc.CallOption) (*ListTaxRulesResponse, error)
+	GetTaxRule(ctx context.Context, in *GetTaxRuleRequest, opts ...grpc.CallOption) (*TaxRule, error)
+	CreateTaxRule(ctx context.Context, in *CreateTaxRuleRequest, opts ...grpc.CallOption) (*TaxRule, error)
+	UpdateTaxRule(ctx context.Context, in *UpdateTaxRuleRequest, opts ...grpc.CallOption) (*TaxRule, error)
+	DeleteTaxRule(ctx context.Context, in *DeleteTaxRuleRequest, opts ...grpc.CallOption) (*DeleteResponse, error)
+	ListStandardLimits(ctx context.Context, in *ListStandardLimitsRequest, opts ...grpc.CallOption) (*ListStandardLimitsResponse, error)
+	GetStandardLimit(ctx context.Context, in *GetStandardLimitRequest, opts ...grpc.CallOption) (*StandardLimit, error)
+	CreateStandardLimit(ctx context.Context, in *CreateStandardLimitRequest, opts ...grpc.CallOption) (*StandardLimit, error)
+	UpdateStandardLimit(ctx context.Context, in *UpdateStandardLimitRequest, opts ...grpc.CallOption) (*StandardLimit, error)
+	DeleteStandardLimit(ctx context.Context, in *DeleteStandardLimitRequest, opts ...grpc.CallOption) (*DeleteResponse, error)
 }
 
 type mdmServiceClient struct {
@@ -719,6 +749,156 @@ func (c *mdmServiceClient) CalculateBusinessDay(ctx context.Context, in *Calcula
 	return out, nil
 }
 
+func (c *mdmServiceClient) ListFeeSchedules(ctx context.Context, in *ListFeeSchedulesRequest, opts ...grpc.CallOption) (*ListFeeSchedulesResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListFeeSchedulesResponse)
+	err := c.cc.Invoke(ctx, MdmService_ListFeeSchedules_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mdmServiceClient) GetFeeSchedule(ctx context.Context, in *GetFeeScheduleRequest, opts ...grpc.CallOption) (*FeeSchedule, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(FeeSchedule)
+	err := c.cc.Invoke(ctx, MdmService_GetFeeSchedule_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mdmServiceClient) CreateFeeSchedule(ctx context.Context, in *CreateFeeScheduleRequest, opts ...grpc.CallOption) (*FeeSchedule, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(FeeSchedule)
+	err := c.cc.Invoke(ctx, MdmService_CreateFeeSchedule_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mdmServiceClient) UpdateFeeSchedule(ctx context.Context, in *UpdateFeeScheduleRequest, opts ...grpc.CallOption) (*FeeSchedule, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(FeeSchedule)
+	err := c.cc.Invoke(ctx, MdmService_UpdateFeeSchedule_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mdmServiceClient) DeleteFeeSchedule(ctx context.Context, in *DeleteFeeScheduleRequest, opts ...grpc.CallOption) (*DeleteResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteResponse)
+	err := c.cc.Invoke(ctx, MdmService_DeleteFeeSchedule_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mdmServiceClient) ListTaxRules(ctx context.Context, in *ListTaxRulesRequest, opts ...grpc.CallOption) (*ListTaxRulesResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListTaxRulesResponse)
+	err := c.cc.Invoke(ctx, MdmService_ListTaxRules_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mdmServiceClient) GetTaxRule(ctx context.Context, in *GetTaxRuleRequest, opts ...grpc.CallOption) (*TaxRule, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(TaxRule)
+	err := c.cc.Invoke(ctx, MdmService_GetTaxRule_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mdmServiceClient) CreateTaxRule(ctx context.Context, in *CreateTaxRuleRequest, opts ...grpc.CallOption) (*TaxRule, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(TaxRule)
+	err := c.cc.Invoke(ctx, MdmService_CreateTaxRule_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mdmServiceClient) UpdateTaxRule(ctx context.Context, in *UpdateTaxRuleRequest, opts ...grpc.CallOption) (*TaxRule, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(TaxRule)
+	err := c.cc.Invoke(ctx, MdmService_UpdateTaxRule_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mdmServiceClient) DeleteTaxRule(ctx context.Context, in *DeleteTaxRuleRequest, opts ...grpc.CallOption) (*DeleteResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteResponse)
+	err := c.cc.Invoke(ctx, MdmService_DeleteTaxRule_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mdmServiceClient) ListStandardLimits(ctx context.Context, in *ListStandardLimitsRequest, opts ...grpc.CallOption) (*ListStandardLimitsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListStandardLimitsResponse)
+	err := c.cc.Invoke(ctx, MdmService_ListStandardLimits_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mdmServiceClient) GetStandardLimit(ctx context.Context, in *GetStandardLimitRequest, opts ...grpc.CallOption) (*StandardLimit, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(StandardLimit)
+	err := c.cc.Invoke(ctx, MdmService_GetStandardLimit_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mdmServiceClient) CreateStandardLimit(ctx context.Context, in *CreateStandardLimitRequest, opts ...grpc.CallOption) (*StandardLimit, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(StandardLimit)
+	err := c.cc.Invoke(ctx, MdmService_CreateStandardLimit_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mdmServiceClient) UpdateStandardLimit(ctx context.Context, in *UpdateStandardLimitRequest, opts ...grpc.CallOption) (*StandardLimit, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(StandardLimit)
+	err := c.cc.Invoke(ctx, MdmService_UpdateStandardLimit_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mdmServiceClient) DeleteStandardLimit(ctx context.Context, in *DeleteStandardLimitRequest, opts ...grpc.CallOption) (*DeleteResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteResponse)
+	err := c.cc.Invoke(ctx, MdmService_DeleteStandardLimit_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MdmServiceServer is the server API for MdmService service.
 // All implementations must embed UnimplementedMdmServiceServer
 // for forward compatibility.
@@ -780,6 +960,21 @@ type MdmServiceServer interface {
 	UpdateCalendarException(context.Context, *UpdateCalendarExceptionRequest) (*CalendarException, error)
 	DeleteCalendarException(context.Context, *DeleteCalendarExceptionRequest) (*DeleteResponse, error)
 	CalculateBusinessDay(context.Context, *CalculateBusinessDayRequest) (*CalculateBusinessDayResponse, error)
+	ListFeeSchedules(context.Context, *ListFeeSchedulesRequest) (*ListFeeSchedulesResponse, error)
+	GetFeeSchedule(context.Context, *GetFeeScheduleRequest) (*FeeSchedule, error)
+	CreateFeeSchedule(context.Context, *CreateFeeScheduleRequest) (*FeeSchedule, error)
+	UpdateFeeSchedule(context.Context, *UpdateFeeScheduleRequest) (*FeeSchedule, error)
+	DeleteFeeSchedule(context.Context, *DeleteFeeScheduleRequest) (*DeleteResponse, error)
+	ListTaxRules(context.Context, *ListTaxRulesRequest) (*ListTaxRulesResponse, error)
+	GetTaxRule(context.Context, *GetTaxRuleRequest) (*TaxRule, error)
+	CreateTaxRule(context.Context, *CreateTaxRuleRequest) (*TaxRule, error)
+	UpdateTaxRule(context.Context, *UpdateTaxRuleRequest) (*TaxRule, error)
+	DeleteTaxRule(context.Context, *DeleteTaxRuleRequest) (*DeleteResponse, error)
+	ListStandardLimits(context.Context, *ListStandardLimitsRequest) (*ListStandardLimitsResponse, error)
+	GetStandardLimit(context.Context, *GetStandardLimitRequest) (*StandardLimit, error)
+	CreateStandardLimit(context.Context, *CreateStandardLimitRequest) (*StandardLimit, error)
+	UpdateStandardLimit(context.Context, *UpdateStandardLimitRequest) (*StandardLimit, error)
+	DeleteStandardLimit(context.Context, *DeleteStandardLimitRequest) (*DeleteResponse, error)
 	mustEmbedUnimplementedMdmServiceServer()
 }
 
@@ -960,6 +1155,51 @@ func (UnimplementedMdmServiceServer) DeleteCalendarException(context.Context, *D
 }
 func (UnimplementedMdmServiceServer) CalculateBusinessDay(context.Context, *CalculateBusinessDayRequest) (*CalculateBusinessDayResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method CalculateBusinessDay not implemented")
+}
+func (UnimplementedMdmServiceServer) ListFeeSchedules(context.Context, *ListFeeSchedulesRequest) (*ListFeeSchedulesResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListFeeSchedules not implemented")
+}
+func (UnimplementedMdmServiceServer) GetFeeSchedule(context.Context, *GetFeeScheduleRequest) (*FeeSchedule, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetFeeSchedule not implemented")
+}
+func (UnimplementedMdmServiceServer) CreateFeeSchedule(context.Context, *CreateFeeScheduleRequest) (*FeeSchedule, error) {
+	return nil, status.Error(codes.Unimplemented, "method CreateFeeSchedule not implemented")
+}
+func (UnimplementedMdmServiceServer) UpdateFeeSchedule(context.Context, *UpdateFeeScheduleRequest) (*FeeSchedule, error) {
+	return nil, status.Error(codes.Unimplemented, "method UpdateFeeSchedule not implemented")
+}
+func (UnimplementedMdmServiceServer) DeleteFeeSchedule(context.Context, *DeleteFeeScheduleRequest) (*DeleteResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method DeleteFeeSchedule not implemented")
+}
+func (UnimplementedMdmServiceServer) ListTaxRules(context.Context, *ListTaxRulesRequest) (*ListTaxRulesResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListTaxRules not implemented")
+}
+func (UnimplementedMdmServiceServer) GetTaxRule(context.Context, *GetTaxRuleRequest) (*TaxRule, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetTaxRule not implemented")
+}
+func (UnimplementedMdmServiceServer) CreateTaxRule(context.Context, *CreateTaxRuleRequest) (*TaxRule, error) {
+	return nil, status.Error(codes.Unimplemented, "method CreateTaxRule not implemented")
+}
+func (UnimplementedMdmServiceServer) UpdateTaxRule(context.Context, *UpdateTaxRuleRequest) (*TaxRule, error) {
+	return nil, status.Error(codes.Unimplemented, "method UpdateTaxRule not implemented")
+}
+func (UnimplementedMdmServiceServer) DeleteTaxRule(context.Context, *DeleteTaxRuleRequest) (*DeleteResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method DeleteTaxRule not implemented")
+}
+func (UnimplementedMdmServiceServer) ListStandardLimits(context.Context, *ListStandardLimitsRequest) (*ListStandardLimitsResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListStandardLimits not implemented")
+}
+func (UnimplementedMdmServiceServer) GetStandardLimit(context.Context, *GetStandardLimitRequest) (*StandardLimit, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetStandardLimit not implemented")
+}
+func (UnimplementedMdmServiceServer) CreateStandardLimit(context.Context, *CreateStandardLimitRequest) (*StandardLimit, error) {
+	return nil, status.Error(codes.Unimplemented, "method CreateStandardLimit not implemented")
+}
+func (UnimplementedMdmServiceServer) UpdateStandardLimit(context.Context, *UpdateStandardLimitRequest) (*StandardLimit, error) {
+	return nil, status.Error(codes.Unimplemented, "method UpdateStandardLimit not implemented")
+}
+func (UnimplementedMdmServiceServer) DeleteStandardLimit(context.Context, *DeleteStandardLimitRequest) (*DeleteResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method DeleteStandardLimit not implemented")
 }
 func (UnimplementedMdmServiceServer) mustEmbedUnimplementedMdmServiceServer() {}
 func (UnimplementedMdmServiceServer) testEmbeddedByValue()                    {}
@@ -2008,6 +2248,276 @@ func _MdmService_CalculateBusinessDay_Handler(srv interface{}, ctx context.Conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _MdmService_ListFeeSchedules_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListFeeSchedulesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).ListFeeSchedules(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_ListFeeSchedules_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).ListFeeSchedules(ctx, req.(*ListFeeSchedulesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MdmService_GetFeeSchedule_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetFeeScheduleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).GetFeeSchedule(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_GetFeeSchedule_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).GetFeeSchedule(ctx, req.(*GetFeeScheduleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MdmService_CreateFeeSchedule_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateFeeScheduleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).CreateFeeSchedule(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_CreateFeeSchedule_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).CreateFeeSchedule(ctx, req.(*CreateFeeScheduleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MdmService_UpdateFeeSchedule_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateFeeScheduleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).UpdateFeeSchedule(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_UpdateFeeSchedule_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).UpdateFeeSchedule(ctx, req.(*UpdateFeeScheduleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MdmService_DeleteFeeSchedule_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteFeeScheduleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).DeleteFeeSchedule(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_DeleteFeeSchedule_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).DeleteFeeSchedule(ctx, req.(*DeleteFeeScheduleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MdmService_ListTaxRules_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListTaxRulesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).ListTaxRules(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_ListTaxRules_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).ListTaxRules(ctx, req.(*ListTaxRulesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MdmService_GetTaxRule_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTaxRuleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).GetTaxRule(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_GetTaxRule_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).GetTaxRule(ctx, req.(*GetTaxRuleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MdmService_CreateTaxRule_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateTaxRuleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).CreateTaxRule(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_CreateTaxRule_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).CreateTaxRule(ctx, req.(*CreateTaxRuleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MdmService_UpdateTaxRule_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateTaxRuleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).UpdateTaxRule(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_UpdateTaxRule_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).UpdateTaxRule(ctx, req.(*UpdateTaxRuleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MdmService_DeleteTaxRule_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteTaxRuleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).DeleteTaxRule(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_DeleteTaxRule_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).DeleteTaxRule(ctx, req.(*DeleteTaxRuleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MdmService_ListStandardLimits_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListStandardLimitsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).ListStandardLimits(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_ListStandardLimits_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).ListStandardLimits(ctx, req.(*ListStandardLimitsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MdmService_GetStandardLimit_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetStandardLimitRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).GetStandardLimit(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_GetStandardLimit_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).GetStandardLimit(ctx, req.(*GetStandardLimitRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MdmService_CreateStandardLimit_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateStandardLimitRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).CreateStandardLimit(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_CreateStandardLimit_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).CreateStandardLimit(ctx, req.(*CreateStandardLimitRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MdmService_UpdateStandardLimit_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateStandardLimitRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).UpdateStandardLimit(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_UpdateStandardLimit_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).UpdateStandardLimit(ctx, req.(*UpdateStandardLimitRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MdmService_DeleteStandardLimit_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteStandardLimitRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).DeleteStandardLimit(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_DeleteStandardLimit_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).DeleteStandardLimit(ctx, req.(*DeleteStandardLimitRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // MdmService_ServiceDesc is the grpc.ServiceDesc for MdmService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -2242,6 +2752,66 @@ var MdmService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CalculateBusinessDay",
 			Handler:    _MdmService_CalculateBusinessDay_Handler,
+		},
+		{
+			MethodName: "ListFeeSchedules",
+			Handler:    _MdmService_ListFeeSchedules_Handler,
+		},
+		{
+			MethodName: "GetFeeSchedule",
+			Handler:    _MdmService_GetFeeSchedule_Handler,
+		},
+		{
+			MethodName: "CreateFeeSchedule",
+			Handler:    _MdmService_CreateFeeSchedule_Handler,
+		},
+		{
+			MethodName: "UpdateFeeSchedule",
+			Handler:    _MdmService_UpdateFeeSchedule_Handler,
+		},
+		{
+			MethodName: "DeleteFeeSchedule",
+			Handler:    _MdmService_DeleteFeeSchedule_Handler,
+		},
+		{
+			MethodName: "ListTaxRules",
+			Handler:    _MdmService_ListTaxRules_Handler,
+		},
+		{
+			MethodName: "GetTaxRule",
+			Handler:    _MdmService_GetTaxRule_Handler,
+		},
+		{
+			MethodName: "CreateTaxRule",
+			Handler:    _MdmService_CreateTaxRule_Handler,
+		},
+		{
+			MethodName: "UpdateTaxRule",
+			Handler:    _MdmService_UpdateTaxRule_Handler,
+		},
+		{
+			MethodName: "DeleteTaxRule",
+			Handler:    _MdmService_DeleteTaxRule_Handler,
+		},
+		{
+			MethodName: "ListStandardLimits",
+			Handler:    _MdmService_ListStandardLimits_Handler,
+		},
+		{
+			MethodName: "GetStandardLimit",
+			Handler:    _MdmService_GetStandardLimit_Handler,
+		},
+		{
+			MethodName: "CreateStandardLimit",
+			Handler:    _MdmService_CreateStandardLimit_Handler,
+		},
+		{
+			MethodName: "UpdateStandardLimit",
+			Handler:    _MdmService_UpdateStandardLimit_Handler,
+		},
+		{
+			MethodName: "DeleteStandardLimit",
+			Handler:    _MdmService_DeleteStandardLimit_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

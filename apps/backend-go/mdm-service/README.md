@@ -44,6 +44,8 @@ Main resources:
   organizations.
 - Business calendars for banking working hours, holidays, makeup workdays, and
   business-day calculations.
+- Fee schedules, tax rules, and standard limits for channel/product/currency
+  based banking configuration.
 
 ### Business Calendars
 
@@ -65,6 +67,23 @@ holiday announcement.
 The frontend page `Lịch làm việc` lets operators maintain weekly hours, add
 holidays or makeup workdays on a month calendar, and calculate business dates
 from the configured rules.
+
+### Pricing, Tax, And Standard Limits
+
+Large banking systems usually keep fee, tax, and limit rules outside transaction
+code. MDM stores these as effective-dated reference rules:
+
+- `fee_schedules`: fee type, calculation method, fixed amount, percentage,
+  min/max cap, channel, product, currency, and validity window.
+- `tax_rules`: tax type, rate, inclusive/exclusive flag, jurisdiction, and
+  validity window.
+- `standard_limits`: per-transaction, daily, monthly, count, channel, product,
+  subject type, currency, and validity window.
+
+The default seed includes basic examples for digital transfer fees, ATM
+withdrawal fee, Vietnam VAT, and common retail/card transaction limits. Product
+or policy-specific overrides should be added as new active rules instead of
+hard-coded in downstream services.
 
 ### Administrative Unit Sync
 

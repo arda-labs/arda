@@ -29,7 +29,10 @@ const OperationMdmServiceCreateCalendarException = "/mdm.v1.MdmService/CreateCal
 const OperationMdmServiceCreateCodeItem = "/mdm.v1.MdmService/CreateCodeItem"
 const OperationMdmServiceCreateCodeSet = "/mdm.v1.MdmService/CreateCodeSet"
 const OperationMdmServiceCreateCreditInstitution = "/mdm.v1.MdmService/CreateCreditInstitution"
+const OperationMdmServiceCreateFeeSchedule = "/mdm.v1.MdmService/CreateFeeSchedule"
+const OperationMdmServiceCreateStandardLimit = "/mdm.v1.MdmService/CreateStandardLimit"
 const OperationMdmServiceCreateSystemParameter = "/mdm.v1.MdmService/CreateSystemParameter"
+const OperationMdmServiceCreateTaxRule = "/mdm.v1.MdmService/CreateTaxRule"
 const OperationMdmServiceCreateWorkingHour = "/mdm.v1.MdmService/CreateWorkingHour"
 const OperationMdmServiceDeleteAdministrativeUnit = "/mdm.v1.MdmService/DeleteAdministrativeUnit"
 const OperationMdmServiceDeleteArea = "/mdm.v1.MdmService/DeleteArea"
@@ -39,7 +42,10 @@ const OperationMdmServiceDeleteCalendarException = "/mdm.v1.MdmService/DeleteCal
 const OperationMdmServiceDeleteCodeItem = "/mdm.v1.MdmService/DeleteCodeItem"
 const OperationMdmServiceDeleteCodeSet = "/mdm.v1.MdmService/DeleteCodeSet"
 const OperationMdmServiceDeleteCreditInstitution = "/mdm.v1.MdmService/DeleteCreditInstitution"
+const OperationMdmServiceDeleteFeeSchedule = "/mdm.v1.MdmService/DeleteFeeSchedule"
+const OperationMdmServiceDeleteStandardLimit = "/mdm.v1.MdmService/DeleteStandardLimit"
 const OperationMdmServiceDeleteSystemParameter = "/mdm.v1.MdmService/DeleteSystemParameter"
+const OperationMdmServiceDeleteTaxRule = "/mdm.v1.MdmService/DeleteTaxRule"
 const OperationMdmServiceDeleteWorkingHour = "/mdm.v1.MdmService/DeleteWorkingHour"
 const OperationMdmServiceGetAdministrativeUnit = "/mdm.v1.MdmService/GetAdministrativeUnit"
 const OperationMdmServiceGetArea = "/mdm.v1.MdmService/GetArea"
@@ -48,7 +54,10 @@ const OperationMdmServiceGetBusinessCalendar = "/mdm.v1.MdmService/GetBusinessCa
 const OperationMdmServiceGetCodeItem = "/mdm.v1.MdmService/GetCodeItem"
 const OperationMdmServiceGetCodeSet = "/mdm.v1.MdmService/GetCodeSet"
 const OperationMdmServiceGetCreditInstitution = "/mdm.v1.MdmService/GetCreditInstitution"
+const OperationMdmServiceGetFeeSchedule = "/mdm.v1.MdmService/GetFeeSchedule"
+const OperationMdmServiceGetStandardLimit = "/mdm.v1.MdmService/GetStandardLimit"
 const OperationMdmServiceGetSystemParameter = "/mdm.v1.MdmService/GetSystemParameter"
+const OperationMdmServiceGetTaxRule = "/mdm.v1.MdmService/GetTaxRule"
 const OperationMdmServiceListAdministrativeUnitTree = "/mdm.v1.MdmService/ListAdministrativeUnitTree"
 const OperationMdmServiceListAdministrativeUnits = "/mdm.v1.MdmService/ListAdministrativeUnits"
 const OperationMdmServiceListAreaAdministrativeUnits = "/mdm.v1.MdmService/ListAreaAdministrativeUnits"
@@ -60,8 +69,11 @@ const OperationMdmServiceListCalendarExceptions = "/mdm.v1.MdmService/ListCalend
 const OperationMdmServiceListCodeItems = "/mdm.v1.MdmService/ListCodeItems"
 const OperationMdmServiceListCodeSets = "/mdm.v1.MdmService/ListCodeSets"
 const OperationMdmServiceListCreditInstitutions = "/mdm.v1.MdmService/ListCreditInstitutions"
+const OperationMdmServiceListFeeSchedules = "/mdm.v1.MdmService/ListFeeSchedules"
 const OperationMdmServiceListProvinces = "/mdm.v1.MdmService/ListProvinces"
+const OperationMdmServiceListStandardLimits = "/mdm.v1.MdmService/ListStandardLimits"
 const OperationMdmServiceListSystemParameters = "/mdm.v1.MdmService/ListSystemParameters"
+const OperationMdmServiceListTaxRules = "/mdm.v1.MdmService/ListTaxRules"
 const OperationMdmServiceListWards = "/mdm.v1.MdmService/ListWards"
 const OperationMdmServiceListWorkingHours = "/mdm.v1.MdmService/ListWorkingHours"
 const OperationMdmServiceRemoveAreaAdministrativeUnit = "/mdm.v1.MdmService/RemoveAreaAdministrativeUnit"
@@ -74,7 +86,10 @@ const OperationMdmServiceUpdateCalendarException = "/mdm.v1.MdmService/UpdateCal
 const OperationMdmServiceUpdateCodeItem = "/mdm.v1.MdmService/UpdateCodeItem"
 const OperationMdmServiceUpdateCodeSet = "/mdm.v1.MdmService/UpdateCodeSet"
 const OperationMdmServiceUpdateCreditInstitution = "/mdm.v1.MdmService/UpdateCreditInstitution"
+const OperationMdmServiceUpdateFeeSchedule = "/mdm.v1.MdmService/UpdateFeeSchedule"
+const OperationMdmServiceUpdateStandardLimit = "/mdm.v1.MdmService/UpdateStandardLimit"
 const OperationMdmServiceUpdateSystemParameter = "/mdm.v1.MdmService/UpdateSystemParameter"
+const OperationMdmServiceUpdateTaxRule = "/mdm.v1.MdmService/UpdateTaxRule"
 const OperationMdmServiceUpdateWorkingHour = "/mdm.v1.MdmService/UpdateWorkingHour"
 
 type MdmServiceHTTPServer interface {
@@ -88,7 +103,10 @@ type MdmServiceHTTPServer interface {
 	CreateCodeItem(context.Context, *CreateCodeItemRequest) (*CodeItem, error)
 	CreateCodeSet(context.Context, *CreateCodeSetRequest) (*CodeSet, error)
 	CreateCreditInstitution(context.Context, *CreateCreditInstitutionRequest) (*CreditInstitution, error)
+	CreateFeeSchedule(context.Context, *CreateFeeScheduleRequest) (*FeeSchedule, error)
+	CreateStandardLimit(context.Context, *CreateStandardLimitRequest) (*StandardLimit, error)
 	CreateSystemParameter(context.Context, *CreateSystemParameterRequest) (*SystemParameter, error)
+	CreateTaxRule(context.Context, *CreateTaxRuleRequest) (*TaxRule, error)
 	CreateWorkingHour(context.Context, *CreateWorkingHourRequest) (*WorkingHour, error)
 	DeleteAdministrativeUnit(context.Context, *DeleteAdministrativeUnitRequest) (*DeleteResponse, error)
 	DeleteArea(context.Context, *DeleteAreaRequest) (*DeleteResponse, error)
@@ -98,7 +116,10 @@ type MdmServiceHTTPServer interface {
 	DeleteCodeItem(context.Context, *DeleteCodeItemRequest) (*DeleteResponse, error)
 	DeleteCodeSet(context.Context, *DeleteCodeSetRequest) (*DeleteResponse, error)
 	DeleteCreditInstitution(context.Context, *DeleteCreditInstitutionRequest) (*DeleteResponse, error)
+	DeleteFeeSchedule(context.Context, *DeleteFeeScheduleRequest) (*DeleteResponse, error)
+	DeleteStandardLimit(context.Context, *DeleteStandardLimitRequest) (*DeleteResponse, error)
 	DeleteSystemParameter(context.Context, *DeleteSystemParameterRequest) (*DeleteResponse, error)
+	DeleteTaxRule(context.Context, *DeleteTaxRuleRequest) (*DeleteResponse, error)
 	DeleteWorkingHour(context.Context, *DeleteWorkingHourRequest) (*DeleteResponse, error)
 	GetAdministrativeUnit(context.Context, *GetAdministrativeUnitRequest) (*AdministrativeUnit, error)
 	GetArea(context.Context, *GetAreaRequest) (*Area, error)
@@ -107,7 +128,10 @@ type MdmServiceHTTPServer interface {
 	GetCodeItem(context.Context, *GetCodeItemRequest) (*CodeItem, error)
 	GetCodeSet(context.Context, *GetCodeSetRequest) (*CodeSet, error)
 	GetCreditInstitution(context.Context, *GetCreditInstitutionRequest) (*CreditInstitution, error)
+	GetFeeSchedule(context.Context, *GetFeeScheduleRequest) (*FeeSchedule, error)
+	GetStandardLimit(context.Context, *GetStandardLimitRequest) (*StandardLimit, error)
 	GetSystemParameter(context.Context, *GetSystemParameterRequest) (*SystemParameter, error)
+	GetTaxRule(context.Context, *GetTaxRuleRequest) (*TaxRule, error)
 	ListAdministrativeUnitTree(context.Context, *ListAdministrativeUnitsRequest) (*ListAdministrativeUnitTreeResponse, error)
 	ListAdministrativeUnits(context.Context, *ListAdministrativeUnitsRequest) (*ListAdministrativeUnitsResponse, error)
 	ListAreaAdministrativeUnits(context.Context, *ListAreaAdministrativeUnitsRequest) (*ListAreaAdministrativeUnitsResponse, error)
@@ -119,8 +143,11 @@ type MdmServiceHTTPServer interface {
 	ListCodeItems(context.Context, *ListCodeItemsRequest) (*ListCodeItemsResponse, error)
 	ListCodeSets(context.Context, *ListCodeSetsRequest) (*ListCodeSetsResponse, error)
 	ListCreditInstitutions(context.Context, *ListCreditInstitutionsRequest) (*ListCreditInstitutionsResponse, error)
+	ListFeeSchedules(context.Context, *ListFeeSchedulesRequest) (*ListFeeSchedulesResponse, error)
 	ListProvinces(context.Context, *ListAdministrativeUnitsRequest) (*ListAdministrativeUnitsResponse, error)
+	ListStandardLimits(context.Context, *ListStandardLimitsRequest) (*ListStandardLimitsResponse, error)
 	ListSystemParameters(context.Context, *ListSystemParametersRequest) (*ListSystemParametersResponse, error)
+	ListTaxRules(context.Context, *ListTaxRulesRequest) (*ListTaxRulesResponse, error)
 	ListWards(context.Context, *ListWardsRequest) (*ListAdministrativeUnitsResponse, error)
 	ListWorkingHours(context.Context, *ListWorkingHoursRequest) (*ListWorkingHoursResponse, error)
 	RemoveAreaAdministrativeUnit(context.Context, *RemoveAreaAdministrativeUnitRequest) (*DeleteResponse, error)
@@ -133,7 +160,10 @@ type MdmServiceHTTPServer interface {
 	UpdateCodeItem(context.Context, *UpdateCodeItemRequest) (*CodeItem, error)
 	UpdateCodeSet(context.Context, *UpdateCodeSetRequest) (*CodeSet, error)
 	UpdateCreditInstitution(context.Context, *UpdateCreditInstitutionRequest) (*CreditInstitution, error)
+	UpdateFeeSchedule(context.Context, *UpdateFeeScheduleRequest) (*FeeSchedule, error)
+	UpdateStandardLimit(context.Context, *UpdateStandardLimitRequest) (*StandardLimit, error)
 	UpdateSystemParameter(context.Context, *UpdateSystemParameterRequest) (*SystemParameter, error)
+	UpdateTaxRule(context.Context, *UpdateTaxRuleRequest) (*TaxRule, error)
 	UpdateWorkingHour(context.Context, *UpdateWorkingHourRequest) (*WorkingHour, error)
 }
 
@@ -196,6 +226,21 @@ func RegisterMdmServiceHTTPServer(s *http.Server, srv MdmServiceHTTPServer) {
 	r.PUT("/v1/mdm/calendar-exceptions/{id}", _MdmService_UpdateCalendarException0_HTTP_Handler(srv))
 	r.DELETE("/v1/mdm/calendar-exceptions/{id}", _MdmService_DeleteCalendarException0_HTTP_Handler(srv))
 	r.POST("/v1/mdm/business-calendars/calculate", _MdmService_CalculateBusinessDay0_HTTP_Handler(srv))
+	r.GET("/v1/mdm/fee-schedules", _MdmService_ListFeeSchedules0_HTTP_Handler(srv))
+	r.GET("/v1/mdm/fee-schedules/{id}", _MdmService_GetFeeSchedule0_HTTP_Handler(srv))
+	r.POST("/v1/mdm/fee-schedules", _MdmService_CreateFeeSchedule0_HTTP_Handler(srv))
+	r.PUT("/v1/mdm/fee-schedules/{id}", _MdmService_UpdateFeeSchedule0_HTTP_Handler(srv))
+	r.DELETE("/v1/mdm/fee-schedules/{id}", _MdmService_DeleteFeeSchedule0_HTTP_Handler(srv))
+	r.GET("/v1/mdm/tax-rules", _MdmService_ListTaxRules0_HTTP_Handler(srv))
+	r.GET("/v1/mdm/tax-rules/{id}", _MdmService_GetTaxRule0_HTTP_Handler(srv))
+	r.POST("/v1/mdm/tax-rules", _MdmService_CreateTaxRule0_HTTP_Handler(srv))
+	r.PUT("/v1/mdm/tax-rules/{id}", _MdmService_UpdateTaxRule0_HTTP_Handler(srv))
+	r.DELETE("/v1/mdm/tax-rules/{id}", _MdmService_DeleteTaxRule0_HTTP_Handler(srv))
+	r.GET("/v1/mdm/standard-limits", _MdmService_ListStandardLimits0_HTTP_Handler(srv))
+	r.GET("/v1/mdm/standard-limits/{id}", _MdmService_GetStandardLimit0_HTTP_Handler(srv))
+	r.POST("/v1/mdm/standard-limits", _MdmService_CreateStandardLimit0_HTTP_Handler(srv))
+	r.PUT("/v1/mdm/standard-limits/{id}", _MdmService_UpdateStandardLimit0_HTTP_Handler(srv))
+	r.DELETE("/v1/mdm/standard-limits/{id}", _MdmService_DeleteStandardLimit0_HTTP_Handler(srv))
 }
 
 func _MdmService_ListAdministrativeUnits0_HTTP_Handler(srv MdmServiceHTTPServer) func(ctx http.Context) error {
@@ -1464,6 +1509,336 @@ func _MdmService_CalculateBusinessDay0_HTTP_Handler(srv MdmServiceHTTPServer) fu
 	}
 }
 
+func _MdmService_ListFeeSchedules0_HTTP_Handler(srv MdmServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in ListFeeSchedulesRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationMdmServiceListFeeSchedules)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.ListFeeSchedules(ctx, req.(*ListFeeSchedulesRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*ListFeeSchedulesResponse)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _MdmService_GetFeeSchedule0_HTTP_Handler(srv MdmServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in GetFeeScheduleRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationMdmServiceGetFeeSchedule)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.GetFeeSchedule(ctx, req.(*GetFeeScheduleRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*FeeSchedule)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _MdmService_CreateFeeSchedule0_HTTP_Handler(srv MdmServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in CreateFeeScheduleRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationMdmServiceCreateFeeSchedule)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.CreateFeeSchedule(ctx, req.(*CreateFeeScheduleRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*FeeSchedule)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _MdmService_UpdateFeeSchedule0_HTTP_Handler(srv MdmServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in UpdateFeeScheduleRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationMdmServiceUpdateFeeSchedule)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.UpdateFeeSchedule(ctx, req.(*UpdateFeeScheduleRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*FeeSchedule)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _MdmService_DeleteFeeSchedule0_HTTP_Handler(srv MdmServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in DeleteFeeScheduleRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationMdmServiceDeleteFeeSchedule)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.DeleteFeeSchedule(ctx, req.(*DeleteFeeScheduleRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*DeleteResponse)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _MdmService_ListTaxRules0_HTTP_Handler(srv MdmServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in ListTaxRulesRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationMdmServiceListTaxRules)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.ListTaxRules(ctx, req.(*ListTaxRulesRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*ListTaxRulesResponse)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _MdmService_GetTaxRule0_HTTP_Handler(srv MdmServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in GetTaxRuleRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationMdmServiceGetTaxRule)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.GetTaxRule(ctx, req.(*GetTaxRuleRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*TaxRule)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _MdmService_CreateTaxRule0_HTTP_Handler(srv MdmServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in CreateTaxRuleRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationMdmServiceCreateTaxRule)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.CreateTaxRule(ctx, req.(*CreateTaxRuleRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*TaxRule)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _MdmService_UpdateTaxRule0_HTTP_Handler(srv MdmServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in UpdateTaxRuleRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationMdmServiceUpdateTaxRule)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.UpdateTaxRule(ctx, req.(*UpdateTaxRuleRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*TaxRule)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _MdmService_DeleteTaxRule0_HTTP_Handler(srv MdmServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in DeleteTaxRuleRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationMdmServiceDeleteTaxRule)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.DeleteTaxRule(ctx, req.(*DeleteTaxRuleRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*DeleteResponse)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _MdmService_ListStandardLimits0_HTTP_Handler(srv MdmServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in ListStandardLimitsRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationMdmServiceListStandardLimits)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.ListStandardLimits(ctx, req.(*ListStandardLimitsRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*ListStandardLimitsResponse)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _MdmService_GetStandardLimit0_HTTP_Handler(srv MdmServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in GetStandardLimitRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationMdmServiceGetStandardLimit)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.GetStandardLimit(ctx, req.(*GetStandardLimitRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*StandardLimit)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _MdmService_CreateStandardLimit0_HTTP_Handler(srv MdmServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in CreateStandardLimitRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationMdmServiceCreateStandardLimit)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.CreateStandardLimit(ctx, req.(*CreateStandardLimitRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*StandardLimit)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _MdmService_UpdateStandardLimit0_HTTP_Handler(srv MdmServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in UpdateStandardLimitRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationMdmServiceUpdateStandardLimit)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.UpdateStandardLimit(ctx, req.(*UpdateStandardLimitRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*StandardLimit)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _MdmService_DeleteStandardLimit0_HTTP_Handler(srv MdmServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in DeleteStandardLimitRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationMdmServiceDeleteStandardLimit)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.DeleteStandardLimit(ctx, req.(*DeleteStandardLimitRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*DeleteResponse)
+		return ctx.Result(200, reply)
+	}
+}
+
 type MdmServiceHTTPClient interface {
 	AssignAreaAdministrativeUnit(ctx context.Context, req *AssignAreaAdministrativeUnitRequest, opts ...http.CallOption) (rsp *AreaAdministrativeUnit, err error)
 	CalculateBusinessDay(ctx context.Context, req *CalculateBusinessDayRequest, opts ...http.CallOption) (rsp *CalculateBusinessDayResponse, err error)
@@ -1475,7 +1850,10 @@ type MdmServiceHTTPClient interface {
 	CreateCodeItem(ctx context.Context, req *CreateCodeItemRequest, opts ...http.CallOption) (rsp *CodeItem, err error)
 	CreateCodeSet(ctx context.Context, req *CreateCodeSetRequest, opts ...http.CallOption) (rsp *CodeSet, err error)
 	CreateCreditInstitution(ctx context.Context, req *CreateCreditInstitutionRequest, opts ...http.CallOption) (rsp *CreditInstitution, err error)
+	CreateFeeSchedule(ctx context.Context, req *CreateFeeScheduleRequest, opts ...http.CallOption) (rsp *FeeSchedule, err error)
+	CreateStandardLimit(ctx context.Context, req *CreateStandardLimitRequest, opts ...http.CallOption) (rsp *StandardLimit, err error)
 	CreateSystemParameter(ctx context.Context, req *CreateSystemParameterRequest, opts ...http.CallOption) (rsp *SystemParameter, err error)
+	CreateTaxRule(ctx context.Context, req *CreateTaxRuleRequest, opts ...http.CallOption) (rsp *TaxRule, err error)
 	CreateWorkingHour(ctx context.Context, req *CreateWorkingHourRequest, opts ...http.CallOption) (rsp *WorkingHour, err error)
 	DeleteAdministrativeUnit(ctx context.Context, req *DeleteAdministrativeUnitRequest, opts ...http.CallOption) (rsp *DeleteResponse, err error)
 	DeleteArea(ctx context.Context, req *DeleteAreaRequest, opts ...http.CallOption) (rsp *DeleteResponse, err error)
@@ -1485,7 +1863,10 @@ type MdmServiceHTTPClient interface {
 	DeleteCodeItem(ctx context.Context, req *DeleteCodeItemRequest, opts ...http.CallOption) (rsp *DeleteResponse, err error)
 	DeleteCodeSet(ctx context.Context, req *DeleteCodeSetRequest, opts ...http.CallOption) (rsp *DeleteResponse, err error)
 	DeleteCreditInstitution(ctx context.Context, req *DeleteCreditInstitutionRequest, opts ...http.CallOption) (rsp *DeleteResponse, err error)
+	DeleteFeeSchedule(ctx context.Context, req *DeleteFeeScheduleRequest, opts ...http.CallOption) (rsp *DeleteResponse, err error)
+	DeleteStandardLimit(ctx context.Context, req *DeleteStandardLimitRequest, opts ...http.CallOption) (rsp *DeleteResponse, err error)
 	DeleteSystemParameter(ctx context.Context, req *DeleteSystemParameterRequest, opts ...http.CallOption) (rsp *DeleteResponse, err error)
+	DeleteTaxRule(ctx context.Context, req *DeleteTaxRuleRequest, opts ...http.CallOption) (rsp *DeleteResponse, err error)
 	DeleteWorkingHour(ctx context.Context, req *DeleteWorkingHourRequest, opts ...http.CallOption) (rsp *DeleteResponse, err error)
 	GetAdministrativeUnit(ctx context.Context, req *GetAdministrativeUnitRequest, opts ...http.CallOption) (rsp *AdministrativeUnit, err error)
 	GetArea(ctx context.Context, req *GetAreaRequest, opts ...http.CallOption) (rsp *Area, err error)
@@ -1494,7 +1875,10 @@ type MdmServiceHTTPClient interface {
 	GetCodeItem(ctx context.Context, req *GetCodeItemRequest, opts ...http.CallOption) (rsp *CodeItem, err error)
 	GetCodeSet(ctx context.Context, req *GetCodeSetRequest, opts ...http.CallOption) (rsp *CodeSet, err error)
 	GetCreditInstitution(ctx context.Context, req *GetCreditInstitutionRequest, opts ...http.CallOption) (rsp *CreditInstitution, err error)
+	GetFeeSchedule(ctx context.Context, req *GetFeeScheduleRequest, opts ...http.CallOption) (rsp *FeeSchedule, err error)
+	GetStandardLimit(ctx context.Context, req *GetStandardLimitRequest, opts ...http.CallOption) (rsp *StandardLimit, err error)
 	GetSystemParameter(ctx context.Context, req *GetSystemParameterRequest, opts ...http.CallOption) (rsp *SystemParameter, err error)
+	GetTaxRule(ctx context.Context, req *GetTaxRuleRequest, opts ...http.CallOption) (rsp *TaxRule, err error)
 	ListAdministrativeUnitTree(ctx context.Context, req *ListAdministrativeUnitsRequest, opts ...http.CallOption) (rsp *ListAdministrativeUnitTreeResponse, err error)
 	ListAdministrativeUnits(ctx context.Context, req *ListAdministrativeUnitsRequest, opts ...http.CallOption) (rsp *ListAdministrativeUnitsResponse, err error)
 	ListAreaAdministrativeUnits(ctx context.Context, req *ListAreaAdministrativeUnitsRequest, opts ...http.CallOption) (rsp *ListAreaAdministrativeUnitsResponse, err error)
@@ -1506,8 +1890,11 @@ type MdmServiceHTTPClient interface {
 	ListCodeItems(ctx context.Context, req *ListCodeItemsRequest, opts ...http.CallOption) (rsp *ListCodeItemsResponse, err error)
 	ListCodeSets(ctx context.Context, req *ListCodeSetsRequest, opts ...http.CallOption) (rsp *ListCodeSetsResponse, err error)
 	ListCreditInstitutions(ctx context.Context, req *ListCreditInstitutionsRequest, opts ...http.CallOption) (rsp *ListCreditInstitutionsResponse, err error)
+	ListFeeSchedules(ctx context.Context, req *ListFeeSchedulesRequest, opts ...http.CallOption) (rsp *ListFeeSchedulesResponse, err error)
 	ListProvinces(ctx context.Context, req *ListAdministrativeUnitsRequest, opts ...http.CallOption) (rsp *ListAdministrativeUnitsResponse, err error)
+	ListStandardLimits(ctx context.Context, req *ListStandardLimitsRequest, opts ...http.CallOption) (rsp *ListStandardLimitsResponse, err error)
 	ListSystemParameters(ctx context.Context, req *ListSystemParametersRequest, opts ...http.CallOption) (rsp *ListSystemParametersResponse, err error)
+	ListTaxRules(ctx context.Context, req *ListTaxRulesRequest, opts ...http.CallOption) (rsp *ListTaxRulesResponse, err error)
 	ListWards(ctx context.Context, req *ListWardsRequest, opts ...http.CallOption) (rsp *ListAdministrativeUnitsResponse, err error)
 	ListWorkingHours(ctx context.Context, req *ListWorkingHoursRequest, opts ...http.CallOption) (rsp *ListWorkingHoursResponse, err error)
 	RemoveAreaAdministrativeUnit(ctx context.Context, req *RemoveAreaAdministrativeUnitRequest, opts ...http.CallOption) (rsp *DeleteResponse, err error)
@@ -1520,7 +1907,10 @@ type MdmServiceHTTPClient interface {
 	UpdateCodeItem(ctx context.Context, req *UpdateCodeItemRequest, opts ...http.CallOption) (rsp *CodeItem, err error)
 	UpdateCodeSet(ctx context.Context, req *UpdateCodeSetRequest, opts ...http.CallOption) (rsp *CodeSet, err error)
 	UpdateCreditInstitution(ctx context.Context, req *UpdateCreditInstitutionRequest, opts ...http.CallOption) (rsp *CreditInstitution, err error)
+	UpdateFeeSchedule(ctx context.Context, req *UpdateFeeScheduleRequest, opts ...http.CallOption) (rsp *FeeSchedule, err error)
+	UpdateStandardLimit(ctx context.Context, req *UpdateStandardLimitRequest, opts ...http.CallOption) (rsp *StandardLimit, err error)
 	UpdateSystemParameter(ctx context.Context, req *UpdateSystemParameterRequest, opts ...http.CallOption) (rsp *SystemParameter, err error)
+	UpdateTaxRule(ctx context.Context, req *UpdateTaxRuleRequest, opts ...http.CallOption) (rsp *TaxRule, err error)
 	UpdateWorkingHour(ctx context.Context, req *UpdateWorkingHourRequest, opts ...http.CallOption) (rsp *WorkingHour, err error)
 }
 
@@ -1662,11 +2052,50 @@ func (c *MdmServiceHTTPClientImpl) CreateCreditInstitution(ctx context.Context, 
 	return &out, nil
 }
 
+func (c *MdmServiceHTTPClientImpl) CreateFeeSchedule(ctx context.Context, in *CreateFeeScheduleRequest, opts ...http.CallOption) (*FeeSchedule, error) {
+	var out FeeSchedule
+	pattern := "/v1/mdm/fee-schedules"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationMdmServiceCreateFeeSchedule))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *MdmServiceHTTPClientImpl) CreateStandardLimit(ctx context.Context, in *CreateStandardLimitRequest, opts ...http.CallOption) (*StandardLimit, error) {
+	var out StandardLimit
+	pattern := "/v1/mdm/standard-limits"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationMdmServiceCreateStandardLimit))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
 func (c *MdmServiceHTTPClientImpl) CreateSystemParameter(ctx context.Context, in *CreateSystemParameterRequest, opts ...http.CallOption) (*SystemParameter, error) {
 	var out SystemParameter
 	pattern := "/v1/mdm/system-parameters"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationMdmServiceCreateSystemParameter))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *MdmServiceHTTPClientImpl) CreateTaxRule(ctx context.Context, in *CreateTaxRuleRequest, opts ...http.CallOption) (*TaxRule, error) {
+	var out TaxRule
+	pattern := "/v1/mdm/tax-rules"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationMdmServiceCreateTaxRule))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
 	if err != nil {
@@ -1792,11 +2221,50 @@ func (c *MdmServiceHTTPClientImpl) DeleteCreditInstitution(ctx context.Context, 
 	return &out, nil
 }
 
+func (c *MdmServiceHTTPClientImpl) DeleteFeeSchedule(ctx context.Context, in *DeleteFeeScheduleRequest, opts ...http.CallOption) (*DeleteResponse, error) {
+	var out DeleteResponse
+	pattern := "/v1/mdm/fee-schedules/{id}"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationMdmServiceDeleteFeeSchedule))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "DELETE", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *MdmServiceHTTPClientImpl) DeleteStandardLimit(ctx context.Context, in *DeleteStandardLimitRequest, opts ...http.CallOption) (*DeleteResponse, error) {
+	var out DeleteResponse
+	pattern := "/v1/mdm/standard-limits/{id}"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationMdmServiceDeleteStandardLimit))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "DELETE", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
 func (c *MdmServiceHTTPClientImpl) DeleteSystemParameter(ctx context.Context, in *DeleteSystemParameterRequest, opts ...http.CallOption) (*DeleteResponse, error) {
 	var out DeleteResponse
 	pattern := "/v1/mdm/system-parameters/{key}"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationMdmServiceDeleteSystemParameter))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "DELETE", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *MdmServiceHTTPClientImpl) DeleteTaxRule(ctx context.Context, in *DeleteTaxRuleRequest, opts ...http.CallOption) (*DeleteResponse, error) {
+	var out DeleteResponse
+	pattern := "/v1/mdm/tax-rules/{id}"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationMdmServiceDeleteTaxRule))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "DELETE", path, nil, &out, opts...)
 	if err != nil {
@@ -1909,11 +2377,50 @@ func (c *MdmServiceHTTPClientImpl) GetCreditInstitution(ctx context.Context, in 
 	return &out, nil
 }
 
+func (c *MdmServiceHTTPClientImpl) GetFeeSchedule(ctx context.Context, in *GetFeeScheduleRequest, opts ...http.CallOption) (*FeeSchedule, error) {
+	var out FeeSchedule
+	pattern := "/v1/mdm/fee-schedules/{id}"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationMdmServiceGetFeeSchedule))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *MdmServiceHTTPClientImpl) GetStandardLimit(ctx context.Context, in *GetStandardLimitRequest, opts ...http.CallOption) (*StandardLimit, error) {
+	var out StandardLimit
+	pattern := "/v1/mdm/standard-limits/{id}"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationMdmServiceGetStandardLimit))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
 func (c *MdmServiceHTTPClientImpl) GetSystemParameter(ctx context.Context, in *GetSystemParameterRequest, opts ...http.CallOption) (*SystemParameter, error) {
 	var out SystemParameter
 	pattern := "/v1/mdm/system-parameters/{key}"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationMdmServiceGetSystemParameter))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *MdmServiceHTTPClientImpl) GetTaxRule(ctx context.Context, in *GetTaxRuleRequest, opts ...http.CallOption) (*TaxRule, error) {
+	var out TaxRule
+	pattern := "/v1/mdm/tax-rules/{id}"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationMdmServiceGetTaxRule))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
 	if err != nil {
@@ -2065,6 +2572,19 @@ func (c *MdmServiceHTTPClientImpl) ListCreditInstitutions(ctx context.Context, i
 	return &out, nil
 }
 
+func (c *MdmServiceHTTPClientImpl) ListFeeSchedules(ctx context.Context, in *ListFeeSchedulesRequest, opts ...http.CallOption) (*ListFeeSchedulesResponse, error) {
+	var out ListFeeSchedulesResponse
+	pattern := "/v1/mdm/fee-schedules"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationMdmServiceListFeeSchedules))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
 func (c *MdmServiceHTTPClientImpl) ListProvinces(ctx context.Context, in *ListAdministrativeUnitsRequest, opts ...http.CallOption) (*ListAdministrativeUnitsResponse, error) {
 	var out ListAdministrativeUnitsResponse
 	pattern := "/v1/mdm/provinces"
@@ -2078,11 +2598,37 @@ func (c *MdmServiceHTTPClientImpl) ListProvinces(ctx context.Context, in *ListAd
 	return &out, nil
 }
 
+func (c *MdmServiceHTTPClientImpl) ListStandardLimits(ctx context.Context, in *ListStandardLimitsRequest, opts ...http.CallOption) (*ListStandardLimitsResponse, error) {
+	var out ListStandardLimitsResponse
+	pattern := "/v1/mdm/standard-limits"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationMdmServiceListStandardLimits))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
 func (c *MdmServiceHTTPClientImpl) ListSystemParameters(ctx context.Context, in *ListSystemParametersRequest, opts ...http.CallOption) (*ListSystemParametersResponse, error) {
 	var out ListSystemParametersResponse
 	pattern := "/v1/mdm/system-parameters"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationMdmServiceListSystemParameters))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *MdmServiceHTTPClientImpl) ListTaxRules(ctx context.Context, in *ListTaxRulesRequest, opts ...http.CallOption) (*ListTaxRulesResponse, error) {
+	var out ListTaxRulesResponse
+	pattern := "/v1/mdm/tax-rules"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationMdmServiceListTaxRules))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
 	if err != nil {
@@ -2247,11 +2793,50 @@ func (c *MdmServiceHTTPClientImpl) UpdateCreditInstitution(ctx context.Context, 
 	return &out, nil
 }
 
+func (c *MdmServiceHTTPClientImpl) UpdateFeeSchedule(ctx context.Context, in *UpdateFeeScheduleRequest, opts ...http.CallOption) (*FeeSchedule, error) {
+	var out FeeSchedule
+	pattern := "/v1/mdm/fee-schedules/{id}"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationMdmServiceUpdateFeeSchedule))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "PUT", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *MdmServiceHTTPClientImpl) UpdateStandardLimit(ctx context.Context, in *UpdateStandardLimitRequest, opts ...http.CallOption) (*StandardLimit, error) {
+	var out StandardLimit
+	pattern := "/v1/mdm/standard-limits/{id}"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationMdmServiceUpdateStandardLimit))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "PUT", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
 func (c *MdmServiceHTTPClientImpl) UpdateSystemParameter(ctx context.Context, in *UpdateSystemParameterRequest, opts ...http.CallOption) (*SystemParameter, error) {
 	var out SystemParameter
 	pattern := "/v1/mdm/system-parameters/{key}"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationMdmServiceUpdateSystemParameter))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "PUT", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *MdmServiceHTTPClientImpl) UpdateTaxRule(ctx context.Context, in *UpdateTaxRuleRequest, opts ...http.CallOption) (*TaxRule, error) {
+	var out TaxRule
+	pattern := "/v1/mdm/tax-rules/{id}"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationMdmServiceUpdateTaxRule))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "PUT", path, in, &out, opts...)
 	if err != nil {

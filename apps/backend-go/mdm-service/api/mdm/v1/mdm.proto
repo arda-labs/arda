@@ -185,6 +185,52 @@ service MdmService {
   rpc CalculateBusinessDay(CalculateBusinessDayRequest) returns (CalculateBusinessDayResponse) {
     option (google.api.http) = { post: "/v1/mdm/business-calendars/calculate" body: "*" };
   }
+
+  rpc ListFeeSchedules(ListFeeSchedulesRequest) returns (ListFeeSchedulesResponse) {
+    option (google.api.http) = { get: "/v1/mdm/fee-schedules" };
+  }
+  rpc GetFeeSchedule(GetFeeScheduleRequest) returns (FeeSchedule) {
+    option (google.api.http) = { get: "/v1/mdm/fee-schedules/{id}" };
+  }
+  rpc CreateFeeSchedule(CreateFeeScheduleRequest) returns (FeeSchedule) {
+    option (google.api.http) = { post: "/v1/mdm/fee-schedules" body: "*" };
+  }
+  rpc UpdateFeeSchedule(UpdateFeeScheduleRequest) returns (FeeSchedule) {
+    option (google.api.http) = { put: "/v1/mdm/fee-schedules/{id}" body: "*" };
+  }
+  rpc DeleteFeeSchedule(DeleteFeeScheduleRequest) returns (DeleteResponse) {
+    option (google.api.http) = { delete: "/v1/mdm/fee-schedules/{id}" };
+  }
+  rpc ListTaxRules(ListTaxRulesRequest) returns (ListTaxRulesResponse) {
+    option (google.api.http) = { get: "/v1/mdm/tax-rules" };
+  }
+  rpc GetTaxRule(GetTaxRuleRequest) returns (TaxRule) {
+    option (google.api.http) = { get: "/v1/mdm/tax-rules/{id}" };
+  }
+  rpc CreateTaxRule(CreateTaxRuleRequest) returns (TaxRule) {
+    option (google.api.http) = { post: "/v1/mdm/tax-rules" body: "*" };
+  }
+  rpc UpdateTaxRule(UpdateTaxRuleRequest) returns (TaxRule) {
+    option (google.api.http) = { put: "/v1/mdm/tax-rules/{id}" body: "*" };
+  }
+  rpc DeleteTaxRule(DeleteTaxRuleRequest) returns (DeleteResponse) {
+    option (google.api.http) = { delete: "/v1/mdm/tax-rules/{id}" };
+  }
+  rpc ListStandardLimits(ListStandardLimitsRequest) returns (ListStandardLimitsResponse) {
+    option (google.api.http) = { get: "/v1/mdm/standard-limits" };
+  }
+  rpc GetStandardLimit(GetStandardLimitRequest) returns (StandardLimit) {
+    option (google.api.http) = { get: "/v1/mdm/standard-limits/{id}" };
+  }
+  rpc CreateStandardLimit(CreateStandardLimitRequest) returns (StandardLimit) {
+    option (google.api.http) = { post: "/v1/mdm/standard-limits" body: "*" };
+  }
+  rpc UpdateStandardLimit(UpdateStandardLimitRequest) returns (StandardLimit) {
+    option (google.api.http) = { put: "/v1/mdm/standard-limits/{id}" body: "*" };
+  }
+  rpc DeleteStandardLimit(DeleteStandardLimitRequest) returns (DeleteResponse) {
+    option (google.api.http) = { delete: "/v1/mdm/standard-limits/{id}" };
+  }
 }
 
 message AdministrativeUnit {
@@ -367,6 +413,65 @@ message CalendarException {
   string note = 11;
   google.protobuf.Timestamp created_at = 12;
   google.protobuf.Timestamp updated_at = 13;
+}
+
+message FeeSchedule {
+  string id = 1;
+  string code = 2;
+  string name = 3;
+  string fee_type = 4;
+  string calculation_method = 5;
+  string currency = 6;
+  double fixed_amount = 7;
+  double rate_percent = 8;
+  double min_amount = 9;
+  double max_amount = 10;
+  string channel = 11;
+  string product_code = 12;
+  string effective_from = 13;
+  string effective_to = 14;
+  string description = 15;
+  string status = 16;
+  google.protobuf.Timestamp created_at = 17;
+  google.protobuf.Timestamp updated_at = 18;
+}
+
+message TaxRule {
+  string id = 1;
+  string code = 2;
+  string name = 3;
+  string tax_type = 4;
+  double rate_percent = 5;
+  bool inclusive = 6;
+  string jurisdiction = 7;
+  string effective_from = 8;
+  string effective_to = 9;
+  string description = 10;
+  string status = 11;
+  google.protobuf.Timestamp created_at = 12;
+  google.protobuf.Timestamp updated_at = 13;
+}
+
+message StandardLimit {
+  string id = 1;
+  string code = 2;
+  string name = 3;
+  string limit_type = 4;
+  string subject_type = 5;
+  string currency = 6;
+  double min_amount = 7;
+  double per_txn_amount = 8;
+  double daily_amount = 9;
+  double monthly_amount = 10;
+  int32 count_limit = 11;
+  string channel = 12;
+  string product_code = 13;
+  string effective_from = 14;
+  string effective_to = 15;
+  string description = 16;
+  string status = 17;
+  google.protobuf.Timestamp created_at = 18;
+  google.protobuf.Timestamp updated_at = 19;
 }
 
 message DeleteResponse {}
@@ -614,3 +719,57 @@ message CalculateBusinessDayResponse {
   repeated string skipped_dates = 4;
   bool is_business_day = 5;
 }
+
+message ListFeeSchedulesRequest {
+  string status = 1;
+  string keyword = 2;
+  int32 page_size = 3;
+  string page_token = 4;
+}
+message ListFeeSchedulesResponse {
+  repeated FeeSchedule fee_schedules = 1;
+  string next_page_token = 2;
+}
+message GetFeeScheduleRequest { string id = 1; }
+message CreateFeeScheduleRequest { FeeSchedule fee_schedule = 1; }
+message UpdateFeeScheduleRequest {
+  string id = 1;
+  FeeSchedule fee_schedule = 2;
+}
+message DeleteFeeScheduleRequest { string id = 1; }
+
+message ListTaxRulesRequest {
+  string status = 1;
+  string keyword = 2;
+  int32 page_size = 3;
+  string page_token = 4;
+}
+message ListTaxRulesResponse {
+  repeated TaxRule tax_rules = 1;
+  string next_page_token = 2;
+}
+message GetTaxRuleRequest { string id = 1; }
+message CreateTaxRuleRequest { TaxRule tax_rule = 1; }
+message UpdateTaxRuleRequest {
+  string id = 1;
+  TaxRule tax_rule = 2;
+}
+message DeleteTaxRuleRequest { string id = 1; }
+
+message ListStandardLimitsRequest {
+  string status = 1;
+  string keyword = 2;
+  int32 page_size = 3;
+  string page_token = 4;
+}
+message ListStandardLimitsResponse {
+  repeated StandardLimit standard_limits = 1;
+  string next_page_token = 2;
+}
+message GetStandardLimitRequest { string id = 1; }
+message CreateStandardLimitRequest { StandardLimit standard_limit = 1; }
+message UpdateStandardLimitRequest {
+  string id = 1;
+  StandardLimit standard_limit = 2;
+}
+message DeleteStandardLimitRequest { string id = 1; }

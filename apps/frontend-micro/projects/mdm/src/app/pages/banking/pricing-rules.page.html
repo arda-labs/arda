@@ -1,0 +1,190 @@
+<p-toast />
+<p-confirmDialog />
+
+<section class="space-y-4 p-4">
+  <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+    <div>
+      <div class="text-xs font-semibold uppercase tracking-normal text-primary">Tài chính ngân hàng</div>
+      <h1 class="text-2xl font-semibold text-surface-900 dark:text-white">Biểu phí, thuế, hạn mức chuẩn</h1>
+      <p class="text-sm text-surface-500">Quản lý cấu hình chuẩn theo sản phẩm, kênh, tiền tệ và thời hạn hiệu lực.</p>
+    </div>
+    <div class="flex flex-wrap gap-2">
+      <p-button icon="pi pi-refresh" severity="secondary" label="Làm mới" (onClick)="reload()" />
+      @if (activeTab() === 'fees') {
+        <p-button icon="pi pi-plus" label="Thêm biểu phí" (onClick)="openFee()" />
+      }
+      @if (activeTab() === 'taxes') {
+        <p-button icon="pi pi-plus" label="Thêm thuế" (onClick)="openTax()" />
+      }
+      @if (activeTab() === 'limits') {
+        <p-button icon="pi pi-plus" label="Thêm hạn mức" (onClick)="openLimit()" />
+      }
+    </div>
+  </div>
+
+  <div class="grid gap-3 md:grid-cols-4">
+    <div class="rounded-md border border-surface-200 bg-surface-0 p-3 dark:border-surface-800 dark:bg-surface-900">
+      <div class="text-xs text-surface-500">Biểu phí</div>
+      <div class="mt-1 text-2xl font-semibold text-surface-900 dark:text-white">{{ fees().length }}</div>
+    </div>
+    <div class="rounded-md border border-surface-200 bg-surface-0 p-3 dark:border-surface-800 dark:bg-surface-900">
+      <div class="text-xs text-surface-500">Quy tắc thuế</div>
+      <div class="mt-1 text-2xl font-semibold text-surface-900 dark:text-white">{{ taxes().length }}</div>
+    </div>
+    <div class="rounded-md border border-surface-200 bg-surface-0 p-3 dark:border-surface-800 dark:bg-surface-900">
+      <div class="text-xs text-surface-500">Hạn mức</div>
+      <div class="mt-1 text-2xl font-semibold text-surface-900 dark:text-white">{{ limits().length }}</div>
+    </div>
+    <div class="rounded-md border border-surface-200 bg-surface-0 p-3 dark:border-surface-800 dark:bg-surface-900">
+      <div class="text-xs text-surface-500">Đang hiệu lực</div>
+      <div class="mt-1 text-2xl font-semibold text-emerald-600 dark:text-emerald-400">{{ activeCount() }}</div>
+    </div>
+  </div>
+
+  <div class="rounded-lg border border-surface-200 bg-surface-0 p-3 dark:border-surface-800 dark:bg-surface-900">
+    <div class="grid gap-3 lg:grid-cols-[auto_minmax(220px,1fr)_220px_auto] lg:items-end">
+      <div class="flex gap-1 rounded-md bg-surface-100 p-1 dark:bg-surface-800">
+        <p-button label="Biểu phí" [severity]="activeTab() === 'fees' ? 'primary' : 'secondary'" [variant]="activeTab() === 'fees' ? undefined : 'text'" (onClick)="setTab('fees')" />
+        <p-button label="Thuế" [severity]="activeTab() === 'taxes' ? 'primary' : 'secondary'" [variant]="activeTab() === 'taxes' ? undefined : 'text'" (onClick)="setTab('taxes')" />
+        <p-button label="Hạn mức" [severity]="activeTab() === 'limits' ? 'primary' : 'secondary'" [variant]="activeTab() === 'limits' ? undefined : 'text'" (onClick)="setTab('limits')" />
+      </div>
+      <div class="flex flex-col gap-2">
+        <label for="pricingKeyword" class="text-xs font-semibold text-surface-600 dark:text-surface-300">Tìm kiếm</label>
+        <input pInputText id="pricingKeyword" type="search" class="w-full" placeholder="Mã, tên, loại, kênh, sản phẩm" [ngModel]="keyword()" (ngModelChange)="keyword.set($event)" />
+      </div>
+      <div class="flex flex-col gap-2">
+        <label for="pricingStatus" class="text-xs font-semibold text-surface-600 dark:text-surface-300">Trạng thái</label>
+        <p-select inputId="pricingStatus" styleClass="w-full" [options]="filterStatusOptions" optionLabel="label" optionValue="value" appendTo="body" [ngModel]="selectedStatus()" (ngModelChange)="selectedStatus.set($event)" />
+      </div>
+      <p-button label="Xóa lọc" icon="pi pi-filter-slash" severity="secondary" variant="text" (onClick)="clearFilters()" />
+    </div>
+  </div>
+
+  @if (activeTab() === 'fees') {
+    <div class="overflow-hidden rounded-lg border border-surface-200 bg-surface-0 dark:border-surface-800 dark:bg-surface-900">
+      <p-table [value]="filteredFees()" [loading]="feeResource.isLoading()" [rows]="15" [paginator]="true" class="p-datatable-sm" responsiveLayout="scroll">
+        <ng-template pTemplate="header">
+          <tr><th>Mã</th><th>Tên biểu phí</th><th>Phương pháp</th><th>Giá trị</th><th>Phạm vi</th><th>Hiệu lực</th><th>Trạng thái</th><th class="text-right">Hành động</th></tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item>
+          <tr>
+            <td><span class="font-mono text-xs">{{ item.code }}</span></td>
+            <td><button type="button" class="text-left font-semibold hover:text-primary hover:underline" (click)="openFee(item)">{{ item.name }}</button><div class="text-xs text-surface-500">{{ item.feeType }}</div></td>
+            <td>{{ item.calculationMethod }}</td>
+            <td><div>{{ formatMoney(item.fixedAmount, item.currency) }}</div><div class="text-xs text-surface-500">{{ item.ratePercent }}%</div></td>
+            <td><span class="font-mono text-xs">{{ item.channel || '*' }} / {{ item.productCode || '*' }}</span></td>
+            <td>{{ item.effectiveFrom || '-' }} → {{ item.effectiveTo || '-' }}</td>
+            <td><p-tag [value]="item.status" [severity]="statusSeverity(item.status)" /></td>
+            <td class="text-right"><p-button icon="pi pi-pencil" size="small" variant="text" pTooltip="Sửa" (onClick)="openFee(item)" /><p-button icon="pi pi-trash" size="small" severity="danger" variant="text" pTooltip="Xóa" (onClick)="deleteFee(item)" /></td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  }
+
+  @if (activeTab() === 'taxes') {
+    <div class="overflow-hidden rounded-lg border border-surface-200 bg-surface-0 dark:border-surface-800 dark:bg-surface-900">
+      <p-table [value]="filteredTaxes()" [loading]="taxResource.isLoading()" [rows]="15" [paginator]="true" class="p-datatable-sm" responsiveLayout="scroll">
+        <ng-template pTemplate="header">
+          <tr><th>Mã</th><th>Tên thuế</th><th>Loại</th><th>Tỷ lệ</th><th>Cách tính</th><th>Hiệu lực</th><th>Trạng thái</th><th class="text-right">Hành động</th></tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item>
+          <tr>
+            <td><span class="font-mono text-xs">{{ item.code }}</span></td>
+            <td><button type="button" class="text-left font-semibold hover:text-primary hover:underline" (click)="openTax(item)">{{ item.name }}</button><div class="text-xs text-surface-500">{{ item.jurisdiction }}</div></td>
+            <td>{{ item.taxType }}</td>
+            <td>{{ item.ratePercent }}%</td>
+            <td>{{ item.inclusive ? 'Đã gồm thuế' : 'Cộng thêm' }}</td>
+            <td>{{ item.effectiveFrom || '-' }} → {{ item.effectiveTo || '-' }}</td>
+            <td><p-tag [value]="item.status" [severity]="statusSeverity(item.status)" /></td>
+            <td class="text-right"><p-button icon="pi pi-pencil" size="small" variant="text" pTooltip="Sửa" (onClick)="openTax(item)" /><p-button icon="pi pi-trash" size="small" severity="danger" variant="text" pTooltip="Xóa" (onClick)="deleteTax(item)" /></td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  }
+
+  @if (activeTab() === 'limits') {
+    <div class="overflow-hidden rounded-lg border border-surface-200 bg-surface-0 dark:border-surface-800 dark:bg-surface-900">
+      <p-table [value]="filteredLimits()" [loading]="limitResource.isLoading()" [rows]="15" [paginator]="true" class="p-datatable-sm" responsiveLayout="scroll">
+        <ng-template pTemplate="header">
+          <tr><th>Mã</th><th>Tên hạn mức</th><th>Đối tượng</th><th>Mỗi giao dịch</th><th>Ngày/Tháng</th><th>Phạm vi</th><th>Trạng thái</th><th class="text-right">Hành động</th></tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item>
+          <tr>
+            <td><span class="font-mono text-xs">{{ item.code }}</span></td>
+            <td><button type="button" class="text-left font-semibold hover:text-primary hover:underline" (click)="openLimit(item)">{{ item.name }}</button><div class="text-xs text-surface-500">{{ item.limitType }}</div></td>
+            <td>{{ item.subjectType }}</td>
+            <td>{{ formatMoney(item.perTxnAmount, item.currency) }}</td>
+            <td><div>{{ formatMoney(item.dailyAmount, item.currency) }}</div><div class="text-xs text-surface-500">{{ formatMoney(item.monthlyAmount, item.currency) }}</div></td>
+            <td><span class="font-mono text-xs">{{ item.channel || '*' }} / {{ item.productCode || '*' }}</span></td>
+            <td><p-tag [value]="item.status" [severity]="statusSeverity(item.status)" /></td>
+            <td class="text-right"><p-button icon="pi pi-pencil" size="small" variant="text" pTooltip="Sửa" (onClick)="openLimit(item)" /><p-button icon="pi pi-trash" size="small" severity="danger" variant="text" pTooltip="Xóa" (onClick)="deleteLimit(item)" /></td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  }
+</section>
+
+<p-dialog [visible]="dialogVisible()" (visibleChange)="dialogVisible.set($event)" [modal]="true" [draggable]="false" [resizable]="false" [style]="{width: '880px'}" [header]="activeTab() === 'fees' ? 'Cấu hình biểu phí' : activeTab() === 'taxes' ? 'Cấu hình thuế' : 'Cấu hình hạn mức'">
+  @if (activeTab() === 'fees') {
+    <div [formGroup]="feeForm" class="grid gap-4 py-4 md:grid-cols-3">
+      <div class="flex flex-col gap-2"><label class="text-sm font-medium">Mã <span class="text-red-500">*</span></label><input pInputText formControlName="code" /></div>
+      <div class="flex flex-col gap-2 md:col-span-2"><label class="text-sm font-medium">Tên <span class="text-red-500">*</span></label><input pInputText formControlName="name" /></div>
+      <div class="flex flex-col gap-2"><label class="text-sm font-medium">Loại phí</label><p-select formControlName="feeType" [options]="feeTypeOptions" optionLabel="label" optionValue="value" appendTo="body" /></div>
+      <div class="flex flex-col gap-2"><label class="text-sm font-medium">Phương pháp</label><p-select formControlName="calculationMethod" [options]="calculationMethodOptions" optionLabel="label" optionValue="value" appendTo="body" /></div>
+      <div class="flex flex-col gap-2"><label class="text-sm font-medium">Tiền tệ</label><input pInputText formControlName="currency" /></div>
+      <div class="flex flex-col gap-2"><label class="text-sm font-medium">Số tiền cố định</label><input pInputText type="number" formControlName="fixedAmount" /></div>
+      <div class="flex flex-col gap-2"><label class="text-sm font-medium">Tỷ lệ %</label><input pInputText type="number" formControlName="ratePercent" /></div>
+      <div class="flex flex-col gap-2"><label class="text-sm font-medium">Min/Max</label><div class="grid grid-cols-2 gap-2"><input pInputText type="number" formControlName="minAmount" /><input pInputText type="number" formControlName="maxAmount" /></div></div>
+      <div class="flex flex-col gap-2"><label class="text-sm font-medium">Kênh</label><input pInputText formControlName="channel" placeholder="DIGITAL" /></div>
+      <div class="flex flex-col gap-2"><label class="text-sm font-medium">Sản phẩm</label><input pInputText formControlName="productCode" placeholder="CASA" /></div>
+      <div class="flex flex-col gap-2"><label class="text-sm font-medium">Trạng thái</label><p-select formControlName="status" [options]="statusOptions" optionLabel="label" optionValue="value" appendTo="body" /></div>
+      <div class="flex flex-col gap-2"><label class="text-sm font-medium">Từ ngày</label><p-datepicker formControlName="effectiveFrom" dateFormat="yy-mm-dd" dataType="string" appendTo="body" styleClass="w-full" /></div>
+      <div class="flex flex-col gap-2"><label class="text-sm font-medium">Đến ngày</label><p-datepicker formControlName="effectiveTo" dateFormat="yy-mm-dd" dataType="string" appendTo="body" styleClass="w-full" /></div>
+      <div class="flex flex-col gap-2 md:col-span-3"><label class="text-sm font-medium">Mô tả</label><textarea pTextarea formControlName="description" rows="3"></textarea></div>
+    </div>
+  }
+
+  @if (activeTab() === 'taxes') {
+    <div [formGroup]="taxForm" class="grid gap-4 py-4 md:grid-cols-3">
+      <div class="flex flex-col gap-2"><label class="text-sm font-medium">Mã <span class="text-red-500">*</span></label><input pInputText formControlName="code" /></div>
+      <div class="flex flex-col gap-2 md:col-span-2"><label class="text-sm font-medium">Tên <span class="text-red-500">*</span></label><input pInputText formControlName="name" /></div>
+      <div class="flex flex-col gap-2"><label class="text-sm font-medium">Loại thuế</label><p-select formControlName="taxType" [options]="taxTypeOptions" optionLabel="label" optionValue="value" appendTo="body" /></div>
+      <div class="flex flex-col gap-2"><label class="text-sm font-medium">Tỷ lệ %</label><input pInputText type="number" formControlName="ratePercent" /></div>
+      <div class="flex flex-col gap-2"><label class="text-sm font-medium">Jurisdiction</label><input pInputText formControlName="jurisdiction" /></div>
+      <label class="mt-7 flex items-center gap-2 text-sm"><input type="checkbox" formControlName="inclusive" class="h-4 w-4" /> Đã gồm thuế</label>
+      <div class="flex flex-col gap-2"><label class="text-sm font-medium">Trạng thái</label><p-select formControlName="status" [options]="statusOptions" optionLabel="label" optionValue="value" appendTo="body" /></div>
+      <div class="flex flex-col gap-2"><label class="text-sm font-medium">Từ ngày</label><p-datepicker formControlName="effectiveFrom" dateFormat="yy-mm-dd" dataType="string" appendTo="body" styleClass="w-full" /></div>
+      <div class="flex flex-col gap-2"><label class="text-sm font-medium">Đến ngày</label><p-datepicker formControlName="effectiveTo" dateFormat="yy-mm-dd" dataType="string" appendTo="body" styleClass="w-full" /></div>
+      <div class="flex flex-col gap-2 md:col-span-3"><label class="text-sm font-medium">Mô tả</label><textarea pTextarea formControlName="description" rows="3"></textarea></div>
+    </div>
+  }
+
+  @if (activeTab() === 'limits') {
+    <div [formGroup]="limitForm" class="grid gap-4 py-4 md:grid-cols-3">
+      <div class="flex flex-col gap-2"><label class="text-sm font-medium">Mã <span class="text-red-500">*</span></label><input pInputText formControlName="code" /></div>
+      <div class="flex flex-col gap-2 md:col-span-2"><label class="text-sm font-medium">Tên <span class="text-red-500">*</span></label><input pInputText formControlName="name" /></div>
+      <div class="flex flex-col gap-2"><label class="text-sm font-medium">Loại hạn mức</label><p-select formControlName="limitType" [options]="limitTypeOptions" optionLabel="label" optionValue="value" appendTo="body" /></div>
+      <div class="flex flex-col gap-2"><label class="text-sm font-medium">Đối tượng</label><p-select formControlName="subjectType" [options]="subjectTypeOptions" optionLabel="label" optionValue="value" appendTo="body" /></div>
+      <div class="flex flex-col gap-2"><label class="text-sm font-medium">Tiền tệ</label><input pInputText formControlName="currency" /></div>
+      <div class="flex flex-col gap-2"><label class="text-sm font-medium">Tối thiểu</label><input pInputText type="number" formControlName="minAmount" /></div>
+      <div class="flex flex-col gap-2"><label class="text-sm font-medium">Mỗi giao dịch</label><input pInputText type="number" formControlName="perTxnAmount" /></div>
+      <div class="flex flex-col gap-2"><label class="text-sm font-medium">Hằng ngày</label><input pInputText type="number" formControlName="dailyAmount" /></div>
+      <div class="flex flex-col gap-2"><label class="text-sm font-medium">Hằng tháng</label><input pInputText type="number" formControlName="monthlyAmount" /></div>
+      <div class="flex flex-col gap-2"><label class="text-sm font-medium">Số lần</label><input pInputText type="number" formControlName="countLimit" /></div>
+      <div class="flex flex-col gap-2"><label class="text-sm font-medium">Kênh</label><input pInputText formControlName="channel" /></div>
+      <div class="flex flex-col gap-2"><label class="text-sm font-medium">Sản phẩm</label><input pInputText formControlName="productCode" /></div>
+      <div class="flex flex-col gap-2"><label class="text-sm font-medium">Trạng thái</label><p-select formControlName="status" [options]="statusOptions" optionLabel="label" optionValue="value" appendTo="body" /></div>
+      <div class="flex flex-col gap-2"><label class="text-sm font-medium">Từ ngày</label><p-datepicker formControlName="effectiveFrom" dateFormat="yy-mm-dd" dataType="string" appendTo="body" styleClass="w-full" /></div>
+      <div class="flex flex-col gap-2"><label class="text-sm font-medium">Đến ngày</label><p-datepicker formControlName="effectiveTo" dateFormat="yy-mm-dd" dataType="string" appendTo="body" styleClass="w-full" /></div>
+      <div class="flex flex-col gap-2 md:col-span-3"><label class="text-sm font-medium">Mô tả</label><textarea pTextarea formControlName="description" rows="3"></textarea></div>
+    </div>
+  }
+
+  <ng-template pTemplate="footer">
+    <p-button label="Hủy" severity="secondary" variant="text" (onClick)="dialogVisible.set(false)" />
+    <p-button label="Lưu" icon="pi pi-check" [loading]="isSaving()" (onClick)="save()" />
+  </ng-template>
+</p-dialog>

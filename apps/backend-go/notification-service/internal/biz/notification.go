@@ -67,7 +67,9 @@ type NotificationRepo interface {
 	MarkDeliveryDelivered(ctx context.Context, id, providerCode, providerMessageID, providerResponseJSON string) (*NotificationDelivery, error)
 	MarkDeliveryFailed(ctx context.Context, id, message string, retryAfterSeconds int) (*NotificationDelivery, error)
 	ListInAppNotifications(ctx context.Context, filter InAppFilter) ([]*InAppNotification, string, error)
+	CountUnreadInAppNotifications(ctx context.Context, recipientType, recipientID string) (int, error)
 	MarkInAppNotificationRead(ctx context.Context, id, actor string) (*InAppNotification, error)
+	MarkAllInAppNotificationsRead(ctx context.Context, recipientType, recipientID, actor string) (int, error)
 	ListProviderConfigs(ctx context.Context, filter ProviderConfigFilter) ([]*ProviderConfig, error)
 	UpsertProviderConfig(ctx context.Context, item *ProviderConfig) (*ProviderConfig, error)
 }

@@ -23,6 +23,22 @@ func (s *NotificationService) MarkInAppNotificationRead(ctx context.Context, req
 	return toProtoInAppNotification(item), nil
 }
 
+func (s *NotificationService) CountUnreadInAppNotifications(ctx context.Context, req *pb.CountUnreadInAppNotificationsRequest) (*pb.CountUnreadInAppNotificationsResponse, error) {
+	count, err := s.uc.CountUnreadInAppNotifications(ctx, req.RecipientType, req.RecipientId)
+	if err != nil {
+		return nil, toServiceError(err)
+	}
+	return &pb.CountUnreadInAppNotificationsResponse{Count: int32(count)}, nil
+}
+
+func (s *NotificationService) MarkAllInAppNotificationsRead(ctx context.Context, req *pb.MarkAllInAppNotificationsReadRequest) (*pb.MarkAllInAppNotificationsReadResponse, error) {
+	updated, err := s.uc.MarkAllInAppNotificationsRead(ctx, req.RecipientType, req.RecipientId, req.Actor)
+	if err != nil {
+		return nil, toServiceError(err)
+	}
+	return &pb.MarkAllInAppNotificationsReadResponse{Updated: int32(updated)}, nil
+}
+
 func toProtoInAppNotification(in *biz.InAppNotification) *pb.InAppNotification {
 	if in == nil {
 		return nil

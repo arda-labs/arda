@@ -19,23 +19,25 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	NotificationService_ListTemplates_FullMethodName             = "/notification.v1.NotificationService/ListTemplates"
-	NotificationService_GetTemplate_FullMethodName               = "/notification.v1.NotificationService/GetTemplate"
-	NotificationService_CreateTemplate_FullMethodName            = "/notification.v1.NotificationService/CreateTemplate"
-	NotificationService_UpdateTemplate_FullMethodName            = "/notification.v1.NotificationService/UpdateTemplate"
-	NotificationService_DeleteTemplate_FullMethodName            = "/notification.v1.NotificationService/DeleteTemplate"
-	NotificationService_ListTemplateVersions_FullMethodName      = "/notification.v1.NotificationService/ListTemplateVersions"
-	NotificationService_CreateTemplateVersion_FullMethodName     = "/notification.v1.NotificationService/CreateTemplateVersion"
-	NotificationService_ApproveTemplateVersion_FullMethodName    = "/notification.v1.NotificationService/ApproveTemplateVersion"
-	NotificationService_CreateNotificationRequest_FullMethodName = "/notification.v1.NotificationService/CreateNotificationRequest"
-	NotificationService_GetNotificationRequest_FullMethodName    = "/notification.v1.NotificationService/GetNotificationRequest"
-	NotificationService_ListDeliveries_FullMethodName            = "/notification.v1.NotificationService/ListDeliveries"
-	NotificationService_RetryDelivery_FullMethodName             = "/notification.v1.NotificationService/RetryDelivery"
-	NotificationService_RunDeliveryWorkerOnce_FullMethodName     = "/notification.v1.NotificationService/RunDeliveryWorkerOnce"
-	NotificationService_ListInAppNotifications_FullMethodName    = "/notification.v1.NotificationService/ListInAppNotifications"
-	NotificationService_MarkInAppNotificationRead_FullMethodName = "/notification.v1.NotificationService/MarkInAppNotificationRead"
-	NotificationService_ListProviderConfigs_FullMethodName       = "/notification.v1.NotificationService/ListProviderConfigs"
-	NotificationService_UpsertProviderConfig_FullMethodName      = "/notification.v1.NotificationService/UpsertProviderConfig"
+	NotificationService_ListTemplates_FullMethodName                 = "/notification.v1.NotificationService/ListTemplates"
+	NotificationService_GetTemplate_FullMethodName                   = "/notification.v1.NotificationService/GetTemplate"
+	NotificationService_CreateTemplate_FullMethodName                = "/notification.v1.NotificationService/CreateTemplate"
+	NotificationService_UpdateTemplate_FullMethodName                = "/notification.v1.NotificationService/UpdateTemplate"
+	NotificationService_DeleteTemplate_FullMethodName                = "/notification.v1.NotificationService/DeleteTemplate"
+	NotificationService_ListTemplateVersions_FullMethodName          = "/notification.v1.NotificationService/ListTemplateVersions"
+	NotificationService_CreateTemplateVersion_FullMethodName         = "/notification.v1.NotificationService/CreateTemplateVersion"
+	NotificationService_ApproveTemplateVersion_FullMethodName        = "/notification.v1.NotificationService/ApproveTemplateVersion"
+	NotificationService_CreateNotificationRequest_FullMethodName     = "/notification.v1.NotificationService/CreateNotificationRequest"
+	NotificationService_GetNotificationRequest_FullMethodName        = "/notification.v1.NotificationService/GetNotificationRequest"
+	NotificationService_ListDeliveries_FullMethodName                = "/notification.v1.NotificationService/ListDeliveries"
+	NotificationService_RetryDelivery_FullMethodName                 = "/notification.v1.NotificationService/RetryDelivery"
+	NotificationService_RunDeliveryWorkerOnce_FullMethodName         = "/notification.v1.NotificationService/RunDeliveryWorkerOnce"
+	NotificationService_ListInAppNotifications_FullMethodName        = "/notification.v1.NotificationService/ListInAppNotifications"
+	NotificationService_CountUnreadInAppNotifications_FullMethodName = "/notification.v1.NotificationService/CountUnreadInAppNotifications"
+	NotificationService_MarkInAppNotificationRead_FullMethodName     = "/notification.v1.NotificationService/MarkInAppNotificationRead"
+	NotificationService_MarkAllInAppNotificationsRead_FullMethodName = "/notification.v1.NotificationService/MarkAllInAppNotificationsRead"
+	NotificationService_ListProviderConfigs_FullMethodName           = "/notification.v1.NotificationService/ListProviderConfigs"
+	NotificationService_UpsertProviderConfig_FullMethodName          = "/notification.v1.NotificationService/UpsertProviderConfig"
 )
 
 // NotificationServiceClient is the client API for NotificationService service.
@@ -56,7 +58,9 @@ type NotificationServiceClient interface {
 	RetryDelivery(ctx context.Context, in *RetryDeliveryRequest, opts ...grpc.CallOption) (*NotificationDelivery, error)
 	RunDeliveryWorkerOnce(ctx context.Context, in *RunDeliveryWorkerOnceRequest, opts ...grpc.CallOption) (*RunDeliveryWorkerOnceResponse, error)
 	ListInAppNotifications(ctx context.Context, in *ListInAppNotificationsRequest, opts ...grpc.CallOption) (*ListInAppNotificationsResponse, error)
+	CountUnreadInAppNotifications(ctx context.Context, in *CountUnreadInAppNotificationsRequest, opts ...grpc.CallOption) (*CountUnreadInAppNotificationsResponse, error)
 	MarkInAppNotificationRead(ctx context.Context, in *MarkInAppNotificationReadRequest, opts ...grpc.CallOption) (*InAppNotification, error)
+	MarkAllInAppNotificationsRead(ctx context.Context, in *MarkAllInAppNotificationsReadRequest, opts ...grpc.CallOption) (*MarkAllInAppNotificationsReadResponse, error)
 	ListProviderConfigs(ctx context.Context, in *ListProviderConfigsRequest, opts ...grpc.CallOption) (*ListProviderConfigsResponse, error)
 	UpsertProviderConfig(ctx context.Context, in *UpsertProviderConfigRequest, opts ...grpc.CallOption) (*ProviderConfig, error)
 }
@@ -209,10 +213,30 @@ func (c *notificationServiceClient) ListInAppNotifications(ctx context.Context, 
 	return out, nil
 }
 
+func (c *notificationServiceClient) CountUnreadInAppNotifications(ctx context.Context, in *CountUnreadInAppNotificationsRequest, opts ...grpc.CallOption) (*CountUnreadInAppNotificationsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CountUnreadInAppNotificationsResponse)
+	err := c.cc.Invoke(ctx, NotificationService_CountUnreadInAppNotifications_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *notificationServiceClient) MarkInAppNotificationRead(ctx context.Context, in *MarkInAppNotificationReadRequest, opts ...grpc.CallOption) (*InAppNotification, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(InAppNotification)
 	err := c.cc.Invoke(ctx, NotificationService_MarkInAppNotificationRead_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *notificationServiceClient) MarkAllInAppNotificationsRead(ctx context.Context, in *MarkAllInAppNotificationsReadRequest, opts ...grpc.CallOption) (*MarkAllInAppNotificationsReadResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(MarkAllInAppNotificationsReadResponse)
+	err := c.cc.Invoke(ctx, NotificationService_MarkAllInAppNotificationsRead_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -257,7 +281,9 @@ type NotificationServiceServer interface {
 	RetryDelivery(context.Context, *RetryDeliveryRequest) (*NotificationDelivery, error)
 	RunDeliveryWorkerOnce(context.Context, *RunDeliveryWorkerOnceRequest) (*RunDeliveryWorkerOnceResponse, error)
 	ListInAppNotifications(context.Context, *ListInAppNotificationsRequest) (*ListInAppNotificationsResponse, error)
+	CountUnreadInAppNotifications(context.Context, *CountUnreadInAppNotificationsRequest) (*CountUnreadInAppNotificationsResponse, error)
 	MarkInAppNotificationRead(context.Context, *MarkInAppNotificationReadRequest) (*InAppNotification, error)
+	MarkAllInAppNotificationsRead(context.Context, *MarkAllInAppNotificationsReadRequest) (*MarkAllInAppNotificationsReadResponse, error)
 	ListProviderConfigs(context.Context, *ListProviderConfigsRequest) (*ListProviderConfigsResponse, error)
 	UpsertProviderConfig(context.Context, *UpsertProviderConfigRequest) (*ProviderConfig, error)
 	mustEmbedUnimplementedNotificationServiceServer()
@@ -312,8 +338,14 @@ func (UnimplementedNotificationServiceServer) RunDeliveryWorkerOnce(context.Cont
 func (UnimplementedNotificationServiceServer) ListInAppNotifications(context.Context, *ListInAppNotificationsRequest) (*ListInAppNotificationsResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method ListInAppNotifications not implemented")
 }
+func (UnimplementedNotificationServiceServer) CountUnreadInAppNotifications(context.Context, *CountUnreadInAppNotificationsRequest) (*CountUnreadInAppNotificationsResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method CountUnreadInAppNotifications not implemented")
+}
 func (UnimplementedNotificationServiceServer) MarkInAppNotificationRead(context.Context, *MarkInAppNotificationReadRequest) (*InAppNotification, error) {
 	return nil, status.Error(codes.Unimplemented, "method MarkInAppNotificationRead not implemented")
+}
+func (UnimplementedNotificationServiceServer) MarkAllInAppNotificationsRead(context.Context, *MarkAllInAppNotificationsReadRequest) (*MarkAllInAppNotificationsReadResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method MarkAllInAppNotificationsRead not implemented")
 }
 func (UnimplementedNotificationServiceServer) ListProviderConfigs(context.Context, *ListProviderConfigsRequest) (*ListProviderConfigsResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method ListProviderConfigs not implemented")
@@ -594,6 +626,24 @@ func _NotificationService_ListInAppNotifications_Handler(srv interface{}, ctx co
 	return interceptor(ctx, in, info, handler)
 }
 
+func _NotificationService_CountUnreadInAppNotifications_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CountUnreadInAppNotificationsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NotificationServiceServer).CountUnreadInAppNotifications(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: NotificationService_CountUnreadInAppNotifications_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NotificationServiceServer).CountUnreadInAppNotifications(ctx, req.(*CountUnreadInAppNotificationsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _NotificationService_MarkInAppNotificationRead_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(MarkInAppNotificationReadRequest)
 	if err := dec(in); err != nil {
@@ -608,6 +658,24 @@ func _NotificationService_MarkInAppNotificationRead_Handler(srv interface{}, ctx
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(NotificationServiceServer).MarkInAppNotificationRead(ctx, req.(*MarkInAppNotificationReadRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _NotificationService_MarkAllInAppNotificationsRead_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MarkAllInAppNotificationsReadRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NotificationServiceServer).MarkAllInAppNotificationsRead(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: NotificationService_MarkAllInAppNotificationsRead_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NotificationServiceServer).MarkAllInAppNotificationsRead(ctx, req.(*MarkAllInAppNotificationsReadRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -712,8 +780,16 @@ var NotificationService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _NotificationService_ListInAppNotifications_Handler,
 		},
 		{
+			MethodName: "CountUnreadInAppNotifications",
+			Handler:    _NotificationService_CountUnreadInAppNotifications_Handler,
+		},
+		{
 			MethodName: "MarkInAppNotificationRead",
 			Handler:    _NotificationService_MarkInAppNotificationRead_Handler,
+		},
+		{
+			MethodName: "MarkAllInAppNotificationsRead",
+			Handler:    _NotificationService_MarkAllInAppNotificationsRead_Handler,
 		},
 		{
 			MethodName: "ListProviderConfigs",

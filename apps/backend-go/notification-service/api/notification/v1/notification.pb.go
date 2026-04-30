@@ -1967,6 +1967,102 @@ func (x *ListInAppNotificationsResponse) GetNextPageToken() string {
 	return ""
 }
 
+type CountUnreadInAppNotificationsRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	RecipientType string                 `protobuf:"bytes,1,opt,name=recipient_type,json=recipientType,proto3" json:"recipient_type,omitempty"`
+	RecipientId   string                 `protobuf:"bytes,2,opt,name=recipient_id,json=recipientId,proto3" json:"recipient_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CountUnreadInAppNotificationsRequest) Reset() {
+	*x = CountUnreadInAppNotificationsRequest{}
+	mi := &file_notification_v1_notification_proto_msgTypes[26]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CountUnreadInAppNotificationsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CountUnreadInAppNotificationsRequest) ProtoMessage() {}
+
+func (x *CountUnreadInAppNotificationsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_notification_v1_notification_proto_msgTypes[26]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CountUnreadInAppNotificationsRequest.ProtoReflect.Descriptor instead.
+func (*CountUnreadInAppNotificationsRequest) Descriptor() ([]byte, []int) {
+	return file_notification_v1_notification_proto_rawDescGZIP(), []int{26}
+}
+
+func (x *CountUnreadInAppNotificationsRequest) GetRecipientType() string {
+	if x != nil {
+		return x.RecipientType
+	}
+	return ""
+}
+
+func (x *CountUnreadInAppNotificationsRequest) GetRecipientId() string {
+	if x != nil {
+		return x.RecipientId
+	}
+	return ""
+}
+
+type CountUnreadInAppNotificationsResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Count         int32                  `protobuf:"varint,1,opt,name=count,proto3" json:"count,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CountUnreadInAppNotificationsResponse) Reset() {
+	*x = CountUnreadInAppNotificationsResponse{}
+	mi := &file_notification_v1_notification_proto_msgTypes[27]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CountUnreadInAppNotificationsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CountUnreadInAppNotificationsResponse) ProtoMessage() {}
+
+func (x *CountUnreadInAppNotificationsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_notification_v1_notification_proto_msgTypes[27]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CountUnreadInAppNotificationsResponse.ProtoReflect.Descriptor instead.
+func (*CountUnreadInAppNotificationsResponse) Descriptor() ([]byte, []int) {
+	return file_notification_v1_notification_proto_rawDescGZIP(), []int{27}
+}
+
+func (x *CountUnreadInAppNotificationsResponse) GetCount() int32 {
+	if x != nil {
+		return x.Count
+	}
+	return 0
+}
+
 type MarkInAppNotificationReadRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -1977,7 +2073,7 @@ type MarkInAppNotificationReadRequest struct {
 
 func (x *MarkInAppNotificationReadRequest) Reset() {
 	*x = MarkInAppNotificationReadRequest{}
-	mi := &file_notification_v1_notification_proto_msgTypes[26]
+	mi := &file_notification_v1_notification_proto_msgTypes[28]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1989,7 +2085,7 @@ func (x *MarkInAppNotificationReadRequest) String() string {
 func (*MarkInAppNotificationReadRequest) ProtoMessage() {}
 
 func (x *MarkInAppNotificationReadRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_notification_v1_notification_proto_msgTypes[26]
+	mi := &file_notification_v1_notification_proto_msgTypes[28]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2002,7 +2098,7 @@ func (x *MarkInAppNotificationReadRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use MarkInAppNotificationReadRequest.ProtoReflect.Descriptor instead.
 func (*MarkInAppNotificationReadRequest) Descriptor() ([]byte, []int) {
-	return file_notification_v1_notification_proto_rawDescGZIP(), []int{26}
+	return file_notification_v1_notification_proto_rawDescGZIP(), []int{28}
 }
 
 func (x *MarkInAppNotificationReadRequest) GetId() string {
@@ -2019,6 +2115,110 @@ func (x *MarkInAppNotificationReadRequest) GetActor() string {
 	return ""
 }
 
+type MarkAllInAppNotificationsReadRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	RecipientType string                 `protobuf:"bytes,1,opt,name=recipient_type,json=recipientType,proto3" json:"recipient_type,omitempty"`
+	RecipientId   string                 `protobuf:"bytes,2,opt,name=recipient_id,json=recipientId,proto3" json:"recipient_id,omitempty"`
+	Actor         string                 `protobuf:"bytes,3,opt,name=actor,proto3" json:"actor,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *MarkAllInAppNotificationsReadRequest) Reset() {
+	*x = MarkAllInAppNotificationsReadRequest{}
+	mi := &file_notification_v1_notification_proto_msgTypes[29]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *MarkAllInAppNotificationsReadRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*MarkAllInAppNotificationsReadRequest) ProtoMessage() {}
+
+func (x *MarkAllInAppNotificationsReadRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_notification_v1_notification_proto_msgTypes[29]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use MarkAllInAppNotificationsReadRequest.ProtoReflect.Descriptor instead.
+func (*MarkAllInAppNotificationsReadRequest) Descriptor() ([]byte, []int) {
+	return file_notification_v1_notification_proto_rawDescGZIP(), []int{29}
+}
+
+func (x *MarkAllInAppNotificationsReadRequest) GetRecipientType() string {
+	if x != nil {
+		return x.RecipientType
+	}
+	return ""
+}
+
+func (x *MarkAllInAppNotificationsReadRequest) GetRecipientId() string {
+	if x != nil {
+		return x.RecipientId
+	}
+	return ""
+}
+
+func (x *MarkAllInAppNotificationsReadRequest) GetActor() string {
+	if x != nil {
+		return x.Actor
+	}
+	return ""
+}
+
+type MarkAllInAppNotificationsReadResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Updated       int32                  `protobuf:"varint,1,opt,name=updated,proto3" json:"updated,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *MarkAllInAppNotificationsReadResponse) Reset() {
+	*x = MarkAllInAppNotificationsReadResponse{}
+	mi := &file_notification_v1_notification_proto_msgTypes[30]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *MarkAllInAppNotificationsReadResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*MarkAllInAppNotificationsReadResponse) ProtoMessage() {}
+
+func (x *MarkAllInAppNotificationsReadResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_notification_v1_notification_proto_msgTypes[30]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use MarkAllInAppNotificationsReadResponse.ProtoReflect.Descriptor instead.
+func (*MarkAllInAppNotificationsReadResponse) Descriptor() ([]byte, []int) {
+	return file_notification_v1_notification_proto_rawDescGZIP(), []int{30}
+}
+
+func (x *MarkAllInAppNotificationsReadResponse) GetUpdated() int32 {
+	if x != nil {
+		return x.Updated
+	}
+	return 0
+}
+
 type ListProviderConfigsRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Channel       string                 `protobuf:"bytes,1,opt,name=channel,proto3" json:"channel,omitempty"`
@@ -2029,7 +2229,7 @@ type ListProviderConfigsRequest struct {
 
 func (x *ListProviderConfigsRequest) Reset() {
 	*x = ListProviderConfigsRequest{}
-	mi := &file_notification_v1_notification_proto_msgTypes[27]
+	mi := &file_notification_v1_notification_proto_msgTypes[31]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2041,7 +2241,7 @@ func (x *ListProviderConfigsRequest) String() string {
 func (*ListProviderConfigsRequest) ProtoMessage() {}
 
 func (x *ListProviderConfigsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_notification_v1_notification_proto_msgTypes[27]
+	mi := &file_notification_v1_notification_proto_msgTypes[31]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2054,7 +2254,7 @@ func (x *ListProviderConfigsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListProviderConfigsRequest.ProtoReflect.Descriptor instead.
 func (*ListProviderConfigsRequest) Descriptor() ([]byte, []int) {
-	return file_notification_v1_notification_proto_rawDescGZIP(), []int{27}
+	return file_notification_v1_notification_proto_rawDescGZIP(), []int{31}
 }
 
 func (x *ListProviderConfigsRequest) GetChannel() string {
@@ -2080,7 +2280,7 @@ type ListProviderConfigsResponse struct {
 
 func (x *ListProviderConfigsResponse) Reset() {
 	*x = ListProviderConfigsResponse{}
-	mi := &file_notification_v1_notification_proto_msgTypes[28]
+	mi := &file_notification_v1_notification_proto_msgTypes[32]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2092,7 +2292,7 @@ func (x *ListProviderConfigsResponse) String() string {
 func (*ListProviderConfigsResponse) ProtoMessage() {}
 
 func (x *ListProviderConfigsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_notification_v1_notification_proto_msgTypes[28]
+	mi := &file_notification_v1_notification_proto_msgTypes[32]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2105,7 +2305,7 @@ func (x *ListProviderConfigsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListProviderConfigsResponse.ProtoReflect.Descriptor instead.
 func (*ListProviderConfigsResponse) Descriptor() ([]byte, []int) {
-	return file_notification_v1_notification_proto_rawDescGZIP(), []int{28}
+	return file_notification_v1_notification_proto_rawDescGZIP(), []int{32}
 }
 
 func (x *ListProviderConfigsResponse) GetProviderConfigs() []*ProviderConfig {
@@ -2125,7 +2325,7 @@ type UpsertProviderConfigRequest struct {
 
 func (x *UpsertProviderConfigRequest) Reset() {
 	*x = UpsertProviderConfigRequest{}
-	mi := &file_notification_v1_notification_proto_msgTypes[29]
+	mi := &file_notification_v1_notification_proto_msgTypes[33]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2137,7 +2337,7 @@ func (x *UpsertProviderConfigRequest) String() string {
 func (*UpsertProviderConfigRequest) ProtoMessage() {}
 
 func (x *UpsertProviderConfigRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_notification_v1_notification_proto_msgTypes[29]
+	mi := &file_notification_v1_notification_proto_msgTypes[33]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2150,7 +2350,7 @@ func (x *UpsertProviderConfigRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpsertProviderConfigRequest.ProtoReflect.Descriptor instead.
 func (*UpsertProviderConfigRequest) Descriptor() ([]byte, []int) {
-	return file_notification_v1_notification_proto_rawDescGZIP(), []int{29}
+	return file_notification_v1_notification_proto_rawDescGZIP(), []int{33}
 }
 
 func (x *UpsertProviderConfigRequest) GetCode() string {
@@ -2356,10 +2556,21 @@ const file_notification_v1_notification_proto_rawDesc = "" +
 	"page_token\x18\x05 \x01(\tR\tpageToken\"\x92\x01\n" +
 	"\x1eListInAppNotificationsResponse\x12H\n" +
 	"\rnotifications\x18\x01 \x03(\v2\".notification.v1.InAppNotificationR\rnotifications\x12&\n" +
-	"\x0fnext_page_token\x18\x02 \x01(\tR\rnextPageToken\"H\n" +
+	"\x0fnext_page_token\x18\x02 \x01(\tR\rnextPageToken\"p\n" +
+	"$CountUnreadInAppNotificationsRequest\x12%\n" +
+	"\x0erecipient_type\x18\x01 \x01(\tR\rrecipientType\x12!\n" +
+	"\frecipient_id\x18\x02 \x01(\tR\vrecipientId\"=\n" +
+	"%CountUnreadInAppNotificationsResponse\x12\x14\n" +
+	"\x05count\x18\x01 \x01(\x05R\x05count\"H\n" +
 	" MarkInAppNotificationReadRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x14\n" +
-	"\x05actor\x18\x02 \x01(\tR\x05actor\"N\n" +
+	"\x05actor\x18\x02 \x01(\tR\x05actor\"\x86\x01\n" +
+	"$MarkAllInAppNotificationsReadRequest\x12%\n" +
+	"\x0erecipient_type\x18\x01 \x01(\tR\rrecipientType\x12!\n" +
+	"\frecipient_id\x18\x02 \x01(\tR\vrecipientId\x12\x14\n" +
+	"\x05actor\x18\x03 \x01(\tR\x05actor\"A\n" +
+	"%MarkAllInAppNotificationsReadResponse\x12\x18\n" +
+	"\aupdated\x18\x01 \x01(\x05R\aupdated\"N\n" +
 	"\x1aListProviderConfigsRequest\x12\x18\n" +
 	"\achannel\x18\x01 \x01(\tR\achannel\x12\x16\n" +
 	"\x06status\x18\x02 \x01(\tR\x06status\"i\n" +
@@ -2367,7 +2578,7 @@ const file_notification_v1_notification_proto_rawDesc = "" +
 	"\x10provider_configs\x18\x01 \x03(\v2\x1f.notification.v1.ProviderConfigR\x0fproviderConfigs\"{\n" +
 	"\x1bUpsertProviderConfigRequest\x12\x12\n" +
 	"\x04code\x18\x01 \x01(\tR\x04code\x12H\n" +
-	"\x0fprovider_config\x18\x02 \x01(\v2\x1f.notification.v1.ProviderConfigR\x0eproviderConfig2\xde\x14\n" +
+	"\x0fprovider_config\x18\x02 \x01(\v2\x1f.notification.v1.ProviderConfigR\x0eproviderConfig2\xdd\x17\n" +
 	"\x13NotificationService\x12\x83\x01\n" +
 	"\rListTemplates\x12%.notification.v1.ListTemplatesRequest\x1a&.notification.v1.ListTemplatesResponse\"#\x82\xd3\xe4\x93\x02\x1d\x12\x1b/v1/notifications/templates\x12\x83\x01\n" +
 	"\vGetTemplate\x12#.notification.v1.GetTemplateRequest\x1a%.notification.v1.NotificationTemplate\"(\x82\xd3\xe4\x93\x02\"\x12 /v1/notifications/templates/{id}\x12\x87\x01\n" +
@@ -2382,8 +2593,10 @@ const file_notification_v1_notification_proto_rawDesc = "" +
 	"\x0eListDeliveries\x12&.notification.v1.ListDeliveriesRequest\x1a'.notification.v1.ListDeliveriesResponse\"$\x82\xd3\xe4\x93\x02\x1e\x12\x1c/v1/notifications/deliveries\x12\x91\x01\n" +
 	"\rRetryDelivery\x12%.notification.v1.RetryDeliveryRequest\x1a%.notification.v1.NotificationDelivery\"2\x82\xd3\xe4\x93\x02,:\x01*\"'/v1/notifications/deliveries/{id}/retry\x12\xa8\x01\n" +
 	"\x15RunDeliveryWorkerOnce\x12-.notification.v1.RunDeliveryWorkerOnceRequest\x1a..notification.v1.RunDeliveryWorkerOnceResponse\"0\x82\xd3\xe4\x93\x02*:\x01*\"%/v1/notifications/deliveries/run-once\x12\x9b\x01\n" +
-	"\x16ListInAppNotifications\x12..notification.v1.ListInAppNotificationsRequest\x1a/.notification.v1.ListInAppNotificationsResponse\" \x82\xd3\xe4\x93\x02\x1a\x12\x18/v1/notifications/in-app\x12\xa1\x01\n" +
-	"\x19MarkInAppNotificationRead\x121.notification.v1.MarkInAppNotificationReadRequest\x1a\".notification.v1.InAppNotification\"-\x82\xd3\xe4\x93\x02':\x01*\"\"/v1/notifications/in-app/{id}/read\x12\x9c\x01\n" +
+	"\x16ListInAppNotifications\x12..notification.v1.ListInAppNotificationsRequest\x1a/.notification.v1.ListInAppNotificationsResponse\" \x82\xd3\xe4\x93\x02\x1a\x12\x18/v1/notifications/in-app\x12\xbd\x01\n" +
+	"\x1dCountUnreadInAppNotifications\x125.notification.v1.CountUnreadInAppNotificationsRequest\x1a6.notification.v1.CountUnreadInAppNotificationsResponse\"-\x82\xd3\xe4\x93\x02'\x12%/v1/notifications/in-app/unread-count\x12\xa1\x01\n" +
+	"\x19MarkInAppNotificationRead\x121.notification.v1.MarkInAppNotificationReadRequest\x1a\".notification.v1.InAppNotification\"-\x82\xd3\xe4\x93\x02':\x01*\"\"/v1/notifications/in-app/{id}/read\x12\xbc\x01\n" +
+	"\x1dMarkAllInAppNotificationsRead\x125.notification.v1.MarkAllInAppNotificationsReadRequest\x1a6.notification.v1.MarkAllInAppNotificationsReadResponse\",\x82\xd3\xe4\x93\x02&:\x01*\"!/v1/notifications/in-app/read-all\x12\x9c\x01\n" +
 	"\x13ListProviderConfigs\x12+.notification.v1.ListProviderConfigsRequest\x1a,.notification.v1.ListProviderConfigsResponse\"*\x82\xd3\xe4\x93\x02$\x12\"/v1/notifications/provider-configs\x12\x9b\x01\n" +
 	"\x14UpsertProviderConfig\x12,.notification.v1.UpsertProviderConfigRequest\x1a\x1f.notification.v1.ProviderConfig\"4\x82\xd3\xe4\x93\x02.:\x01*\x1a)/v1/notifications/provider-configs/{code}B[ZYgithub.com/arda-labs/arda/arda-be-go/services/notification-service/api/notification/v1;v1b\x06proto3"
 
@@ -2399,57 +2612,61 @@ func file_notification_v1_notification_proto_rawDescGZIP() []byte {
 	return file_notification_v1_notification_proto_rawDescData
 }
 
-var file_notification_v1_notification_proto_msgTypes = make([]protoimpl.MessageInfo, 30)
+var file_notification_v1_notification_proto_msgTypes = make([]protoimpl.MessageInfo, 34)
 var file_notification_v1_notification_proto_goTypes = []any{
-	(*NotificationTemplate)(nil),             // 0: notification.v1.NotificationTemplate
-	(*NotificationTemplateVersion)(nil),      // 1: notification.v1.NotificationTemplateVersion
-	(*NotificationRequest)(nil),              // 2: notification.v1.NotificationRequest
-	(*NotificationDelivery)(nil),             // 3: notification.v1.NotificationDelivery
-	(*InAppNotification)(nil),                // 4: notification.v1.InAppNotification
-	(*ProviderConfig)(nil),                   // 5: notification.v1.ProviderConfig
-	(*DeleteResponse)(nil),                   // 6: notification.v1.DeleteResponse
-	(*ListTemplatesRequest)(nil),             // 7: notification.v1.ListTemplatesRequest
-	(*ListTemplatesResponse)(nil),            // 8: notification.v1.ListTemplatesResponse
-	(*GetTemplateRequest)(nil),               // 9: notification.v1.GetTemplateRequest
-	(*CreateTemplateRequest)(nil),            // 10: notification.v1.CreateTemplateRequest
-	(*UpdateTemplateRequest)(nil),            // 11: notification.v1.UpdateTemplateRequest
-	(*DeleteTemplateRequest)(nil),            // 12: notification.v1.DeleteTemplateRequest
-	(*ListTemplateVersionsRequest)(nil),      // 13: notification.v1.ListTemplateVersionsRequest
-	(*ListTemplateVersionsResponse)(nil),     // 14: notification.v1.ListTemplateVersionsResponse
-	(*CreateTemplateVersionRequest)(nil),     // 15: notification.v1.CreateTemplateVersionRequest
-	(*ApproveTemplateVersionRequest)(nil),    // 16: notification.v1.ApproveTemplateVersionRequest
-	(*CreateNotificationRequestRequest)(nil), // 17: notification.v1.CreateNotificationRequestRequest
-	(*GetNotificationRequestRequest)(nil),    // 18: notification.v1.GetNotificationRequestRequest
-	(*ListDeliveriesRequest)(nil),            // 19: notification.v1.ListDeliveriesRequest
-	(*ListDeliveriesResponse)(nil),           // 20: notification.v1.ListDeliveriesResponse
-	(*RetryDeliveryRequest)(nil),             // 21: notification.v1.RetryDeliveryRequest
-	(*RunDeliveryWorkerOnceRequest)(nil),     // 22: notification.v1.RunDeliveryWorkerOnceRequest
-	(*RunDeliveryWorkerOnceResponse)(nil),    // 23: notification.v1.RunDeliveryWorkerOnceResponse
-	(*ListInAppNotificationsRequest)(nil),    // 24: notification.v1.ListInAppNotificationsRequest
-	(*ListInAppNotificationsResponse)(nil),   // 25: notification.v1.ListInAppNotificationsResponse
-	(*MarkInAppNotificationReadRequest)(nil), // 26: notification.v1.MarkInAppNotificationReadRequest
-	(*ListProviderConfigsRequest)(nil),       // 27: notification.v1.ListProviderConfigsRequest
-	(*ListProviderConfigsResponse)(nil),      // 28: notification.v1.ListProviderConfigsResponse
-	(*UpsertProviderConfigRequest)(nil),      // 29: notification.v1.UpsertProviderConfigRequest
-	(*timestamppb.Timestamp)(nil),            // 30: google.protobuf.Timestamp
+	(*NotificationTemplate)(nil),                  // 0: notification.v1.NotificationTemplate
+	(*NotificationTemplateVersion)(nil),           // 1: notification.v1.NotificationTemplateVersion
+	(*NotificationRequest)(nil),                   // 2: notification.v1.NotificationRequest
+	(*NotificationDelivery)(nil),                  // 3: notification.v1.NotificationDelivery
+	(*InAppNotification)(nil),                     // 4: notification.v1.InAppNotification
+	(*ProviderConfig)(nil),                        // 5: notification.v1.ProviderConfig
+	(*DeleteResponse)(nil),                        // 6: notification.v1.DeleteResponse
+	(*ListTemplatesRequest)(nil),                  // 7: notification.v1.ListTemplatesRequest
+	(*ListTemplatesResponse)(nil),                 // 8: notification.v1.ListTemplatesResponse
+	(*GetTemplateRequest)(nil),                    // 9: notification.v1.GetTemplateRequest
+	(*CreateTemplateRequest)(nil),                 // 10: notification.v1.CreateTemplateRequest
+	(*UpdateTemplateRequest)(nil),                 // 11: notification.v1.UpdateTemplateRequest
+	(*DeleteTemplateRequest)(nil),                 // 12: notification.v1.DeleteTemplateRequest
+	(*ListTemplateVersionsRequest)(nil),           // 13: notification.v1.ListTemplateVersionsRequest
+	(*ListTemplateVersionsResponse)(nil),          // 14: notification.v1.ListTemplateVersionsResponse
+	(*CreateTemplateVersionRequest)(nil),          // 15: notification.v1.CreateTemplateVersionRequest
+	(*ApproveTemplateVersionRequest)(nil),         // 16: notification.v1.ApproveTemplateVersionRequest
+	(*CreateNotificationRequestRequest)(nil),      // 17: notification.v1.CreateNotificationRequestRequest
+	(*GetNotificationRequestRequest)(nil),         // 18: notification.v1.GetNotificationRequestRequest
+	(*ListDeliveriesRequest)(nil),                 // 19: notification.v1.ListDeliveriesRequest
+	(*ListDeliveriesResponse)(nil),                // 20: notification.v1.ListDeliveriesResponse
+	(*RetryDeliveryRequest)(nil),                  // 21: notification.v1.RetryDeliveryRequest
+	(*RunDeliveryWorkerOnceRequest)(nil),          // 22: notification.v1.RunDeliveryWorkerOnceRequest
+	(*RunDeliveryWorkerOnceResponse)(nil),         // 23: notification.v1.RunDeliveryWorkerOnceResponse
+	(*ListInAppNotificationsRequest)(nil),         // 24: notification.v1.ListInAppNotificationsRequest
+	(*ListInAppNotificationsResponse)(nil),        // 25: notification.v1.ListInAppNotificationsResponse
+	(*CountUnreadInAppNotificationsRequest)(nil),  // 26: notification.v1.CountUnreadInAppNotificationsRequest
+	(*CountUnreadInAppNotificationsResponse)(nil), // 27: notification.v1.CountUnreadInAppNotificationsResponse
+	(*MarkInAppNotificationReadRequest)(nil),      // 28: notification.v1.MarkInAppNotificationReadRequest
+	(*MarkAllInAppNotificationsReadRequest)(nil),  // 29: notification.v1.MarkAllInAppNotificationsReadRequest
+	(*MarkAllInAppNotificationsReadResponse)(nil), // 30: notification.v1.MarkAllInAppNotificationsReadResponse
+	(*ListProviderConfigsRequest)(nil),            // 31: notification.v1.ListProviderConfigsRequest
+	(*ListProviderConfigsResponse)(nil),           // 32: notification.v1.ListProviderConfigsResponse
+	(*UpsertProviderConfigRequest)(nil),           // 33: notification.v1.UpsertProviderConfigRequest
+	(*timestamppb.Timestamp)(nil),                 // 34: google.protobuf.Timestamp
 }
 var file_notification_v1_notification_proto_depIdxs = []int32{
-	30, // 0: notification.v1.NotificationTemplate.created_at:type_name -> google.protobuf.Timestamp
-	30, // 1: notification.v1.NotificationTemplate.updated_at:type_name -> google.protobuf.Timestamp
-	30, // 2: notification.v1.NotificationTemplateVersion.approved_at:type_name -> google.protobuf.Timestamp
-	30, // 3: notification.v1.NotificationTemplateVersion.created_at:type_name -> google.protobuf.Timestamp
-	30, // 4: notification.v1.NotificationTemplateVersion.updated_at:type_name -> google.protobuf.Timestamp
-	30, // 5: notification.v1.NotificationRequest.created_at:type_name -> google.protobuf.Timestamp
-	30, // 6: notification.v1.NotificationRequest.updated_at:type_name -> google.protobuf.Timestamp
+	34, // 0: notification.v1.NotificationTemplate.created_at:type_name -> google.protobuf.Timestamp
+	34, // 1: notification.v1.NotificationTemplate.updated_at:type_name -> google.protobuf.Timestamp
+	34, // 2: notification.v1.NotificationTemplateVersion.approved_at:type_name -> google.protobuf.Timestamp
+	34, // 3: notification.v1.NotificationTemplateVersion.created_at:type_name -> google.protobuf.Timestamp
+	34, // 4: notification.v1.NotificationTemplateVersion.updated_at:type_name -> google.protobuf.Timestamp
+	34, // 5: notification.v1.NotificationRequest.created_at:type_name -> google.protobuf.Timestamp
+	34, // 6: notification.v1.NotificationRequest.updated_at:type_name -> google.protobuf.Timestamp
 	3,  // 7: notification.v1.NotificationRequest.deliveries:type_name -> notification.v1.NotificationDelivery
-	30, // 8: notification.v1.NotificationDelivery.next_attempt_at:type_name -> google.protobuf.Timestamp
-	30, // 9: notification.v1.NotificationDelivery.locked_at:type_name -> google.protobuf.Timestamp
-	30, // 10: notification.v1.NotificationDelivery.created_at:type_name -> google.protobuf.Timestamp
-	30, // 11: notification.v1.NotificationDelivery.updated_at:type_name -> google.protobuf.Timestamp
-	30, // 12: notification.v1.InAppNotification.read_at:type_name -> google.protobuf.Timestamp
-	30, // 13: notification.v1.InAppNotification.created_at:type_name -> google.protobuf.Timestamp
-	30, // 14: notification.v1.ProviderConfig.created_at:type_name -> google.protobuf.Timestamp
-	30, // 15: notification.v1.ProviderConfig.updated_at:type_name -> google.protobuf.Timestamp
+	34, // 8: notification.v1.NotificationDelivery.next_attempt_at:type_name -> google.protobuf.Timestamp
+	34, // 9: notification.v1.NotificationDelivery.locked_at:type_name -> google.protobuf.Timestamp
+	34, // 10: notification.v1.NotificationDelivery.created_at:type_name -> google.protobuf.Timestamp
+	34, // 11: notification.v1.NotificationDelivery.updated_at:type_name -> google.protobuf.Timestamp
+	34, // 12: notification.v1.InAppNotification.read_at:type_name -> google.protobuf.Timestamp
+	34, // 13: notification.v1.InAppNotification.created_at:type_name -> google.protobuf.Timestamp
+	34, // 14: notification.v1.ProviderConfig.created_at:type_name -> google.protobuf.Timestamp
+	34, // 15: notification.v1.ProviderConfig.updated_at:type_name -> google.protobuf.Timestamp
 	0,  // 16: notification.v1.ListTemplatesResponse.templates:type_name -> notification.v1.NotificationTemplate
 	0,  // 17: notification.v1.CreateTemplateRequest.template:type_name -> notification.v1.NotificationTemplate
 	0,  // 18: notification.v1.UpdateTemplateRequest.template:type_name -> notification.v1.NotificationTemplate
@@ -2474,28 +2691,32 @@ var file_notification_v1_notification_proto_depIdxs = []int32{
 	21, // 37: notification.v1.NotificationService.RetryDelivery:input_type -> notification.v1.RetryDeliveryRequest
 	22, // 38: notification.v1.NotificationService.RunDeliveryWorkerOnce:input_type -> notification.v1.RunDeliveryWorkerOnceRequest
 	24, // 39: notification.v1.NotificationService.ListInAppNotifications:input_type -> notification.v1.ListInAppNotificationsRequest
-	26, // 40: notification.v1.NotificationService.MarkInAppNotificationRead:input_type -> notification.v1.MarkInAppNotificationReadRequest
-	27, // 41: notification.v1.NotificationService.ListProviderConfigs:input_type -> notification.v1.ListProviderConfigsRequest
-	29, // 42: notification.v1.NotificationService.UpsertProviderConfig:input_type -> notification.v1.UpsertProviderConfigRequest
-	8,  // 43: notification.v1.NotificationService.ListTemplates:output_type -> notification.v1.ListTemplatesResponse
-	0,  // 44: notification.v1.NotificationService.GetTemplate:output_type -> notification.v1.NotificationTemplate
-	0,  // 45: notification.v1.NotificationService.CreateTemplate:output_type -> notification.v1.NotificationTemplate
-	0,  // 46: notification.v1.NotificationService.UpdateTemplate:output_type -> notification.v1.NotificationTemplate
-	6,  // 47: notification.v1.NotificationService.DeleteTemplate:output_type -> notification.v1.DeleteResponse
-	14, // 48: notification.v1.NotificationService.ListTemplateVersions:output_type -> notification.v1.ListTemplateVersionsResponse
-	1,  // 49: notification.v1.NotificationService.CreateTemplateVersion:output_type -> notification.v1.NotificationTemplateVersion
-	1,  // 50: notification.v1.NotificationService.ApproveTemplateVersion:output_type -> notification.v1.NotificationTemplateVersion
-	2,  // 51: notification.v1.NotificationService.CreateNotificationRequest:output_type -> notification.v1.NotificationRequest
-	2,  // 52: notification.v1.NotificationService.GetNotificationRequest:output_type -> notification.v1.NotificationRequest
-	20, // 53: notification.v1.NotificationService.ListDeliveries:output_type -> notification.v1.ListDeliveriesResponse
-	3,  // 54: notification.v1.NotificationService.RetryDelivery:output_type -> notification.v1.NotificationDelivery
-	23, // 55: notification.v1.NotificationService.RunDeliveryWorkerOnce:output_type -> notification.v1.RunDeliveryWorkerOnceResponse
-	25, // 56: notification.v1.NotificationService.ListInAppNotifications:output_type -> notification.v1.ListInAppNotificationsResponse
-	4,  // 57: notification.v1.NotificationService.MarkInAppNotificationRead:output_type -> notification.v1.InAppNotification
-	28, // 58: notification.v1.NotificationService.ListProviderConfigs:output_type -> notification.v1.ListProviderConfigsResponse
-	5,  // 59: notification.v1.NotificationService.UpsertProviderConfig:output_type -> notification.v1.ProviderConfig
-	43, // [43:60] is the sub-list for method output_type
-	26, // [26:43] is the sub-list for method input_type
+	26, // 40: notification.v1.NotificationService.CountUnreadInAppNotifications:input_type -> notification.v1.CountUnreadInAppNotificationsRequest
+	28, // 41: notification.v1.NotificationService.MarkInAppNotificationRead:input_type -> notification.v1.MarkInAppNotificationReadRequest
+	29, // 42: notification.v1.NotificationService.MarkAllInAppNotificationsRead:input_type -> notification.v1.MarkAllInAppNotificationsReadRequest
+	31, // 43: notification.v1.NotificationService.ListProviderConfigs:input_type -> notification.v1.ListProviderConfigsRequest
+	33, // 44: notification.v1.NotificationService.UpsertProviderConfig:input_type -> notification.v1.UpsertProviderConfigRequest
+	8,  // 45: notification.v1.NotificationService.ListTemplates:output_type -> notification.v1.ListTemplatesResponse
+	0,  // 46: notification.v1.NotificationService.GetTemplate:output_type -> notification.v1.NotificationTemplate
+	0,  // 47: notification.v1.NotificationService.CreateTemplate:output_type -> notification.v1.NotificationTemplate
+	0,  // 48: notification.v1.NotificationService.UpdateTemplate:output_type -> notification.v1.NotificationTemplate
+	6,  // 49: notification.v1.NotificationService.DeleteTemplate:output_type -> notification.v1.DeleteResponse
+	14, // 50: notification.v1.NotificationService.ListTemplateVersions:output_type -> notification.v1.ListTemplateVersionsResponse
+	1,  // 51: notification.v1.NotificationService.CreateTemplateVersion:output_type -> notification.v1.NotificationTemplateVersion
+	1,  // 52: notification.v1.NotificationService.ApproveTemplateVersion:output_type -> notification.v1.NotificationTemplateVersion
+	2,  // 53: notification.v1.NotificationService.CreateNotificationRequest:output_type -> notification.v1.NotificationRequest
+	2,  // 54: notification.v1.NotificationService.GetNotificationRequest:output_type -> notification.v1.NotificationRequest
+	20, // 55: notification.v1.NotificationService.ListDeliveries:output_type -> notification.v1.ListDeliveriesResponse
+	3,  // 56: notification.v1.NotificationService.RetryDelivery:output_type -> notification.v1.NotificationDelivery
+	23, // 57: notification.v1.NotificationService.RunDeliveryWorkerOnce:output_type -> notification.v1.RunDeliveryWorkerOnceResponse
+	25, // 58: notification.v1.NotificationService.ListInAppNotifications:output_type -> notification.v1.ListInAppNotificationsResponse
+	27, // 59: notification.v1.NotificationService.CountUnreadInAppNotifications:output_type -> notification.v1.CountUnreadInAppNotificationsResponse
+	4,  // 60: notification.v1.NotificationService.MarkInAppNotificationRead:output_type -> notification.v1.InAppNotification
+	30, // 61: notification.v1.NotificationService.MarkAllInAppNotificationsRead:output_type -> notification.v1.MarkAllInAppNotificationsReadResponse
+	32, // 62: notification.v1.NotificationService.ListProviderConfigs:output_type -> notification.v1.ListProviderConfigsResponse
+	5,  // 63: notification.v1.NotificationService.UpsertProviderConfig:output_type -> notification.v1.ProviderConfig
+	45, // [45:64] is the sub-list for method output_type
+	26, // [26:45] is the sub-list for method input_type
 	26, // [26:26] is the sub-list for extension type_name
 	26, // [26:26] is the sub-list for extension extendee
 	0,  // [0:26] is the sub-list for field type_name
@@ -2512,7 +2733,7 @@ func file_notification_v1_notification_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_notification_v1_notification_proto_rawDesc), len(file_notification_v1_notification_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   30,
+			NumMessages:   34,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

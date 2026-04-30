@@ -52,8 +52,14 @@ service NotificationService {
   rpc ListInAppNotifications(ListInAppNotificationsRequest) returns (ListInAppNotificationsResponse) {
     option (google.api.http) = { get: "/v1/notifications/in-app" };
   }
+  rpc CountUnreadInAppNotifications(CountUnreadInAppNotificationsRequest) returns (CountUnreadInAppNotificationsResponse) {
+    option (google.api.http) = { get: "/v1/notifications/in-app/unread-count" };
+  }
   rpc MarkInAppNotificationRead(MarkInAppNotificationReadRequest) returns (InAppNotification) {
     option (google.api.http) = { post: "/v1/notifications/in-app/{id}/read" body: "*" };
+  }
+  rpc MarkAllInAppNotificationsRead(MarkAllInAppNotificationsReadRequest) returns (MarkAllInAppNotificationsReadResponse) {
+    option (google.api.http) = { post: "/v1/notifications/in-app/read-all" body: "*" };
   }
   rpc ListProviderConfigs(ListProviderConfigsRequest) returns (ListProviderConfigsResponse) {
     option (google.api.http) = { get: "/v1/notifications/provider-configs" };
@@ -241,9 +247,24 @@ message ListInAppNotificationsResponse {
   repeated InAppNotification notifications = 1;
   string next_page_token = 2;
 }
+message CountUnreadInAppNotificationsRequest {
+  string recipient_type = 1;
+  string recipient_id = 2;
+}
+message CountUnreadInAppNotificationsResponse {
+  int32 count = 1;
+}
 message MarkInAppNotificationReadRequest {
   string id = 1;
   string actor = 2;
+}
+message MarkAllInAppNotificationsReadRequest {
+  string recipient_type = 1;
+  string recipient_id = 2;
+  string actor = 3;
+}
+message MarkAllInAppNotificationsReadResponse {
+  int32 updated = 1;
 }
 message ListProviderConfigsRequest {
   string channel = 1;

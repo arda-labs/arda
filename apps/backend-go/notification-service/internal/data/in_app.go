@@ -62,6 +62,31 @@ func (r *NotificationRepo) MarkInAppNotificationRead(ctx context.Context, id, ac
 	return r.getInAppNotification(ctx, id)
 }
 
+func (r *NotificationRepo) CountUnreadInAppNotifications(ctx context.Context, recipientType, recipientID string) (int, error) {
+	var count int
+	err := r.data.db.Pool.QueryRow(ctx, `
+		SELECT COUNT(*)
+		FROM in_app_notifications
+		WHERE recipient_type=$1
+		  AND recipient_id=$2
+		  AND status='UNREAD'`, recipientType, recipientID).Scan(&count)
+	return count, err
+}
+
+func (r *NotificationRepo) MarkAllInAppNotificationsRead(ctx context.Context, recipientType, recipientID, actor string) (int, error) {
+	_ = actor
+	tag, err := r.data.db.Pool.Exec(ctx, `
+		UPDATE in_app_notifications
+		SET status='READ', read_at=COALESCE(read_at, now())
+		WHERE recipient_type=$1
+		  AND recipient_id=$2
+		  AND status='UNREAD'`, recipientType, recipientID)
+	if err != nil {
+		return 0, err
+	}
+	return int(tag.RowsAffected()), nil
+}
+
 func (r *NotificationRepo) getInAppNotification(ctx context.Context, id string) (*biz.InAppNotification, error) {
 	row := r.data.db.Pool.QueryRow(ctx, inAppSelect()+` WHERE id=$1`, id)
 	return scanInAppNotification(row)

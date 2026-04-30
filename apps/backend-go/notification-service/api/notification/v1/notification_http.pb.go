@@ -20,6 +20,7 @@ var _ = binding.EncodeURL
 const _ = http.SupportPackageIsVersion1
 
 const OperationNotificationServiceApproveTemplateVersion = "/notification.v1.NotificationService/ApproveTemplateVersion"
+const OperationNotificationServiceCountUnreadInAppNotifications = "/notification.v1.NotificationService/CountUnreadInAppNotifications"
 const OperationNotificationServiceCreateNotificationRequest = "/notification.v1.NotificationService/CreateNotificationRequest"
 const OperationNotificationServiceCreateTemplate = "/notification.v1.NotificationService/CreateTemplate"
 const OperationNotificationServiceCreateTemplateVersion = "/notification.v1.NotificationService/CreateTemplateVersion"
@@ -31,6 +32,7 @@ const OperationNotificationServiceListInAppNotifications = "/notification.v1.Not
 const OperationNotificationServiceListProviderConfigs = "/notification.v1.NotificationService/ListProviderConfigs"
 const OperationNotificationServiceListTemplateVersions = "/notification.v1.NotificationService/ListTemplateVersions"
 const OperationNotificationServiceListTemplates = "/notification.v1.NotificationService/ListTemplates"
+const OperationNotificationServiceMarkAllInAppNotificationsRead = "/notification.v1.NotificationService/MarkAllInAppNotificationsRead"
 const OperationNotificationServiceMarkInAppNotificationRead = "/notification.v1.NotificationService/MarkInAppNotificationRead"
 const OperationNotificationServiceRetryDelivery = "/notification.v1.NotificationService/RetryDelivery"
 const OperationNotificationServiceRunDeliveryWorkerOnce = "/notification.v1.NotificationService/RunDeliveryWorkerOnce"
@@ -39,6 +41,7 @@ const OperationNotificationServiceUpsertProviderConfig = "/notification.v1.Notif
 
 type NotificationServiceHTTPServer interface {
 	ApproveTemplateVersion(context.Context, *ApproveTemplateVersionRequest) (*NotificationTemplateVersion, error)
+	CountUnreadInAppNotifications(context.Context, *CountUnreadInAppNotificationsRequest) (*CountUnreadInAppNotificationsResponse, error)
 	CreateNotificationRequest(context.Context, *CreateNotificationRequestRequest) (*NotificationRequest, error)
 	CreateTemplate(context.Context, *CreateTemplateRequest) (*NotificationTemplate, error)
 	CreateTemplateVersion(context.Context, *CreateTemplateVersionRequest) (*NotificationTemplateVersion, error)
@@ -50,6 +53,7 @@ type NotificationServiceHTTPServer interface {
 	ListProviderConfigs(context.Context, *ListProviderConfigsRequest) (*ListProviderConfigsResponse, error)
 	ListTemplateVersions(context.Context, *ListTemplateVersionsRequest) (*ListTemplateVersionsResponse, error)
 	ListTemplates(context.Context, *ListTemplatesRequest) (*ListTemplatesResponse, error)
+	MarkAllInAppNotificationsRead(context.Context, *MarkAllInAppNotificationsReadRequest) (*MarkAllInAppNotificationsReadResponse, error)
 	MarkInAppNotificationRead(context.Context, *MarkInAppNotificationReadRequest) (*InAppNotification, error)
 	RetryDelivery(context.Context, *RetryDeliveryRequest) (*NotificationDelivery, error)
 	RunDeliveryWorkerOnce(context.Context, *RunDeliveryWorkerOnceRequest) (*RunDeliveryWorkerOnceResponse, error)
@@ -73,7 +77,9 @@ func RegisterNotificationServiceHTTPServer(s *http.Server, srv NotificationServi
 	r.POST("/v1/notifications/deliveries/{id}/retry", _NotificationService_RetryDelivery0_HTTP_Handler(srv))
 	r.POST("/v1/notifications/deliveries/run-once", _NotificationService_RunDeliveryWorkerOnce0_HTTP_Handler(srv))
 	r.GET("/v1/notifications/in-app", _NotificationService_ListInAppNotifications0_HTTP_Handler(srv))
+	r.GET("/v1/notifications/in-app/unread-count", _NotificationService_CountUnreadInAppNotifications0_HTTP_Handler(srv))
 	r.POST("/v1/notifications/in-app/{id}/read", _NotificationService_MarkInAppNotificationRead0_HTTP_Handler(srv))
+	r.POST("/v1/notifications/in-app/read-all", _NotificationService_MarkAllInAppNotificationsRead0_HTTP_Handler(srv))
 	r.GET("/v1/notifications/provider-configs", _NotificationService_ListProviderConfigs0_HTTP_Handler(srv))
 	r.PUT("/v1/notifications/provider-configs/{code}", _NotificationService_UpsertProviderConfig0_HTTP_Handler(srv))
 }
@@ -389,6 +395,25 @@ func _NotificationService_ListInAppNotifications0_HTTP_Handler(srv NotificationS
 	}
 }
 
+func _NotificationService_CountUnreadInAppNotifications0_HTTP_Handler(srv NotificationServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in CountUnreadInAppNotificationsRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationNotificationServiceCountUnreadInAppNotifications)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.CountUnreadInAppNotifications(ctx, req.(*CountUnreadInAppNotificationsRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*CountUnreadInAppNotificationsResponse)
+		return ctx.Result(200, reply)
+	}
+}
+
 func _NotificationService_MarkInAppNotificationRead0_HTTP_Handler(srv NotificationServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in MarkInAppNotificationReadRequest
@@ -410,6 +435,28 @@ func _NotificationService_MarkInAppNotificationRead0_HTTP_Handler(srv Notificati
 			return err
 		}
 		reply := out.(*InAppNotification)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _NotificationService_MarkAllInAppNotificationsRead0_HTTP_Handler(srv NotificationServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in MarkAllInAppNotificationsReadRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationNotificationServiceMarkAllInAppNotificationsRead)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.MarkAllInAppNotificationsRead(ctx, req.(*MarkAllInAppNotificationsReadRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*MarkAllInAppNotificationsReadResponse)
 		return ctx.Result(200, reply)
 	}
 }
@@ -460,6 +507,7 @@ func _NotificationService_UpsertProviderConfig0_HTTP_Handler(srv NotificationSer
 
 type NotificationServiceHTTPClient interface {
 	ApproveTemplateVersion(ctx context.Context, req *ApproveTemplateVersionRequest, opts ...http.CallOption) (rsp *NotificationTemplateVersion, err error)
+	CountUnreadInAppNotifications(ctx context.Context, req *CountUnreadInAppNotificationsRequest, opts ...http.CallOption) (rsp *CountUnreadInAppNotificationsResponse, err error)
 	CreateNotificationRequest(ctx context.Context, req *CreateNotificationRequestRequest, opts ...http.CallOption) (rsp *NotificationRequest, err error)
 	CreateTemplate(ctx context.Context, req *CreateTemplateRequest, opts ...http.CallOption) (rsp *NotificationTemplate, err error)
 	CreateTemplateVersion(ctx context.Context, req *CreateTemplateVersionRequest, opts ...http.CallOption) (rsp *NotificationTemplateVersion, err error)
@@ -471,6 +519,7 @@ type NotificationServiceHTTPClient interface {
 	ListProviderConfigs(ctx context.Context, req *ListProviderConfigsRequest, opts ...http.CallOption) (rsp *ListProviderConfigsResponse, err error)
 	ListTemplateVersions(ctx context.Context, req *ListTemplateVersionsRequest, opts ...http.CallOption) (rsp *ListTemplateVersionsResponse, err error)
 	ListTemplates(ctx context.Context, req *ListTemplatesRequest, opts ...http.CallOption) (rsp *ListTemplatesResponse, err error)
+	MarkAllInAppNotificationsRead(ctx context.Context, req *MarkAllInAppNotificationsReadRequest, opts ...http.CallOption) (rsp *MarkAllInAppNotificationsReadResponse, err error)
 	MarkInAppNotificationRead(ctx context.Context, req *MarkInAppNotificationReadRequest, opts ...http.CallOption) (rsp *InAppNotification, err error)
 	RetryDelivery(ctx context.Context, req *RetryDeliveryRequest, opts ...http.CallOption) (rsp *NotificationDelivery, err error)
 	RunDeliveryWorkerOnce(ctx context.Context, req *RunDeliveryWorkerOnceRequest, opts ...http.CallOption) (rsp *RunDeliveryWorkerOnceResponse, err error)
@@ -493,6 +542,19 @@ func (c *NotificationServiceHTTPClientImpl) ApproveTemplateVersion(ctx context.C
 	opts = append(opts, http.Operation(OperationNotificationServiceApproveTemplateVersion))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *NotificationServiceHTTPClientImpl) CountUnreadInAppNotifications(ctx context.Context, in *CountUnreadInAppNotificationsRequest, opts ...http.CallOption) (*CountUnreadInAppNotificationsResponse, error) {
+	var out CountUnreadInAppNotificationsResponse
+	pattern := "/v1/notifications/in-app/unread-count"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationNotificationServiceCountUnreadInAppNotifications))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -636,6 +698,19 @@ func (c *NotificationServiceHTTPClientImpl) ListTemplates(ctx context.Context, i
 	opts = append(opts, http.Operation(OperationNotificationServiceListTemplates))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *NotificationServiceHTTPClientImpl) MarkAllInAppNotificationsRead(ctx context.Context, in *MarkAllInAppNotificationsReadRequest, opts ...http.CallOption) (*MarkAllInAppNotificationsReadResponse, error) {
+	var out MarkAllInAppNotificationsReadResponse
+	pattern := "/v1/notifications/in-app/read-all"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationNotificationServiceMarkAllInAppNotificationsRead))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
 	if err != nil {
 		return nil, err
 	}

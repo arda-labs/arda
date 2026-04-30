@@ -1,4 +1,4 @@
-import { Component, input, output, inject, ChangeDetectionStrategy, computed, signal, OnDestroy } from '@angular/core';
+import { Component, input, output, inject, ChangeDetectionStrategy, computed, signal, OnDestroy, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { Button } from 'primeng/button';
@@ -9,6 +9,7 @@ import { MenuItem as PrimeMenuItem } from 'primeng/api';
 import { Breadcrumb } from 'primeng/breadcrumb';
 import { AuthService } from '../../../services/auth.service';
 import { MenuItem as ShellMenuItem, MenuService } from '../../../services/menu.service';
+import { InAppNotification, NotificationInboxService } from '../../../services/notification-inbox.service';
 import { LanguageService, ThemeService } from '@arda/core';
 import { filter } from 'rxjs';
 
@@ -25,15 +26,22 @@ export class AppHeader implements OnDestroy {
   private langService = inject(LanguageService);
   private themeService = inject(ThemeService);
   private menuService = inject(MenuService);
+  private inboxService = inject(NotificationInboxService);
   private router = inject(Router);
 
   userInitials = this.authService.userInitials;
   userName = this.authService.currentUser;
   currentLang = this.langService.currentLang;
   themeSettings = this.themeService.settings;
+  notifications = this.inboxService.items;
+  unreadCount = this.inboxService.unreadCount;
+  notificationsLoading = this.inboxService.isLoading;
+  currentUserId = computed(() => this.authService.currentUser()?.id ?? '');
   private currentUrl = signal(this.normalizeUrl(this.router.url));
   private now = signal(new Date());
   private clockTimer: ReturnType<typeof setInterval> | null = null;
+  private notificationTimer: ReturnType<typeof setInterval> | null = null;
+  readonly notificationPanelVisible = signal(false);
 
   sidebarVisible = input<boolean>(true);
   toggleSidebar = output<void>();
@@ -65,6 +73,20 @@ export class AppHeader implements OnDestroy {
     this.clockTimer = setInterval(() => {
       this.now.set(new Date());
     }, 1000);
+
+    effect(() => {
+      const userId = this.currentUserId();
+      if (userId) {
+        this.refreshNotifications();
+      } else {
+        this.inboxService.clear();
+      }
+    });
+
+    this.notificationTimer = setInterval(() => {
+      if (typeof document !== 'undefined' && document.visibilityState === 'hidden') return;
+      this.inboxService.refreshUnreadCount(this.currentUserId()).catch(() => undefined);
+    }, 30000);
   }
 
   marketClock = computed(() => {
@@ -101,6 +123,9 @@ export class AppHeader implements OnDestroy {
     if (this.clockTimer) {
       clearInterval(this.clockTimer);
     }
+    if (this.notificationTimer) {
+      clearInterval(this.notificationTimer);
+    }
   }
 
   changeLang(lang: string) {
@@ -131,6 +156,41 @@ export class AppHeader implements OnDestroy {
 
   onToggleSidebar() {
     this.toggleSidebar.emit();
+  }
+
+  toggleNotificationPanel(): void {
+    this.notificationPanelVisible.update(value => !value);
+    if (this.notificationPanelVisible()) {
+      this.refreshNotifications();
+    }
+  }
+
+  closeNotificationPanel(): void {
+    this.notificationPanelVisible.set(false);
+  }
+
+  markNotificationRead(item: InAppNotification): void {
+    this.inboxService.markRead(item).catch(() => undefined);
+  }
+
+  markAllNotificationsRead(): void {
+    this.inboxService.markAllRead(this.currentUserId()).catch(() => undefined);
+  }
+
+  refreshNotifications(): void {
+    this.inboxService.refresh(this.currentUserId()).catch(() => undefined);
+  }
+
+  notificationTime(item: InAppNotification): string {
+    if (!item.createdAt) return '';
+    const date = new Date(item.createdAt);
+    if (Number.isNaN(date.getTime())) return '';
+    return new Intl.DateTimeFormat('vi-VN', {
+      day: '2-digit',
+      month: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+    }).format(date);
   }
 
   private findMenuTrail(items: ShellMenuItem[], url: string, parents: ShellMenuItem[] = []): ShellMenuItem[] {

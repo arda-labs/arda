@@ -116,6 +116,45 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/notification.v1.ListInAppNotificationsResponse'
+    /v1/notifications/in-app/read-all:
+        post:
+            tags:
+                - NotificationService
+            operationId: NotificationService_MarkAllInAppNotificationsRead
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/notification.v1.MarkAllInAppNotificationsReadRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/notification.v1.MarkAllInAppNotificationsReadResponse'
+    /v1/notifications/in-app/unread-count:
+        get:
+            tags:
+                - NotificationService
+            operationId: NotificationService_CountUnreadInAppNotifications
+            parameters:
+                - name: recipientType
+                  in: query
+                  schema:
+                    type: string
+                - name: recipientId
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/notification.v1.CountUnreadInAppNotificationsResponse'
     /v1/notifications/in-app/{id}/read:
         post:
             tags:
@@ -414,6 +453,12 @@ components:
                     type: string
                 note:
                     type: string
+        notification.v1.CountUnreadInAppNotificationsResponse:
+            type: object
+            properties:
+                count:
+                    type: integer
+                    format: int32
         notification.v1.CreateNotificationRequestRequest:
             type: object
             properties:
@@ -500,6 +545,21 @@ components:
                         $ref: '#/components/schemas/notification.v1.NotificationTemplate'
                 nextPageToken:
                     type: string
+        notification.v1.MarkAllInAppNotificationsReadRequest:
+            type: object
+            properties:
+                recipientType:
+                    type: string
+                recipientId:
+                    type: string
+                actor:
+                    type: string
+        notification.v1.MarkAllInAppNotificationsReadResponse:
+            type: object
+            properties:
+                updated:
+                    type: integer
+                    format: int32
         notification.v1.MarkInAppNotificationReadRequest:
             type: object
             properties:

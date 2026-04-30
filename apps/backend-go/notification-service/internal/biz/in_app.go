@@ -22,3 +22,25 @@ func (uc *NotificationUsecase) MarkInAppNotificationRead(ctx context.Context, id
 	}
 	return uc.repo.MarkInAppNotificationRead(ctx, strings.TrimSpace(id), actor)
 }
+
+func (uc *NotificationUsecase) CountUnreadInAppNotifications(ctx context.Context, recipientType, recipientID string) (int, error) {
+	recipientType = upperDefault(recipientType, "USER")
+	recipientID = strings.TrimSpace(recipientID)
+	if recipientID == "" {
+		return 0, ErrInvalidArgument
+	}
+	return uc.repo.CountUnreadInAppNotifications(ctx, recipientType, recipientID)
+}
+
+func (uc *NotificationUsecase) MarkAllInAppNotificationsRead(ctx context.Context, recipientType, recipientID, actor string) (int, error) {
+	recipientType = upperDefault(recipientType, "USER")
+	recipientID = strings.TrimSpace(recipientID)
+	actor = strings.TrimSpace(actor)
+	if actor == "" {
+		actor = "SYSTEM"
+	}
+	if recipientID == "" {
+		return 0, ErrInvalidArgument
+	}
+	return uc.repo.MarkAllInAppNotificationsRead(ctx, recipientType, recipientID, actor)
+}

@@ -1,0 +1,310 @@
+<p-toast />
+<p-confirmDialog />
+
+<section class="space-y-4 p-4">
+  <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+    <div>
+      <div class="text-xs font-semibold uppercase tracking-normal text-primary">Tài chính ngân hàng</div>
+      <h1 class="text-2xl font-semibold text-surface-900 dark:text-white">Lịch và giờ làm việc</h1>
+      <p class="text-sm text-surface-500">Quản lý lịch nghiệp vụ, ngày nghỉ lễ, ngày làm bù và tính ngày làm việc.</p>
+    </div>
+    <div class="flex flex-wrap gap-2">
+      <p-select
+        styleClass="w-72"
+        [options]="calendars()"
+        optionLabel="name"
+        optionValue="id"
+        placeholder="Chọn lịch"
+        appendTo="body"
+        [ngModel]="selectedCalendarId()"
+        (ngModelChange)="selectCalendar($event)"
+      />
+      <p-button icon="pi pi-refresh" severity="secondary" label="Làm mới" (onClick)="reload()" />
+      <p-button icon="pi pi-plus" label="Thêm lịch" (onClick)="openCalendar()" />
+    </div>
+  </div>
+
+  <div class="grid gap-3 md:grid-cols-4">
+    <div class="rounded-md border border-surface-200 bg-surface-0 p-3 dark:border-surface-800 dark:bg-surface-900">
+      <div class="text-xs text-surface-500">Tổng lịch</div>
+      <div class="mt-1 text-2xl font-semibold text-surface-900 dark:text-white">{{ calendars().length }}</div>
+    </div>
+    <div class="rounded-md border border-surface-200 bg-surface-0 p-3 dark:border-surface-800 dark:bg-surface-900">
+      <div class="text-xs text-surface-500">Lịch hiệu lực</div>
+      <div class="mt-1 text-2xl font-semibold text-emerald-600 dark:text-emerald-400">{{ activeCalendars() }}</div>
+    </div>
+    <div class="rounded-md border border-surface-200 bg-surface-0 p-3 dark:border-surface-800 dark:bg-surface-900">
+      <div class="text-xs text-surface-500">Ngày làm việc tháng này</div>
+      <div class="mt-1 text-2xl font-semibold text-primary">{{ monthWorkingDays() }}</div>
+    </div>
+    <div class="rounded-md border border-surface-200 bg-surface-0 p-3 dark:border-surface-800 dark:bg-surface-900">
+      <div class="text-xs text-surface-500">Ngày nghỉ/ngoại lệ</div>
+      <div class="mt-1 text-2xl font-semibold text-amber-600 dark:text-amber-400">{{ monthHolidayCount() }}</div>
+    </div>
+  </div>
+
+  <div class="grid gap-4 xl:grid-cols-[minmax(0,1fr)_360px]">
+    <div class="space-y-4">
+      <div class="rounded-lg border border-surface-200 bg-surface-0 p-3 dark:border-surface-800 dark:bg-surface-900">
+        <div class="mb-3 flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+          <div>
+            <div class="font-semibold text-surface-900 dark:text-white">{{ monthTitle() }}</div>
+            @if (currentCalendar(); as calendar) {
+              <div class="text-xs text-surface-500">{{ calendar.code }} · {{ calendar.timezone }} · {{ calendar.calendarType }}</div>
+            }
+          </div>
+          <div class="flex gap-2">
+            <p-button icon="pi pi-chevron-left" severity="secondary" variant="text" pTooltip="Tháng trước" (onClick)="previousMonth()" />
+            <p-button icon="pi pi-chevron-right" severity="secondary" variant="text" pTooltip="Tháng sau" (onClick)="nextMonth()" />
+            <p-button icon="pi pi-calendar-plus" label="Thêm ngày" severity="secondary" (onClick)="openException(undefined, selectedDay()?.date)" [disabled]="!selectedCalendarId()" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-7 border-y border-surface-100 text-center text-xs font-semibold text-surface-500 dark:border-surface-800">
+          <div class="py-2">T2</div>
+          <div class="py-2">T3</div>
+          <div class="py-2">T4</div>
+          <div class="py-2">T5</div>
+          <div class="py-2">T6</div>
+          <div class="py-2">T7</div>
+          <div class="py-2">CN</div>
+        </div>
+        <div class="grid grid-cols-7">
+          @for (day of monthDays(); track day.date) {
+            <button
+              type="button"
+              class="min-h-24 border-b border-r border-surface-100 p-2 text-left transition hover:bg-primary-50 dark:border-surface-800 dark:hover:bg-primary-950"
+              [class.bg-emerald-50]="day.inMonth && day.isWorkingDay"
+              [class.dark:bg-emerald-950]="day.inMonth && day.isWorkingDay"
+              [class.bg-amber-50]="day.inMonth && !day.isWorkingDay"
+              [class.dark:bg-amber-950]="day.inMonth && !day.isWorkingDay"
+              [class.opacity-40]="!day.inMonth"
+              (click)="selectDay(day)"
+            >
+              <div class="flex items-center justify-between">
+                <span class="flex h-7 w-7 items-center justify-center rounded-full text-sm font-semibold" [class.bg-primary]="day.isToday" [class.text-white]="day.isToday">{{ day.label }}</span>
+                @if (day.exception) {
+                  <i class="pi pi-flag text-xs text-amber-600"></i>
+                }
+              </div>
+              <div class="mt-2 text-xs font-medium" [class.text-emerald-700]="day.isWorkingDay" [class.text-amber-700]="!day.isWorkingDay">
+                {{ day.isWorkingDay ? 'Làm việc' : 'Nghỉ' }}
+              </div>
+              @if (day.exception) {
+                <div class="mt-1 line-clamp-2 text-xs text-surface-600 dark:text-surface-300">{{ day.exception.name }}</div>
+              }
+            </button>
+          }
+        </div>
+      </div>
+
+      <div class="rounded-lg border border-surface-200 bg-surface-0 p-3 dark:border-surface-800 dark:bg-surface-900">
+        <div class="mb-3 flex items-center justify-between">
+          <div class="font-semibold text-surface-900 dark:text-white">Giờ làm việc chuẩn</div>
+          <p-button icon="pi pi-plus" label="Thêm giờ" size="small" (onClick)="openHour()" [disabled]="!selectedCalendarId()" />
+        </div>
+        <p-table [value]="workingHours()" class="p-datatable-sm" responsiveLayout="scroll">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Ngày</th>
+              <th>Trạng thái</th>
+              <th>Khung giờ</th>
+              <th>Cutoff</th>
+              <th class="text-right">Hành động</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-item>
+            <tr>
+              <td>{{ dayName(item.dayOfWeek) }}</td>
+              <td><p-tag [value]="item.isWorkingDay ? 'Làm việc' : 'Nghỉ'" [severity]="item.isWorkingDay ? 'success' : 'warn'" /></td>
+              <td>{{ item.startTime || '-' }} - {{ item.endTime || '-' }}</td>
+              <td>{{ item.cutoffTime || '-' }}</td>
+              <td class="text-right">
+                <p-button icon="pi pi-pencil" size="small" variant="text" pTooltip="Sửa" (onClick)="openHour(item)" />
+                <p-button icon="pi pi-trash" severity="danger" size="small" variant="text" pTooltip="Xóa" (onClick)="deleteHour(item)" />
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+
+    <aside class="space-y-4">
+      <div class="rounded-lg border border-surface-200 bg-surface-0 p-4 dark:border-surface-800 dark:bg-surface-900">
+        <div class="mb-3 flex items-center justify-between">
+          <div class="font-semibold text-surface-900 dark:text-white">Lịch đang chọn</div>
+          @if (currentCalendar(); as calendar) {
+            <p-tag [value]="calendar.status" [severity]="statusSeverity(calendar.status)" />
+          }
+        </div>
+        @if (currentCalendar(); as calendar) {
+          <div class="space-y-2 text-sm">
+            <div class="font-semibold">{{ calendar.name }}</div>
+            <div class="text-surface-500">{{ calendar.description || 'Không có mô tả' }}</div>
+            <div class="flex gap-2 pt-2">
+              <p-button icon="pi pi-pencil" label="Sửa" size="small" severity="secondary" (onClick)="openCalendar(calendar)" />
+              <p-button icon="pi pi-trash" label="Xóa" size="small" severity="danger" variant="text" (onClick)="deleteCalendar(calendar)" />
+            </div>
+          </div>
+        } @else {
+          <div class="text-sm text-surface-500">Chưa chọn lịch.</div>
+        }
+      </div>
+
+      <div class="rounded-lg border border-surface-200 bg-surface-0 p-4 dark:border-surface-800 dark:bg-surface-900">
+        <div class="mb-3 font-semibold text-surface-900 dark:text-white">Ngày được chọn</div>
+        @if (selectedDay(); as day) {
+          <div class="space-y-3">
+            <div>
+              <div class="text-lg font-semibold">{{ day.date }}</div>
+              <div class="text-sm text-surface-500">{{ day.isWorkingDay ? 'Ngày làm việc' : 'Ngày nghỉ' }}</div>
+            </div>
+            @if (day.exception) {
+              <div class="rounded-md border border-amber-200 bg-amber-50 p-3 text-sm dark:border-amber-900 dark:bg-amber-950">
+                <div class="font-semibold">{{ day.exception.name }}</div>
+                <div class="text-surface-600 dark:text-surface-300">{{ day.exception.exceptionType }}</div>
+                <div class="mt-2 flex gap-2">
+                  <p-button icon="pi pi-pencil" size="small" severity="secondary" label="Sửa" (onClick)="openException(day.exception)" />
+                  <p-button icon="pi pi-trash" size="small" severity="danger" variant="text" label="Xóa" (onClick)="deleteException(day.exception)" />
+                </div>
+              </div>
+            } @else {
+              <p-button icon="pi pi-calendar-plus" label="Thêm ngoại lệ" severity="secondary" (onClick)="openException(undefined, day.date)" />
+            }
+          </div>
+        } @else {
+          <div class="text-sm text-surface-500">Chọn một ngày trên lịch để xem chi tiết.</div>
+        }
+      </div>
+
+      <div class="rounded-lg border border-surface-200 bg-surface-0 p-4 dark:border-surface-800 dark:bg-surface-900">
+        <div class="mb-3 font-semibold text-surface-900 dark:text-white">Tính ngày làm việc</div>
+        <div [formGroup]="calculationForm" class="space-y-3">
+          <div class="flex flex-col gap-2">
+            <label for="businessStartDate" class="text-xs font-semibold text-surface-600 dark:text-surface-300">Ngày bắt đầu</label>
+            <p-datepicker inputId="businessStartDate" formControlName="startDate" dateFormat="yy-mm-dd" dataType="string" appendTo="body" styleClass="w-full" />
+          </div>
+          <div class="flex flex-col gap-2">
+            <label for="businessOffsetDays" class="text-xs font-semibold text-surface-600 dark:text-surface-300">Số ngày làm việc</label>
+            <input pInputText id="businessOffsetDays" type="number" formControlName="offsetDays" />
+          </div>
+          <div class="flex flex-col gap-2">
+            <label for="businessAdjustmentRule" class="text-xs font-semibold text-surface-600 dark:text-surface-300">Điều chỉnh</label>
+            <p-select inputId="businessAdjustmentRule" formControlName="adjustmentRule" [options]="adjustmentRuleOptions" optionLabel="label" optionValue="value" appendTo="body" />
+          </div>
+          <p-button icon="pi pi-calculator" label="Tính" (onClick)="calculate()" [disabled]="!currentCalendar()" />
+          @if (calculationResult()) {
+            <div class="rounded-md bg-primary-50 p-3 text-sm font-semibold text-primary dark:bg-primary-950">{{ calculationResult() }}</div>
+          }
+        </div>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<p-dialog [visible]="calendarDialogVisible()" (visibleChange)="calendarDialogVisible.set($event)" [modal]="true" [draggable]="false" [resizable]="false" [style]="{width: '680px'}" [header]="selectedCalendar() ? 'Cập nhật lịch' : 'Thêm lịch'">
+  <div [formGroup]="calendarForm" class="grid gap-4 py-4 md:grid-cols-2">
+    <div class="flex flex-col gap-2">
+      <label for="calendarCode" class="text-sm font-medium">Mã lịch <span class="text-red-500">*</span></label>
+      <input pInputText id="calendarCode" formControlName="code" placeholder="VN_BANKING_CALENDAR" />
+    </div>
+    <div class="flex flex-col gap-2">
+      <label for="calendarName" class="text-sm font-medium">Tên lịch <span class="text-red-500">*</span></label>
+      <input pInputText id="calendarName" formControlName="name" placeholder="Lịch làm việc ngân hàng" />
+    </div>
+    <div class="flex flex-col gap-2">
+      <label for="calendarTimezone" class="text-sm font-medium">Múi giờ</label>
+      <input pInputText id="calendarTimezone" formControlName="timezone" />
+    </div>
+    <div class="flex flex-col gap-2">
+      <label for="calendarType" class="text-sm font-medium">Loại lịch</label>
+      <p-select inputId="calendarType" formControlName="calendarType" [options]="calendarTypeOptions" optionLabel="label" optionValue="value" appendTo="body" />
+    </div>
+    <div class="flex flex-col gap-2">
+      <label for="calendarStatus" class="text-sm font-medium">Trạng thái</label>
+      <p-select inputId="calendarStatus" formControlName="status" [options]="statusOptions" optionLabel="label" optionValue="value" appendTo="body" />
+    </div>
+    <div class="flex flex-col gap-2 md:col-span-2">
+      <label for="calendarDescription" class="text-sm font-medium">Mô tả</label>
+      <textarea pTextarea id="calendarDescription" formControlName="description" rows="3"></textarea>
+    </div>
+  </div>
+  <ng-template pTemplate="footer">
+    <p-button label="Hủy" severity="secondary" variant="text" (onClick)="calendarDialogVisible.set(false)" />
+    <p-button label="Lưu" icon="pi pi-check" [loading]="isSaving()" (onClick)="saveCalendar()" />
+  </ng-template>
+</p-dialog>
+
+<p-dialog [visible]="hourDialogVisible()" (visibleChange)="hourDialogVisible.set($event)" [modal]="true" [draggable]="false" [resizable]="false" [style]="{width: '620px'}" [header]="selectedHour() ? 'Cập nhật giờ làm việc' : 'Thêm giờ làm việc'">
+  <div [formGroup]="hourForm" class="grid gap-4 py-4 md:grid-cols-2">
+    <div class="flex flex-col gap-2">
+      <label for="hourDay" class="text-sm font-medium">Ngày trong tuần</label>
+      <p-select inputId="hourDay" formControlName="dayOfWeek" [options]="dayOptions" optionLabel="label" optionValue="value" appendTo="body" />
+    </div>
+    <label class="mt-7 flex items-center gap-2 text-sm">
+      <input type="checkbox" formControlName="isWorkingDay" class="h-4 w-4" />
+      Là ngày làm việc
+    </label>
+    <div class="flex flex-col gap-2">
+      <label for="hourStart" class="text-sm font-medium">Giờ bắt đầu</label>
+      <input pInputText id="hourStart" formControlName="startTime" placeholder="08:00" />
+    </div>
+    <div class="flex flex-col gap-2">
+      <label for="hourEnd" class="text-sm font-medium">Giờ kết thúc</label>
+      <input pInputText id="hourEnd" formControlName="endTime" placeholder="17:00" />
+    </div>
+    <div class="flex flex-col gap-2">
+      <label for="hourCutoff" class="text-sm font-medium">Cutoff</label>
+      <input pInputText id="hourCutoff" formControlName="cutoffTime" placeholder="15:30" />
+    </div>
+    <div class="flex flex-col gap-2">
+      <label for="hourSession" class="text-sm font-medium">Tên phiên</label>
+      <input pInputText id="hourSession" formControlName="sessionName" placeholder="Thứ hai" />
+    </div>
+  </div>
+  <ng-template pTemplate="footer">
+    <p-button label="Hủy" severity="secondary" variant="text" (onClick)="hourDialogVisible.set(false)" />
+    <p-button label="Lưu" icon="pi pi-check" [loading]="isSaving()" (onClick)="saveHour()" />
+  </ng-template>
+</p-dialog>
+
+<p-dialog [visible]="exceptionDialogVisible()" (visibleChange)="exceptionDialogVisible.set($event)" [modal]="true" [draggable]="false" [resizable]="false" [style]="{width: '720px'}" [header]="selectedException() ? 'Cập nhật ngày ngoại lệ' : 'Thêm ngày ngoại lệ'">
+  <div [formGroup]="exceptionForm" class="grid gap-4 py-4 md:grid-cols-2">
+    <div class="flex flex-col gap-2">
+      <label for="exceptionDate" class="text-sm font-medium">Ngày <span class="text-red-500">*</span></label>
+      <p-datepicker inputId="exceptionDate" formControlName="date" dateFormat="yy-mm-dd" dataType="string" appendTo="body" styleClass="w-full" />
+    </div>
+    <div class="flex flex-col gap-2">
+      <label for="exceptionType" class="text-sm font-medium">Loại ngoại lệ</label>
+      <p-select inputId="exceptionType" formControlName="exceptionType" [options]="exceptionTypeOptions" optionLabel="label" optionValue="value" appendTo="body" />
+    </div>
+    <div class="flex flex-col gap-2 md:col-span-2">
+      <label for="exceptionName" class="text-sm font-medium">Tên ngày <span class="text-red-500">*</span></label>
+      <input pInputText id="exceptionName" formControlName="name" placeholder="Tết Dương lịch" />
+    </div>
+    <label class="flex items-center gap-2 text-sm">
+      <input type="checkbox" formControlName="isWorkingDay" class="h-4 w-4" />
+      Là ngày làm việc
+    </label>
+    <div class="flex flex-col gap-2">
+      <label for="exceptionSource" class="text-sm font-medium">Nguồn</label>
+      <input pInputText id="exceptionSource" formControlName="source" placeholder="SBV, nội bộ..." />
+    </div>
+    <div class="flex flex-col gap-2">
+      <label for="exceptionStart" class="text-sm font-medium">Giờ bắt đầu</label>
+      <input pInputText id="exceptionStart" formControlName="startTime" placeholder="08:00" />
+    </div>
+    <div class="flex flex-col gap-2">
+      <label for="exceptionEnd" class="text-sm font-medium">Giờ kết thúc</label>
+      <input pInputText id="exceptionEnd" formControlName="endTime" placeholder="12:00" />
+    </div>
+    <div class="flex flex-col gap-2 md:col-span-2">
+      <label for="exceptionNote" class="text-sm font-medium">Ghi chú</label>
+      <textarea pTextarea id="exceptionNote" formControlName="note" rows="3"></textarea>
+    </div>
+  </div>
+  <ng-template pTemplate="footer">
+    <p-button label="Hủy" severity="secondary" variant="text" (onClick)="exceptionDialogVisible.set(false)" />
+    <p-button label="Lưu" icon="pi pi-check" [loading]="isSaving()" (onClick)="saveException()" />
+  </ng-template>
+</p-dialog>

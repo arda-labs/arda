@@ -495,6 +495,264 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/mdm.v1.DeleteResponse'
+    /v1/mdm/business-calendars:
+        get:
+            tags:
+                - MdmService
+            operationId: MdmService_ListBusinessCalendars
+            parameters:
+                - name: status
+                  in: query
+                  schema:
+                    type: string
+                - name: keyword
+                  in: query
+                  schema:
+                    type: string
+                - name: pageSize
+                  in: query
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pageToken
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.ListBusinessCalendarsResponse'
+        post:
+            tags:
+                - MdmService
+            operationId: MdmService_CreateBusinessCalendar
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/mdm.v1.CreateBusinessCalendarRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.BusinessCalendar'
+    /v1/mdm/business-calendars/calculate:
+        post:
+            tags:
+                - MdmService
+            operationId: MdmService_CalculateBusinessDay
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/mdm.v1.CalculateBusinessDayRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.CalculateBusinessDayResponse'
+    /v1/mdm/business-calendars/{calendarId}/exceptions:
+        get:
+            tags:
+                - MdmService
+            operationId: MdmService_ListCalendarExceptions
+            parameters:
+                - name: calendarId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: fromDate
+                  in: query
+                  schema:
+                    type: string
+                - name: toDate
+                  in: query
+                  schema:
+                    type: string
+                - name: exceptionType
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.ListCalendarExceptionsResponse'
+        post:
+            tags:
+                - MdmService
+            operationId: MdmService_CreateCalendarException
+            parameters:
+                - name: calendarId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/mdm.v1.CreateCalendarExceptionRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.CalendarException'
+    /v1/mdm/business-calendars/{calendarId}/working-hours:
+        get:
+            tags:
+                - MdmService
+            operationId: MdmService_ListWorkingHours
+            parameters:
+                - name: calendarId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.ListWorkingHoursResponse'
+        post:
+            tags:
+                - MdmService
+            operationId: MdmService_CreateWorkingHour
+            parameters:
+                - name: calendarId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/mdm.v1.CreateWorkingHourRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.WorkingHour'
+    /v1/mdm/business-calendars/{id}:
+        get:
+            tags:
+                - MdmService
+            operationId: MdmService_GetBusinessCalendar
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.BusinessCalendar'
+        put:
+            tags:
+                - MdmService
+            operationId: MdmService_UpdateBusinessCalendar
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/mdm.v1.UpdateBusinessCalendarRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.BusinessCalendar'
+        delete:
+            tags:
+                - MdmService
+            operationId: MdmService_DeleteBusinessCalendar
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.DeleteResponse'
+    /v1/mdm/calendar-exceptions/{id}:
+        put:
+            tags:
+                - MdmService
+            operationId: MdmService_UpdateCalendarException
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/mdm.v1.UpdateCalendarExceptionRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.CalendarException'
+        delete:
+            tags:
+                - MdmService
+            operationId: MdmService_DeleteCalendarException
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.DeleteResponse'
     /v1/mdm/code-items/{id}:
         get:
             tags:
@@ -1003,6 +1261,47 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/mdm.v1.DeleteResponse'
+    /v1/mdm/working-hours/{id}:
+        put:
+            tags:
+                - MdmService
+            operationId: MdmService_UpdateWorkingHour
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/mdm.v1.UpdateWorkingHourRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.WorkingHour'
+        delete:
+            tags:
+                - MdmService
+            operationId: MdmService_DeleteWorkingHour
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.DeleteResponse'
 components:
     schemas:
         mdm.v1.AdministrativeUnit:
@@ -1146,6 +1445,90 @@ components:
                     type: string
                 scopeType:
                     type: string
+        mdm.v1.BusinessCalendar:
+            type: object
+            properties:
+                id:
+                    type: string
+                code:
+                    type: string
+                name:
+                    type: string
+                timezone:
+                    type: string
+                calendarType:
+                    type: string
+                description:
+                    type: string
+                status:
+                    type: string
+                createdAt:
+                    type: string
+                    format: date-time
+                updatedAt:
+                    type: string
+                    format: date-time
+        mdm.v1.CalculateBusinessDayRequest:
+            type: object
+            properties:
+                calendarId:
+                    type: string
+                calendarCode:
+                    type: string
+                startDate:
+                    type: string
+                offsetDays:
+                    type: integer
+                    format: int32
+                adjustmentRule:
+                    type: string
+        mdm.v1.CalculateBusinessDayResponse:
+            type: object
+            properties:
+                startDate:
+                    type: string
+                resultDate:
+                    type: string
+                calendarDays:
+                    type: integer
+                    format: int32
+                skippedDates:
+                    type: array
+                    items:
+                        type: string
+                isBusinessDay:
+                    type: boolean
+        mdm.v1.CalendarException:
+            type: object
+            properties:
+                id:
+                    type: string
+                calendarId:
+                    type: string
+                date:
+                    type: string
+                exceptionType:
+                    type: string
+                name:
+                    type: string
+                isWorkingDay:
+                    type: boolean
+                startTime:
+                    type: string
+                endTime:
+                    type: string
+                cutoffTime:
+                    type: string
+                source:
+                    type: string
+                note:
+                    type: string
+                createdAt:
+                    type: string
+                    format: date-time
+                updatedAt:
+                    type: string
+                    format: date-time
         mdm.v1.CodeItem:
             type: object
             properties:
@@ -1224,6 +1607,18 @@ components:
             properties:
                 areaType:
                     $ref: '#/components/schemas/mdm.v1.AreaType'
+        mdm.v1.CreateBusinessCalendarRequest:
+            type: object
+            properties:
+                businessCalendar:
+                    $ref: '#/components/schemas/mdm.v1.BusinessCalendar'
+        mdm.v1.CreateCalendarExceptionRequest:
+            type: object
+            properties:
+                calendarId:
+                    type: string
+                calendarException:
+                    $ref: '#/components/schemas/mdm.v1.CalendarException'
         mdm.v1.CreateCodeItemRequest:
             type: object
             properties:
@@ -1246,6 +1641,13 @@ components:
             properties:
                 parameter:
                     $ref: '#/components/schemas/mdm.v1.SystemParameter'
+        mdm.v1.CreateWorkingHourRequest:
+            type: object
+            properties:
+                calendarId:
+                    type: string
+                workingHour:
+                    $ref: '#/components/schemas/mdm.v1.WorkingHour'
         mdm.v1.CreditInstitution:
             type: object
             properties:
@@ -1332,6 +1734,22 @@ components:
                         $ref: '#/components/schemas/mdm.v1.Area'
                 nextPageToken:
                     type: string
+        mdm.v1.ListBusinessCalendarsResponse:
+            type: object
+            properties:
+                businessCalendars:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/mdm.v1.BusinessCalendar'
+                nextPageToken:
+                    type: string
+        mdm.v1.ListCalendarExceptionsResponse:
+            type: object
+            properties:
+                calendarExceptions:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/mdm.v1.CalendarException'
         mdm.v1.ListCodeItemsResponse:
             type: object
             properties:
@@ -1368,6 +1786,13 @@ components:
                         $ref: '#/components/schemas/mdm.v1.SystemParameter'
                 nextPageToken:
                     type: string
+        mdm.v1.ListWorkingHoursResponse:
+            type: object
+            properties:
+                workingHours:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/mdm.v1.WorkingHour'
         mdm.v1.SyncAdministrativeUnitsFromAddressKitRequest:
             type: object
             properties: {}
@@ -1449,6 +1874,20 @@ components:
                     type: string
                 areaType:
                     $ref: '#/components/schemas/mdm.v1.AreaType'
+        mdm.v1.UpdateBusinessCalendarRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                businessCalendar:
+                    $ref: '#/components/schemas/mdm.v1.BusinessCalendar'
+        mdm.v1.UpdateCalendarExceptionRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                calendarException:
+                    $ref: '#/components/schemas/mdm.v1.CalendarException'
         mdm.v1.UpdateCodeItemRequest:
             type: object
             properties:
@@ -1477,5 +1916,41 @@ components:
                     type: string
                 parameter:
                     $ref: '#/components/schemas/mdm.v1.SystemParameter'
+        mdm.v1.UpdateWorkingHourRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                workingHour:
+                    $ref: '#/components/schemas/mdm.v1.WorkingHour'
+        mdm.v1.WorkingHour:
+            type: object
+            properties:
+                id:
+                    type: string
+                calendarId:
+                    type: string
+                dayOfWeek:
+                    type: integer
+                    format: int32
+                isWorkingDay:
+                    type: boolean
+                startTime:
+                    type: string
+                endTime:
+                    type: string
+                cutoffTime:
+                    type: string
+                sessionName:
+                    type: string
+                sortOrder:
+                    type: integer
+                    format: int32
+                createdAt:
+                    type: string
+                    format: date-time
+                updatedAt:
+                    type: string
+                    format: date-time
 tags:
     - name: MdmService

@@ -141,3 +141,55 @@ export interface CreditInstitution {
   note: string;
   status: string;
 }
+
+export interface BusinessCalendar {
+  id: string;
+  code: string;
+  name: string;
+  timezone: string;
+  calendarType: string;
+  description: string;
+  status: string;
+}
+
+export interface WorkingHour {
+  id: string;
+  calendarId: string;
+  dayOfWeek: number;
+  isWorkingDay: boolean;
+  startTime: string;
+  endTime: string;
+  cutoffTime: string;
+  sessionName: string;
+  sortOrder: number;
+}
+
+export interface CalendarException {
+  id: string;
+  calendarId: string;
+  date: string;
+  exceptionType: string;
+  name: string;
+  isWorkingDay: boolean;
+  startTime: string;
+  endTime: string;
+  cutoffTime: string;
+  source: string;
+  note: string;
+}
+
+export interface BusinessDayCalculation {
+  calendarId?: string;
+  calendarCode?: string;
+  startDate: string;
+  offsetDays: number;
+  adjustmentRule: string;
+}
+
+export interface BusinessDayCalculationResult {
+  startDate: string;
+  resultDate: string;
+  calendarDays: number;
+  skippedDates: string[];
+  isBusinessDay: boolean;
+}

@@ -42,6 +42,29 @@ Main resources:
 - System parameters for runtime configuration.
 - Credit institutions for banking counterparties and licensed financial
   organizations.
+- Business calendars for banking working hours, holidays, makeup workdays, and
+  business-day calculations.
+
+### Business Calendars
+
+The service stores operating calendars in three layers:
+
+- `business_calendars`: calendar header, timezone, type, and status.
+- `working_hours`: standard weekly working pattern for each calendar.
+- `calendar_exceptions`: holiday, makeup workday, early-close, or other
+  date-specific override.
+
+The default seed creates `VN_BANKING_CALENDAR` with Monday-Friday working hours
+and weekend closure. It also seeds common Vietnam public/banking holidays for
+2026: New Year's Day, Lunar New Year, Hung Kings Commemoration Day and
+compensatory leave, Reunification Day, International Labor Day, and National
+Day. Lunar-calendar holidays and annual compensatory days change by year, so
+operators should review and update the calendar after the official yearly
+holiday announcement.
+
+The frontend page `Lịch làm việc` lets operators maintain weekly hours, add
+holidays or makeup workdays on a month calendar, and calculate business dates
+from the configured rules.
 
 ### Administrative Unit Sync
 

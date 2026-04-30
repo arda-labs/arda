@@ -20,23 +20,31 @@ var _ = binding.EncodeURL
 const _ = http.SupportPackageIsVersion1
 
 const OperationMdmServiceAssignAreaAdministrativeUnit = "/mdm.v1.MdmService/AssignAreaAdministrativeUnit"
+const OperationMdmServiceCalculateBusinessDay = "/mdm.v1.MdmService/CalculateBusinessDay"
 const OperationMdmServiceCreateAdministrativeUnit = "/mdm.v1.MdmService/CreateAdministrativeUnit"
 const OperationMdmServiceCreateArea = "/mdm.v1.MdmService/CreateArea"
 const OperationMdmServiceCreateAreaType = "/mdm.v1.MdmService/CreateAreaType"
+const OperationMdmServiceCreateBusinessCalendar = "/mdm.v1.MdmService/CreateBusinessCalendar"
+const OperationMdmServiceCreateCalendarException = "/mdm.v1.MdmService/CreateCalendarException"
 const OperationMdmServiceCreateCodeItem = "/mdm.v1.MdmService/CreateCodeItem"
 const OperationMdmServiceCreateCodeSet = "/mdm.v1.MdmService/CreateCodeSet"
 const OperationMdmServiceCreateCreditInstitution = "/mdm.v1.MdmService/CreateCreditInstitution"
 const OperationMdmServiceCreateSystemParameter = "/mdm.v1.MdmService/CreateSystemParameter"
+const OperationMdmServiceCreateWorkingHour = "/mdm.v1.MdmService/CreateWorkingHour"
 const OperationMdmServiceDeleteAdministrativeUnit = "/mdm.v1.MdmService/DeleteAdministrativeUnit"
 const OperationMdmServiceDeleteArea = "/mdm.v1.MdmService/DeleteArea"
 const OperationMdmServiceDeleteAreaType = "/mdm.v1.MdmService/DeleteAreaType"
+const OperationMdmServiceDeleteBusinessCalendar = "/mdm.v1.MdmService/DeleteBusinessCalendar"
+const OperationMdmServiceDeleteCalendarException = "/mdm.v1.MdmService/DeleteCalendarException"
 const OperationMdmServiceDeleteCodeItem = "/mdm.v1.MdmService/DeleteCodeItem"
 const OperationMdmServiceDeleteCodeSet = "/mdm.v1.MdmService/DeleteCodeSet"
 const OperationMdmServiceDeleteCreditInstitution = "/mdm.v1.MdmService/DeleteCreditInstitution"
 const OperationMdmServiceDeleteSystemParameter = "/mdm.v1.MdmService/DeleteSystemParameter"
+const OperationMdmServiceDeleteWorkingHour = "/mdm.v1.MdmService/DeleteWorkingHour"
 const OperationMdmServiceGetAdministrativeUnit = "/mdm.v1.MdmService/GetAdministrativeUnit"
 const OperationMdmServiceGetArea = "/mdm.v1.MdmService/GetArea"
 const OperationMdmServiceGetAreaType = "/mdm.v1.MdmService/GetAreaType"
+const OperationMdmServiceGetBusinessCalendar = "/mdm.v1.MdmService/GetBusinessCalendar"
 const OperationMdmServiceGetCodeItem = "/mdm.v1.MdmService/GetCodeItem"
 const OperationMdmServiceGetCodeSet = "/mdm.v1.MdmService/GetCodeSet"
 const OperationMdmServiceGetCreditInstitution = "/mdm.v1.MdmService/GetCreditInstitution"
@@ -47,41 +55,55 @@ const OperationMdmServiceListAreaAdministrativeUnits = "/mdm.v1.MdmService/ListA
 const OperationMdmServiceListAreaTree = "/mdm.v1.MdmService/ListAreaTree"
 const OperationMdmServiceListAreaTypes = "/mdm.v1.MdmService/ListAreaTypes"
 const OperationMdmServiceListAreas = "/mdm.v1.MdmService/ListAreas"
+const OperationMdmServiceListBusinessCalendars = "/mdm.v1.MdmService/ListBusinessCalendars"
+const OperationMdmServiceListCalendarExceptions = "/mdm.v1.MdmService/ListCalendarExceptions"
 const OperationMdmServiceListCodeItems = "/mdm.v1.MdmService/ListCodeItems"
 const OperationMdmServiceListCodeSets = "/mdm.v1.MdmService/ListCodeSets"
 const OperationMdmServiceListCreditInstitutions = "/mdm.v1.MdmService/ListCreditInstitutions"
 const OperationMdmServiceListProvinces = "/mdm.v1.MdmService/ListProvinces"
 const OperationMdmServiceListSystemParameters = "/mdm.v1.MdmService/ListSystemParameters"
 const OperationMdmServiceListWards = "/mdm.v1.MdmService/ListWards"
+const OperationMdmServiceListWorkingHours = "/mdm.v1.MdmService/ListWorkingHours"
 const OperationMdmServiceRemoveAreaAdministrativeUnit = "/mdm.v1.MdmService/RemoveAreaAdministrativeUnit"
 const OperationMdmServiceSyncAdministrativeUnitsFromAddressKit = "/mdm.v1.MdmService/SyncAdministrativeUnitsFromAddressKit"
 const OperationMdmServiceUpdateAdministrativeUnit = "/mdm.v1.MdmService/UpdateAdministrativeUnit"
 const OperationMdmServiceUpdateArea = "/mdm.v1.MdmService/UpdateArea"
 const OperationMdmServiceUpdateAreaType = "/mdm.v1.MdmService/UpdateAreaType"
+const OperationMdmServiceUpdateBusinessCalendar = "/mdm.v1.MdmService/UpdateBusinessCalendar"
+const OperationMdmServiceUpdateCalendarException = "/mdm.v1.MdmService/UpdateCalendarException"
 const OperationMdmServiceUpdateCodeItem = "/mdm.v1.MdmService/UpdateCodeItem"
 const OperationMdmServiceUpdateCodeSet = "/mdm.v1.MdmService/UpdateCodeSet"
 const OperationMdmServiceUpdateCreditInstitution = "/mdm.v1.MdmService/UpdateCreditInstitution"
 const OperationMdmServiceUpdateSystemParameter = "/mdm.v1.MdmService/UpdateSystemParameter"
+const OperationMdmServiceUpdateWorkingHour = "/mdm.v1.MdmService/UpdateWorkingHour"
 
 type MdmServiceHTTPServer interface {
 	AssignAreaAdministrativeUnit(context.Context, *AssignAreaAdministrativeUnitRequest) (*AreaAdministrativeUnit, error)
+	CalculateBusinessDay(context.Context, *CalculateBusinessDayRequest) (*CalculateBusinessDayResponse, error)
 	CreateAdministrativeUnit(context.Context, *CreateAdministrativeUnitRequest) (*AdministrativeUnit, error)
 	CreateArea(context.Context, *CreateAreaRequest) (*Area, error)
 	CreateAreaType(context.Context, *CreateAreaTypeRequest) (*AreaType, error)
+	CreateBusinessCalendar(context.Context, *CreateBusinessCalendarRequest) (*BusinessCalendar, error)
+	CreateCalendarException(context.Context, *CreateCalendarExceptionRequest) (*CalendarException, error)
 	CreateCodeItem(context.Context, *CreateCodeItemRequest) (*CodeItem, error)
 	CreateCodeSet(context.Context, *CreateCodeSetRequest) (*CodeSet, error)
 	CreateCreditInstitution(context.Context, *CreateCreditInstitutionRequest) (*CreditInstitution, error)
 	CreateSystemParameter(context.Context, *CreateSystemParameterRequest) (*SystemParameter, error)
+	CreateWorkingHour(context.Context, *CreateWorkingHourRequest) (*WorkingHour, error)
 	DeleteAdministrativeUnit(context.Context, *DeleteAdministrativeUnitRequest) (*DeleteResponse, error)
 	DeleteArea(context.Context, *DeleteAreaRequest) (*DeleteResponse, error)
 	DeleteAreaType(context.Context, *DeleteAreaTypeRequest) (*DeleteResponse, error)
+	DeleteBusinessCalendar(context.Context, *DeleteBusinessCalendarRequest) (*DeleteResponse, error)
+	DeleteCalendarException(context.Context, *DeleteCalendarExceptionRequest) (*DeleteResponse, error)
 	DeleteCodeItem(context.Context, *DeleteCodeItemRequest) (*DeleteResponse, error)
 	DeleteCodeSet(context.Context, *DeleteCodeSetRequest) (*DeleteResponse, error)
 	DeleteCreditInstitution(context.Context, *DeleteCreditInstitutionRequest) (*DeleteResponse, error)
 	DeleteSystemParameter(context.Context, *DeleteSystemParameterRequest) (*DeleteResponse, error)
+	DeleteWorkingHour(context.Context, *DeleteWorkingHourRequest) (*DeleteResponse, error)
 	GetAdministrativeUnit(context.Context, *GetAdministrativeUnitRequest) (*AdministrativeUnit, error)
 	GetArea(context.Context, *GetAreaRequest) (*Area, error)
 	GetAreaType(context.Context, *GetAreaTypeRequest) (*AreaType, error)
+	GetBusinessCalendar(context.Context, *GetBusinessCalendarRequest) (*BusinessCalendar, error)
 	GetCodeItem(context.Context, *GetCodeItemRequest) (*CodeItem, error)
 	GetCodeSet(context.Context, *GetCodeSetRequest) (*CodeSet, error)
 	GetCreditInstitution(context.Context, *GetCreditInstitutionRequest) (*CreditInstitution, error)
@@ -92,21 +114,27 @@ type MdmServiceHTTPServer interface {
 	ListAreaTree(context.Context, *ListAreasRequest) (*ListAreaTreeResponse, error)
 	ListAreaTypes(context.Context, *ListAreaTypesRequest) (*ListAreaTypesResponse, error)
 	ListAreas(context.Context, *ListAreasRequest) (*ListAreasResponse, error)
+	ListBusinessCalendars(context.Context, *ListBusinessCalendarsRequest) (*ListBusinessCalendarsResponse, error)
+	ListCalendarExceptions(context.Context, *ListCalendarExceptionsRequest) (*ListCalendarExceptionsResponse, error)
 	ListCodeItems(context.Context, *ListCodeItemsRequest) (*ListCodeItemsResponse, error)
 	ListCodeSets(context.Context, *ListCodeSetsRequest) (*ListCodeSetsResponse, error)
 	ListCreditInstitutions(context.Context, *ListCreditInstitutionsRequest) (*ListCreditInstitutionsResponse, error)
 	ListProvinces(context.Context, *ListAdministrativeUnitsRequest) (*ListAdministrativeUnitsResponse, error)
 	ListSystemParameters(context.Context, *ListSystemParametersRequest) (*ListSystemParametersResponse, error)
 	ListWards(context.Context, *ListWardsRequest) (*ListAdministrativeUnitsResponse, error)
+	ListWorkingHours(context.Context, *ListWorkingHoursRequest) (*ListWorkingHoursResponse, error)
 	RemoveAreaAdministrativeUnit(context.Context, *RemoveAreaAdministrativeUnitRequest) (*DeleteResponse, error)
 	SyncAdministrativeUnitsFromAddressKit(context.Context, *SyncAdministrativeUnitsFromAddressKitRequest) (*SyncAdministrativeUnitsFromAddressKitResponse, error)
 	UpdateAdministrativeUnit(context.Context, *UpdateAdministrativeUnitRequest) (*AdministrativeUnit, error)
 	UpdateArea(context.Context, *UpdateAreaRequest) (*Area, error)
 	UpdateAreaType(context.Context, *UpdateAreaTypeRequest) (*AreaType, error)
+	UpdateBusinessCalendar(context.Context, *UpdateBusinessCalendarRequest) (*BusinessCalendar, error)
+	UpdateCalendarException(context.Context, *UpdateCalendarExceptionRequest) (*CalendarException, error)
 	UpdateCodeItem(context.Context, *UpdateCodeItemRequest) (*CodeItem, error)
 	UpdateCodeSet(context.Context, *UpdateCodeSetRequest) (*CodeSet, error)
 	UpdateCreditInstitution(context.Context, *UpdateCreditInstitutionRequest) (*CreditInstitution, error)
 	UpdateSystemParameter(context.Context, *UpdateSystemParameterRequest) (*SystemParameter, error)
+	UpdateWorkingHour(context.Context, *UpdateWorkingHourRequest) (*WorkingHour, error)
 }
 
 func RegisterMdmServiceHTTPServer(s *http.Server, srv MdmServiceHTTPServer) {
@@ -154,6 +182,20 @@ func RegisterMdmServiceHTTPServer(s *http.Server, srv MdmServiceHTTPServer) {
 	r.POST("/v1/mdm/credit-institutions", _MdmService_CreateCreditInstitution0_HTTP_Handler(srv))
 	r.PUT("/v1/mdm/credit-institutions/{id}", _MdmService_UpdateCreditInstitution0_HTTP_Handler(srv))
 	r.DELETE("/v1/mdm/credit-institutions/{id}", _MdmService_DeleteCreditInstitution0_HTTP_Handler(srv))
+	r.GET("/v1/mdm/business-calendars", _MdmService_ListBusinessCalendars0_HTTP_Handler(srv))
+	r.GET("/v1/mdm/business-calendars/{id}", _MdmService_GetBusinessCalendar0_HTTP_Handler(srv))
+	r.POST("/v1/mdm/business-calendars", _MdmService_CreateBusinessCalendar0_HTTP_Handler(srv))
+	r.PUT("/v1/mdm/business-calendars/{id}", _MdmService_UpdateBusinessCalendar0_HTTP_Handler(srv))
+	r.DELETE("/v1/mdm/business-calendars/{id}", _MdmService_DeleteBusinessCalendar0_HTTP_Handler(srv))
+	r.GET("/v1/mdm/business-calendars/{calendar_id}/working-hours", _MdmService_ListWorkingHours0_HTTP_Handler(srv))
+	r.POST("/v1/mdm/business-calendars/{calendar_id}/working-hours", _MdmService_CreateWorkingHour0_HTTP_Handler(srv))
+	r.PUT("/v1/mdm/working-hours/{id}", _MdmService_UpdateWorkingHour0_HTTP_Handler(srv))
+	r.DELETE("/v1/mdm/working-hours/{id}", _MdmService_DeleteWorkingHour0_HTTP_Handler(srv))
+	r.GET("/v1/mdm/business-calendars/{calendar_id}/exceptions", _MdmService_ListCalendarExceptions0_HTTP_Handler(srv))
+	r.POST("/v1/mdm/business-calendars/{calendar_id}/exceptions", _MdmService_CreateCalendarException0_HTTP_Handler(srv))
+	r.PUT("/v1/mdm/calendar-exceptions/{id}", _MdmService_UpdateCalendarException0_HTTP_Handler(srv))
+	r.DELETE("/v1/mdm/calendar-exceptions/{id}", _MdmService_DeleteCalendarException0_HTTP_Handler(srv))
+	r.POST("/v1/mdm/business-calendars/calculate", _MdmService_CalculateBusinessDay0_HTTP_Handler(srv))
 }
 
 func _MdmService_ListAdministrativeUnits0_HTTP_Handler(srv MdmServiceHTTPServer) func(ctx http.Context) error {
@@ -1102,25 +1144,353 @@ func _MdmService_DeleteCreditInstitution0_HTTP_Handler(srv MdmServiceHTTPServer)
 	}
 }
 
+func _MdmService_ListBusinessCalendars0_HTTP_Handler(srv MdmServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in ListBusinessCalendarsRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationMdmServiceListBusinessCalendars)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.ListBusinessCalendars(ctx, req.(*ListBusinessCalendarsRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*ListBusinessCalendarsResponse)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _MdmService_GetBusinessCalendar0_HTTP_Handler(srv MdmServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in GetBusinessCalendarRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationMdmServiceGetBusinessCalendar)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.GetBusinessCalendar(ctx, req.(*GetBusinessCalendarRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*BusinessCalendar)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _MdmService_CreateBusinessCalendar0_HTTP_Handler(srv MdmServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in CreateBusinessCalendarRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationMdmServiceCreateBusinessCalendar)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.CreateBusinessCalendar(ctx, req.(*CreateBusinessCalendarRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*BusinessCalendar)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _MdmService_UpdateBusinessCalendar0_HTTP_Handler(srv MdmServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in UpdateBusinessCalendarRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationMdmServiceUpdateBusinessCalendar)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.UpdateBusinessCalendar(ctx, req.(*UpdateBusinessCalendarRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*BusinessCalendar)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _MdmService_DeleteBusinessCalendar0_HTTP_Handler(srv MdmServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in DeleteBusinessCalendarRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationMdmServiceDeleteBusinessCalendar)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.DeleteBusinessCalendar(ctx, req.(*DeleteBusinessCalendarRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*DeleteResponse)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _MdmService_ListWorkingHours0_HTTP_Handler(srv MdmServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in ListWorkingHoursRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationMdmServiceListWorkingHours)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.ListWorkingHours(ctx, req.(*ListWorkingHoursRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*ListWorkingHoursResponse)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _MdmService_CreateWorkingHour0_HTTP_Handler(srv MdmServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in CreateWorkingHourRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationMdmServiceCreateWorkingHour)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.CreateWorkingHour(ctx, req.(*CreateWorkingHourRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*WorkingHour)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _MdmService_UpdateWorkingHour0_HTTP_Handler(srv MdmServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in UpdateWorkingHourRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationMdmServiceUpdateWorkingHour)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.UpdateWorkingHour(ctx, req.(*UpdateWorkingHourRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*WorkingHour)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _MdmService_DeleteWorkingHour0_HTTP_Handler(srv MdmServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in DeleteWorkingHourRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationMdmServiceDeleteWorkingHour)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.DeleteWorkingHour(ctx, req.(*DeleteWorkingHourRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*DeleteResponse)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _MdmService_ListCalendarExceptions0_HTTP_Handler(srv MdmServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in ListCalendarExceptionsRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationMdmServiceListCalendarExceptions)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.ListCalendarExceptions(ctx, req.(*ListCalendarExceptionsRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*ListCalendarExceptionsResponse)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _MdmService_CreateCalendarException0_HTTP_Handler(srv MdmServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in CreateCalendarExceptionRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationMdmServiceCreateCalendarException)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.CreateCalendarException(ctx, req.(*CreateCalendarExceptionRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*CalendarException)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _MdmService_UpdateCalendarException0_HTTP_Handler(srv MdmServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in UpdateCalendarExceptionRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationMdmServiceUpdateCalendarException)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.UpdateCalendarException(ctx, req.(*UpdateCalendarExceptionRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*CalendarException)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _MdmService_DeleteCalendarException0_HTTP_Handler(srv MdmServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in DeleteCalendarExceptionRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationMdmServiceDeleteCalendarException)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.DeleteCalendarException(ctx, req.(*DeleteCalendarExceptionRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*DeleteResponse)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _MdmService_CalculateBusinessDay0_HTTP_Handler(srv MdmServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in CalculateBusinessDayRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationMdmServiceCalculateBusinessDay)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.CalculateBusinessDay(ctx, req.(*CalculateBusinessDayRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*CalculateBusinessDayResponse)
+		return ctx.Result(200, reply)
+	}
+}
+
 type MdmServiceHTTPClient interface {
 	AssignAreaAdministrativeUnit(ctx context.Context, req *AssignAreaAdministrativeUnitRequest, opts ...http.CallOption) (rsp *AreaAdministrativeUnit, err error)
+	CalculateBusinessDay(ctx context.Context, req *CalculateBusinessDayRequest, opts ...http.CallOption) (rsp *CalculateBusinessDayResponse, err error)
 	CreateAdministrativeUnit(ctx context.Context, req *CreateAdministrativeUnitRequest, opts ...http.CallOption) (rsp *AdministrativeUnit, err error)
 	CreateArea(ctx context.Context, req *CreateAreaRequest, opts ...http.CallOption) (rsp *Area, err error)
 	CreateAreaType(ctx context.Context, req *CreateAreaTypeRequest, opts ...http.CallOption) (rsp *AreaType, err error)
+	CreateBusinessCalendar(ctx context.Context, req *CreateBusinessCalendarRequest, opts ...http.CallOption) (rsp *BusinessCalendar, err error)
+	CreateCalendarException(ctx context.Context, req *CreateCalendarExceptionRequest, opts ...http.CallOption) (rsp *CalendarException, err error)
 	CreateCodeItem(ctx context.Context, req *CreateCodeItemRequest, opts ...http.CallOption) (rsp *CodeItem, err error)
 	CreateCodeSet(ctx context.Context, req *CreateCodeSetRequest, opts ...http.CallOption) (rsp *CodeSet, err error)
 	CreateCreditInstitution(ctx context.Context, req *CreateCreditInstitutionRequest, opts ...http.CallOption) (rsp *CreditInstitution, err error)
 	CreateSystemParameter(ctx context.Context, req *CreateSystemParameterRequest, opts ...http.CallOption) (rsp *SystemParameter, err error)
+	CreateWorkingHour(ctx context.Context, req *CreateWorkingHourRequest, opts ...http.CallOption) (rsp *WorkingHour, err error)
 	DeleteAdministrativeUnit(ctx context.Context, req *DeleteAdministrativeUnitRequest, opts ...http.CallOption) (rsp *DeleteResponse, err error)
 	DeleteArea(ctx context.Context, req *DeleteAreaRequest, opts ...http.CallOption) (rsp *DeleteResponse, err error)
 	DeleteAreaType(ctx context.Context, req *DeleteAreaTypeRequest, opts ...http.CallOption) (rsp *DeleteResponse, err error)
+	DeleteBusinessCalendar(ctx context.Context, req *DeleteBusinessCalendarRequest, opts ...http.CallOption) (rsp *DeleteResponse, err error)
+	DeleteCalendarException(ctx context.Context, req *DeleteCalendarExceptionRequest, opts ...http.CallOption) (rsp *DeleteResponse, err error)
 	DeleteCodeItem(ctx context.Context, req *DeleteCodeItemRequest, opts ...http.CallOption) (rsp *DeleteResponse, err error)
 	DeleteCodeSet(ctx context.Context, req *DeleteCodeSetRequest, opts ...http.CallOption) (rsp *DeleteResponse, err error)
 	DeleteCreditInstitution(ctx context.Context, req *DeleteCreditInstitutionRequest, opts ...http.CallOption) (rsp *DeleteResponse, err error)
 	DeleteSystemParameter(ctx context.Context, req *DeleteSystemParameterRequest, opts ...http.CallOption) (rsp *DeleteResponse, err error)
+	DeleteWorkingHour(ctx context.Context, req *DeleteWorkingHourRequest, opts ...http.CallOption) (rsp *DeleteResponse, err error)
 	GetAdministrativeUnit(ctx context.Context, req *GetAdministrativeUnitRequest, opts ...http.CallOption) (rsp *AdministrativeUnit, err error)
 	GetArea(ctx context.Context, req *GetAreaRequest, opts ...http.CallOption) (rsp *Area, err error)
 	GetAreaType(ctx context.Context, req *GetAreaTypeRequest, opts ...http.CallOption) (rsp *AreaType, err error)
+	GetBusinessCalendar(ctx context.Context, req *GetBusinessCalendarRequest, opts ...http.CallOption) (rsp *BusinessCalendar, err error)
 	GetCodeItem(ctx context.Context, req *GetCodeItemRequest, opts ...http.CallOption) (rsp *CodeItem, err error)
 	GetCodeSet(ctx context.Context, req *GetCodeSetRequest, opts ...http.CallOption) (rsp *CodeSet, err error)
 	GetCreditInstitution(ctx context.Context, req *GetCreditInstitutionRequest, opts ...http.CallOption) (rsp *CreditInstitution, err error)
@@ -1131,21 +1501,27 @@ type MdmServiceHTTPClient interface {
 	ListAreaTree(ctx context.Context, req *ListAreasRequest, opts ...http.CallOption) (rsp *ListAreaTreeResponse, err error)
 	ListAreaTypes(ctx context.Context, req *ListAreaTypesRequest, opts ...http.CallOption) (rsp *ListAreaTypesResponse, err error)
 	ListAreas(ctx context.Context, req *ListAreasRequest, opts ...http.CallOption) (rsp *ListAreasResponse, err error)
+	ListBusinessCalendars(ctx context.Context, req *ListBusinessCalendarsRequest, opts ...http.CallOption) (rsp *ListBusinessCalendarsResponse, err error)
+	ListCalendarExceptions(ctx context.Context, req *ListCalendarExceptionsRequest, opts ...http.CallOption) (rsp *ListCalendarExceptionsResponse, err error)
 	ListCodeItems(ctx context.Context, req *ListCodeItemsRequest, opts ...http.CallOption) (rsp *ListCodeItemsResponse, err error)
 	ListCodeSets(ctx context.Context, req *ListCodeSetsRequest, opts ...http.CallOption) (rsp *ListCodeSetsResponse, err error)
 	ListCreditInstitutions(ctx context.Context, req *ListCreditInstitutionsRequest, opts ...http.CallOption) (rsp *ListCreditInstitutionsResponse, err error)
 	ListProvinces(ctx context.Context, req *ListAdministrativeUnitsRequest, opts ...http.CallOption) (rsp *ListAdministrativeUnitsResponse, err error)
 	ListSystemParameters(ctx context.Context, req *ListSystemParametersRequest, opts ...http.CallOption) (rsp *ListSystemParametersResponse, err error)
 	ListWards(ctx context.Context, req *ListWardsRequest, opts ...http.CallOption) (rsp *ListAdministrativeUnitsResponse, err error)
+	ListWorkingHours(ctx context.Context, req *ListWorkingHoursRequest, opts ...http.CallOption) (rsp *ListWorkingHoursResponse, err error)
 	RemoveAreaAdministrativeUnit(ctx context.Context, req *RemoveAreaAdministrativeUnitRequest, opts ...http.CallOption) (rsp *DeleteResponse, err error)
 	SyncAdministrativeUnitsFromAddressKit(ctx context.Context, req *SyncAdministrativeUnitsFromAddressKitRequest, opts ...http.CallOption) (rsp *SyncAdministrativeUnitsFromAddressKitResponse, err error)
 	UpdateAdministrativeUnit(ctx context.Context, req *UpdateAdministrativeUnitRequest, opts ...http.CallOption) (rsp *AdministrativeUnit, err error)
 	UpdateArea(ctx context.Context, req *UpdateAreaRequest, opts ...http.CallOption) (rsp *Area, err error)
 	UpdateAreaType(ctx context.Context, req *UpdateAreaTypeRequest, opts ...http.CallOption) (rsp *AreaType, err error)
+	UpdateBusinessCalendar(ctx context.Context, req *UpdateBusinessCalendarRequest, opts ...http.CallOption) (rsp *BusinessCalendar, err error)
+	UpdateCalendarException(ctx context.Context, req *UpdateCalendarExceptionRequest, opts ...http.CallOption) (rsp *CalendarException, err error)
 	UpdateCodeItem(ctx context.Context, req *UpdateCodeItemRequest, opts ...http.CallOption) (rsp *CodeItem, err error)
 	UpdateCodeSet(ctx context.Context, req *UpdateCodeSetRequest, opts ...http.CallOption) (rsp *CodeSet, err error)
 	UpdateCreditInstitution(ctx context.Context, req *UpdateCreditInstitutionRequest, opts ...http.CallOption) (rsp *CreditInstitution, err error)
 	UpdateSystemParameter(ctx context.Context, req *UpdateSystemParameterRequest, opts ...http.CallOption) (rsp *SystemParameter, err error)
+	UpdateWorkingHour(ctx context.Context, req *UpdateWorkingHourRequest, opts ...http.CallOption) (rsp *WorkingHour, err error)
 }
 
 type MdmServiceHTTPClientImpl struct {
@@ -1161,6 +1537,19 @@ func (c *MdmServiceHTTPClientImpl) AssignAreaAdministrativeUnit(ctx context.Cont
 	pattern := "/v1/mdm/areas/{area_id}/administrative-units"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationMdmServiceAssignAreaAdministrativeUnit))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *MdmServiceHTTPClientImpl) CalculateBusinessDay(ctx context.Context, in *CalculateBusinessDayRequest, opts ...http.CallOption) (*CalculateBusinessDayResponse, error) {
+	var out CalculateBusinessDayResponse
+	pattern := "/v1/mdm/business-calendars/calculate"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationMdmServiceCalculateBusinessDay))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
 	if err != nil {
@@ -1200,6 +1589,32 @@ func (c *MdmServiceHTTPClientImpl) CreateAreaType(ctx context.Context, in *Creat
 	pattern := "/v1/mdm/area-types"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationMdmServiceCreateAreaType))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *MdmServiceHTTPClientImpl) CreateBusinessCalendar(ctx context.Context, in *CreateBusinessCalendarRequest, opts ...http.CallOption) (*BusinessCalendar, error) {
+	var out BusinessCalendar
+	pattern := "/v1/mdm/business-calendars"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationMdmServiceCreateBusinessCalendar))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *MdmServiceHTTPClientImpl) CreateCalendarException(ctx context.Context, in *CreateCalendarExceptionRequest, opts ...http.CallOption) (*CalendarException, error) {
+	var out CalendarException
+	pattern := "/v1/mdm/business-calendars/{calendar_id}/exceptions"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationMdmServiceCreateCalendarException))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
 	if err != nil {
@@ -1260,6 +1675,19 @@ func (c *MdmServiceHTTPClientImpl) CreateSystemParameter(ctx context.Context, in
 	return &out, nil
 }
 
+func (c *MdmServiceHTTPClientImpl) CreateWorkingHour(ctx context.Context, in *CreateWorkingHourRequest, opts ...http.CallOption) (*WorkingHour, error) {
+	var out WorkingHour
+	pattern := "/v1/mdm/business-calendars/{calendar_id}/working-hours"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationMdmServiceCreateWorkingHour))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
 func (c *MdmServiceHTTPClientImpl) DeleteAdministrativeUnit(ctx context.Context, in *DeleteAdministrativeUnitRequest, opts ...http.CallOption) (*DeleteResponse, error) {
 	var out DeleteResponse
 	pattern := "/v1/mdm/administrative-units/{id}"
@@ -1291,6 +1719,32 @@ func (c *MdmServiceHTTPClientImpl) DeleteAreaType(ctx context.Context, in *Delet
 	pattern := "/v1/mdm/area-types/{id}"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationMdmServiceDeleteAreaType))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "DELETE", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *MdmServiceHTTPClientImpl) DeleteBusinessCalendar(ctx context.Context, in *DeleteBusinessCalendarRequest, opts ...http.CallOption) (*DeleteResponse, error) {
+	var out DeleteResponse
+	pattern := "/v1/mdm/business-calendars/{id}"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationMdmServiceDeleteBusinessCalendar))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "DELETE", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *MdmServiceHTTPClientImpl) DeleteCalendarException(ctx context.Context, in *DeleteCalendarExceptionRequest, opts ...http.CallOption) (*DeleteResponse, error) {
+	var out DeleteResponse
+	pattern := "/v1/mdm/calendar-exceptions/{id}"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationMdmServiceDeleteCalendarException))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "DELETE", path, nil, &out, opts...)
 	if err != nil {
@@ -1351,6 +1805,19 @@ func (c *MdmServiceHTTPClientImpl) DeleteSystemParameter(ctx context.Context, in
 	return &out, nil
 }
 
+func (c *MdmServiceHTTPClientImpl) DeleteWorkingHour(ctx context.Context, in *DeleteWorkingHourRequest, opts ...http.CallOption) (*DeleteResponse, error) {
+	var out DeleteResponse
+	pattern := "/v1/mdm/working-hours/{id}"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationMdmServiceDeleteWorkingHour))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "DELETE", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
 func (c *MdmServiceHTTPClientImpl) GetAdministrativeUnit(ctx context.Context, in *GetAdministrativeUnitRequest, opts ...http.CallOption) (*AdministrativeUnit, error) {
 	var out AdministrativeUnit
 	pattern := "/v1/mdm/administrative-units/{id}"
@@ -1382,6 +1849,19 @@ func (c *MdmServiceHTTPClientImpl) GetAreaType(ctx context.Context, in *GetAreaT
 	pattern := "/v1/mdm/area-types/{id}"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationMdmServiceGetAreaType))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *MdmServiceHTTPClientImpl) GetBusinessCalendar(ctx context.Context, in *GetBusinessCalendarRequest, opts ...http.CallOption) (*BusinessCalendar, error) {
+	var out BusinessCalendar
+	pattern := "/v1/mdm/business-calendars/{id}"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationMdmServiceGetBusinessCalendar))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
 	if err != nil {
@@ -1520,6 +2000,32 @@ func (c *MdmServiceHTTPClientImpl) ListAreas(ctx context.Context, in *ListAreasR
 	return &out, nil
 }
 
+func (c *MdmServiceHTTPClientImpl) ListBusinessCalendars(ctx context.Context, in *ListBusinessCalendarsRequest, opts ...http.CallOption) (*ListBusinessCalendarsResponse, error) {
+	var out ListBusinessCalendarsResponse
+	pattern := "/v1/mdm/business-calendars"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationMdmServiceListBusinessCalendars))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *MdmServiceHTTPClientImpl) ListCalendarExceptions(ctx context.Context, in *ListCalendarExceptionsRequest, opts ...http.CallOption) (*ListCalendarExceptionsResponse, error) {
+	var out ListCalendarExceptionsResponse
+	pattern := "/v1/mdm/business-calendars/{calendar_id}/exceptions"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationMdmServiceListCalendarExceptions))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
 func (c *MdmServiceHTTPClientImpl) ListCodeItems(ctx context.Context, in *ListCodeItemsRequest, opts ...http.CallOption) (*ListCodeItemsResponse, error) {
 	var out ListCodeItemsResponse
 	pattern := "/v1/mdm/code-sets/{code_set_code}/items"
@@ -1598,6 +2104,19 @@ func (c *MdmServiceHTTPClientImpl) ListWards(ctx context.Context, in *ListWardsR
 	return &out, nil
 }
 
+func (c *MdmServiceHTTPClientImpl) ListWorkingHours(ctx context.Context, in *ListWorkingHoursRequest, opts ...http.CallOption) (*ListWorkingHoursResponse, error) {
+	var out ListWorkingHoursResponse
+	pattern := "/v1/mdm/business-calendars/{calendar_id}/working-hours"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationMdmServiceListWorkingHours))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
 func (c *MdmServiceHTTPClientImpl) RemoveAreaAdministrativeUnit(ctx context.Context, in *RemoveAreaAdministrativeUnitRequest, opts ...http.CallOption) (*DeleteResponse, error) {
 	var out DeleteResponse
 	pattern := "/v1/mdm/areas/{area_id}/administrative-units/{administrative_unit_id}"
@@ -1663,6 +2182,32 @@ func (c *MdmServiceHTTPClientImpl) UpdateAreaType(ctx context.Context, in *Updat
 	return &out, nil
 }
 
+func (c *MdmServiceHTTPClientImpl) UpdateBusinessCalendar(ctx context.Context, in *UpdateBusinessCalendarRequest, opts ...http.CallOption) (*BusinessCalendar, error) {
+	var out BusinessCalendar
+	pattern := "/v1/mdm/business-calendars/{id}"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationMdmServiceUpdateBusinessCalendar))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "PUT", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *MdmServiceHTTPClientImpl) UpdateCalendarException(ctx context.Context, in *UpdateCalendarExceptionRequest, opts ...http.CallOption) (*CalendarException, error) {
+	var out CalendarException
+	pattern := "/v1/mdm/calendar-exceptions/{id}"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationMdmServiceUpdateCalendarException))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "PUT", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
 func (c *MdmServiceHTTPClientImpl) UpdateCodeItem(ctx context.Context, in *UpdateCodeItemRequest, opts ...http.CallOption) (*CodeItem, error) {
 	var out CodeItem
 	pattern := "/v1/mdm/code-items/{id}"
@@ -1707,6 +2252,19 @@ func (c *MdmServiceHTTPClientImpl) UpdateSystemParameter(ctx context.Context, in
 	pattern := "/v1/mdm/system-parameters/{key}"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationMdmServiceUpdateSystemParameter))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "PUT", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *MdmServiceHTTPClientImpl) UpdateWorkingHour(ctx context.Context, in *UpdateWorkingHourRequest, opts ...http.CallOption) (*WorkingHour, error) {
+	var out WorkingHour
+	pattern := "/v1/mdm/working-hours/{id}"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationMdmServiceUpdateWorkingHour))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "PUT", path, in, &out, opts...)
 	if err != nil {

@@ -62,6 +62,20 @@ const (
 	MdmService_CreateCreditInstitution_FullMethodName               = "/mdm.v1.MdmService/CreateCreditInstitution"
 	MdmService_UpdateCreditInstitution_FullMethodName               = "/mdm.v1.MdmService/UpdateCreditInstitution"
 	MdmService_DeleteCreditInstitution_FullMethodName               = "/mdm.v1.MdmService/DeleteCreditInstitution"
+	MdmService_ListBusinessCalendars_FullMethodName                 = "/mdm.v1.MdmService/ListBusinessCalendars"
+	MdmService_GetBusinessCalendar_FullMethodName                   = "/mdm.v1.MdmService/GetBusinessCalendar"
+	MdmService_CreateBusinessCalendar_FullMethodName                = "/mdm.v1.MdmService/CreateBusinessCalendar"
+	MdmService_UpdateBusinessCalendar_FullMethodName                = "/mdm.v1.MdmService/UpdateBusinessCalendar"
+	MdmService_DeleteBusinessCalendar_FullMethodName                = "/mdm.v1.MdmService/DeleteBusinessCalendar"
+	MdmService_ListWorkingHours_FullMethodName                      = "/mdm.v1.MdmService/ListWorkingHours"
+	MdmService_CreateWorkingHour_FullMethodName                     = "/mdm.v1.MdmService/CreateWorkingHour"
+	MdmService_UpdateWorkingHour_FullMethodName                     = "/mdm.v1.MdmService/UpdateWorkingHour"
+	MdmService_DeleteWorkingHour_FullMethodName                     = "/mdm.v1.MdmService/DeleteWorkingHour"
+	MdmService_ListCalendarExceptions_FullMethodName                = "/mdm.v1.MdmService/ListCalendarExceptions"
+	MdmService_CreateCalendarException_FullMethodName               = "/mdm.v1.MdmService/CreateCalendarException"
+	MdmService_UpdateCalendarException_FullMethodName               = "/mdm.v1.MdmService/UpdateCalendarException"
+	MdmService_DeleteCalendarException_FullMethodName               = "/mdm.v1.MdmService/DeleteCalendarException"
+	MdmService_CalculateBusinessDay_FullMethodName                  = "/mdm.v1.MdmService/CalculateBusinessDay"
 )
 
 // MdmServiceClient is the client API for MdmService service.
@@ -111,6 +125,20 @@ type MdmServiceClient interface {
 	CreateCreditInstitution(ctx context.Context, in *CreateCreditInstitutionRequest, opts ...grpc.CallOption) (*CreditInstitution, error)
 	UpdateCreditInstitution(ctx context.Context, in *UpdateCreditInstitutionRequest, opts ...grpc.CallOption) (*CreditInstitution, error)
 	DeleteCreditInstitution(ctx context.Context, in *DeleteCreditInstitutionRequest, opts ...grpc.CallOption) (*DeleteResponse, error)
+	ListBusinessCalendars(ctx context.Context, in *ListBusinessCalendarsRequest, opts ...grpc.CallOption) (*ListBusinessCalendarsResponse, error)
+	GetBusinessCalendar(ctx context.Context, in *GetBusinessCalendarRequest, opts ...grpc.CallOption) (*BusinessCalendar, error)
+	CreateBusinessCalendar(ctx context.Context, in *CreateBusinessCalendarRequest, opts ...grpc.CallOption) (*BusinessCalendar, error)
+	UpdateBusinessCalendar(ctx context.Context, in *UpdateBusinessCalendarRequest, opts ...grpc.CallOption) (*BusinessCalendar, error)
+	DeleteBusinessCalendar(ctx context.Context, in *DeleteBusinessCalendarRequest, opts ...grpc.CallOption) (*DeleteResponse, error)
+	ListWorkingHours(ctx context.Context, in *ListWorkingHoursRequest, opts ...grpc.CallOption) (*ListWorkingHoursResponse, error)
+	CreateWorkingHour(ctx context.Context, in *CreateWorkingHourRequest, opts ...grpc.CallOption) (*WorkingHour, error)
+	UpdateWorkingHour(ctx context.Context, in *UpdateWorkingHourRequest, opts ...grpc.CallOption) (*WorkingHour, error)
+	DeleteWorkingHour(ctx context.Context, in *DeleteWorkingHourRequest, opts ...grpc.CallOption) (*DeleteResponse, error)
+	ListCalendarExceptions(ctx context.Context, in *ListCalendarExceptionsRequest, opts ...grpc.CallOption) (*ListCalendarExceptionsResponse, error)
+	CreateCalendarException(ctx context.Context, in *CreateCalendarExceptionRequest, opts ...grpc.CallOption) (*CalendarException, error)
+	UpdateCalendarException(ctx context.Context, in *UpdateCalendarExceptionRequest, opts ...grpc.CallOption) (*CalendarException, error)
+	DeleteCalendarException(ctx context.Context, in *DeleteCalendarExceptionRequest, opts ...grpc.CallOption) (*DeleteResponse, error)
+	CalculateBusinessDay(ctx context.Context, in *CalculateBusinessDayRequest, opts ...grpc.CallOption) (*CalculateBusinessDayResponse, error)
 }
 
 type mdmServiceClient struct {
@@ -551,6 +579,146 @@ func (c *mdmServiceClient) DeleteCreditInstitution(ctx context.Context, in *Dele
 	return out, nil
 }
 
+func (c *mdmServiceClient) ListBusinessCalendars(ctx context.Context, in *ListBusinessCalendarsRequest, opts ...grpc.CallOption) (*ListBusinessCalendarsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListBusinessCalendarsResponse)
+	err := c.cc.Invoke(ctx, MdmService_ListBusinessCalendars_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mdmServiceClient) GetBusinessCalendar(ctx context.Context, in *GetBusinessCalendarRequest, opts ...grpc.CallOption) (*BusinessCalendar, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(BusinessCalendar)
+	err := c.cc.Invoke(ctx, MdmService_GetBusinessCalendar_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mdmServiceClient) CreateBusinessCalendar(ctx context.Context, in *CreateBusinessCalendarRequest, opts ...grpc.CallOption) (*BusinessCalendar, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(BusinessCalendar)
+	err := c.cc.Invoke(ctx, MdmService_CreateBusinessCalendar_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mdmServiceClient) UpdateBusinessCalendar(ctx context.Context, in *UpdateBusinessCalendarRequest, opts ...grpc.CallOption) (*BusinessCalendar, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(BusinessCalendar)
+	err := c.cc.Invoke(ctx, MdmService_UpdateBusinessCalendar_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mdmServiceClient) DeleteBusinessCalendar(ctx context.Context, in *DeleteBusinessCalendarRequest, opts ...grpc.CallOption) (*DeleteResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteResponse)
+	err := c.cc.Invoke(ctx, MdmService_DeleteBusinessCalendar_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mdmServiceClient) ListWorkingHours(ctx context.Context, in *ListWorkingHoursRequest, opts ...grpc.CallOption) (*ListWorkingHoursResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListWorkingHoursResponse)
+	err := c.cc.Invoke(ctx, MdmService_ListWorkingHours_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mdmServiceClient) CreateWorkingHour(ctx context.Context, in *CreateWorkingHourRequest, opts ...grpc.CallOption) (*WorkingHour, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(WorkingHour)
+	err := c.cc.Invoke(ctx, MdmService_CreateWorkingHour_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mdmServiceClient) UpdateWorkingHour(ctx context.Context, in *UpdateWorkingHourRequest, opts ...grpc.CallOption) (*WorkingHour, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(WorkingHour)
+	err := c.cc.Invoke(ctx, MdmService_UpdateWorkingHour_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mdmServiceClient) DeleteWorkingHour(ctx context.Context, in *DeleteWorkingHourRequest, opts ...grpc.CallOption) (*DeleteResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteResponse)
+	err := c.cc.Invoke(ctx, MdmService_DeleteWorkingHour_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mdmServiceClient) ListCalendarExceptions(ctx context.Context, in *ListCalendarExceptionsRequest, opts ...grpc.CallOption) (*ListCalendarExceptionsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListCalendarExceptionsResponse)
+	err := c.cc.Invoke(ctx, MdmService_ListCalendarExceptions_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mdmServiceClient) CreateCalendarException(ctx context.Context, in *CreateCalendarExceptionRequest, opts ...grpc.CallOption) (*CalendarException, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CalendarException)
+	err := c.cc.Invoke(ctx, MdmService_CreateCalendarException_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mdmServiceClient) UpdateCalendarException(ctx context.Context, in *UpdateCalendarExceptionRequest, opts ...grpc.CallOption) (*CalendarException, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CalendarException)
+	err := c.cc.Invoke(ctx, MdmService_UpdateCalendarException_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mdmServiceClient) DeleteCalendarException(ctx context.Context, in *DeleteCalendarExceptionRequest, opts ...grpc.CallOption) (*DeleteResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteResponse)
+	err := c.cc.Invoke(ctx, MdmService_DeleteCalendarException_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mdmServiceClient) CalculateBusinessDay(ctx context.Context, in *CalculateBusinessDayRequest, opts ...grpc.CallOption) (*CalculateBusinessDayResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CalculateBusinessDayResponse)
+	err := c.cc.Invoke(ctx, MdmService_CalculateBusinessDay_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MdmServiceServer is the server API for MdmService service.
 // All implementations must embed UnimplementedMdmServiceServer
 // for forward compatibility.
@@ -598,6 +766,20 @@ type MdmServiceServer interface {
 	CreateCreditInstitution(context.Context, *CreateCreditInstitutionRequest) (*CreditInstitution, error)
 	UpdateCreditInstitution(context.Context, *UpdateCreditInstitutionRequest) (*CreditInstitution, error)
 	DeleteCreditInstitution(context.Context, *DeleteCreditInstitutionRequest) (*DeleteResponse, error)
+	ListBusinessCalendars(context.Context, *ListBusinessCalendarsRequest) (*ListBusinessCalendarsResponse, error)
+	GetBusinessCalendar(context.Context, *GetBusinessCalendarRequest) (*BusinessCalendar, error)
+	CreateBusinessCalendar(context.Context, *CreateBusinessCalendarRequest) (*BusinessCalendar, error)
+	UpdateBusinessCalendar(context.Context, *UpdateBusinessCalendarRequest) (*BusinessCalendar, error)
+	DeleteBusinessCalendar(context.Context, *DeleteBusinessCalendarRequest) (*DeleteResponse, error)
+	ListWorkingHours(context.Context, *ListWorkingHoursRequest) (*ListWorkingHoursResponse, error)
+	CreateWorkingHour(context.Context, *CreateWorkingHourRequest) (*WorkingHour, error)
+	UpdateWorkingHour(context.Context, *UpdateWorkingHourRequest) (*WorkingHour, error)
+	DeleteWorkingHour(context.Context, *DeleteWorkingHourRequest) (*DeleteResponse, error)
+	ListCalendarExceptions(context.Context, *ListCalendarExceptionsRequest) (*ListCalendarExceptionsResponse, error)
+	CreateCalendarException(context.Context, *CreateCalendarExceptionRequest) (*CalendarException, error)
+	UpdateCalendarException(context.Context, *UpdateCalendarExceptionRequest) (*CalendarException, error)
+	DeleteCalendarException(context.Context, *DeleteCalendarExceptionRequest) (*DeleteResponse, error)
+	CalculateBusinessDay(context.Context, *CalculateBusinessDayRequest) (*CalculateBusinessDayResponse, error)
 	mustEmbedUnimplementedMdmServiceServer()
 }
 
@@ -736,6 +918,48 @@ func (UnimplementedMdmServiceServer) UpdateCreditInstitution(context.Context, *U
 }
 func (UnimplementedMdmServiceServer) DeleteCreditInstitution(context.Context, *DeleteCreditInstitutionRequest) (*DeleteResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method DeleteCreditInstitution not implemented")
+}
+func (UnimplementedMdmServiceServer) ListBusinessCalendars(context.Context, *ListBusinessCalendarsRequest) (*ListBusinessCalendarsResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListBusinessCalendars not implemented")
+}
+func (UnimplementedMdmServiceServer) GetBusinessCalendar(context.Context, *GetBusinessCalendarRequest) (*BusinessCalendar, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetBusinessCalendar not implemented")
+}
+func (UnimplementedMdmServiceServer) CreateBusinessCalendar(context.Context, *CreateBusinessCalendarRequest) (*BusinessCalendar, error) {
+	return nil, status.Error(codes.Unimplemented, "method CreateBusinessCalendar not implemented")
+}
+func (UnimplementedMdmServiceServer) UpdateBusinessCalendar(context.Context, *UpdateBusinessCalendarRequest) (*BusinessCalendar, error) {
+	return nil, status.Error(codes.Unimplemented, "method UpdateBusinessCalendar not implemented")
+}
+func (UnimplementedMdmServiceServer) DeleteBusinessCalendar(context.Context, *DeleteBusinessCalendarRequest) (*DeleteResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method DeleteBusinessCalendar not implemented")
+}
+func (UnimplementedMdmServiceServer) ListWorkingHours(context.Context, *ListWorkingHoursRequest) (*ListWorkingHoursResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListWorkingHours not implemented")
+}
+func (UnimplementedMdmServiceServer) CreateWorkingHour(context.Context, *CreateWorkingHourRequest) (*WorkingHour, error) {
+	return nil, status.Error(codes.Unimplemented, "method CreateWorkingHour not implemented")
+}
+func (UnimplementedMdmServiceServer) UpdateWorkingHour(context.Context, *UpdateWorkingHourRequest) (*WorkingHour, error) {
+	return nil, status.Error(codes.Unimplemented, "method UpdateWorkingHour not implemented")
+}
+func (UnimplementedMdmServiceServer) DeleteWorkingHour(context.Context, *DeleteWorkingHourRequest) (*DeleteResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method DeleteWorkingHour not implemented")
+}
+func (UnimplementedMdmServiceServer) ListCalendarExceptions(context.Context, *ListCalendarExceptionsRequest) (*ListCalendarExceptionsResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListCalendarExceptions not implemented")
+}
+func (UnimplementedMdmServiceServer) CreateCalendarException(context.Context, *CreateCalendarExceptionRequest) (*CalendarException, error) {
+	return nil, status.Error(codes.Unimplemented, "method CreateCalendarException not implemented")
+}
+func (UnimplementedMdmServiceServer) UpdateCalendarException(context.Context, *UpdateCalendarExceptionRequest) (*CalendarException, error) {
+	return nil, status.Error(codes.Unimplemented, "method UpdateCalendarException not implemented")
+}
+func (UnimplementedMdmServiceServer) DeleteCalendarException(context.Context, *DeleteCalendarExceptionRequest) (*DeleteResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method DeleteCalendarException not implemented")
+}
+func (UnimplementedMdmServiceServer) CalculateBusinessDay(context.Context, *CalculateBusinessDayRequest) (*CalculateBusinessDayResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method CalculateBusinessDay not implemented")
 }
 func (UnimplementedMdmServiceServer) mustEmbedUnimplementedMdmServiceServer() {}
 func (UnimplementedMdmServiceServer) testEmbeddedByValue()                    {}
@@ -1532,6 +1756,258 @@ func _MdmService_DeleteCreditInstitution_Handler(srv interface{}, ctx context.Co
 	return interceptor(ctx, in, info, handler)
 }
 
+func _MdmService_ListBusinessCalendars_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListBusinessCalendarsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).ListBusinessCalendars(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_ListBusinessCalendars_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).ListBusinessCalendars(ctx, req.(*ListBusinessCalendarsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MdmService_GetBusinessCalendar_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetBusinessCalendarRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).GetBusinessCalendar(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_GetBusinessCalendar_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).GetBusinessCalendar(ctx, req.(*GetBusinessCalendarRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MdmService_CreateBusinessCalendar_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateBusinessCalendarRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).CreateBusinessCalendar(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_CreateBusinessCalendar_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).CreateBusinessCalendar(ctx, req.(*CreateBusinessCalendarRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MdmService_UpdateBusinessCalendar_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateBusinessCalendarRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).UpdateBusinessCalendar(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_UpdateBusinessCalendar_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).UpdateBusinessCalendar(ctx, req.(*UpdateBusinessCalendarRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MdmService_DeleteBusinessCalendar_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteBusinessCalendarRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).DeleteBusinessCalendar(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_DeleteBusinessCalendar_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).DeleteBusinessCalendar(ctx, req.(*DeleteBusinessCalendarRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MdmService_ListWorkingHours_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListWorkingHoursRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).ListWorkingHours(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_ListWorkingHours_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).ListWorkingHours(ctx, req.(*ListWorkingHoursRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MdmService_CreateWorkingHour_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateWorkingHourRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).CreateWorkingHour(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_CreateWorkingHour_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).CreateWorkingHour(ctx, req.(*CreateWorkingHourRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MdmService_UpdateWorkingHour_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateWorkingHourRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).UpdateWorkingHour(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_UpdateWorkingHour_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).UpdateWorkingHour(ctx, req.(*UpdateWorkingHourRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MdmService_DeleteWorkingHour_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteWorkingHourRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).DeleteWorkingHour(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_DeleteWorkingHour_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).DeleteWorkingHour(ctx, req.(*DeleteWorkingHourRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MdmService_ListCalendarExceptions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListCalendarExceptionsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).ListCalendarExceptions(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_ListCalendarExceptions_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).ListCalendarExceptions(ctx, req.(*ListCalendarExceptionsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MdmService_CreateCalendarException_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateCalendarExceptionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).CreateCalendarException(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_CreateCalendarException_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).CreateCalendarException(ctx, req.(*CreateCalendarExceptionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MdmService_UpdateCalendarException_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateCalendarExceptionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).UpdateCalendarException(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_UpdateCalendarException_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).UpdateCalendarException(ctx, req.(*UpdateCalendarExceptionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MdmService_DeleteCalendarException_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteCalendarExceptionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).DeleteCalendarException(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_DeleteCalendarException_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).DeleteCalendarException(ctx, req.(*DeleteCalendarExceptionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MdmService_CalculateBusinessDay_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CalculateBusinessDayRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).CalculateBusinessDay(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_CalculateBusinessDay_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).CalculateBusinessDay(ctx, req.(*CalculateBusinessDayRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // MdmService_ServiceDesc is the grpc.ServiceDesc for MdmService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -1710,6 +2186,62 @@ var MdmService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteCreditInstitution",
 			Handler:    _MdmService_DeleteCreditInstitution_Handler,
+		},
+		{
+			MethodName: "ListBusinessCalendars",
+			Handler:    _MdmService_ListBusinessCalendars_Handler,
+		},
+		{
+			MethodName: "GetBusinessCalendar",
+			Handler:    _MdmService_GetBusinessCalendar_Handler,
+		},
+		{
+			MethodName: "CreateBusinessCalendar",
+			Handler:    _MdmService_CreateBusinessCalendar_Handler,
+		},
+		{
+			MethodName: "UpdateBusinessCalendar",
+			Handler:    _MdmService_UpdateBusinessCalendar_Handler,
+		},
+		{
+			MethodName: "DeleteBusinessCalendar",
+			Handler:    _MdmService_DeleteBusinessCalendar_Handler,
+		},
+		{
+			MethodName: "ListWorkingHours",
+			Handler:    _MdmService_ListWorkingHours_Handler,
+		},
+		{
+			MethodName: "CreateWorkingHour",
+			Handler:    _MdmService_CreateWorkingHour_Handler,
+		},
+		{
+			MethodName: "UpdateWorkingHour",
+			Handler:    _MdmService_UpdateWorkingHour_Handler,
+		},
+		{
+			MethodName: "DeleteWorkingHour",
+			Handler:    _MdmService_DeleteWorkingHour_Handler,
+		},
+		{
+			MethodName: "ListCalendarExceptions",
+			Handler:    _MdmService_ListCalendarExceptions_Handler,
+		},
+		{
+			MethodName: "CreateCalendarException",
+			Handler:    _MdmService_CreateCalendarException_Handler,
+		},
+		{
+			MethodName: "UpdateCalendarException",
+			Handler:    _MdmService_UpdateCalendarException_Handler,
+		},
+		{
+			MethodName: "DeleteCalendarException",
+			Handler:    _MdmService_DeleteCalendarException_Handler,
+		},
+		{
+			MethodName: "CalculateBusinessDay",
+			Handler:    _MdmService_CalculateBusinessDay_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

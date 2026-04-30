@@ -142,6 +142,49 @@ service MdmService {
   rpc DeleteCreditInstitution(DeleteCreditInstitutionRequest) returns (DeleteResponse) {
     option (google.api.http) = { delete: "/v1/mdm/credit-institutions/{id}" };
   }
+
+  rpc ListBusinessCalendars(ListBusinessCalendarsRequest) returns (ListBusinessCalendarsResponse) {
+    option (google.api.http) = { get: "/v1/mdm/business-calendars" };
+  }
+  rpc GetBusinessCalendar(GetBusinessCalendarRequest) returns (BusinessCalendar) {
+    option (google.api.http) = { get: "/v1/mdm/business-calendars/{id}" };
+  }
+  rpc CreateBusinessCalendar(CreateBusinessCalendarRequest) returns (BusinessCalendar) {
+    option (google.api.http) = { post: "/v1/mdm/business-calendars" body: "*" };
+  }
+  rpc UpdateBusinessCalendar(UpdateBusinessCalendarRequest) returns (BusinessCalendar) {
+    option (google.api.http) = { put: "/v1/mdm/business-calendars/{id}" body: "*" };
+  }
+  rpc DeleteBusinessCalendar(DeleteBusinessCalendarRequest) returns (DeleteResponse) {
+    option (google.api.http) = { delete: "/v1/mdm/business-calendars/{id}" };
+  }
+  rpc ListWorkingHours(ListWorkingHoursRequest) returns (ListWorkingHoursResponse) {
+    option (google.api.http) = { get: "/v1/mdm/business-calendars/{calendar_id}/working-hours" };
+  }
+  rpc CreateWorkingHour(CreateWorkingHourRequest) returns (WorkingHour) {
+    option (google.api.http) = { post: "/v1/mdm/business-calendars/{calendar_id}/working-hours" body: "*" };
+  }
+  rpc UpdateWorkingHour(UpdateWorkingHourRequest) returns (WorkingHour) {
+    option (google.api.http) = { put: "/v1/mdm/working-hours/{id}" body: "*" };
+  }
+  rpc DeleteWorkingHour(DeleteWorkingHourRequest) returns (DeleteResponse) {
+    option (google.api.http) = { delete: "/v1/mdm/working-hours/{id}" };
+  }
+  rpc ListCalendarExceptions(ListCalendarExceptionsRequest) returns (ListCalendarExceptionsResponse) {
+    option (google.api.http) = { get: "/v1/mdm/business-calendars/{calendar_id}/exceptions" };
+  }
+  rpc CreateCalendarException(CreateCalendarExceptionRequest) returns (CalendarException) {
+    option (google.api.http) = { post: "/v1/mdm/business-calendars/{calendar_id}/exceptions" body: "*" };
+  }
+  rpc UpdateCalendarException(UpdateCalendarExceptionRequest) returns (CalendarException) {
+    option (google.api.http) = { put: "/v1/mdm/calendar-exceptions/{id}" body: "*" };
+  }
+  rpc DeleteCalendarException(DeleteCalendarExceptionRequest) returns (DeleteResponse) {
+    option (google.api.http) = { delete: "/v1/mdm/calendar-exceptions/{id}" };
+  }
+  rpc CalculateBusinessDay(CalculateBusinessDayRequest) returns (CalculateBusinessDayResponse) {
+    option (google.api.http) = { post: "/v1/mdm/business-calendars/calculate" body: "*" };
+  }
 }
 
 message AdministrativeUnit {
@@ -282,6 +325,48 @@ message CreditInstitution {
   string status = 13;
   google.protobuf.Timestamp created_at = 14;
   google.protobuf.Timestamp updated_at = 15;
+}
+
+message BusinessCalendar {
+  string id = 1;
+  string code = 2;
+  string name = 3;
+  string timezone = 4;
+  string calendar_type = 5;
+  string description = 6;
+  string status = 7;
+  google.protobuf.Timestamp created_at = 8;
+  google.protobuf.Timestamp updated_at = 9;
+}
+
+message WorkingHour {
+  string id = 1;
+  string calendar_id = 2;
+  int32 day_of_week = 3;
+  bool is_working_day = 4;
+  string start_time = 5;
+  string end_time = 6;
+  string cutoff_time = 7;
+  string session_name = 8;
+  int32 sort_order = 9;
+  google.protobuf.Timestamp created_at = 10;
+  google.protobuf.Timestamp updated_at = 11;
+}
+
+message CalendarException {
+  string id = 1;
+  string calendar_id = 2;
+  string date = 3;
+  string exception_type = 4;
+  string name = 5;
+  bool is_working_day = 6;
+  string start_time = 7;
+  string end_time = 8;
+  string cutoff_time = 9;
+  string source = 10;
+  string note = 11;
+  google.protobuf.Timestamp created_at = 12;
+  google.protobuf.Timestamp updated_at = 13;
 }
 
 message DeleteResponse {}
@@ -461,3 +546,71 @@ message UpdateCreditInstitutionRequest {
   CreditInstitution credit_institution = 2;
 }
 message DeleteCreditInstitutionRequest { string id = 1; }
+
+message ListBusinessCalendarsRequest {
+  string status = 1;
+  string keyword = 2;
+  int32 page_size = 3;
+  string page_token = 4;
+}
+message ListBusinessCalendarsResponse {
+  repeated BusinessCalendar business_calendars = 1;
+  string next_page_token = 2;
+}
+message GetBusinessCalendarRequest { string id = 1; }
+message CreateBusinessCalendarRequest { BusinessCalendar business_calendar = 1; }
+message UpdateBusinessCalendarRequest {
+  string id = 1;
+  BusinessCalendar business_calendar = 2;
+}
+message DeleteBusinessCalendarRequest { string id = 1; }
+
+message ListWorkingHoursRequest {
+  string calendar_id = 1;
+}
+message ListWorkingHoursResponse {
+  repeated WorkingHour working_hours = 1;
+}
+message CreateWorkingHourRequest {
+  string calendar_id = 1;
+  WorkingHour working_hour = 2;
+}
+message UpdateWorkingHourRequest {
+  string id = 1;
+  WorkingHour working_hour = 2;
+}
+message DeleteWorkingHourRequest { string id = 1; }
+
+message ListCalendarExceptionsRequest {
+  string calendar_id = 1;
+  string from_date = 2;
+  string to_date = 3;
+  string exception_type = 4;
+}
+message ListCalendarExceptionsResponse {
+  repeated CalendarException calendar_exceptions = 1;
+}
+message CreateCalendarExceptionRequest {
+  string calendar_id = 1;
+  CalendarException calendar_exception = 2;
+}
+message UpdateCalendarExceptionRequest {
+  string id = 1;
+  CalendarException calendar_exception = 2;
+}
+message DeleteCalendarExceptionRequest { string id = 1; }
+
+message CalculateBusinessDayRequest {
+  string calendar_id = 1;
+  string calendar_code = 2;
+  string start_date = 3;
+  int32 offset_days = 4;
+  string adjustment_rule = 5;
+}
+message CalculateBusinessDayResponse {
+  string start_date = 1;
+  string result_date = 2;
+  int32 calendar_days = 3;
+  repeated string skipped_dates = 4;
+  bool is_business_day = 5;
+}

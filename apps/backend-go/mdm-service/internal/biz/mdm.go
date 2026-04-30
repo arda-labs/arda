@@ -174,6 +174,24 @@ type SystemParameter struct {
 	UpdatedAt          time.Time
 }
 
+type CreditInstitution struct {
+	ID            string
+	Code          string
+	Name          string
+	ShortName     string
+	Address       string
+	Phone         string
+	Email         string
+	LicenseNumber string
+	IssuedDate    string
+	TaxCode       string
+	Website       string
+	Note          string
+	Status        string
+	CreatedAt     time.Time
+	UpdatedAt     time.Time
+}
+
 type MdmRepo interface {
 	ListAdministrativeUnits(ctx context.Context, filter AdministrativeUnitFilter) ([]*AdministrativeUnit, string, error)
 	GetAdministrativeUnit(ctx context.Context, id string) (*AdministrativeUnit, error)
@@ -215,6 +233,12 @@ type MdmRepo interface {
 	CreateSystemParameter(ctx context.Context, param *SystemParameter) (*SystemParameter, error)
 	UpdateSystemParameter(ctx context.Context, param *SystemParameter) (*SystemParameter, error)
 	DeleteSystemParameter(ctx context.Context, key string) error
+
+	ListCreditInstitutions(ctx context.Context, filter PageFilter) ([]*CreditInstitution, string, error)
+	GetCreditInstitution(ctx context.Context, id string) (*CreditInstitution, error)
+	CreateCreditInstitution(ctx context.Context, item *CreditInstitution) (*CreditInstitution, error)
+	UpdateCreditInstitution(ctx context.Context, item *CreditInstitution) (*CreditInstitution, error)
+	DeleteCreditInstitution(ctx context.Context, id string) error
 }
 
 type MdmUsecase struct {
@@ -484,6 +508,29 @@ func (uc *MdmUsecase) DeleteSystemParameter(ctx context.Context, key string) err
 	return uc.repo.DeleteSystemParameter(ctx, key)
 }
 
+func (uc *MdmUsecase) ListCreditInstitutions(ctx context.Context, filter PageFilter) ([]*CreditInstitution, string, error) {
+	normalizePageFilter(&filter)
+	return uc.repo.ListCreditInstitutions(ctx, filter)
+}
+
+func (uc *MdmUsecase) GetCreditInstitution(ctx context.Context, id string) (*CreditInstitution, error) {
+	return uc.repo.GetCreditInstitution(ctx, id)
+}
+
+func (uc *MdmUsecase) CreateCreditInstitution(ctx context.Context, item *CreditInstitution) (*CreditInstitution, error) {
+	normalizeCreditInstitution(item)
+	return uc.repo.CreateCreditInstitution(ctx, item)
+}
+
+func (uc *MdmUsecase) UpdateCreditInstitution(ctx context.Context, item *CreditInstitution) (*CreditInstitution, error) {
+	normalizeCreditInstitution(item)
+	return uc.repo.UpdateCreditInstitution(ctx, item)
+}
+
+func (uc *MdmUsecase) DeleteCreditInstitution(ctx context.Context, id string) error {
+	return uc.repo.DeleteCreditInstitution(ctx, id)
+}
+
 func normalizePageFilter(filter *PageFilter) {
 	filter.Status = strings.ToUpper(strings.TrimSpace(filter.Status))
 	filter.Keyword = strings.TrimSpace(filter.Keyword)
@@ -531,6 +578,21 @@ func normalizeSystemParameter(param *SystemParameter) {
 	param.Status = upperDefault(param.Status, "ACTIVE")
 	param.ValueJSON = jsonDefault(param.ValueJSON)
 	param.ValidationRuleJSON = jsonDefault(param.ValidationRuleJSON)
+}
+
+func normalizeCreditInstitution(item *CreditInstitution) {
+	item.Code = upperDefault(item.Code, "")
+	item.Name = strings.TrimSpace(item.Name)
+	item.ShortName = strings.TrimSpace(item.ShortName)
+	item.Address = strings.TrimSpace(item.Address)
+	item.Phone = strings.TrimSpace(item.Phone)
+	item.Email = strings.TrimSpace(item.Email)
+	item.LicenseNumber = strings.TrimSpace(item.LicenseNumber)
+	item.IssuedDate = strings.TrimSpace(item.IssuedDate)
+	item.TaxCode = strings.TrimSpace(item.TaxCode)
+	item.Website = strings.TrimSpace(item.Website)
+	item.Note = strings.TrimSpace(item.Note)
+	item.Status = upperDefault(item.Status, "ACTIVE")
 }
 
 func upperDefault(value, fallback string) string {

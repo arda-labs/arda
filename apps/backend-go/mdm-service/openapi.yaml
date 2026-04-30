@@ -716,6 +716,111 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/mdm.v1.DeleteResponse'
+    /v1/mdm/credit-institutions:
+        get:
+            tags:
+                - MdmService
+            operationId: MdmService_ListCreditInstitutions
+            parameters:
+                - name: status
+                  in: query
+                  schema:
+                    type: string
+                - name: keyword
+                  in: query
+                  schema:
+                    type: string
+                - name: pageSize
+                  in: query
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pageToken
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.ListCreditInstitutionsResponse'
+        post:
+            tags:
+                - MdmService
+            operationId: MdmService_CreateCreditInstitution
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/mdm.v1.CreateCreditInstitutionRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.CreditInstitution'
+    /v1/mdm/credit-institutions/{id}:
+        get:
+            tags:
+                - MdmService
+            operationId: MdmService_GetCreditInstitution
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.CreditInstitution'
+        put:
+            tags:
+                - MdmService
+            operationId: MdmService_UpdateCreditInstitution
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/mdm.v1.UpdateCreditInstitutionRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.CreditInstitution'
+        delete:
+            tags:
+                - MdmService
+            operationId: MdmService_DeleteCreditInstitution
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.DeleteResponse'
     /v1/mdm/provinces:
         get:
             tags:
@@ -1131,11 +1236,51 @@ components:
             properties:
                 codeSet:
                     $ref: '#/components/schemas/mdm.v1.CodeSet'
+        mdm.v1.CreateCreditInstitutionRequest:
+            type: object
+            properties:
+                creditInstitution:
+                    $ref: '#/components/schemas/mdm.v1.CreditInstitution'
         mdm.v1.CreateSystemParameterRequest:
             type: object
             properties:
                 parameter:
                     $ref: '#/components/schemas/mdm.v1.SystemParameter'
+        mdm.v1.CreditInstitution:
+            type: object
+            properties:
+                id:
+                    type: string
+                code:
+                    type: string
+                name:
+                    type: string
+                shortName:
+                    type: string
+                address:
+                    type: string
+                phone:
+                    type: string
+                email:
+                    type: string
+                licenseNumber:
+                    type: string
+                issuedDate:
+                    type: string
+                taxCode:
+                    type: string
+                website:
+                    type: string
+                note:
+                    type: string
+                status:
+                    type: string
+                createdAt:
+                    type: string
+                    format: date-time
+                updatedAt:
+                    type: string
+                    format: date-time
         mdm.v1.DeleteResponse:
             type: object
             properties: {}
@@ -1203,6 +1348,15 @@ components:
                     type: array
                     items:
                         $ref: '#/components/schemas/mdm.v1.CodeSet'
+                nextPageToken:
+                    type: string
+        mdm.v1.ListCreditInstitutionsResponse:
+            type: object
+            properties:
+                creditInstitutions:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/mdm.v1.CreditInstitution'
                 nextPageToken:
                     type: string
         mdm.v1.ListSystemParametersResponse:
@@ -1309,6 +1463,13 @@ components:
                     type: string
                 codeSet:
                     $ref: '#/components/schemas/mdm.v1.CodeSet'
+        mdm.v1.UpdateCreditInstitutionRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                creditInstitution:
+                    $ref: '#/components/schemas/mdm.v1.CreditInstitution'
         mdm.v1.UpdateSystemParameterRequest:
             type: object
             properties:

@@ -25,18 +25,21 @@ const OperationMdmServiceCreateArea = "/mdm.v1.MdmService/CreateArea"
 const OperationMdmServiceCreateAreaType = "/mdm.v1.MdmService/CreateAreaType"
 const OperationMdmServiceCreateCodeItem = "/mdm.v1.MdmService/CreateCodeItem"
 const OperationMdmServiceCreateCodeSet = "/mdm.v1.MdmService/CreateCodeSet"
+const OperationMdmServiceCreateCreditInstitution = "/mdm.v1.MdmService/CreateCreditInstitution"
 const OperationMdmServiceCreateSystemParameter = "/mdm.v1.MdmService/CreateSystemParameter"
 const OperationMdmServiceDeleteAdministrativeUnit = "/mdm.v1.MdmService/DeleteAdministrativeUnit"
 const OperationMdmServiceDeleteArea = "/mdm.v1.MdmService/DeleteArea"
 const OperationMdmServiceDeleteAreaType = "/mdm.v1.MdmService/DeleteAreaType"
 const OperationMdmServiceDeleteCodeItem = "/mdm.v1.MdmService/DeleteCodeItem"
 const OperationMdmServiceDeleteCodeSet = "/mdm.v1.MdmService/DeleteCodeSet"
+const OperationMdmServiceDeleteCreditInstitution = "/mdm.v1.MdmService/DeleteCreditInstitution"
 const OperationMdmServiceDeleteSystemParameter = "/mdm.v1.MdmService/DeleteSystemParameter"
 const OperationMdmServiceGetAdministrativeUnit = "/mdm.v1.MdmService/GetAdministrativeUnit"
 const OperationMdmServiceGetArea = "/mdm.v1.MdmService/GetArea"
 const OperationMdmServiceGetAreaType = "/mdm.v1.MdmService/GetAreaType"
 const OperationMdmServiceGetCodeItem = "/mdm.v1.MdmService/GetCodeItem"
 const OperationMdmServiceGetCodeSet = "/mdm.v1.MdmService/GetCodeSet"
+const OperationMdmServiceGetCreditInstitution = "/mdm.v1.MdmService/GetCreditInstitution"
 const OperationMdmServiceGetSystemParameter = "/mdm.v1.MdmService/GetSystemParameter"
 const OperationMdmServiceListAdministrativeUnitTree = "/mdm.v1.MdmService/ListAdministrativeUnitTree"
 const OperationMdmServiceListAdministrativeUnits = "/mdm.v1.MdmService/ListAdministrativeUnits"
@@ -46,6 +49,7 @@ const OperationMdmServiceListAreaTypes = "/mdm.v1.MdmService/ListAreaTypes"
 const OperationMdmServiceListAreas = "/mdm.v1.MdmService/ListAreas"
 const OperationMdmServiceListCodeItems = "/mdm.v1.MdmService/ListCodeItems"
 const OperationMdmServiceListCodeSets = "/mdm.v1.MdmService/ListCodeSets"
+const OperationMdmServiceListCreditInstitutions = "/mdm.v1.MdmService/ListCreditInstitutions"
 const OperationMdmServiceListProvinces = "/mdm.v1.MdmService/ListProvinces"
 const OperationMdmServiceListSystemParameters = "/mdm.v1.MdmService/ListSystemParameters"
 const OperationMdmServiceListWards = "/mdm.v1.MdmService/ListWards"
@@ -56,6 +60,7 @@ const OperationMdmServiceUpdateArea = "/mdm.v1.MdmService/UpdateArea"
 const OperationMdmServiceUpdateAreaType = "/mdm.v1.MdmService/UpdateAreaType"
 const OperationMdmServiceUpdateCodeItem = "/mdm.v1.MdmService/UpdateCodeItem"
 const OperationMdmServiceUpdateCodeSet = "/mdm.v1.MdmService/UpdateCodeSet"
+const OperationMdmServiceUpdateCreditInstitution = "/mdm.v1.MdmService/UpdateCreditInstitution"
 const OperationMdmServiceUpdateSystemParameter = "/mdm.v1.MdmService/UpdateSystemParameter"
 
 type MdmServiceHTTPServer interface {
@@ -65,18 +70,21 @@ type MdmServiceHTTPServer interface {
 	CreateAreaType(context.Context, *CreateAreaTypeRequest) (*AreaType, error)
 	CreateCodeItem(context.Context, *CreateCodeItemRequest) (*CodeItem, error)
 	CreateCodeSet(context.Context, *CreateCodeSetRequest) (*CodeSet, error)
+	CreateCreditInstitution(context.Context, *CreateCreditInstitutionRequest) (*CreditInstitution, error)
 	CreateSystemParameter(context.Context, *CreateSystemParameterRequest) (*SystemParameter, error)
 	DeleteAdministrativeUnit(context.Context, *DeleteAdministrativeUnitRequest) (*DeleteResponse, error)
 	DeleteArea(context.Context, *DeleteAreaRequest) (*DeleteResponse, error)
 	DeleteAreaType(context.Context, *DeleteAreaTypeRequest) (*DeleteResponse, error)
 	DeleteCodeItem(context.Context, *DeleteCodeItemRequest) (*DeleteResponse, error)
 	DeleteCodeSet(context.Context, *DeleteCodeSetRequest) (*DeleteResponse, error)
+	DeleteCreditInstitution(context.Context, *DeleteCreditInstitutionRequest) (*DeleteResponse, error)
 	DeleteSystemParameter(context.Context, *DeleteSystemParameterRequest) (*DeleteResponse, error)
 	GetAdministrativeUnit(context.Context, *GetAdministrativeUnitRequest) (*AdministrativeUnit, error)
 	GetArea(context.Context, *GetAreaRequest) (*Area, error)
 	GetAreaType(context.Context, *GetAreaTypeRequest) (*AreaType, error)
 	GetCodeItem(context.Context, *GetCodeItemRequest) (*CodeItem, error)
 	GetCodeSet(context.Context, *GetCodeSetRequest) (*CodeSet, error)
+	GetCreditInstitution(context.Context, *GetCreditInstitutionRequest) (*CreditInstitution, error)
 	GetSystemParameter(context.Context, *GetSystemParameterRequest) (*SystemParameter, error)
 	ListAdministrativeUnitTree(context.Context, *ListAdministrativeUnitsRequest) (*ListAdministrativeUnitTreeResponse, error)
 	ListAdministrativeUnits(context.Context, *ListAdministrativeUnitsRequest) (*ListAdministrativeUnitsResponse, error)
@@ -86,6 +94,7 @@ type MdmServiceHTTPServer interface {
 	ListAreas(context.Context, *ListAreasRequest) (*ListAreasResponse, error)
 	ListCodeItems(context.Context, *ListCodeItemsRequest) (*ListCodeItemsResponse, error)
 	ListCodeSets(context.Context, *ListCodeSetsRequest) (*ListCodeSetsResponse, error)
+	ListCreditInstitutions(context.Context, *ListCreditInstitutionsRequest) (*ListCreditInstitutionsResponse, error)
 	ListProvinces(context.Context, *ListAdministrativeUnitsRequest) (*ListAdministrativeUnitsResponse, error)
 	ListSystemParameters(context.Context, *ListSystemParametersRequest) (*ListSystemParametersResponse, error)
 	ListWards(context.Context, *ListWardsRequest) (*ListAdministrativeUnitsResponse, error)
@@ -96,6 +105,7 @@ type MdmServiceHTTPServer interface {
 	UpdateAreaType(context.Context, *UpdateAreaTypeRequest) (*AreaType, error)
 	UpdateCodeItem(context.Context, *UpdateCodeItemRequest) (*CodeItem, error)
 	UpdateCodeSet(context.Context, *UpdateCodeSetRequest) (*CodeSet, error)
+	UpdateCreditInstitution(context.Context, *UpdateCreditInstitutionRequest) (*CreditInstitution, error)
 	UpdateSystemParameter(context.Context, *UpdateSystemParameterRequest) (*SystemParameter, error)
 }
 
@@ -139,6 +149,11 @@ func RegisterMdmServiceHTTPServer(s *http.Server, srv MdmServiceHTTPServer) {
 	r.POST("/v1/mdm/system-parameters", _MdmService_CreateSystemParameter0_HTTP_Handler(srv))
 	r.PUT("/v1/mdm/system-parameters/{key}", _MdmService_UpdateSystemParameter0_HTTP_Handler(srv))
 	r.DELETE("/v1/mdm/system-parameters/{key}", _MdmService_DeleteSystemParameter0_HTTP_Handler(srv))
+	r.GET("/v1/mdm/credit-institutions", _MdmService_ListCreditInstitutions0_HTTP_Handler(srv))
+	r.GET("/v1/mdm/credit-institutions/{id}", _MdmService_GetCreditInstitution0_HTTP_Handler(srv))
+	r.POST("/v1/mdm/credit-institutions", _MdmService_CreateCreditInstitution0_HTTP_Handler(srv))
+	r.PUT("/v1/mdm/credit-institutions/{id}", _MdmService_UpdateCreditInstitution0_HTTP_Handler(srv))
+	r.DELETE("/v1/mdm/credit-institutions/{id}", _MdmService_DeleteCreditInstitution0_HTTP_Handler(srv))
 }
 
 func _MdmService_ListAdministrativeUnits0_HTTP_Handler(srv MdmServiceHTTPServer) func(ctx http.Context) error {
@@ -977,6 +992,116 @@ func _MdmService_DeleteSystemParameter0_HTTP_Handler(srv MdmServiceHTTPServer) f
 	}
 }
 
+func _MdmService_ListCreditInstitutions0_HTTP_Handler(srv MdmServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in ListCreditInstitutionsRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationMdmServiceListCreditInstitutions)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.ListCreditInstitutions(ctx, req.(*ListCreditInstitutionsRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*ListCreditInstitutionsResponse)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _MdmService_GetCreditInstitution0_HTTP_Handler(srv MdmServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in GetCreditInstitutionRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationMdmServiceGetCreditInstitution)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.GetCreditInstitution(ctx, req.(*GetCreditInstitutionRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*CreditInstitution)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _MdmService_CreateCreditInstitution0_HTTP_Handler(srv MdmServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in CreateCreditInstitutionRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationMdmServiceCreateCreditInstitution)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.CreateCreditInstitution(ctx, req.(*CreateCreditInstitutionRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*CreditInstitution)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _MdmService_UpdateCreditInstitution0_HTTP_Handler(srv MdmServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in UpdateCreditInstitutionRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationMdmServiceUpdateCreditInstitution)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.UpdateCreditInstitution(ctx, req.(*UpdateCreditInstitutionRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*CreditInstitution)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _MdmService_DeleteCreditInstitution0_HTTP_Handler(srv MdmServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in DeleteCreditInstitutionRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationMdmServiceDeleteCreditInstitution)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.DeleteCreditInstitution(ctx, req.(*DeleteCreditInstitutionRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*DeleteResponse)
+		return ctx.Result(200, reply)
+	}
+}
+
 type MdmServiceHTTPClient interface {
 	AssignAreaAdministrativeUnit(ctx context.Context, req *AssignAreaAdministrativeUnitRequest, opts ...http.CallOption) (rsp *AreaAdministrativeUnit, err error)
 	CreateAdministrativeUnit(ctx context.Context, req *CreateAdministrativeUnitRequest, opts ...http.CallOption) (rsp *AdministrativeUnit, err error)
@@ -984,18 +1109,21 @@ type MdmServiceHTTPClient interface {
 	CreateAreaType(ctx context.Context, req *CreateAreaTypeRequest, opts ...http.CallOption) (rsp *AreaType, err error)
 	CreateCodeItem(ctx context.Context, req *CreateCodeItemRequest, opts ...http.CallOption) (rsp *CodeItem, err error)
 	CreateCodeSet(ctx context.Context, req *CreateCodeSetRequest, opts ...http.CallOption) (rsp *CodeSet, err error)
+	CreateCreditInstitution(ctx context.Context, req *CreateCreditInstitutionRequest, opts ...http.CallOption) (rsp *CreditInstitution, err error)
 	CreateSystemParameter(ctx context.Context, req *CreateSystemParameterRequest, opts ...http.CallOption) (rsp *SystemParameter, err error)
 	DeleteAdministrativeUnit(ctx context.Context, req *DeleteAdministrativeUnitRequest, opts ...http.CallOption) (rsp *DeleteResponse, err error)
 	DeleteArea(ctx context.Context, req *DeleteAreaRequest, opts ...http.CallOption) (rsp *DeleteResponse, err error)
 	DeleteAreaType(ctx context.Context, req *DeleteAreaTypeRequest, opts ...http.CallOption) (rsp *DeleteResponse, err error)
 	DeleteCodeItem(ctx context.Context, req *DeleteCodeItemRequest, opts ...http.CallOption) (rsp *DeleteResponse, err error)
 	DeleteCodeSet(ctx context.Context, req *DeleteCodeSetRequest, opts ...http.CallOption) (rsp *DeleteResponse, err error)
+	DeleteCreditInstitution(ctx context.Context, req *DeleteCreditInstitutionRequest, opts ...http.CallOption) (rsp *DeleteResponse, err error)
 	DeleteSystemParameter(ctx context.Context, req *DeleteSystemParameterRequest, opts ...http.CallOption) (rsp *DeleteResponse, err error)
 	GetAdministrativeUnit(ctx context.Context, req *GetAdministrativeUnitRequest, opts ...http.CallOption) (rsp *AdministrativeUnit, err error)
 	GetArea(ctx context.Context, req *GetAreaRequest, opts ...http.CallOption) (rsp *Area, err error)
 	GetAreaType(ctx context.Context, req *GetAreaTypeRequest, opts ...http.CallOption) (rsp *AreaType, err error)
 	GetCodeItem(ctx context.Context, req *GetCodeItemRequest, opts ...http.CallOption) (rsp *CodeItem, err error)
 	GetCodeSet(ctx context.Context, req *GetCodeSetRequest, opts ...http.CallOption) (rsp *CodeSet, err error)
+	GetCreditInstitution(ctx context.Context, req *GetCreditInstitutionRequest, opts ...http.CallOption) (rsp *CreditInstitution, err error)
 	GetSystemParameter(ctx context.Context, req *GetSystemParameterRequest, opts ...http.CallOption) (rsp *SystemParameter, err error)
 	ListAdministrativeUnitTree(ctx context.Context, req *ListAdministrativeUnitsRequest, opts ...http.CallOption) (rsp *ListAdministrativeUnitTreeResponse, err error)
 	ListAdministrativeUnits(ctx context.Context, req *ListAdministrativeUnitsRequest, opts ...http.CallOption) (rsp *ListAdministrativeUnitsResponse, err error)
@@ -1005,6 +1133,7 @@ type MdmServiceHTTPClient interface {
 	ListAreas(ctx context.Context, req *ListAreasRequest, opts ...http.CallOption) (rsp *ListAreasResponse, err error)
 	ListCodeItems(ctx context.Context, req *ListCodeItemsRequest, opts ...http.CallOption) (rsp *ListCodeItemsResponse, err error)
 	ListCodeSets(ctx context.Context, req *ListCodeSetsRequest, opts ...http.CallOption) (rsp *ListCodeSetsResponse, err error)
+	ListCreditInstitutions(ctx context.Context, req *ListCreditInstitutionsRequest, opts ...http.CallOption) (rsp *ListCreditInstitutionsResponse, err error)
 	ListProvinces(ctx context.Context, req *ListAdministrativeUnitsRequest, opts ...http.CallOption) (rsp *ListAdministrativeUnitsResponse, err error)
 	ListSystemParameters(ctx context.Context, req *ListSystemParametersRequest, opts ...http.CallOption) (rsp *ListSystemParametersResponse, err error)
 	ListWards(ctx context.Context, req *ListWardsRequest, opts ...http.CallOption) (rsp *ListAdministrativeUnitsResponse, err error)
@@ -1015,6 +1144,7 @@ type MdmServiceHTTPClient interface {
 	UpdateAreaType(ctx context.Context, req *UpdateAreaTypeRequest, opts ...http.CallOption) (rsp *AreaType, err error)
 	UpdateCodeItem(ctx context.Context, req *UpdateCodeItemRequest, opts ...http.CallOption) (rsp *CodeItem, err error)
 	UpdateCodeSet(ctx context.Context, req *UpdateCodeSetRequest, opts ...http.CallOption) (rsp *CodeSet, err error)
+	UpdateCreditInstitution(ctx context.Context, req *UpdateCreditInstitutionRequest, opts ...http.CallOption) (rsp *CreditInstitution, err error)
 	UpdateSystemParameter(ctx context.Context, req *UpdateSystemParameterRequest, opts ...http.CallOption) (rsp *SystemParameter, err error)
 }
 
@@ -1104,6 +1234,19 @@ func (c *MdmServiceHTTPClientImpl) CreateCodeSet(ctx context.Context, in *Create
 	return &out, nil
 }
 
+func (c *MdmServiceHTTPClientImpl) CreateCreditInstitution(ctx context.Context, in *CreateCreditInstitutionRequest, opts ...http.CallOption) (*CreditInstitution, error) {
+	var out CreditInstitution
+	pattern := "/v1/mdm/credit-institutions"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationMdmServiceCreateCreditInstitution))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
 func (c *MdmServiceHTTPClientImpl) CreateSystemParameter(ctx context.Context, in *CreateSystemParameterRequest, opts ...http.CallOption) (*SystemParameter, error) {
 	var out SystemParameter
 	pattern := "/v1/mdm/system-parameters"
@@ -1182,6 +1325,19 @@ func (c *MdmServiceHTTPClientImpl) DeleteCodeSet(ctx context.Context, in *Delete
 	return &out, nil
 }
 
+func (c *MdmServiceHTTPClientImpl) DeleteCreditInstitution(ctx context.Context, in *DeleteCreditInstitutionRequest, opts ...http.CallOption) (*DeleteResponse, error) {
+	var out DeleteResponse
+	pattern := "/v1/mdm/credit-institutions/{id}"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationMdmServiceDeleteCreditInstitution))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "DELETE", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
 func (c *MdmServiceHTTPClientImpl) DeleteSystemParameter(ctx context.Context, in *DeleteSystemParameterRequest, opts ...http.CallOption) (*DeleteResponse, error) {
 	var out DeleteResponse
 	pattern := "/v1/mdm/system-parameters/{key}"
@@ -1252,6 +1408,19 @@ func (c *MdmServiceHTTPClientImpl) GetCodeSet(ctx context.Context, in *GetCodeSe
 	pattern := "/v1/mdm/code-sets/{id}"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationMdmServiceGetCodeSet))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *MdmServiceHTTPClientImpl) GetCreditInstitution(ctx context.Context, in *GetCreditInstitutionRequest, opts ...http.CallOption) (*CreditInstitution, error) {
+	var out CreditInstitution
+	pattern := "/v1/mdm/credit-institutions/{id}"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationMdmServiceGetCreditInstitution))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
 	if err != nil {
@@ -1369,6 +1538,19 @@ func (c *MdmServiceHTTPClientImpl) ListCodeSets(ctx context.Context, in *ListCod
 	pattern := "/v1/mdm/code-sets"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationMdmServiceListCodeSets))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *MdmServiceHTTPClientImpl) ListCreditInstitutions(ctx context.Context, in *ListCreditInstitutionsRequest, opts ...http.CallOption) (*ListCreditInstitutionsResponse, error) {
+	var out ListCreditInstitutionsResponse
+	pattern := "/v1/mdm/credit-institutions"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationMdmServiceListCreditInstitutions))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
 	if err != nil {
@@ -1499,6 +1681,19 @@ func (c *MdmServiceHTTPClientImpl) UpdateCodeSet(ctx context.Context, in *Update
 	pattern := "/v1/mdm/code-sets/{id}"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationMdmServiceUpdateCodeSet))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "PUT", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *MdmServiceHTTPClientImpl) UpdateCreditInstitution(ctx context.Context, in *UpdateCreditInstitutionRequest, opts ...http.CallOption) (*CreditInstitution, error) {
+	var out CreditInstitution
+	pattern := "/v1/mdm/credit-institutions/{id}"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationMdmServiceUpdateCreditInstitution))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "PUT", path, in, &out, opts...)
 	if err != nil {

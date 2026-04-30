@@ -40,6 +40,8 @@ Main resources:
 - Area types and areas.
 - Code sets and code items for reusable reference lists.
 - System parameters for runtime configuration.
+- Credit institutions for banking counterparties and licensed financial
+  organizations.
 
 ### Administrative Unit Sync
 

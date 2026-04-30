@@ -126,6 +126,22 @@ service MdmService {
   rpc DeleteSystemParameter(DeleteSystemParameterRequest) returns (DeleteResponse) {
     option (google.api.http) = { delete: "/v1/mdm/system-parameters/{key}" };
   }
+
+  rpc ListCreditInstitutions(ListCreditInstitutionsRequest) returns (ListCreditInstitutionsResponse) {
+    option (google.api.http) = { get: "/v1/mdm/credit-institutions" };
+  }
+  rpc GetCreditInstitution(GetCreditInstitutionRequest) returns (CreditInstitution) {
+    option (google.api.http) = { get: "/v1/mdm/credit-institutions/{id}" };
+  }
+  rpc CreateCreditInstitution(CreateCreditInstitutionRequest) returns (CreditInstitution) {
+    option (google.api.http) = { post: "/v1/mdm/credit-institutions" body: "*" };
+  }
+  rpc UpdateCreditInstitution(UpdateCreditInstitutionRequest) returns (CreditInstitution) {
+    option (google.api.http) = { put: "/v1/mdm/credit-institutions/{id}" body: "*" };
+  }
+  rpc DeleteCreditInstitution(DeleteCreditInstitutionRequest) returns (DeleteResponse) {
+    option (google.api.http) = { delete: "/v1/mdm/credit-institutions/{id}" };
+  }
 }
 
 message AdministrativeUnit {
@@ -248,6 +264,24 @@ message SystemParameter {
   string updated_by = 17;
   google.protobuf.Timestamp created_at = 18;
   google.protobuf.Timestamp updated_at = 19;
+}
+
+message CreditInstitution {
+  string id = 1;
+  string code = 2;
+  string name = 3;
+  string short_name = 4;
+  string address = 5;
+  string phone = 6;
+  string email = 7;
+  string license_number = 8;
+  string issued_date = 9;
+  string tax_code = 10;
+  string website = 11;
+  string note = 12;
+  string status = 13;
+  google.protobuf.Timestamp created_at = 14;
+  google.protobuf.Timestamp updated_at = 15;
 }
 
 message DeleteResponse {}
@@ -409,3 +443,21 @@ message UpdateSystemParameterRequest {
   SystemParameter parameter = 2;
 }
 message DeleteSystemParameterRequest { string key = 1; }
+
+message ListCreditInstitutionsRequest {
+  string status = 1;
+  string keyword = 2;
+  int32 page_size = 3;
+  string page_token = 4;
+}
+message ListCreditInstitutionsResponse {
+  repeated CreditInstitution credit_institutions = 1;
+  string next_page_token = 2;
+}
+message GetCreditInstitutionRequest { string id = 1; }
+message CreateCreditInstitutionRequest { CreditInstitution credit_institution = 1; }
+message UpdateCreditInstitutionRequest {
+  string id = 1;
+  CreditInstitution credit_institution = 2;
+}
+message DeleteCreditInstitutionRequest { string id = 1; }

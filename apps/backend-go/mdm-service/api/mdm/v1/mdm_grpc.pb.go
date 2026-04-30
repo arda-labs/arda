@@ -57,6 +57,11 @@ const (
 	MdmService_CreateSystemParameter_FullMethodName                 = "/mdm.v1.MdmService/CreateSystemParameter"
 	MdmService_UpdateSystemParameter_FullMethodName                 = "/mdm.v1.MdmService/UpdateSystemParameter"
 	MdmService_DeleteSystemParameter_FullMethodName                 = "/mdm.v1.MdmService/DeleteSystemParameter"
+	MdmService_ListCreditInstitutions_FullMethodName                = "/mdm.v1.MdmService/ListCreditInstitutions"
+	MdmService_GetCreditInstitution_FullMethodName                  = "/mdm.v1.MdmService/GetCreditInstitution"
+	MdmService_CreateCreditInstitution_FullMethodName               = "/mdm.v1.MdmService/CreateCreditInstitution"
+	MdmService_UpdateCreditInstitution_FullMethodName               = "/mdm.v1.MdmService/UpdateCreditInstitution"
+	MdmService_DeleteCreditInstitution_FullMethodName               = "/mdm.v1.MdmService/DeleteCreditInstitution"
 )
 
 // MdmServiceClient is the client API for MdmService service.
@@ -101,6 +106,11 @@ type MdmServiceClient interface {
 	CreateSystemParameter(ctx context.Context, in *CreateSystemParameterRequest, opts ...grpc.CallOption) (*SystemParameter, error)
 	UpdateSystemParameter(ctx context.Context, in *UpdateSystemParameterRequest, opts ...grpc.CallOption) (*SystemParameter, error)
 	DeleteSystemParameter(ctx context.Context, in *DeleteSystemParameterRequest, opts ...grpc.CallOption) (*DeleteResponse, error)
+	ListCreditInstitutions(ctx context.Context, in *ListCreditInstitutionsRequest, opts ...grpc.CallOption) (*ListCreditInstitutionsResponse, error)
+	GetCreditInstitution(ctx context.Context, in *GetCreditInstitutionRequest, opts ...grpc.CallOption) (*CreditInstitution, error)
+	CreateCreditInstitution(ctx context.Context, in *CreateCreditInstitutionRequest, opts ...grpc.CallOption) (*CreditInstitution, error)
+	UpdateCreditInstitution(ctx context.Context, in *UpdateCreditInstitutionRequest, opts ...grpc.CallOption) (*CreditInstitution, error)
+	DeleteCreditInstitution(ctx context.Context, in *DeleteCreditInstitutionRequest, opts ...grpc.CallOption) (*DeleteResponse, error)
 }
 
 type mdmServiceClient struct {
@@ -491,6 +501,56 @@ func (c *mdmServiceClient) DeleteSystemParameter(ctx context.Context, in *Delete
 	return out, nil
 }
 
+func (c *mdmServiceClient) ListCreditInstitutions(ctx context.Context, in *ListCreditInstitutionsRequest, opts ...grpc.CallOption) (*ListCreditInstitutionsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListCreditInstitutionsResponse)
+	err := c.cc.Invoke(ctx, MdmService_ListCreditInstitutions_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mdmServiceClient) GetCreditInstitution(ctx context.Context, in *GetCreditInstitutionRequest, opts ...grpc.CallOption) (*CreditInstitution, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreditInstitution)
+	err := c.cc.Invoke(ctx, MdmService_GetCreditInstitution_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mdmServiceClient) CreateCreditInstitution(ctx context.Context, in *CreateCreditInstitutionRequest, opts ...grpc.CallOption) (*CreditInstitution, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreditInstitution)
+	err := c.cc.Invoke(ctx, MdmService_CreateCreditInstitution_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mdmServiceClient) UpdateCreditInstitution(ctx context.Context, in *UpdateCreditInstitutionRequest, opts ...grpc.CallOption) (*CreditInstitution, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreditInstitution)
+	err := c.cc.Invoke(ctx, MdmService_UpdateCreditInstitution_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mdmServiceClient) DeleteCreditInstitution(ctx context.Context, in *DeleteCreditInstitutionRequest, opts ...grpc.CallOption) (*DeleteResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteResponse)
+	err := c.cc.Invoke(ctx, MdmService_DeleteCreditInstitution_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MdmServiceServer is the server API for MdmService service.
 // All implementations must embed UnimplementedMdmServiceServer
 // for forward compatibility.
@@ -533,6 +593,11 @@ type MdmServiceServer interface {
 	CreateSystemParameter(context.Context, *CreateSystemParameterRequest) (*SystemParameter, error)
 	UpdateSystemParameter(context.Context, *UpdateSystemParameterRequest) (*SystemParameter, error)
 	DeleteSystemParameter(context.Context, *DeleteSystemParameterRequest) (*DeleteResponse, error)
+	ListCreditInstitutions(context.Context, *ListCreditInstitutionsRequest) (*ListCreditInstitutionsResponse, error)
+	GetCreditInstitution(context.Context, *GetCreditInstitutionRequest) (*CreditInstitution, error)
+	CreateCreditInstitution(context.Context, *CreateCreditInstitutionRequest) (*CreditInstitution, error)
+	UpdateCreditInstitution(context.Context, *UpdateCreditInstitutionRequest) (*CreditInstitution, error)
+	DeleteCreditInstitution(context.Context, *DeleteCreditInstitutionRequest) (*DeleteResponse, error)
 	mustEmbedUnimplementedMdmServiceServer()
 }
 
@@ -656,6 +721,21 @@ func (UnimplementedMdmServiceServer) UpdateSystemParameter(context.Context, *Upd
 }
 func (UnimplementedMdmServiceServer) DeleteSystemParameter(context.Context, *DeleteSystemParameterRequest) (*DeleteResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method DeleteSystemParameter not implemented")
+}
+func (UnimplementedMdmServiceServer) ListCreditInstitutions(context.Context, *ListCreditInstitutionsRequest) (*ListCreditInstitutionsResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListCreditInstitutions not implemented")
+}
+func (UnimplementedMdmServiceServer) GetCreditInstitution(context.Context, *GetCreditInstitutionRequest) (*CreditInstitution, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetCreditInstitution not implemented")
+}
+func (UnimplementedMdmServiceServer) CreateCreditInstitution(context.Context, *CreateCreditInstitutionRequest) (*CreditInstitution, error) {
+	return nil, status.Error(codes.Unimplemented, "method CreateCreditInstitution not implemented")
+}
+func (UnimplementedMdmServiceServer) UpdateCreditInstitution(context.Context, *UpdateCreditInstitutionRequest) (*CreditInstitution, error) {
+	return nil, status.Error(codes.Unimplemented, "method UpdateCreditInstitution not implemented")
+}
+func (UnimplementedMdmServiceServer) DeleteCreditInstitution(context.Context, *DeleteCreditInstitutionRequest) (*DeleteResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method DeleteCreditInstitution not implemented")
 }
 func (UnimplementedMdmServiceServer) mustEmbedUnimplementedMdmServiceServer() {}
 func (UnimplementedMdmServiceServer) testEmbeddedByValue()                    {}
@@ -1362,6 +1442,96 @@ func _MdmService_DeleteSystemParameter_Handler(srv interface{}, ctx context.Cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _MdmService_ListCreditInstitutions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListCreditInstitutionsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).ListCreditInstitutions(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_ListCreditInstitutions_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).ListCreditInstitutions(ctx, req.(*ListCreditInstitutionsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MdmService_GetCreditInstitution_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetCreditInstitutionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).GetCreditInstitution(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_GetCreditInstitution_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).GetCreditInstitution(ctx, req.(*GetCreditInstitutionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MdmService_CreateCreditInstitution_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateCreditInstitutionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).CreateCreditInstitution(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_CreateCreditInstitution_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).CreateCreditInstitution(ctx, req.(*CreateCreditInstitutionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MdmService_UpdateCreditInstitution_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateCreditInstitutionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).UpdateCreditInstitution(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_UpdateCreditInstitution_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).UpdateCreditInstitution(ctx, req.(*UpdateCreditInstitutionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MdmService_DeleteCreditInstitution_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteCreditInstitutionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).DeleteCreditInstitution(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_DeleteCreditInstitution_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).DeleteCreditInstitution(ctx, req.(*DeleteCreditInstitutionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // MdmService_ServiceDesc is the grpc.ServiceDesc for MdmService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -1520,6 +1690,26 @@ var MdmService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteSystemParameter",
 			Handler:    _MdmService_DeleteSystemParameter_Handler,
+		},
+		{
+			MethodName: "ListCreditInstitutions",
+			Handler:    _MdmService_ListCreditInstitutions_Handler,
+		},
+		{
+			MethodName: "GetCreditInstitution",
+			Handler:    _MdmService_GetCreditInstitution_Handler,
+		},
+		{
+			MethodName: "CreateCreditInstitution",
+			Handler:    _MdmService_CreateCreditInstitution_Handler,
+		},
+		{
+			MethodName: "UpdateCreditInstitution",
+			Handler:    _MdmService_UpdateCreditInstitution_Handler,
+		},
+		{
+			MethodName: "DeleteCreditInstitution",
+			Handler:    _MdmService_DeleteCreditInstitution_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

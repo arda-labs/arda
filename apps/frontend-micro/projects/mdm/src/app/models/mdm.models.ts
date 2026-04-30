@@ -125,3 +125,19 @@ export interface SystemParameter {
   status: string;
   updatedBy: string;
 }
+
+export interface CreditInstitution {
+  id: string;
+  code: string;
+  name: string;
+  shortName: string;
+  address: string;
+  phone: string;
+  email: string;
+  licenseNumber: string;
+  issuedDate: string;
+  taxCode: string;
+  website: string;
+  note: string;
+  status: string;
+}

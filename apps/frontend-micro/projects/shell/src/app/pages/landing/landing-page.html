@@ -31,7 +31,8 @@
       <!-- Right: Controls + Login -->
       <div class="flex items-center gap-3">
         <!-- Language Selector -->
-        <p-select [options]="langOptions" optionLabel="label" optionValue="value" [ngModel]="currentLang()"
+        <label for="landingLanguage" class="sr-only">Ngôn ngữ</label>
+        <p-select inputId="landingLanguage" [options]="langOptions" optionLabel="label" optionValue="value" [ngModel]="currentLang()"
           (ngModelChange)="onLanguageChange($event)" class="w-32!" size="small" [filter]="false" appendTo="body" />
 
         <!-- Dark Mode Toggle -->

@@ -93,7 +93,7 @@
 
     <div class="flex flex-col gap-2">
       <label for="permSelect" class="text-sm font-medium">Quyền hạn (Permissions)</label>
-      <p-multiSelect id="permSelect" [options]="permissionsResource.value() || []" [ngModel]="selectedPermissions()"
+      <p-multiSelect inputId="permSelect" [options]="permissionsResource.value() || []" [ngModel]="selectedPermissions()"
         (ngModelChange)="selectedPermissions.set($event)" [ngModelOptions]="{standalone: true}"
         placeholder="Chọn các quyền" display="chip" class="w-full" appendTo="body" />
       <small class="text-surface-500 text-xs">Các quyền được định nghĩa theo Resource:Action</small>

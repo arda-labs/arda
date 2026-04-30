@@ -54,9 +54,15 @@
 
 <p-dialog [visible]="areaUnitsVisible()" (visibleChange)="areaUnitsVisible.set($event)" [header]="'Địa bàn của ' + (selectedAreaForUnits()?.name || '')" [modal]="true" [style]="{width: '720px'}" [draggable]="false" [resizable]="false">
   <div class="space-y-4 py-3">
-    <div [formGroup]="areaUnitForm" class="grid grid-cols-1 gap-3 md:grid-cols-[1fr_140px_auto]">
-      <p-select formControlName="administrativeUnitId" [options]="administrativeUnitOptions()" optionLabel="label" optionValue="value" [filter]="true" appendTo="body" placeholder="Chọn tỉnh/phường/xã" class="w-full" />
-      <p-select formControlName="scopeType" [options]="scopeOptions" optionLabel="label" optionValue="value" appendTo="body" class="w-full" />
+    <div [formGroup]="areaUnitForm" class="grid grid-cols-1 gap-3 md:grid-cols-[1fr_140px_auto] md:items-end">
+      <div class="flex flex-col gap-2">
+        <label for="areaUnitAdministrativeUnit" class="text-sm font-medium">Đơn vị hành chính</label>
+        <p-select inputId="areaUnitAdministrativeUnit" formControlName="administrativeUnitId" [options]="administrativeUnitOptions()" optionLabel="label" optionValue="value" [filter]="true" appendTo="body" placeholder="Chọn tỉnh/phường/xã" class="w-full" />
+      </div>
+      <div class="flex flex-col gap-2">
+        <label for="areaUnitScopeType" class="text-sm font-medium">Scope</label>
+        <p-select inputId="areaUnitScopeType" formControlName="scopeType" [options]="scopeOptions" optionLabel="label" optionValue="value" appendTo="body" class="w-full" />
+      </div>
       <p-button icon="pi pi-plus" label="Gán" [loading]="isSaving()" (onClick)="assignAreaUnit()" />
     </div>
 
@@ -81,20 +87,49 @@
 
 <p-dialog [visible]="areaDialogVisible()" (visibleChange)="areaDialogVisible.set($event)" [modal]="true" [draggable]="false" [resizable]="false" [style]="{width: '720px'}" [header]="selectedArea() ? 'Cập nhật khu vực' : 'Thêm khu vực'">
   <div [formGroup]="areaForm" class="grid grid-cols-1 gap-4 py-4 md:grid-cols-2">
-    <p-select formControlName="areaTypeId" [options]="areaTypeOptions()" optionLabel="label" optionValue="value" appendTo="body" />
-    <p-select formControlName="parentId" [options]="areaParentOptions()" optionLabel="label" optionValue="value" appendTo="body" />
-    <input pInputText formControlName="code" placeholder="Mã khu vực" />
-    <input pInputText formControlName="name" placeholder="Tên khu vực" />
-    <input pInputText formControlName="managerUserId" placeholder="Manager user id" />
-    <p-select formControlName="status" [options]="statusOptions" optionLabel="label" optionValue="value" appendTo="body" />
-    <input pInputText type="date" formControlName="effectiveFrom" />
-    <input pInputText type="date" formControlName="effectiveTo" />
-    <textarea pTextarea formControlName="description" rows="2" class="md:col-span-2" placeholder="Mô tả"></textarea>
-    <textarea pTextarea formControlName="metadataJson" rows="3" class="md:col-span-2" placeholder="Metadata JSON"></textarea>
+    <div class="flex flex-col gap-2">
+      <label for="areaType" class="text-sm font-medium">Loại khu vực</label>
+      <p-select inputId="areaType" formControlName="areaTypeId" [options]="areaTypeOptions()" optionLabel="label" optionValue="value" appendTo="body" />
+    </div>
+    <div class="flex flex-col gap-2">
+      <label for="areaParent" class="text-sm font-medium">Khu vực cha</label>
+      <p-select inputId="areaParent" formControlName="parentId" [options]="areaParentOptions()" optionLabel="label" optionValue="value" appendTo="body" />
+    </div>
+    <div class="flex flex-col gap-2">
+      <label for="areaCode" class="text-sm font-medium">Mã khu vực</label>
+      <input pInputText id="areaCode" formControlName="code" placeholder="Mã khu vực" />
+    </div>
+    <div class="flex flex-col gap-2">
+      <label for="areaName" class="text-sm font-medium">Tên khu vực</label>
+      <input pInputText id="areaName" formControlName="name" placeholder="Tên khu vực" />
+    </div>
+    <div class="flex flex-col gap-2">
+      <label for="areaManagerUserId" class="text-sm font-medium">Manager user id</label>
+      <input pInputText id="areaManagerUserId" formControlName="managerUserId" placeholder="Manager user id" />
+    </div>
+    <div class="flex flex-col gap-2">
+      <label for="areaStatus" class="text-sm font-medium">Trạng thái</label>
+      <p-select inputId="areaStatus" formControlName="status" [options]="statusOptions" optionLabel="label" optionValue="value" appendTo="body" />
+    </div>
+    <div class="flex flex-col gap-2">
+      <label for="areaEffectiveFrom" class="text-sm font-medium">Hiệu lực từ</label>
+      <p-datepicker inputId="areaEffectiveFrom" formControlName="effectiveFrom" dateFormat="yy-mm-dd" dataType="string" appendTo="body" styleClass="w-full" />
+    </div>
+    <div class="flex flex-col gap-2">
+      <label for="areaEffectiveTo" class="text-sm font-medium">Hiệu lực đến</label>
+      <p-datepicker inputId="areaEffectiveTo" formControlName="effectiveTo" dateFormat="yy-mm-dd" dataType="string" appendTo="body" styleClass="w-full" />
+    </div>
+    <div class="flex flex-col gap-2 md:col-span-2">
+      <label for="areaDescription" class="text-sm font-medium">Mô tả</label>
+      <textarea pTextarea id="areaDescription" formControlName="description" rows="2" placeholder="Mô tả"></textarea>
+    </div>
+    <div class="flex flex-col gap-2 md:col-span-2">
+      <label for="areaMetadata" class="text-sm font-medium">Metadata JSON</label>
+      <textarea pTextarea id="areaMetadata" formControlName="metadataJson" rows="3" placeholder="Metadata JSON"></textarea>
+    </div>
   </div>
   <ng-template pTemplate="footer">
     <p-button label="Hủy" severity="secondary" variant="text" (onClick)="areaDialogVisible.set(false)" />
     <p-button label="Lưu" icon="pi pi-check" [loading]="isSaving()" (onClick)="save()" />
   </ng-template>
 </p-dialog>
-

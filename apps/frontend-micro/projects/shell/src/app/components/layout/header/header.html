@@ -1,68 +1,58 @@
 <header
-  class="h-16 flex items-center justify-between px-6 bg-surface-0/80 dark:bg-surface-900/80 backdrop-blur-md border-b border-surface-200 dark:border-surface-800 shrink-0 z-10">
-  <div class="flex items-center gap-4">
+  class="h-16 grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-5 bg-surface-0/90 dark:bg-surface-900/90 backdrop-blur-md border-b border-surface-200 dark:border-surface-800 shrink-0 z-10">
+  <div class="flex min-w-0 items-center gap-3">
     <!-- Re-open sidebar button (Visible ONLY when sidebar closed) -->
     @if (!sidebarVisible()) {
     <p-button icon="pi pi-bars" [variant]="'text'" [rounded]="true" severity="secondary" (onClick)="onToggleSidebar()"
       styleClass="mr-2" aria-label="Open sidebar" />
     }
 
-    <!-- Smart Breadcrumb -->
-    <nav class="hidden md:flex items-center text-xs font-medium space-x-2">
-      <span class="text-surface-400 hover:text-surface-600 transition-colors cursor-pointer">Arda</span>
-      <i class="pi pi-chevron-right text-[10px] text-surface-300"></i>
-      <span class="text-surface-400 hover:text-surface-600 transition-colors cursor-pointer">Settings</span>
-      <i class="pi pi-chevron-right text-[10px] text-surface-300"></i>
-      <span class="text-surface-900 dark:text-white font-semibold">Theme</span>
-    </nav>
+    <p-breadcrumb
+      [home]="breadcrumbHome"
+      [model]="breadcrumbItems()"
+      styleClass="app-header-breadcrumb hidden md:flex min-w-0 !border-0 !bg-transparent !p-0"
+    />
   </div>
 
-  <!-- Action Actions (Centered-ish Search & Icons) -->
-  <div class="flex items-center gap-4">
-    <!-- Modern "Command Bar" Search -->
-    <div class="relative group hidden sm:block">
-      <i
-        class="pi pi-search absolute left-3 top-1/2 -translate-y-1/2 text-surface-400 text-xs transition-colors group-focus-within:text-primary-500"></i>
-      <input type="text" placeholder="Search docs (⌘K)"
-        class="pl-9 pr-14 py-1.5 w-64 bg-surface-100 dark:bg-surface-800/50 border border-transparent focus:border-primary-500/50 rounded-lg text-xs transition-all outline-none text-surface-700 dark:text-surface-200 focus:bg-white dark:focus:bg-surface-800" />
-      <div
-        class="absolute right-2 top-1/2 -translate-y-1/2 px-1.5 py-0.5 rounded bg-surface-200 dark:bg-surface-700 text-[10px] text-surface-500 border border-surface-300 dark:border-surface-600 font-mono">
-        ⌘K</div>
+  <div class="flex min-w-0 items-center justify-end gap-2">
+    <div class="hidden items-center gap-2 rounded-md border border-surface-200 bg-surface-50 px-3 py-1.5 font-mono text-[11px] font-semibold tabular-nums text-surface-600 dark:border-surface-800 dark:bg-surface-950 dark:text-surface-300 md:flex">
+      <span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
+      <span>{{ marketClock() }}</span>
     </div>
 
-    <div class="flex items-center gap-1.5">
-      <app-tenant-switcher />
-      <p-button icon="pi pi-bell" [variant]="'text'" [rounded]="true" severity="secondary" pTooltip="In-box"
-        tooltipPosition="bottom" aria-label="Notifications" />
-      <p-button icon="pi pi-cog" [variant]="'text'" [rounded]="true" severity="secondary" routerLink="/settings"
-        pTooltip="Settings" tooltipPosition="bottom" aria-label="Settings" />
+    <div class="hidden h-6 w-px bg-surface-200 dark:bg-surface-800 md:block"></div>
 
-      <div class="h-5 w-px bg-surface-200 dark:bg-surface-800 mx-1 hidden sm:block"></div>
+    <p-button
+      [icon]="themeSettings().darkMode ? 'pi pi-sun' : 'pi pi-moon'"
+      [variant]="'text'"
+      [rounded]="true"
+      severity="secondary"
+      [pTooltip]="themeSettings().darkMode ? 'Light mode' : 'Dark mode'"
+      tooltipPosition="bottom"
+      aria-label="Toggle dark mode"
+      (onClick)="toggleDarkMode()"
+    />
+    <p-button icon="pi pi-bell" [variant]="'text'" [rounded]="true" severity="secondary" pTooltip="In-box"
+      tooltipPosition="bottom" aria-label="Notifications" />
 
-      <!-- Language Selector -->
-      <div class="flex items-center gap-1">
-        <button (click)="changeLang('vi')" [class.text-primary-500]="currentLang() === 'vi'"
-          class="text-[10px] font-bold hover:text-primary-400 transition-colors bg-transparent border-0 cursor-pointer p-1">
-          VI
-        </button>
-        <span class="text-surface-300 dark:text-surface-700 text-[10px]">/</span>
-        <button (click)="changeLang('en')" [class.text-primary-500]="currentLang() === 'en'"
-          class="text-[10px] font-bold hover:text-primary-400 transition-colors bg-transparent border-0 cursor-pointer p-1">
-          EN
-        </button>
-      </div>
+    <div class="hidden h-6 w-px bg-surface-200 dark:bg-surface-800 md:block"></div>
 
-      <div class="h-5 w-px bg-surface-200 dark:bg-surface-800 mx-1 hidden sm:block"></div>
+    <div class="hidden md:block">
+      <button
+        type="button"
+        class="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full border border-transparent bg-transparent text-base transition-colors hover:border-surface-200 hover:bg-surface-100 dark:hover:border-surface-800 dark:hover:bg-surface-800"
+        aria-label="Chọn ngôn ngữ"
+        (click)="languageMenu.toggle($event)"
+      >
+        {{ currentFlag() }}
+      </button>
+      <p-menu #languageMenu [model]="languageMenuItems" [popup]="true" appendTo="body" />
+    </div>
 
-      <!-- User Avatar with Menu -->
-      <div class="ml-2 flex items-center gap-2">
-        <span class="text-xs font-medium text-surface-600 dark:text-surface-400 hidden sm:block">
-          {{ userName()?.name ?? '' }}
-        </span>
-        <p-avatar [label]="userInitials()" shape="circle" class="bg-primary-500 text-white font-bold cursor-pointer"
-          (click)="userMenu.toggle($event)" />
-        <p-menu #userMenu [model]="userMenuItems" [popup]="true" appendTo="body" />
-      </div>
+    <div class="flex items-center gap-2">
+      <p-avatar [label]="userInitials()" shape="circle" class="bg-primary-500 text-white font-bold cursor-pointer"
+        (click)="userMenu.toggle($event)" />
+      <p-menu #userMenu [model]="userMenuItems" [popup]="true" appendTo="body" />
     </div>
   </div>
 </header>

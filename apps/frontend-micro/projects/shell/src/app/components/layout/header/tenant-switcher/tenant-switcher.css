@@ -1,1 +1,15 @@
 /* empty — Tailwind + PrimeNG styleClass handles everything */
+:host {
+  display: block;
+}
+
+:host ::ng-deep .tenant-switcher-select .p-select-label {
+  font-size: 0.75rem;
+  line-height: 1rem;
+  padding-block: 0.125rem;
+  padding-inline: 0.25rem;
+}
+
+:host ::ng-deep .tenant-switcher-select .p-select-dropdown {
+  width: 1.25rem;
+}

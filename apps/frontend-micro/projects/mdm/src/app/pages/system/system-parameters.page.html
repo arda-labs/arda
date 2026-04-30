@@ -66,26 +66,55 @@
 
 <p-dialog [visible]="dialogVisible()" (visibleChange)="dialogVisible.set($event)" [modal]="true" [draggable]="false" [resizable]="false" [style]="{width: '720px'}" [header]="selected() ? 'Cập nhật tham số' : 'Thêm tham số'">
   <div [formGroup]="form" class="grid grid-cols-1 gap-4 py-4 md:grid-cols-2">
-    <input pInputText formControlName="key" placeholder="Key" [readonly]="!!selected()" />
-    <input pInputText formControlName="name" placeholder="Tên tham số" />
-    <input pInputText formControlName="groupCode" placeholder="Nhóm" />
-    <p-select formControlName="valueType" [options]="valueTypeOptions" optionLabel="label" optionValue="value" appendTo="body" />
-    <input pInputText formControlName="valueText" placeholder="Value text" />
-    <input pInputText type="number" formControlName="valueNumber" placeholder="Value number" />
+    <div class="flex flex-col gap-2">
+      <label for="systemParameterKey" class="text-sm font-medium">Key</label>
+      <input pInputText id="systemParameterKey" formControlName="key" placeholder="Key" [readonly]="!!selected()" />
+    </div>
+    <div class="flex flex-col gap-2">
+      <label for="systemParameterName" class="text-sm font-medium">Tên tham số</label>
+      <input pInputText id="systemParameterName" formControlName="name" placeholder="Tên tham số" />
+    </div>
+    <div class="flex flex-col gap-2">
+      <label for="systemParameterGroup" class="text-sm font-medium">Nhóm</label>
+      <input pInputText id="systemParameterGroup" formControlName="groupCode" placeholder="Nhóm" />
+    </div>
+    <div class="flex flex-col gap-2">
+      <label for="systemParameterValueType" class="text-sm font-medium">Kiểu giá trị</label>
+      <p-select inputId="systemParameterValueType" formControlName="valueType" [options]="valueTypeOptions" optionLabel="label" optionValue="value" appendTo="body" />
+    </div>
+    <div class="flex flex-col gap-2">
+      <label for="systemParameterValueText" class="text-sm font-medium">Value text</label>
+      <input pInputText id="systemParameterValueText" formControlName="valueText" placeholder="Value text" />
+    </div>
+    <div class="flex flex-col gap-2">
+      <label for="systemParameterValueNumber" class="text-sm font-medium">Value number</label>
+      <input pInputText id="systemParameterValueNumber" type="number" formControlName="valueNumber" placeholder="Value number" />
+    </div>
     <label class="flex items-center gap-2"><input type="checkbox" formControlName="valueBoolean" class="h-4 w-4 accent-primary" />Value boolean</label>
-    <input pInputText formControlName="defaultValue" placeholder="Default value" />
+    <div class="flex flex-col gap-2">
+      <label for="systemParameterDefaultValue" class="text-sm font-medium">Default value</label>
+      <input pInputText id="systemParameterDefaultValue" formControlName="defaultValue" placeholder="Default value" />
+    </div>
     <div class="flex flex-wrap items-center gap-4 md:col-span-2">
       <label class="flex items-center gap-2"><input type="checkbox" formControlName="isSecret" class="h-4 w-4 accent-primary" />Secret</label>
       <label class="flex items-center gap-2"><input type="checkbox" formControlName="isEditable" class="h-4 w-4 accent-primary" />Editable</label>
       <label class="flex items-center gap-2"><input type="checkbox" formControlName="isSystem" class="h-4 w-4 accent-primary" />System</label>
     </div>
-    <textarea pTextarea formControlName="valueJson" rows="3" class="md:col-span-2" placeholder="Value JSON"></textarea>
-    <textarea pTextarea formControlName="validationRuleJson" rows="2" class="md:col-span-2" placeholder="Validation rule JSON"></textarea>
-    <textarea pTextarea formControlName="description" rows="2" class="md:col-span-2" placeholder="Mô tả"></textarea>
+    <div class="flex flex-col gap-2 md:col-span-2">
+      <label for="systemParameterValueJson" class="text-sm font-medium">Value JSON</label>
+      <textarea pTextarea id="systemParameterValueJson" formControlName="valueJson" rows="3" placeholder="Value JSON"></textarea>
+    </div>
+    <div class="flex flex-col gap-2 md:col-span-2">
+      <label for="systemParameterValidationRule" class="text-sm font-medium">Validation rule JSON</label>
+      <textarea pTextarea id="systemParameterValidationRule" formControlName="validationRuleJson" rows="2" placeholder="Validation rule JSON"></textarea>
+    </div>
+    <div class="flex flex-col gap-2 md:col-span-2">
+      <label for="systemParameterDescription" class="text-sm font-medium">Mô tả</label>
+      <textarea pTextarea id="systemParameterDescription" formControlName="description" rows="2" placeholder="Mô tả"></textarea>
+    </div>
   </div>
   <ng-template pTemplate="footer">
     <p-button label="Hủy" severity="secondary" variant="text" (onClick)="dialogVisible.set(false)" />
     <p-button label="Lưu" icon="pi pi-check" [loading]="isSaving()" (onClick)="save()" />
   </ng-template>
 </p-dialog>
-

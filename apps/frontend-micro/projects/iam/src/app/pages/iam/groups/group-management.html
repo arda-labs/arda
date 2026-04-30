@@ -96,7 +96,7 @@
   <div class="flex flex-col gap-4 py-4">
     <div class="flex flex-col gap-2">
       <label for="memberSelect" class="text-sm font-medium">Chọn thành viên</label>
-      <p-multiSelect id="memberSelect" [options]="allUsers()" [ngModel]="selectedUserIds()"
+      <p-multiSelect inputId="memberSelect" [options]="allUsers()" [ngModel]="selectedUserIds()"
         (ngModelChange)="selectedUserIds.set($event)" [ngModelOptions]="{standalone: true}" optionLabel="displayName"
         optionValue="id" placeholder="Tìm và chọn người dùng" class="w-full" appendTo="body" display="chip"
         [filter]="true">
@@ -145,7 +145,7 @@
   <div class="flex flex-col gap-4 py-4">
     <div class="flex flex-col gap-2">
       <label for="groupRoleSelect" class="text-sm font-medium">Chọn vai trò áp dụng cho nhóm</label>
-      <p-multiSelect id="groupRoleSelect" [options]="allRoles()" [ngModel]="selectedRoleIds()"
+      <p-multiSelect inputId="groupRoleSelect" [options]="allRoles()" [ngModel]="selectedRoleIds()"
         (ngModelChange)="selectedRoleIds.set($event)" [ngModelOptions]="{standalone: true}" optionLabel="name"
         optionValue="id" placeholder="Chọn các Role" class="w-full" appendTo="body" display="chip">
         <ng-template let-role pTemplate="item">

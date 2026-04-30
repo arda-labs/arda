@@ -7,6 +7,7 @@ import { Observable, of } from 'rxjs';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Button } from 'primeng/button';
 import { ConfirmDialog } from 'primeng/confirmdialog';
+import { DatePicker } from 'primeng/datepicker';
 import { Dialog } from 'primeng/dialog';
 import { InputText } from 'primeng/inputtext';
 import { Select } from 'primeng/select';
@@ -22,7 +23,7 @@ import { statusSeverity } from '../../services/mdm-http';
 @Component({
   selector: 'app-code-items-page',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, Button, ConfirmDialog, Dialog, InputText, Select, TableModule, Tag, Textarea, Toast, Tooltip],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, Button, ConfirmDialog, DatePicker, Dialog, InputText, Select, TableModule, Tag, Textarea, Toast, Tooltip],
   providers: [MessageService, ConfirmationService],
   templateUrl: './code-items.page.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -154,4 +155,3 @@ export class CodeItemsPage {
     });
   }
 }
-

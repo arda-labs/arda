@@ -10,17 +10,17 @@ import {
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Button } from 'primeng/button';
-import { Avatar } from 'primeng/avatar';
 import { AuthService } from '../../services/auth.service';
 import { TenantService } from '../../services/tenant.service';
 import { MenuService } from '../../services/menu.service';
 import { SidebarMenu } from './sidebar-menu/sidebar-menu';
 import { AppHeader } from './header/header';
+import { TenantSwitcher } from './header/tenant-switcher/tenant-switcher';
 
 @Component({
   selector: 'app-layout',
   standalone: true,
-  imports: [RouterModule, CommonModule, Button, Avatar, SidebarMenu, AppHeader],
+  imports: [RouterModule, CommonModule, Button, SidebarMenu, AppHeader, TenantSwitcher],
   templateUrl: './layout.html',
   styleUrl: './layout.css',
   encapsulation: ViewEncapsulation.None,

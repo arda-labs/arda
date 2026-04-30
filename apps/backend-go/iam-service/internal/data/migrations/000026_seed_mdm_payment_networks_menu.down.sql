@@ -1,1 +1,1 @@
-DELETE FROM menus WHERE code = 'mdm-payment-networks';
+DELETE FROM menus WHERE slug = 'mdm-payment-networks';

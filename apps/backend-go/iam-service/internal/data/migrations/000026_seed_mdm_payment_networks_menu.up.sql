@@ -1,11 +1,20 @@
-INSERT INTO menus (id, parent_id, code, name, path, icon, sort_order, status, created_at, updated_at)
-SELECT gen_random_uuid(), parent.id, 'mdm-payment-networks', 'Chi nhánh & mạng thanh toán', '/app/mdm/banking/payment-networks', 'pi pi-share-alt', 70, 'ACTIVE', now(), now()
-FROM menus parent
-WHERE parent.code = 'mdm-banking'
-ON CONFLICT (code) DO UPDATE
-SET name = EXCLUDED.name,
-    path = EXCLUDED.path,
+WITH groups AS (
+  SELECT id, tenant_id FROM menus WHERE slug = 'mdm-banking'
+),
+leaves(group_slug, name, slug, icon, route, sort_order) AS (
+  VALUES
+    ('mdm-banking', 'Chi nhánh & mạng thanh toán', 'mdm-payment-networks', 'pi pi-share-alt', '/app/mdm/banking/payment-networks', 70)
+)
+INSERT INTO menus (tenant_id, parent_id, name, slug, icon, route, sort_order, enabled, permission_slug)
+SELECT g.tenant_id, g.id, l.name, l.slug, l.icon, l.route, l.sort_order, true, 'mdm:read'
+FROM groups g
+JOIN leaves l ON l.group_slug = 'mdm-banking'
+ON CONFLICT (tenant_id, slug) DO UPDATE
+SET parent_id = EXCLUDED.parent_id,
+    name = EXCLUDED.name,
     icon = EXCLUDED.icon,
+    route = EXCLUDED.route,
     sort_order = EXCLUDED.sort_order,
-    status = EXCLUDED.status,
+    enabled = EXCLUDED.enabled,
+    permission_slug = EXCLUDED.permission_slug,
     updated_at = now();

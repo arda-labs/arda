@@ -5,4 +5,5 @@ use (
 	./mdm-service
 	./crm-service
 	./iam-service
+	./notification-service
 )

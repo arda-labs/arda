@@ -33,6 +33,7 @@ arda/
 │   ├── backend-go/              # Go workspace for Kratos services
 │   │   ├── iam-service/         # Identity, tenants, menus, permissions
 │   │   ├── mdm-service/         # Master Data Management
+│   │   ├── notification-service/# Notification templates and delivery roadmap
 │   │   └── crm-service/         # Skeleton / roadmap service
 │   └── backend-java/            # Gradle workspace
 │       └── accounting_tmp/      # Accounting prototype
@@ -53,7 +54,7 @@ Runtime manifests live in the sibling repo `../arda-infra`.
 | MDM MFE | Active remote, runs on port `3001`, route `/app/mdm/*` |
 | IAM service | Active Go/Kratos service, default HTTP `8000`, gRPC `9000` |
 | MDM service | Active Go/Kratos service, default HTTP `8001`, gRPC `9001` |
-| Notification service | Planned Go/Kratos service; design documented |
+| Notification service | Started Go/Kratos service; template registry implemented |
 | CRM service | Present in Go workspace as skeleton/roadmap |
 | Accounting Java | Prototype under `apps/backend-java/accounting_tmp` |
 
@@ -120,6 +121,9 @@ cd apps\backend-go\iam-service
 go test ./...
 
 cd ..\mdm-service
+go test ./...
+
+cd ..\notification-service
 go test ./...
 ```
 

@@ -1,0 +1,105 @@
+syntax = "proto3";
+
+package notification.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/arda-labs/arda/arda-be-go/services/notification-service/api/notification/v1;v1";
+
+service NotificationService {
+  rpc ListTemplates(ListTemplatesRequest) returns (ListTemplatesResponse) {
+    option (google.api.http) = { get: "/v1/notifications/templates" };
+  }
+  rpc GetTemplate(GetTemplateRequest) returns (NotificationTemplate) {
+    option (google.api.http) = { get: "/v1/notifications/templates/{id}" };
+  }
+  rpc CreateTemplate(CreateTemplateRequest) returns (NotificationTemplate) {
+    option (google.api.http) = { post: "/v1/notifications/templates" body: "*" };
+  }
+  rpc UpdateTemplate(UpdateTemplateRequest) returns (NotificationTemplate) {
+    option (google.api.http) = { put: "/v1/notifications/templates/{id}" body: "*" };
+  }
+  rpc DeleteTemplate(DeleteTemplateRequest) returns (DeleteResponse) {
+    option (google.api.http) = { delete: "/v1/notifications/templates/{id}" };
+  }
+
+  rpc ListTemplateVersions(ListTemplateVersionsRequest) returns (ListTemplateVersionsResponse) {
+    option (google.api.http) = { get: "/v1/notifications/templates/{template_id}/versions" };
+  }
+  rpc CreateTemplateVersion(CreateTemplateVersionRequest) returns (NotificationTemplateVersion) {
+    option (google.api.http) = { post: "/v1/notifications/templates/{template_id}/versions" body: "*" };
+  }
+  rpc ApproveTemplateVersion(ApproveTemplateVersionRequest) returns (NotificationTemplateVersion) {
+    option (google.api.http) = { post: "/v1/notifications/template-versions/{id}/approve" body: "*" };
+  }
+}
+
+message NotificationTemplate {
+  string id = 1;
+  string code = 2;
+  string name = 3;
+  string category = 4;
+  string default_channel = 5;
+  string description = 6;
+  string status = 7;
+  google.protobuf.Timestamp created_at = 8;
+  google.protobuf.Timestamp updated_at = 9;
+}
+
+message NotificationTemplateVersion {
+  string id = 1;
+  string template_id = 2;
+  int32 version = 3;
+  string channel = 4;
+  string language = 5;
+  string subject = 6;
+  string body = 7;
+  string payload_schema_json = 8;
+  string approval_status = 9;
+  string approved_by = 10;
+  google.protobuf.Timestamp approved_at = 11;
+  string change_note = 12;
+  string status = 13;
+  google.protobuf.Timestamp created_at = 14;
+  google.protobuf.Timestamp updated_at = 15;
+}
+
+message DeleteResponse {}
+
+message ListTemplatesRequest {
+  string status = 1;
+  string keyword = 2;
+  int32 page_size = 3;
+  string page_token = 4;
+}
+message ListTemplatesResponse {
+  repeated NotificationTemplate templates = 1;
+  string next_page_token = 2;
+}
+message GetTemplateRequest { string id = 1; }
+message CreateTemplateRequest { NotificationTemplate template = 1; }
+message UpdateTemplateRequest {
+  string id = 1;
+  NotificationTemplate template = 2;
+}
+message DeleteTemplateRequest { string id = 1; }
+
+message ListTemplateVersionsRequest {
+  string template_id = 1;
+  string channel = 2;
+  string language = 3;
+  string status = 4;
+}
+message ListTemplateVersionsResponse {
+  repeated NotificationTemplateVersion versions = 1;
+}
+message CreateTemplateVersionRequest {
+  string template_id = 1;
+  NotificationTemplateVersion version = 2;
+}
+message ApproveTemplateVersionRequest {
+  string id = 1;
+  string actor = 2;
+  string note = 3;
+}

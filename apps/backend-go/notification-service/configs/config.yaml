@@ -1,0 +1,17 @@
+server:
+  http:
+    addr: 0.0.0.0:8002
+    timeout: 10s
+  grpc:
+    addr: 0.0.0.0:9002
+    timeout: 10s
+
+data:
+  database:
+    driver: postgres
+    source: "postgres://notification:notification%40123@thinkcenter:5432/notification?sslmode=disable"
+
+jwt:
+  jwks_endpoint: "https://arda.io.vn/oauth/v2/keys"
+  issuer: "https://arda.io.vn"
+  audience: "370596460112183382"

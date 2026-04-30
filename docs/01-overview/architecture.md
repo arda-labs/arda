@@ -92,7 +92,7 @@ Active services:
 | --- | --- | --- | --- | --- |
 | `iam-service` | Active | `8000` | `9000` | `iam` |
 | `mdm-service` | Active | `8001` | `9001` | `mdm` |
-| `notification-service` | Planned | TBD | TBD | `notification` |
+| `notification-service` | Started | `8002` | `9002` | `notification` |
 | `crm-service` | Skeleton / roadmap | TBD | TBD | TBD |
 
 Service-native HTTP routes use `/v1/*`; APISIX exposes them as `/api/v1/*`.
@@ -152,7 +152,7 @@ Implemented now:
 Roadmap or prototype:
 
 - CRM, HRM, BPM, loan, deposit, treasury services.
-- Notification service implementation based on the current feature design.
+- Notification delivery queue, provider adapters, preferences, and operations UI.
 - Accounting Java production service.
 - Redpanda/outbox production flow.
 - Camunda, Garage S3, Prometheus/Grafana runtime stack.

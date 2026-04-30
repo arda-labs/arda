@@ -10,7 +10,7 @@ This guide describes the current Go services in `apps/backend-go`.
 | --- | --- | --- |
 | `iam-service` | Active | Identity integration, tenants, roles, menus, permissions |
 | `mdm-service` | Active | Master data, geography, code catalogs, system parameters |
-| `notification-service` | Planned | Notification templates, delivery queue, provider adapters |
+| `notification-service` | Started | Template registry implemented; delivery queue/provider adapters next |
 | `crm-service` | Skeleton | Keep as roadmap until implementation starts |
 
 ## Common Commands
@@ -23,6 +23,9 @@ go test ./...
 
 cd ..\mdm-service
 go test ./...
+
+cd ..\notification-service
+go test ./...
 ```
 
 Run locally:
@@ -33,6 +36,9 @@ kratos run
 
 cd ..\mdm-service
 kratos run
+
+cd ..\notification-service
+go run ./cmd/notification-service -conf ./configs
 ```
 
 Build a container from the repo root:
@@ -40,6 +46,7 @@ Build a container from the repo root:
 ```powershell
 docker build -f apps/backend-go/iam-service/Dockerfile -t ghcr.io/arda-labs/iam-service:dev .
 docker build -f apps/backend-go/mdm-service/Dockerfile -t ghcr.io/arda-labs/mdm-service:dev .
+docker build -f apps/backend-go/notification-service/Dockerfile -t ghcr.io/arda-labs/notification-service:dev .
 ```
 
 ## Service Ports
@@ -48,6 +55,7 @@ docker build -f apps/backend-go/mdm-service/Dockerfile -t ghcr.io/arda-labs/mdm-
 | --- | --- | --- |
 | `iam-service` | `8000` | `9000` |
 | `mdm-service` | `8001` | `9001` |
+| `notification-service` | `8002` | `9002` |
 
 ## API Contract
 
@@ -70,10 +78,10 @@ Service-native paths start with `/v1`. APISIX exposes them under `/api/v1`.
 
 ## Next Planned Service: Notification
 
-`notification-service` should be the next Go service candidate after the first
-MDM banking reference modules. It should use the same Kratos layout as IAM and
-MDM, with a dedicated PostgreSQL database and durable delivery queue. The
-feature design is documented in
+`notification-service` has started with the same Kratos layout as IAM and MDM.
+Part 1 implements the template registry and uses a dedicated PostgreSQL
+database. Durable delivery queue and provider adapters are next. The feature
+design is documented in
 [Notification Service](../06-features/notification.md).
 
 ## Current Gaps

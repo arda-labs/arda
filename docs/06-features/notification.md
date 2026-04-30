@@ -2,7 +2,9 @@
 
 Updated: 2026-04-30
 
-Status: Design. No active notification service is deployed yet.
+Status: Implementation started. Part 1 scaffolds `notification-service` with
+template and template-version APIs. Delivery queue, worker, provider adapters,
+preferences, and operations UI are still roadmap.
 
 ## Goal
 
@@ -189,10 +191,11 @@ MDM should not send messages. It only provides reference data.
 
 Phase 1: service skeleton and durable queue
 
-- Create `apps/backend-go/notification-service`.
-- Add dedicated database config and migrations.
-- Implement template CRUD, request creation, delivery queue, retry worker.
-- Support `IN_APP` and `EMAIL` adapter first.
+- Done: create `apps/backend-go/notification-service`.
+- Done: add dedicated database config and first migrations.
+- Done: implement template CRUD and template-version approval.
+- Next: implement request creation, delivery queue, retry worker.
+- Next: support `IN_APP` and `EMAIL` adapter first.
 
 Phase 2: operations UI
 

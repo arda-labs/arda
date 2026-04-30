@@ -87,6 +87,19 @@ func (s *MdmService) DeleteAdministrativeUnit(ctx context.Context, req *pb.Delet
 	return &pb.DeleteResponse{}, toServiceError(s.uc.DeleteAdministrativeUnit(ctx, req.Id))
 }
 
+func (s *MdmService) SyncAdministrativeUnitsFromAddressKit(ctx context.Context, req *pb.SyncAdministrativeUnitsFromAddressKitRequest) (*pb.SyncAdministrativeUnitsFromAddressKitResponse, error) {
+	result, err := s.uc.SyncAdministrativeUnitsFromAddressKit(ctx)
+	if err != nil {
+		return nil, toServiceError(err)
+	}
+	return &pb.SyncAdministrativeUnitsFromAddressKitResponse{
+		ProvinceCount: int32(result.ProvinceCount),
+		WardCount:     int32(result.WardCount),
+		EffectiveDate: result.EffectiveDate,
+		Source:        result.Source,
+	}, nil
+}
+
 func (s *MdmService) ListAreaTypes(ctx context.Context, req *pb.ListAreaTypesRequest) (*pb.ListAreaTypesResponse, error) {
 	list, next, err := s.uc.ListAreaTypes(ctx, biz.PageFilter{
 		Status: req.Status, Keyword: req.Keyword, PageSize: int(req.PageSize), PageToken: req.PageToken,

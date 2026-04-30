@@ -34,6 +34,18 @@ export interface AdministrativeUnit {
   metadataJson: string;
 }
 
+export interface AdministrativeUnitNode {
+  unit: AdministrativeUnit;
+  children: AdministrativeUnitNode[];
+}
+
+export interface AdministrativeUnitSyncResult {
+  provinceCount: number;
+  wardCount: number;
+  effectiveDate: string;
+  source: string;
+}
+
 export interface AreaType {
   id: string;
   code: string;
@@ -113,4 +125,3 @@ export interface SystemParameter {
   status: string;
   updatedBy: string;
 }
-

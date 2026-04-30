@@ -1143,6 +1143,110 @@ func (*DeleteResponse) Descriptor() ([]byte, []int) {
 	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{9}
 }
 
+type SyncAdministrativeUnitsFromAddressKitRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SyncAdministrativeUnitsFromAddressKitRequest) Reset() {
+	*x = SyncAdministrativeUnitsFromAddressKitRequest{}
+	mi := &file_mdm_v1_mdm_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SyncAdministrativeUnitsFromAddressKitRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SyncAdministrativeUnitsFromAddressKitRequest) ProtoMessage() {}
+
+func (x *SyncAdministrativeUnitsFromAddressKitRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_mdm_v1_mdm_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SyncAdministrativeUnitsFromAddressKitRequest.ProtoReflect.Descriptor instead.
+func (*SyncAdministrativeUnitsFromAddressKitRequest) Descriptor() ([]byte, []int) {
+	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{10}
+}
+
+type SyncAdministrativeUnitsFromAddressKitResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProvinceCount int32                  `protobuf:"varint,1,opt,name=province_count,json=provinceCount,proto3" json:"province_count,omitempty"`
+	WardCount     int32                  `protobuf:"varint,2,opt,name=ward_count,json=wardCount,proto3" json:"ward_count,omitempty"`
+	EffectiveDate string                 `protobuf:"bytes,3,opt,name=effective_date,json=effectiveDate,proto3" json:"effective_date,omitempty"`
+	Source        string                 `protobuf:"bytes,4,opt,name=source,proto3" json:"source,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SyncAdministrativeUnitsFromAddressKitResponse) Reset() {
+	*x = SyncAdministrativeUnitsFromAddressKitResponse{}
+	mi := &file_mdm_v1_mdm_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SyncAdministrativeUnitsFromAddressKitResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SyncAdministrativeUnitsFromAddressKitResponse) ProtoMessage() {}
+
+func (x *SyncAdministrativeUnitsFromAddressKitResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_mdm_v1_mdm_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SyncAdministrativeUnitsFromAddressKitResponse.ProtoReflect.Descriptor instead.
+func (*SyncAdministrativeUnitsFromAddressKitResponse) Descriptor() ([]byte, []int) {
+	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *SyncAdministrativeUnitsFromAddressKitResponse) GetProvinceCount() int32 {
+	if x != nil {
+		return x.ProvinceCount
+	}
+	return 0
+}
+
+func (x *SyncAdministrativeUnitsFromAddressKitResponse) GetWardCount() int32 {
+	if x != nil {
+		return x.WardCount
+	}
+	return 0
+}
+
+func (x *SyncAdministrativeUnitsFromAddressKitResponse) GetEffectiveDate() string {
+	if x != nil {
+		return x.EffectiveDate
+	}
+	return ""
+}
+
+func (x *SyncAdministrativeUnitsFromAddressKitResponse) GetSource() string {
+	if x != nil {
+		return x.Source
+	}
+	return ""
+}
+
 type ListAdministrativeUnitsRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ParentId      string                 `protobuf:"bytes,1,opt,name=parent_id,json=parentId,proto3" json:"parent_id,omitempty"`
@@ -1157,7 +1261,7 @@ type ListAdministrativeUnitsRequest struct {
 
 func (x *ListAdministrativeUnitsRequest) Reset() {
 	*x = ListAdministrativeUnitsRequest{}
-	mi := &file_mdm_v1_mdm_proto_msgTypes[10]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1169,7 +1273,7 @@ func (x *ListAdministrativeUnitsRequest) String() string {
 func (*ListAdministrativeUnitsRequest) ProtoMessage() {}
 
 func (x *ListAdministrativeUnitsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_mdm_v1_mdm_proto_msgTypes[10]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1182,7 +1286,7 @@ func (x *ListAdministrativeUnitsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListAdministrativeUnitsRequest.ProtoReflect.Descriptor instead.
 func (*ListAdministrativeUnitsRequest) Descriptor() ([]byte, []int) {
-	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{10}
+	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *ListAdministrativeUnitsRequest) GetParentId() string {
@@ -1237,7 +1341,7 @@ type ListAdministrativeUnitsResponse struct {
 
 func (x *ListAdministrativeUnitsResponse) Reset() {
 	*x = ListAdministrativeUnitsResponse{}
-	mi := &file_mdm_v1_mdm_proto_msgTypes[11]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1249,7 +1353,7 @@ func (x *ListAdministrativeUnitsResponse) String() string {
 func (*ListAdministrativeUnitsResponse) ProtoMessage() {}
 
 func (x *ListAdministrativeUnitsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_mdm_v1_mdm_proto_msgTypes[11]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1262,7 +1366,7 @@ func (x *ListAdministrativeUnitsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListAdministrativeUnitsResponse.ProtoReflect.Descriptor instead.
 func (*ListAdministrativeUnitsResponse) Descriptor() ([]byte, []int) {
-	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{11}
+	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *ListAdministrativeUnitsResponse) GetUnits() []*AdministrativeUnit {
@@ -1288,7 +1392,7 @@ type ListAdministrativeUnitTreeResponse struct {
 
 func (x *ListAdministrativeUnitTreeResponse) Reset() {
 	*x = ListAdministrativeUnitTreeResponse{}
-	mi := &file_mdm_v1_mdm_proto_msgTypes[12]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[14]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1300,7 +1404,7 @@ func (x *ListAdministrativeUnitTreeResponse) String() string {
 func (*ListAdministrativeUnitTreeResponse) ProtoMessage() {}
 
 func (x *ListAdministrativeUnitTreeResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_mdm_v1_mdm_proto_msgTypes[12]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[14]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1313,7 +1417,7 @@ func (x *ListAdministrativeUnitTreeResponse) ProtoReflect() protoreflect.Message
 
 // Deprecated: Use ListAdministrativeUnitTreeResponse.ProtoReflect.Descriptor instead.
 func (*ListAdministrativeUnitTreeResponse) Descriptor() ([]byte, []int) {
-	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{12}
+	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{14}
 }
 
 func (x *ListAdministrativeUnitTreeResponse) GetNodes() []*AdministrativeUnitNode {
@@ -1336,7 +1440,7 @@ type ListWardsRequest struct {
 
 func (x *ListWardsRequest) Reset() {
 	*x = ListWardsRequest{}
-	mi := &file_mdm_v1_mdm_proto_msgTypes[13]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[15]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1348,7 +1452,7 @@ func (x *ListWardsRequest) String() string {
 func (*ListWardsRequest) ProtoMessage() {}
 
 func (x *ListWardsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_mdm_v1_mdm_proto_msgTypes[13]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[15]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1361,7 +1465,7 @@ func (x *ListWardsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListWardsRequest.ProtoReflect.Descriptor instead.
 func (*ListWardsRequest) Descriptor() ([]byte, []int) {
-	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{13}
+	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{15}
 }
 
 func (x *ListWardsRequest) GetProvinceId() string {
@@ -1408,7 +1512,7 @@ type GetAdministrativeUnitRequest struct {
 
 func (x *GetAdministrativeUnitRequest) Reset() {
 	*x = GetAdministrativeUnitRequest{}
-	mi := &file_mdm_v1_mdm_proto_msgTypes[14]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[16]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1420,7 +1524,7 @@ func (x *GetAdministrativeUnitRequest) String() string {
 func (*GetAdministrativeUnitRequest) ProtoMessage() {}
 
 func (x *GetAdministrativeUnitRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_mdm_v1_mdm_proto_msgTypes[14]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[16]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1433,7 +1537,7 @@ func (x *GetAdministrativeUnitRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetAdministrativeUnitRequest.ProtoReflect.Descriptor instead.
 func (*GetAdministrativeUnitRequest) Descriptor() ([]byte, []int) {
-	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{14}
+	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{16}
 }
 
 func (x *GetAdministrativeUnitRequest) GetId() string {
@@ -1452,7 +1556,7 @@ type CreateAdministrativeUnitRequest struct {
 
 func (x *CreateAdministrativeUnitRequest) Reset() {
 	*x = CreateAdministrativeUnitRequest{}
-	mi := &file_mdm_v1_mdm_proto_msgTypes[15]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[17]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1464,7 +1568,7 @@ func (x *CreateAdministrativeUnitRequest) String() string {
 func (*CreateAdministrativeUnitRequest) ProtoMessage() {}
 
 func (x *CreateAdministrativeUnitRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_mdm_v1_mdm_proto_msgTypes[15]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[17]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1477,7 +1581,7 @@ func (x *CreateAdministrativeUnitRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateAdministrativeUnitRequest.ProtoReflect.Descriptor instead.
 func (*CreateAdministrativeUnitRequest) Descriptor() ([]byte, []int) {
-	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{15}
+	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{17}
 }
 
 func (x *CreateAdministrativeUnitRequest) GetUnit() *AdministrativeUnit {
@@ -1497,7 +1601,7 @@ type UpdateAdministrativeUnitRequest struct {
 
 func (x *UpdateAdministrativeUnitRequest) Reset() {
 	*x = UpdateAdministrativeUnitRequest{}
-	mi := &file_mdm_v1_mdm_proto_msgTypes[16]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[18]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1509,7 +1613,7 @@ func (x *UpdateAdministrativeUnitRequest) String() string {
 func (*UpdateAdministrativeUnitRequest) ProtoMessage() {}
 
 func (x *UpdateAdministrativeUnitRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_mdm_v1_mdm_proto_msgTypes[16]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[18]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1522,7 +1626,7 @@ func (x *UpdateAdministrativeUnitRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateAdministrativeUnitRequest.ProtoReflect.Descriptor instead.
 func (*UpdateAdministrativeUnitRequest) Descriptor() ([]byte, []int) {
-	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{16}
+	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{18}
 }
 
 func (x *UpdateAdministrativeUnitRequest) GetId() string {
@@ -1548,7 +1652,7 @@ type DeleteAdministrativeUnitRequest struct {
 
 func (x *DeleteAdministrativeUnitRequest) Reset() {
 	*x = DeleteAdministrativeUnitRequest{}
-	mi := &file_mdm_v1_mdm_proto_msgTypes[17]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[19]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1560,7 +1664,7 @@ func (x *DeleteAdministrativeUnitRequest) String() string {
 func (*DeleteAdministrativeUnitRequest) ProtoMessage() {}
 
 func (x *DeleteAdministrativeUnitRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_mdm_v1_mdm_proto_msgTypes[17]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[19]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1573,7 +1677,7 @@ func (x *DeleteAdministrativeUnitRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteAdministrativeUnitRequest.ProtoReflect.Descriptor instead.
 func (*DeleteAdministrativeUnitRequest) Descriptor() ([]byte, []int) {
-	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{17}
+	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{19}
 }
 
 func (x *DeleteAdministrativeUnitRequest) GetId() string {
@@ -1595,7 +1699,7 @@ type ListAreaTypesRequest struct {
 
 func (x *ListAreaTypesRequest) Reset() {
 	*x = ListAreaTypesRequest{}
-	mi := &file_mdm_v1_mdm_proto_msgTypes[18]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[20]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1607,7 +1711,7 @@ func (x *ListAreaTypesRequest) String() string {
 func (*ListAreaTypesRequest) ProtoMessage() {}
 
 func (x *ListAreaTypesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_mdm_v1_mdm_proto_msgTypes[18]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[20]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1620,7 +1724,7 @@ func (x *ListAreaTypesRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListAreaTypesRequest.ProtoReflect.Descriptor instead.
 func (*ListAreaTypesRequest) Descriptor() ([]byte, []int) {
-	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{18}
+	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{20}
 }
 
 func (x *ListAreaTypesRequest) GetStatus() string {
@@ -1661,7 +1765,7 @@ type ListAreaTypesResponse struct {
 
 func (x *ListAreaTypesResponse) Reset() {
 	*x = ListAreaTypesResponse{}
-	mi := &file_mdm_v1_mdm_proto_msgTypes[19]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[21]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1673,7 +1777,7 @@ func (x *ListAreaTypesResponse) String() string {
 func (*ListAreaTypesResponse) ProtoMessage() {}
 
 func (x *ListAreaTypesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_mdm_v1_mdm_proto_msgTypes[19]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[21]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1686,7 +1790,7 @@ func (x *ListAreaTypesResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListAreaTypesResponse.ProtoReflect.Descriptor instead.
 func (*ListAreaTypesResponse) Descriptor() ([]byte, []int) {
-	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{19}
+	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{21}
 }
 
 func (x *ListAreaTypesResponse) GetAreaTypes() []*AreaType {
@@ -1712,7 +1816,7 @@ type GetAreaTypeRequest struct {
 
 func (x *GetAreaTypeRequest) Reset() {
 	*x = GetAreaTypeRequest{}
-	mi := &file_mdm_v1_mdm_proto_msgTypes[20]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[22]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1724,7 +1828,7 @@ func (x *GetAreaTypeRequest) String() string {
 func (*GetAreaTypeRequest) ProtoMessage() {}
 
 func (x *GetAreaTypeRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_mdm_v1_mdm_proto_msgTypes[20]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[22]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1737,7 +1841,7 @@ func (x *GetAreaTypeRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetAreaTypeRequest.ProtoReflect.Descriptor instead.
 func (*GetAreaTypeRequest) Descriptor() ([]byte, []int) {
-	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{20}
+	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{22}
 }
 
 func (x *GetAreaTypeRequest) GetId() string {
@@ -1756,7 +1860,7 @@ type CreateAreaTypeRequest struct {
 
 func (x *CreateAreaTypeRequest) Reset() {
 	*x = CreateAreaTypeRequest{}
-	mi := &file_mdm_v1_mdm_proto_msgTypes[21]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[23]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1768,7 +1872,7 @@ func (x *CreateAreaTypeRequest) String() string {
 func (*CreateAreaTypeRequest) ProtoMessage() {}
 
 func (x *CreateAreaTypeRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_mdm_v1_mdm_proto_msgTypes[21]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[23]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1781,7 +1885,7 @@ func (x *CreateAreaTypeRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateAreaTypeRequest.ProtoReflect.Descriptor instead.
 func (*CreateAreaTypeRequest) Descriptor() ([]byte, []int) {
-	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{21}
+	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{23}
 }
 
 func (x *CreateAreaTypeRequest) GetAreaType() *AreaType {
@@ -1801,7 +1905,7 @@ type UpdateAreaTypeRequest struct {
 
 func (x *UpdateAreaTypeRequest) Reset() {
 	*x = UpdateAreaTypeRequest{}
-	mi := &file_mdm_v1_mdm_proto_msgTypes[22]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[24]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1813,7 +1917,7 @@ func (x *UpdateAreaTypeRequest) String() string {
 func (*UpdateAreaTypeRequest) ProtoMessage() {}
 
 func (x *UpdateAreaTypeRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_mdm_v1_mdm_proto_msgTypes[22]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[24]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1826,7 +1930,7 @@ func (x *UpdateAreaTypeRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateAreaTypeRequest.ProtoReflect.Descriptor instead.
 func (*UpdateAreaTypeRequest) Descriptor() ([]byte, []int) {
-	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{22}
+	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{24}
 }
 
 func (x *UpdateAreaTypeRequest) GetId() string {
@@ -1852,7 +1956,7 @@ type DeleteAreaTypeRequest struct {
 
 func (x *DeleteAreaTypeRequest) Reset() {
 	*x = DeleteAreaTypeRequest{}
-	mi := &file_mdm_v1_mdm_proto_msgTypes[23]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[25]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1864,7 +1968,7 @@ func (x *DeleteAreaTypeRequest) String() string {
 func (*DeleteAreaTypeRequest) ProtoMessage() {}
 
 func (x *DeleteAreaTypeRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_mdm_v1_mdm_proto_msgTypes[23]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[25]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1877,7 +1981,7 @@ func (x *DeleteAreaTypeRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteAreaTypeRequest.ProtoReflect.Descriptor instead.
 func (*DeleteAreaTypeRequest) Descriptor() ([]byte, []int) {
-	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{23}
+	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{25}
 }
 
 func (x *DeleteAreaTypeRequest) GetId() string {
@@ -1901,7 +2005,7 @@ type ListAreasRequest struct {
 
 func (x *ListAreasRequest) Reset() {
 	*x = ListAreasRequest{}
-	mi := &file_mdm_v1_mdm_proto_msgTypes[24]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[26]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1913,7 +2017,7 @@ func (x *ListAreasRequest) String() string {
 func (*ListAreasRequest) ProtoMessage() {}
 
 func (x *ListAreasRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_mdm_v1_mdm_proto_msgTypes[24]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[26]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1926,7 +2030,7 @@ func (x *ListAreasRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListAreasRequest.ProtoReflect.Descriptor instead.
 func (*ListAreasRequest) Descriptor() ([]byte, []int) {
-	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{24}
+	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{26}
 }
 
 func (x *ListAreasRequest) GetAreaTypeId() string {
@@ -1981,7 +2085,7 @@ type ListAreasResponse struct {
 
 func (x *ListAreasResponse) Reset() {
 	*x = ListAreasResponse{}
-	mi := &file_mdm_v1_mdm_proto_msgTypes[25]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[27]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1993,7 +2097,7 @@ func (x *ListAreasResponse) String() string {
 func (*ListAreasResponse) ProtoMessage() {}
 
 func (x *ListAreasResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_mdm_v1_mdm_proto_msgTypes[25]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[27]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2006,7 +2110,7 @@ func (x *ListAreasResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListAreasResponse.ProtoReflect.Descriptor instead.
 func (*ListAreasResponse) Descriptor() ([]byte, []int) {
-	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{25}
+	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{27}
 }
 
 func (x *ListAreasResponse) GetAreas() []*Area {
@@ -2032,7 +2136,7 @@ type ListAreaTreeResponse struct {
 
 func (x *ListAreaTreeResponse) Reset() {
 	*x = ListAreaTreeResponse{}
-	mi := &file_mdm_v1_mdm_proto_msgTypes[26]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[28]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2044,7 +2148,7 @@ func (x *ListAreaTreeResponse) String() string {
 func (*ListAreaTreeResponse) ProtoMessage() {}
 
 func (x *ListAreaTreeResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_mdm_v1_mdm_proto_msgTypes[26]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[28]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2057,7 +2161,7 @@ func (x *ListAreaTreeResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListAreaTreeResponse.ProtoReflect.Descriptor instead.
 func (*ListAreaTreeResponse) Descriptor() ([]byte, []int) {
-	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{26}
+	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{28}
 }
 
 func (x *ListAreaTreeResponse) GetNodes() []*AreaNode {
@@ -2076,7 +2180,7 @@ type GetAreaRequest struct {
 
 func (x *GetAreaRequest) Reset() {
 	*x = GetAreaRequest{}
-	mi := &file_mdm_v1_mdm_proto_msgTypes[27]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[29]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2088,7 +2192,7 @@ func (x *GetAreaRequest) String() string {
 func (*GetAreaRequest) ProtoMessage() {}
 
 func (x *GetAreaRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_mdm_v1_mdm_proto_msgTypes[27]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[29]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2101,7 +2205,7 @@ func (x *GetAreaRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetAreaRequest.ProtoReflect.Descriptor instead.
 func (*GetAreaRequest) Descriptor() ([]byte, []int) {
-	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{27}
+	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{29}
 }
 
 func (x *GetAreaRequest) GetId() string {
@@ -2120,7 +2224,7 @@ type CreateAreaRequest struct {
 
 func (x *CreateAreaRequest) Reset() {
 	*x = CreateAreaRequest{}
-	mi := &file_mdm_v1_mdm_proto_msgTypes[28]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[30]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2132,7 +2236,7 @@ func (x *CreateAreaRequest) String() string {
 func (*CreateAreaRequest) ProtoMessage() {}
 
 func (x *CreateAreaRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_mdm_v1_mdm_proto_msgTypes[28]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[30]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2145,7 +2249,7 @@ func (x *CreateAreaRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateAreaRequest.ProtoReflect.Descriptor instead.
 func (*CreateAreaRequest) Descriptor() ([]byte, []int) {
-	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{28}
+	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{30}
 }
 
 func (x *CreateAreaRequest) GetArea() *Area {
@@ -2165,7 +2269,7 @@ type UpdateAreaRequest struct {
 
 func (x *UpdateAreaRequest) Reset() {
 	*x = UpdateAreaRequest{}
-	mi := &file_mdm_v1_mdm_proto_msgTypes[29]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[31]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2177,7 +2281,7 @@ func (x *UpdateAreaRequest) String() string {
 func (*UpdateAreaRequest) ProtoMessage() {}
 
 func (x *UpdateAreaRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_mdm_v1_mdm_proto_msgTypes[29]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[31]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2190,7 +2294,7 @@ func (x *UpdateAreaRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateAreaRequest.ProtoReflect.Descriptor instead.
 func (*UpdateAreaRequest) Descriptor() ([]byte, []int) {
-	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{29}
+	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{31}
 }
 
 func (x *UpdateAreaRequest) GetId() string {
@@ -2216,7 +2320,7 @@ type DeleteAreaRequest struct {
 
 func (x *DeleteAreaRequest) Reset() {
 	*x = DeleteAreaRequest{}
-	mi := &file_mdm_v1_mdm_proto_msgTypes[30]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[32]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2228,7 +2332,7 @@ func (x *DeleteAreaRequest) String() string {
 func (*DeleteAreaRequest) ProtoMessage() {}
 
 func (x *DeleteAreaRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_mdm_v1_mdm_proto_msgTypes[30]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[32]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2241,7 +2345,7 @@ func (x *DeleteAreaRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteAreaRequest.ProtoReflect.Descriptor instead.
 func (*DeleteAreaRequest) Descriptor() ([]byte, []int) {
-	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{30}
+	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{32}
 }
 
 func (x *DeleteAreaRequest) GetId() string {
@@ -2262,7 +2366,7 @@ type AssignAreaAdministrativeUnitRequest struct {
 
 func (x *AssignAreaAdministrativeUnitRequest) Reset() {
 	*x = AssignAreaAdministrativeUnitRequest{}
-	mi := &file_mdm_v1_mdm_proto_msgTypes[31]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[33]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2274,7 +2378,7 @@ func (x *AssignAreaAdministrativeUnitRequest) String() string {
 func (*AssignAreaAdministrativeUnitRequest) ProtoMessage() {}
 
 func (x *AssignAreaAdministrativeUnitRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_mdm_v1_mdm_proto_msgTypes[31]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[33]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2287,7 +2391,7 @@ func (x *AssignAreaAdministrativeUnitRequest) ProtoReflect() protoreflect.Messag
 
 // Deprecated: Use AssignAreaAdministrativeUnitRequest.ProtoReflect.Descriptor instead.
 func (*AssignAreaAdministrativeUnitRequest) Descriptor() ([]byte, []int) {
-	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{31}
+	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{33}
 }
 
 func (x *AssignAreaAdministrativeUnitRequest) GetAreaId() string {
@@ -2320,7 +2424,7 @@ type ListAreaAdministrativeUnitsRequest struct {
 
 func (x *ListAreaAdministrativeUnitsRequest) Reset() {
 	*x = ListAreaAdministrativeUnitsRequest{}
-	mi := &file_mdm_v1_mdm_proto_msgTypes[32]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[34]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2332,7 +2436,7 @@ func (x *ListAreaAdministrativeUnitsRequest) String() string {
 func (*ListAreaAdministrativeUnitsRequest) ProtoMessage() {}
 
 func (x *ListAreaAdministrativeUnitsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_mdm_v1_mdm_proto_msgTypes[32]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[34]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2345,7 +2449,7 @@ func (x *ListAreaAdministrativeUnitsRequest) ProtoReflect() protoreflect.Message
 
 // Deprecated: Use ListAreaAdministrativeUnitsRequest.ProtoReflect.Descriptor instead.
 func (*ListAreaAdministrativeUnitsRequest) Descriptor() ([]byte, []int) {
-	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{32}
+	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{34}
 }
 
 func (x *ListAreaAdministrativeUnitsRequest) GetAreaId() string {
@@ -2364,7 +2468,7 @@ type ListAreaAdministrativeUnitsResponse struct {
 
 func (x *ListAreaAdministrativeUnitsResponse) Reset() {
 	*x = ListAreaAdministrativeUnitsResponse{}
-	mi := &file_mdm_v1_mdm_proto_msgTypes[33]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[35]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2376,7 +2480,7 @@ func (x *ListAreaAdministrativeUnitsResponse) String() string {
 func (*ListAreaAdministrativeUnitsResponse) ProtoMessage() {}
 
 func (x *ListAreaAdministrativeUnitsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_mdm_v1_mdm_proto_msgTypes[33]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[35]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2389,7 +2493,7 @@ func (x *ListAreaAdministrativeUnitsResponse) ProtoReflect() protoreflect.Messag
 
 // Deprecated: Use ListAreaAdministrativeUnitsResponse.ProtoReflect.Descriptor instead.
 func (*ListAreaAdministrativeUnitsResponse) Descriptor() ([]byte, []int) {
-	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{33}
+	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{35}
 }
 
 func (x *ListAreaAdministrativeUnitsResponse) GetItems() []*AreaAdministrativeUnit {
@@ -2409,7 +2513,7 @@ type RemoveAreaAdministrativeUnitRequest struct {
 
 func (x *RemoveAreaAdministrativeUnitRequest) Reset() {
 	*x = RemoveAreaAdministrativeUnitRequest{}
-	mi := &file_mdm_v1_mdm_proto_msgTypes[34]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[36]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2421,7 +2525,7 @@ func (x *RemoveAreaAdministrativeUnitRequest) String() string {
 func (*RemoveAreaAdministrativeUnitRequest) ProtoMessage() {}
 
 func (x *RemoveAreaAdministrativeUnitRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_mdm_v1_mdm_proto_msgTypes[34]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[36]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2434,7 +2538,7 @@ func (x *RemoveAreaAdministrativeUnitRequest) ProtoReflect() protoreflect.Messag
 
 // Deprecated: Use RemoveAreaAdministrativeUnitRequest.ProtoReflect.Descriptor instead.
 func (*RemoveAreaAdministrativeUnitRequest) Descriptor() ([]byte, []int) {
-	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{34}
+	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{36}
 }
 
 func (x *RemoveAreaAdministrativeUnitRequest) GetAreaId() string {
@@ -2463,7 +2567,7 @@ type ListCodeSetsRequest struct {
 
 func (x *ListCodeSetsRequest) Reset() {
 	*x = ListCodeSetsRequest{}
-	mi := &file_mdm_v1_mdm_proto_msgTypes[35]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[37]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2475,7 +2579,7 @@ func (x *ListCodeSetsRequest) String() string {
 func (*ListCodeSetsRequest) ProtoMessage() {}
 
 func (x *ListCodeSetsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_mdm_v1_mdm_proto_msgTypes[35]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[37]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2488,7 +2592,7 @@ func (x *ListCodeSetsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListCodeSetsRequest.ProtoReflect.Descriptor instead.
 func (*ListCodeSetsRequest) Descriptor() ([]byte, []int) {
-	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{35}
+	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{37}
 }
 
 func (x *ListCodeSetsRequest) GetStatus() string {
@@ -2529,7 +2633,7 @@ type ListCodeSetsResponse struct {
 
 func (x *ListCodeSetsResponse) Reset() {
 	*x = ListCodeSetsResponse{}
-	mi := &file_mdm_v1_mdm_proto_msgTypes[36]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[38]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2541,7 +2645,7 @@ func (x *ListCodeSetsResponse) String() string {
 func (*ListCodeSetsResponse) ProtoMessage() {}
 
 func (x *ListCodeSetsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_mdm_v1_mdm_proto_msgTypes[36]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[38]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2554,7 +2658,7 @@ func (x *ListCodeSetsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListCodeSetsResponse.ProtoReflect.Descriptor instead.
 func (*ListCodeSetsResponse) Descriptor() ([]byte, []int) {
-	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{36}
+	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{38}
 }
 
 func (x *ListCodeSetsResponse) GetCodeSets() []*CodeSet {
@@ -2580,7 +2684,7 @@ type GetCodeSetRequest struct {
 
 func (x *GetCodeSetRequest) Reset() {
 	*x = GetCodeSetRequest{}
-	mi := &file_mdm_v1_mdm_proto_msgTypes[37]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[39]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2592,7 +2696,7 @@ func (x *GetCodeSetRequest) String() string {
 func (*GetCodeSetRequest) ProtoMessage() {}
 
 func (x *GetCodeSetRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_mdm_v1_mdm_proto_msgTypes[37]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[39]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2605,7 +2709,7 @@ func (x *GetCodeSetRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetCodeSetRequest.ProtoReflect.Descriptor instead.
 func (*GetCodeSetRequest) Descriptor() ([]byte, []int) {
-	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{37}
+	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{39}
 }
 
 func (x *GetCodeSetRequest) GetId() string {
@@ -2624,7 +2728,7 @@ type CreateCodeSetRequest struct {
 
 func (x *CreateCodeSetRequest) Reset() {
 	*x = CreateCodeSetRequest{}
-	mi := &file_mdm_v1_mdm_proto_msgTypes[38]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[40]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2636,7 +2740,7 @@ func (x *CreateCodeSetRequest) String() string {
 func (*CreateCodeSetRequest) ProtoMessage() {}
 
 func (x *CreateCodeSetRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_mdm_v1_mdm_proto_msgTypes[38]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[40]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2649,7 +2753,7 @@ func (x *CreateCodeSetRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateCodeSetRequest.ProtoReflect.Descriptor instead.
 func (*CreateCodeSetRequest) Descriptor() ([]byte, []int) {
-	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{38}
+	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{40}
 }
 
 func (x *CreateCodeSetRequest) GetCodeSet() *CodeSet {
@@ -2669,7 +2773,7 @@ type UpdateCodeSetRequest struct {
 
 func (x *UpdateCodeSetRequest) Reset() {
 	*x = UpdateCodeSetRequest{}
-	mi := &file_mdm_v1_mdm_proto_msgTypes[39]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[41]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2681,7 +2785,7 @@ func (x *UpdateCodeSetRequest) String() string {
 func (*UpdateCodeSetRequest) ProtoMessage() {}
 
 func (x *UpdateCodeSetRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_mdm_v1_mdm_proto_msgTypes[39]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[41]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2694,7 +2798,7 @@ func (x *UpdateCodeSetRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateCodeSetRequest.ProtoReflect.Descriptor instead.
 func (*UpdateCodeSetRequest) Descriptor() ([]byte, []int) {
-	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{39}
+	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{41}
 }
 
 func (x *UpdateCodeSetRequest) GetId() string {
@@ -2720,7 +2824,7 @@ type DeleteCodeSetRequest struct {
 
 func (x *DeleteCodeSetRequest) Reset() {
 	*x = DeleteCodeSetRequest{}
-	mi := &file_mdm_v1_mdm_proto_msgTypes[40]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[42]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2732,7 +2836,7 @@ func (x *DeleteCodeSetRequest) String() string {
 func (*DeleteCodeSetRequest) ProtoMessage() {}
 
 func (x *DeleteCodeSetRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_mdm_v1_mdm_proto_msgTypes[40]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[42]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2745,7 +2849,7 @@ func (x *DeleteCodeSetRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteCodeSetRequest.ProtoReflect.Descriptor instead.
 func (*DeleteCodeSetRequest) Descriptor() ([]byte, []int) {
-	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{40}
+	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{42}
 }
 
 func (x *DeleteCodeSetRequest) GetId() string {
@@ -2768,7 +2872,7 @@ type ListCodeItemsRequest struct {
 
 func (x *ListCodeItemsRequest) Reset() {
 	*x = ListCodeItemsRequest{}
-	mi := &file_mdm_v1_mdm_proto_msgTypes[41]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[43]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2780,7 +2884,7 @@ func (x *ListCodeItemsRequest) String() string {
 func (*ListCodeItemsRequest) ProtoMessage() {}
 
 func (x *ListCodeItemsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_mdm_v1_mdm_proto_msgTypes[41]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[43]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2793,7 +2897,7 @@ func (x *ListCodeItemsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListCodeItemsRequest.ProtoReflect.Descriptor instead.
 func (*ListCodeItemsRequest) Descriptor() ([]byte, []int) {
-	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{41}
+	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{43}
 }
 
 func (x *ListCodeItemsRequest) GetCodeSetCode() string {
@@ -2841,7 +2945,7 @@ type ListCodeItemsResponse struct {
 
 func (x *ListCodeItemsResponse) Reset() {
 	*x = ListCodeItemsResponse{}
-	mi := &file_mdm_v1_mdm_proto_msgTypes[42]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[44]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2853,7 +2957,7 @@ func (x *ListCodeItemsResponse) String() string {
 func (*ListCodeItemsResponse) ProtoMessage() {}
 
 func (x *ListCodeItemsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_mdm_v1_mdm_proto_msgTypes[42]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[44]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2866,7 +2970,7 @@ func (x *ListCodeItemsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListCodeItemsResponse.ProtoReflect.Descriptor instead.
 func (*ListCodeItemsResponse) Descriptor() ([]byte, []int) {
-	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{42}
+	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{44}
 }
 
 func (x *ListCodeItemsResponse) GetCodeItems() []*CodeItem {
@@ -2892,7 +2996,7 @@ type GetCodeItemRequest struct {
 
 func (x *GetCodeItemRequest) Reset() {
 	*x = GetCodeItemRequest{}
-	mi := &file_mdm_v1_mdm_proto_msgTypes[43]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[45]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2904,7 +3008,7 @@ func (x *GetCodeItemRequest) String() string {
 func (*GetCodeItemRequest) ProtoMessage() {}
 
 func (x *GetCodeItemRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_mdm_v1_mdm_proto_msgTypes[43]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[45]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2917,7 +3021,7 @@ func (x *GetCodeItemRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetCodeItemRequest.ProtoReflect.Descriptor instead.
 func (*GetCodeItemRequest) Descriptor() ([]byte, []int) {
-	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{43}
+	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{45}
 }
 
 func (x *GetCodeItemRequest) GetId() string {
@@ -2937,7 +3041,7 @@ type CreateCodeItemRequest struct {
 
 func (x *CreateCodeItemRequest) Reset() {
 	*x = CreateCodeItemRequest{}
-	mi := &file_mdm_v1_mdm_proto_msgTypes[44]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[46]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2949,7 +3053,7 @@ func (x *CreateCodeItemRequest) String() string {
 func (*CreateCodeItemRequest) ProtoMessage() {}
 
 func (x *CreateCodeItemRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_mdm_v1_mdm_proto_msgTypes[44]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[46]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2962,7 +3066,7 @@ func (x *CreateCodeItemRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateCodeItemRequest.ProtoReflect.Descriptor instead.
 func (*CreateCodeItemRequest) Descriptor() ([]byte, []int) {
-	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{44}
+	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{46}
 }
 
 func (x *CreateCodeItemRequest) GetCodeSetCode() string {
@@ -2989,7 +3093,7 @@ type UpdateCodeItemRequest struct {
 
 func (x *UpdateCodeItemRequest) Reset() {
 	*x = UpdateCodeItemRequest{}
-	mi := &file_mdm_v1_mdm_proto_msgTypes[45]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[47]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3001,7 +3105,7 @@ func (x *UpdateCodeItemRequest) String() string {
 func (*UpdateCodeItemRequest) ProtoMessage() {}
 
 func (x *UpdateCodeItemRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_mdm_v1_mdm_proto_msgTypes[45]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[47]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3014,7 +3118,7 @@ func (x *UpdateCodeItemRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateCodeItemRequest.ProtoReflect.Descriptor instead.
 func (*UpdateCodeItemRequest) Descriptor() ([]byte, []int) {
-	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{45}
+	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{47}
 }
 
 func (x *UpdateCodeItemRequest) GetId() string {
@@ -3040,7 +3144,7 @@ type DeleteCodeItemRequest struct {
 
 func (x *DeleteCodeItemRequest) Reset() {
 	*x = DeleteCodeItemRequest{}
-	mi := &file_mdm_v1_mdm_proto_msgTypes[46]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[48]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3052,7 +3156,7 @@ func (x *DeleteCodeItemRequest) String() string {
 func (*DeleteCodeItemRequest) ProtoMessage() {}
 
 func (x *DeleteCodeItemRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_mdm_v1_mdm_proto_msgTypes[46]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[48]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3065,7 +3169,7 @@ func (x *DeleteCodeItemRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteCodeItemRequest.ProtoReflect.Descriptor instead.
 func (*DeleteCodeItemRequest) Descriptor() ([]byte, []int) {
-	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{46}
+	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{48}
 }
 
 func (x *DeleteCodeItemRequest) GetId() string {
@@ -3088,7 +3192,7 @@ type ListSystemParametersRequest struct {
 
 func (x *ListSystemParametersRequest) Reset() {
 	*x = ListSystemParametersRequest{}
-	mi := &file_mdm_v1_mdm_proto_msgTypes[47]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[49]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3100,7 +3204,7 @@ func (x *ListSystemParametersRequest) String() string {
 func (*ListSystemParametersRequest) ProtoMessage() {}
 
 func (x *ListSystemParametersRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_mdm_v1_mdm_proto_msgTypes[47]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[49]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3113,7 +3217,7 @@ func (x *ListSystemParametersRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListSystemParametersRequest.ProtoReflect.Descriptor instead.
 func (*ListSystemParametersRequest) Descriptor() ([]byte, []int) {
-	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{47}
+	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{49}
 }
 
 func (x *ListSystemParametersRequest) GetGroupCode() string {
@@ -3161,7 +3265,7 @@ type ListSystemParametersResponse struct {
 
 func (x *ListSystemParametersResponse) Reset() {
 	*x = ListSystemParametersResponse{}
-	mi := &file_mdm_v1_mdm_proto_msgTypes[48]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[50]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3173,7 +3277,7 @@ func (x *ListSystemParametersResponse) String() string {
 func (*ListSystemParametersResponse) ProtoMessage() {}
 
 func (x *ListSystemParametersResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_mdm_v1_mdm_proto_msgTypes[48]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[50]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3186,7 +3290,7 @@ func (x *ListSystemParametersResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListSystemParametersResponse.ProtoReflect.Descriptor instead.
 func (*ListSystemParametersResponse) Descriptor() ([]byte, []int) {
-	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{48}
+	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{50}
 }
 
 func (x *ListSystemParametersResponse) GetParameters() []*SystemParameter {
@@ -3212,7 +3316,7 @@ type GetSystemParameterRequest struct {
 
 func (x *GetSystemParameterRequest) Reset() {
 	*x = GetSystemParameterRequest{}
-	mi := &file_mdm_v1_mdm_proto_msgTypes[49]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[51]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3224,7 +3328,7 @@ func (x *GetSystemParameterRequest) String() string {
 func (*GetSystemParameterRequest) ProtoMessage() {}
 
 func (x *GetSystemParameterRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_mdm_v1_mdm_proto_msgTypes[49]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[51]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3237,7 +3341,7 @@ func (x *GetSystemParameterRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetSystemParameterRequest.ProtoReflect.Descriptor instead.
 func (*GetSystemParameterRequest) Descriptor() ([]byte, []int) {
-	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{49}
+	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{51}
 }
 
 func (x *GetSystemParameterRequest) GetKey() string {
@@ -3256,7 +3360,7 @@ type CreateSystemParameterRequest struct {
 
 func (x *CreateSystemParameterRequest) Reset() {
 	*x = CreateSystemParameterRequest{}
-	mi := &file_mdm_v1_mdm_proto_msgTypes[50]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[52]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3268,7 +3372,7 @@ func (x *CreateSystemParameterRequest) String() string {
 func (*CreateSystemParameterRequest) ProtoMessage() {}
 
 func (x *CreateSystemParameterRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_mdm_v1_mdm_proto_msgTypes[50]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[52]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3281,7 +3385,7 @@ func (x *CreateSystemParameterRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateSystemParameterRequest.ProtoReflect.Descriptor instead.
 func (*CreateSystemParameterRequest) Descriptor() ([]byte, []int) {
-	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{50}
+	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{52}
 }
 
 func (x *CreateSystemParameterRequest) GetParameter() *SystemParameter {
@@ -3301,7 +3405,7 @@ type UpdateSystemParameterRequest struct {
 
 func (x *UpdateSystemParameterRequest) Reset() {
 	*x = UpdateSystemParameterRequest{}
-	mi := &file_mdm_v1_mdm_proto_msgTypes[51]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[53]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3313,7 +3417,7 @@ func (x *UpdateSystemParameterRequest) String() string {
 func (*UpdateSystemParameterRequest) ProtoMessage() {}
 
 func (x *UpdateSystemParameterRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_mdm_v1_mdm_proto_msgTypes[51]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[53]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3326,7 +3430,7 @@ func (x *UpdateSystemParameterRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateSystemParameterRequest.ProtoReflect.Descriptor instead.
 func (*UpdateSystemParameterRequest) Descriptor() ([]byte, []int) {
-	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{51}
+	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{53}
 }
 
 func (x *UpdateSystemParameterRequest) GetKey() string {
@@ -3352,7 +3456,7 @@ type DeleteSystemParameterRequest struct {
 
 func (x *DeleteSystemParameterRequest) Reset() {
 	*x = DeleteSystemParameterRequest{}
-	mi := &file_mdm_v1_mdm_proto_msgTypes[52]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[54]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3364,7 +3468,7 @@ func (x *DeleteSystemParameterRequest) String() string {
 func (*DeleteSystemParameterRequest) ProtoMessage() {}
 
 func (x *DeleteSystemParameterRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_mdm_v1_mdm_proto_msgTypes[52]
+	mi := &file_mdm_v1_mdm_proto_msgTypes[54]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3377,7 +3481,7 @@ func (x *DeleteSystemParameterRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteSystemParameterRequest.ProtoReflect.Descriptor instead.
 func (*DeleteSystemParameterRequest) Descriptor() ([]byte, []int) {
-	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{52}
+	return file_mdm_v1_mdm_proto_rawDescGZIP(), []int{54}
 }
 
 func (x *DeleteSystemParameterRequest) GetKey() string {
@@ -3525,7 +3629,14 @@ const file_mdm_v1_mdm_proto_rawDesc = "" +
 	"created_at\x18\x12 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
 	"\n" +
 	"updated_at\x18\x13 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\"\x10\n" +
-	"\x0eDeleteResponse\"\xc1\x01\n" +
+	"\x0eDeleteResponse\".\n" +
+	",SyncAdministrativeUnitsFromAddressKitRequest\"\xb4\x01\n" +
+	"-SyncAdministrativeUnitsFromAddressKitResponse\x12%\n" +
+	"\x0eprovince_count\x18\x01 \x01(\x05R\rprovinceCount\x12\x1d\n" +
+	"\n" +
+	"ward_count\x18\x02 \x01(\x05R\twardCount\x12%\n" +
+	"\x0eeffective_date\x18\x03 \x01(\tR\reffectiveDate\x12\x16\n" +
+	"\x06source\x18\x04 \x01(\tR\x06source\"\xc1\x01\n" +
 	"\x1eListAdministrativeUnitsRequest\x12\x1b\n" +
 	"\tparent_id\x18\x01 \x01(\tR\bparentId\x12\x14\n" +
 	"\x05level\x18\x02 \x01(\tR\x05level\x12\x16\n" +
@@ -3670,7 +3781,7 @@ const file_mdm_v1_mdm_proto_rawDesc = "" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x125\n" +
 	"\tparameter\x18\x02 \x01(\v2\x17.mdm.v1.SystemParameterR\tparameter\"0\n" +
 	"\x1cDeleteSystemParameterRequest\x12\x10\n" +
-	"\x03key\x18\x01 \x01(\tR\x03key2\x8a\"\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key2\xda#\n" +
 	"\n" +
 	"MdmService\x12\x90\x01\n" +
 	"\x17ListAdministrativeUnits\x12&.mdm.v1.ListAdministrativeUnitsRequest\x1a'.mdm.v1.ListAdministrativeUnitsResponse\"$\x82\xd3\xe4\x93\x02\x1e\x12\x1c/v1/mdm/administrative-units\x12\x9b\x01\n" +
@@ -3680,7 +3791,8 @@ const file_mdm_v1_mdm_proto_rawDesc = "" +
 	"\x15GetAdministrativeUnit\x12$.mdm.v1.GetAdministrativeUnitRequest\x1a\x1a.mdm.v1.AdministrativeUnit\")\x82\xd3\xe4\x93\x02#\x12!/v1/mdm/administrative-units/{id}\x12\x88\x01\n" +
 	"\x18CreateAdministrativeUnit\x12'.mdm.v1.CreateAdministrativeUnitRequest\x1a\x1a.mdm.v1.AdministrativeUnit\"'\x82\xd3\xe4\x93\x02!:\x01*\"\x1c/v1/mdm/administrative-units\x12\x8d\x01\n" +
 	"\x18UpdateAdministrativeUnit\x12'.mdm.v1.UpdateAdministrativeUnitRequest\x1a\x1a.mdm.v1.AdministrativeUnit\",\x82\xd3\xe4\x93\x02&:\x01*\x1a!/v1/mdm/administrative-units/{id}\x12\x86\x01\n" +
-	"\x18DeleteAdministrativeUnit\x12'.mdm.v1.DeleteAdministrativeUnitRequest\x1a\x16.mdm.v1.DeleteResponse\")\x82\xd3\xe4\x93\x02#*!/v1/mdm/administrative-units/{id}\x12h\n" +
+	"\x18DeleteAdministrativeUnit\x12'.mdm.v1.DeleteAdministrativeUnitRequest\x1a\x16.mdm.v1.DeleteResponse\")\x82\xd3\xe4\x93\x02#*!/v1/mdm/administrative-units/{id}\x12\xcd\x01\n" +
+	"%SyncAdministrativeUnitsFromAddressKit\x124.mdm.v1.SyncAdministrativeUnitsFromAddressKitRequest\x1a5.mdm.v1.SyncAdministrativeUnitsFromAddressKitResponse\"7\x82\xd3\xe4\x93\x021:\x01*\",/v1/mdm/administrative-units/sync-addresskit\x12h\n" +
 	"\rListAreaTypes\x12\x1c.mdm.v1.ListAreaTypesRequest\x1a\x1d.mdm.v1.ListAreaTypesResponse\"\x1a\x82\xd3\xe4\x93\x02\x14\x12\x12/v1/mdm/area-types\x12\\\n" +
 	"\vGetAreaType\x12\x1a.mdm.v1.GetAreaTypeRequest\x1a\x10.mdm.v1.AreaType\"\x1f\x82\xd3\xe4\x93\x02\x19\x12\x17/v1/mdm/area-types/{id}\x12`\n" +
 	"\x0eCreateAreaType\x12\x1d.mdm.v1.CreateAreaTypeRequest\x1a\x10.mdm.v1.AreaType\"\x1d\x82\xd3\xe4\x93\x02\x17:\x01*\"\x12/v1/mdm/area-types\x12e\n" +
@@ -3727,81 +3839,83 @@ func file_mdm_v1_mdm_proto_rawDescGZIP() []byte {
 	return file_mdm_v1_mdm_proto_rawDescData
 }
 
-var file_mdm_v1_mdm_proto_msgTypes = make([]protoimpl.MessageInfo, 53)
+var file_mdm_v1_mdm_proto_msgTypes = make([]protoimpl.MessageInfo, 55)
 var file_mdm_v1_mdm_proto_goTypes = []any{
-	(*AdministrativeUnit)(nil),                  // 0: mdm.v1.AdministrativeUnit
-	(*AdministrativeUnitNode)(nil),              // 1: mdm.v1.AdministrativeUnitNode
-	(*AreaType)(nil),                            // 2: mdm.v1.AreaType
-	(*Area)(nil),                                // 3: mdm.v1.Area
-	(*AreaNode)(nil),                            // 4: mdm.v1.AreaNode
-	(*AreaAdministrativeUnit)(nil),              // 5: mdm.v1.AreaAdministrativeUnit
-	(*CodeSet)(nil),                             // 6: mdm.v1.CodeSet
-	(*CodeItem)(nil),                            // 7: mdm.v1.CodeItem
-	(*SystemParameter)(nil),                     // 8: mdm.v1.SystemParameter
-	(*DeleteResponse)(nil),                      // 9: mdm.v1.DeleteResponse
-	(*ListAdministrativeUnitsRequest)(nil),      // 10: mdm.v1.ListAdministrativeUnitsRequest
-	(*ListAdministrativeUnitsResponse)(nil),     // 11: mdm.v1.ListAdministrativeUnitsResponse
-	(*ListAdministrativeUnitTreeResponse)(nil),  // 12: mdm.v1.ListAdministrativeUnitTreeResponse
-	(*ListWardsRequest)(nil),                    // 13: mdm.v1.ListWardsRequest
-	(*GetAdministrativeUnitRequest)(nil),        // 14: mdm.v1.GetAdministrativeUnitRequest
-	(*CreateAdministrativeUnitRequest)(nil),     // 15: mdm.v1.CreateAdministrativeUnitRequest
-	(*UpdateAdministrativeUnitRequest)(nil),     // 16: mdm.v1.UpdateAdministrativeUnitRequest
-	(*DeleteAdministrativeUnitRequest)(nil),     // 17: mdm.v1.DeleteAdministrativeUnitRequest
-	(*ListAreaTypesRequest)(nil),                // 18: mdm.v1.ListAreaTypesRequest
-	(*ListAreaTypesResponse)(nil),               // 19: mdm.v1.ListAreaTypesResponse
-	(*GetAreaTypeRequest)(nil),                  // 20: mdm.v1.GetAreaTypeRequest
-	(*CreateAreaTypeRequest)(nil),               // 21: mdm.v1.CreateAreaTypeRequest
-	(*UpdateAreaTypeRequest)(nil),               // 22: mdm.v1.UpdateAreaTypeRequest
-	(*DeleteAreaTypeRequest)(nil),               // 23: mdm.v1.DeleteAreaTypeRequest
-	(*ListAreasRequest)(nil),                    // 24: mdm.v1.ListAreasRequest
-	(*ListAreasResponse)(nil),                   // 25: mdm.v1.ListAreasResponse
-	(*ListAreaTreeResponse)(nil),                // 26: mdm.v1.ListAreaTreeResponse
-	(*GetAreaRequest)(nil),                      // 27: mdm.v1.GetAreaRequest
-	(*CreateAreaRequest)(nil),                   // 28: mdm.v1.CreateAreaRequest
-	(*UpdateAreaRequest)(nil),                   // 29: mdm.v1.UpdateAreaRequest
-	(*DeleteAreaRequest)(nil),                   // 30: mdm.v1.DeleteAreaRequest
-	(*AssignAreaAdministrativeUnitRequest)(nil), // 31: mdm.v1.AssignAreaAdministrativeUnitRequest
-	(*ListAreaAdministrativeUnitsRequest)(nil),  // 32: mdm.v1.ListAreaAdministrativeUnitsRequest
-	(*ListAreaAdministrativeUnitsResponse)(nil), // 33: mdm.v1.ListAreaAdministrativeUnitsResponse
-	(*RemoveAreaAdministrativeUnitRequest)(nil), // 34: mdm.v1.RemoveAreaAdministrativeUnitRequest
-	(*ListCodeSetsRequest)(nil),                 // 35: mdm.v1.ListCodeSetsRequest
-	(*ListCodeSetsResponse)(nil),                // 36: mdm.v1.ListCodeSetsResponse
-	(*GetCodeSetRequest)(nil),                   // 37: mdm.v1.GetCodeSetRequest
-	(*CreateCodeSetRequest)(nil),                // 38: mdm.v1.CreateCodeSetRequest
-	(*UpdateCodeSetRequest)(nil),                // 39: mdm.v1.UpdateCodeSetRequest
-	(*DeleteCodeSetRequest)(nil),                // 40: mdm.v1.DeleteCodeSetRequest
-	(*ListCodeItemsRequest)(nil),                // 41: mdm.v1.ListCodeItemsRequest
-	(*ListCodeItemsResponse)(nil),               // 42: mdm.v1.ListCodeItemsResponse
-	(*GetCodeItemRequest)(nil),                  // 43: mdm.v1.GetCodeItemRequest
-	(*CreateCodeItemRequest)(nil),               // 44: mdm.v1.CreateCodeItemRequest
-	(*UpdateCodeItemRequest)(nil),               // 45: mdm.v1.UpdateCodeItemRequest
-	(*DeleteCodeItemRequest)(nil),               // 46: mdm.v1.DeleteCodeItemRequest
-	(*ListSystemParametersRequest)(nil),         // 47: mdm.v1.ListSystemParametersRequest
-	(*ListSystemParametersResponse)(nil),        // 48: mdm.v1.ListSystemParametersResponse
-	(*GetSystemParameterRequest)(nil),           // 49: mdm.v1.GetSystemParameterRequest
-	(*CreateSystemParameterRequest)(nil),        // 50: mdm.v1.CreateSystemParameterRequest
-	(*UpdateSystemParameterRequest)(nil),        // 51: mdm.v1.UpdateSystemParameterRequest
-	(*DeleteSystemParameterRequest)(nil),        // 52: mdm.v1.DeleteSystemParameterRequest
-	(*timestamppb.Timestamp)(nil),               // 53: google.protobuf.Timestamp
+	(*AdministrativeUnit)(nil),     // 0: mdm.v1.AdministrativeUnit
+	(*AdministrativeUnitNode)(nil), // 1: mdm.v1.AdministrativeUnitNode
+	(*AreaType)(nil),               // 2: mdm.v1.AreaType
+	(*Area)(nil),                   // 3: mdm.v1.Area
+	(*AreaNode)(nil),               // 4: mdm.v1.AreaNode
+	(*AreaAdministrativeUnit)(nil), // 5: mdm.v1.AreaAdministrativeUnit
+	(*CodeSet)(nil),                // 6: mdm.v1.CodeSet
+	(*CodeItem)(nil),               // 7: mdm.v1.CodeItem
+	(*SystemParameter)(nil),        // 8: mdm.v1.SystemParameter
+	(*DeleteResponse)(nil),         // 9: mdm.v1.DeleteResponse
+	(*SyncAdministrativeUnitsFromAddressKitRequest)(nil),  // 10: mdm.v1.SyncAdministrativeUnitsFromAddressKitRequest
+	(*SyncAdministrativeUnitsFromAddressKitResponse)(nil), // 11: mdm.v1.SyncAdministrativeUnitsFromAddressKitResponse
+	(*ListAdministrativeUnitsRequest)(nil),                // 12: mdm.v1.ListAdministrativeUnitsRequest
+	(*ListAdministrativeUnitsResponse)(nil),               // 13: mdm.v1.ListAdministrativeUnitsResponse
+	(*ListAdministrativeUnitTreeResponse)(nil),            // 14: mdm.v1.ListAdministrativeUnitTreeResponse
+	(*ListWardsRequest)(nil),                              // 15: mdm.v1.ListWardsRequest
+	(*GetAdministrativeUnitRequest)(nil),                  // 16: mdm.v1.GetAdministrativeUnitRequest
+	(*CreateAdministrativeUnitRequest)(nil),               // 17: mdm.v1.CreateAdministrativeUnitRequest
+	(*UpdateAdministrativeUnitRequest)(nil),               // 18: mdm.v1.UpdateAdministrativeUnitRequest
+	(*DeleteAdministrativeUnitRequest)(nil),               // 19: mdm.v1.DeleteAdministrativeUnitRequest
+	(*ListAreaTypesRequest)(nil),                          // 20: mdm.v1.ListAreaTypesRequest
+	(*ListAreaTypesResponse)(nil),                         // 21: mdm.v1.ListAreaTypesResponse
+	(*GetAreaTypeRequest)(nil),                            // 22: mdm.v1.GetAreaTypeRequest
+	(*CreateAreaTypeRequest)(nil),                         // 23: mdm.v1.CreateAreaTypeRequest
+	(*UpdateAreaTypeRequest)(nil),                         // 24: mdm.v1.UpdateAreaTypeRequest
+	(*DeleteAreaTypeRequest)(nil),                         // 25: mdm.v1.DeleteAreaTypeRequest
+	(*ListAreasRequest)(nil),                              // 26: mdm.v1.ListAreasRequest
+	(*ListAreasResponse)(nil),                             // 27: mdm.v1.ListAreasResponse
+	(*ListAreaTreeResponse)(nil),                          // 28: mdm.v1.ListAreaTreeResponse
+	(*GetAreaRequest)(nil),                                // 29: mdm.v1.GetAreaRequest
+	(*CreateAreaRequest)(nil),                             // 30: mdm.v1.CreateAreaRequest
+	(*UpdateAreaRequest)(nil),                             // 31: mdm.v1.UpdateAreaRequest
+	(*DeleteAreaRequest)(nil),                             // 32: mdm.v1.DeleteAreaRequest
+	(*AssignAreaAdministrativeUnitRequest)(nil),           // 33: mdm.v1.AssignAreaAdministrativeUnitRequest
+	(*ListAreaAdministrativeUnitsRequest)(nil),            // 34: mdm.v1.ListAreaAdministrativeUnitsRequest
+	(*ListAreaAdministrativeUnitsResponse)(nil),           // 35: mdm.v1.ListAreaAdministrativeUnitsResponse
+	(*RemoveAreaAdministrativeUnitRequest)(nil),           // 36: mdm.v1.RemoveAreaAdministrativeUnitRequest
+	(*ListCodeSetsRequest)(nil),                           // 37: mdm.v1.ListCodeSetsRequest
+	(*ListCodeSetsResponse)(nil),                          // 38: mdm.v1.ListCodeSetsResponse
+	(*GetCodeSetRequest)(nil),                             // 39: mdm.v1.GetCodeSetRequest
+	(*CreateCodeSetRequest)(nil),                          // 40: mdm.v1.CreateCodeSetRequest
+	(*UpdateCodeSetRequest)(nil),                          // 41: mdm.v1.UpdateCodeSetRequest
+	(*DeleteCodeSetRequest)(nil),                          // 42: mdm.v1.DeleteCodeSetRequest
+	(*ListCodeItemsRequest)(nil),                          // 43: mdm.v1.ListCodeItemsRequest
+	(*ListCodeItemsResponse)(nil),                         // 44: mdm.v1.ListCodeItemsResponse
+	(*GetCodeItemRequest)(nil),                            // 45: mdm.v1.GetCodeItemRequest
+	(*CreateCodeItemRequest)(nil),                         // 46: mdm.v1.CreateCodeItemRequest
+	(*UpdateCodeItemRequest)(nil),                         // 47: mdm.v1.UpdateCodeItemRequest
+	(*DeleteCodeItemRequest)(nil),                         // 48: mdm.v1.DeleteCodeItemRequest
+	(*ListSystemParametersRequest)(nil),                   // 49: mdm.v1.ListSystemParametersRequest
+	(*ListSystemParametersResponse)(nil),                  // 50: mdm.v1.ListSystemParametersResponse
+	(*GetSystemParameterRequest)(nil),                     // 51: mdm.v1.GetSystemParameterRequest
+	(*CreateSystemParameterRequest)(nil),                  // 52: mdm.v1.CreateSystemParameterRequest
+	(*UpdateSystemParameterRequest)(nil),                  // 53: mdm.v1.UpdateSystemParameterRequest
+	(*DeleteSystemParameterRequest)(nil),                  // 54: mdm.v1.DeleteSystemParameterRequest
+	(*timestamppb.Timestamp)(nil),                         // 55: google.protobuf.Timestamp
 }
 var file_mdm_v1_mdm_proto_depIdxs = []int32{
-	53, // 0: mdm.v1.AdministrativeUnit.created_at:type_name -> google.protobuf.Timestamp
-	53, // 1: mdm.v1.AdministrativeUnit.updated_at:type_name -> google.protobuf.Timestamp
+	55, // 0: mdm.v1.AdministrativeUnit.created_at:type_name -> google.protobuf.Timestamp
+	55, // 1: mdm.v1.AdministrativeUnit.updated_at:type_name -> google.protobuf.Timestamp
 	0,  // 2: mdm.v1.AdministrativeUnitNode.unit:type_name -> mdm.v1.AdministrativeUnit
 	1,  // 3: mdm.v1.AdministrativeUnitNode.children:type_name -> mdm.v1.AdministrativeUnitNode
-	53, // 4: mdm.v1.AreaType.created_at:type_name -> google.protobuf.Timestamp
-	53, // 5: mdm.v1.AreaType.updated_at:type_name -> google.protobuf.Timestamp
-	53, // 6: mdm.v1.Area.created_at:type_name -> google.protobuf.Timestamp
-	53, // 7: mdm.v1.Area.updated_at:type_name -> google.protobuf.Timestamp
+	55, // 4: mdm.v1.AreaType.created_at:type_name -> google.protobuf.Timestamp
+	55, // 5: mdm.v1.AreaType.updated_at:type_name -> google.protobuf.Timestamp
+	55, // 6: mdm.v1.Area.created_at:type_name -> google.protobuf.Timestamp
+	55, // 7: mdm.v1.Area.updated_at:type_name -> google.protobuf.Timestamp
 	3,  // 8: mdm.v1.AreaNode.area:type_name -> mdm.v1.Area
 	4,  // 9: mdm.v1.AreaNode.children:type_name -> mdm.v1.AreaNode
-	53, // 10: mdm.v1.AreaAdministrativeUnit.created_at:type_name -> google.protobuf.Timestamp
-	53, // 11: mdm.v1.CodeSet.created_at:type_name -> google.protobuf.Timestamp
-	53, // 12: mdm.v1.CodeSet.updated_at:type_name -> google.protobuf.Timestamp
-	53, // 13: mdm.v1.CodeItem.created_at:type_name -> google.protobuf.Timestamp
-	53, // 14: mdm.v1.CodeItem.updated_at:type_name -> google.protobuf.Timestamp
-	53, // 15: mdm.v1.SystemParameter.created_at:type_name -> google.protobuf.Timestamp
-	53, // 16: mdm.v1.SystemParameter.updated_at:type_name -> google.protobuf.Timestamp
+	55, // 10: mdm.v1.AreaAdministrativeUnit.created_at:type_name -> google.protobuf.Timestamp
+	55, // 11: mdm.v1.CodeSet.created_at:type_name -> google.protobuf.Timestamp
+	55, // 12: mdm.v1.CodeSet.updated_at:type_name -> google.protobuf.Timestamp
+	55, // 13: mdm.v1.CodeItem.created_at:type_name -> google.protobuf.Timestamp
+	55, // 14: mdm.v1.CodeItem.updated_at:type_name -> google.protobuf.Timestamp
+	55, // 15: mdm.v1.SystemParameter.created_at:type_name -> google.protobuf.Timestamp
+	55, // 16: mdm.v1.SystemParameter.updated_at:type_name -> google.protobuf.Timestamp
 	0,  // 17: mdm.v1.ListAdministrativeUnitsResponse.units:type_name -> mdm.v1.AdministrativeUnit
 	1,  // 18: mdm.v1.ListAdministrativeUnitTreeResponse.nodes:type_name -> mdm.v1.AdministrativeUnitNode
 	0,  // 19: mdm.v1.CreateAdministrativeUnitRequest.unit:type_name -> mdm.v1.AdministrativeUnit
@@ -3823,82 +3937,84 @@ var file_mdm_v1_mdm_proto_depIdxs = []int32{
 	8,  // 35: mdm.v1.ListSystemParametersResponse.parameters:type_name -> mdm.v1.SystemParameter
 	8,  // 36: mdm.v1.CreateSystemParameterRequest.parameter:type_name -> mdm.v1.SystemParameter
 	8,  // 37: mdm.v1.UpdateSystemParameterRequest.parameter:type_name -> mdm.v1.SystemParameter
-	10, // 38: mdm.v1.MdmService.ListAdministrativeUnits:input_type -> mdm.v1.ListAdministrativeUnitsRequest
-	10, // 39: mdm.v1.MdmService.ListAdministrativeUnitTree:input_type -> mdm.v1.ListAdministrativeUnitsRequest
-	10, // 40: mdm.v1.MdmService.ListProvinces:input_type -> mdm.v1.ListAdministrativeUnitsRequest
-	13, // 41: mdm.v1.MdmService.ListWards:input_type -> mdm.v1.ListWardsRequest
-	14, // 42: mdm.v1.MdmService.GetAdministrativeUnit:input_type -> mdm.v1.GetAdministrativeUnitRequest
-	15, // 43: mdm.v1.MdmService.CreateAdministrativeUnit:input_type -> mdm.v1.CreateAdministrativeUnitRequest
-	16, // 44: mdm.v1.MdmService.UpdateAdministrativeUnit:input_type -> mdm.v1.UpdateAdministrativeUnitRequest
-	17, // 45: mdm.v1.MdmService.DeleteAdministrativeUnit:input_type -> mdm.v1.DeleteAdministrativeUnitRequest
-	18, // 46: mdm.v1.MdmService.ListAreaTypes:input_type -> mdm.v1.ListAreaTypesRequest
-	20, // 47: mdm.v1.MdmService.GetAreaType:input_type -> mdm.v1.GetAreaTypeRequest
-	21, // 48: mdm.v1.MdmService.CreateAreaType:input_type -> mdm.v1.CreateAreaTypeRequest
-	22, // 49: mdm.v1.MdmService.UpdateAreaType:input_type -> mdm.v1.UpdateAreaTypeRequest
-	23, // 50: mdm.v1.MdmService.DeleteAreaType:input_type -> mdm.v1.DeleteAreaTypeRequest
-	24, // 51: mdm.v1.MdmService.ListAreas:input_type -> mdm.v1.ListAreasRequest
-	24, // 52: mdm.v1.MdmService.ListAreaTree:input_type -> mdm.v1.ListAreasRequest
-	27, // 53: mdm.v1.MdmService.GetArea:input_type -> mdm.v1.GetAreaRequest
-	28, // 54: mdm.v1.MdmService.CreateArea:input_type -> mdm.v1.CreateAreaRequest
-	29, // 55: mdm.v1.MdmService.UpdateArea:input_type -> mdm.v1.UpdateAreaRequest
-	30, // 56: mdm.v1.MdmService.DeleteArea:input_type -> mdm.v1.DeleteAreaRequest
-	31, // 57: mdm.v1.MdmService.AssignAreaAdministrativeUnit:input_type -> mdm.v1.AssignAreaAdministrativeUnitRequest
-	32, // 58: mdm.v1.MdmService.ListAreaAdministrativeUnits:input_type -> mdm.v1.ListAreaAdministrativeUnitsRequest
-	34, // 59: mdm.v1.MdmService.RemoveAreaAdministrativeUnit:input_type -> mdm.v1.RemoveAreaAdministrativeUnitRequest
-	35, // 60: mdm.v1.MdmService.ListCodeSets:input_type -> mdm.v1.ListCodeSetsRequest
-	37, // 61: mdm.v1.MdmService.GetCodeSet:input_type -> mdm.v1.GetCodeSetRequest
-	38, // 62: mdm.v1.MdmService.CreateCodeSet:input_type -> mdm.v1.CreateCodeSetRequest
-	39, // 63: mdm.v1.MdmService.UpdateCodeSet:input_type -> mdm.v1.UpdateCodeSetRequest
-	40, // 64: mdm.v1.MdmService.DeleteCodeSet:input_type -> mdm.v1.DeleteCodeSetRequest
-	41, // 65: mdm.v1.MdmService.ListCodeItems:input_type -> mdm.v1.ListCodeItemsRequest
-	43, // 66: mdm.v1.MdmService.GetCodeItem:input_type -> mdm.v1.GetCodeItemRequest
-	44, // 67: mdm.v1.MdmService.CreateCodeItem:input_type -> mdm.v1.CreateCodeItemRequest
-	45, // 68: mdm.v1.MdmService.UpdateCodeItem:input_type -> mdm.v1.UpdateCodeItemRequest
-	46, // 69: mdm.v1.MdmService.DeleteCodeItem:input_type -> mdm.v1.DeleteCodeItemRequest
-	47, // 70: mdm.v1.MdmService.ListSystemParameters:input_type -> mdm.v1.ListSystemParametersRequest
-	49, // 71: mdm.v1.MdmService.GetSystemParameter:input_type -> mdm.v1.GetSystemParameterRequest
-	50, // 72: mdm.v1.MdmService.CreateSystemParameter:input_type -> mdm.v1.CreateSystemParameterRequest
-	51, // 73: mdm.v1.MdmService.UpdateSystemParameter:input_type -> mdm.v1.UpdateSystemParameterRequest
-	52, // 74: mdm.v1.MdmService.DeleteSystemParameter:input_type -> mdm.v1.DeleteSystemParameterRequest
-	11, // 75: mdm.v1.MdmService.ListAdministrativeUnits:output_type -> mdm.v1.ListAdministrativeUnitsResponse
-	12, // 76: mdm.v1.MdmService.ListAdministrativeUnitTree:output_type -> mdm.v1.ListAdministrativeUnitTreeResponse
-	11, // 77: mdm.v1.MdmService.ListProvinces:output_type -> mdm.v1.ListAdministrativeUnitsResponse
-	11, // 78: mdm.v1.MdmService.ListWards:output_type -> mdm.v1.ListAdministrativeUnitsResponse
-	0,  // 79: mdm.v1.MdmService.GetAdministrativeUnit:output_type -> mdm.v1.AdministrativeUnit
-	0,  // 80: mdm.v1.MdmService.CreateAdministrativeUnit:output_type -> mdm.v1.AdministrativeUnit
-	0,  // 81: mdm.v1.MdmService.UpdateAdministrativeUnit:output_type -> mdm.v1.AdministrativeUnit
-	9,  // 82: mdm.v1.MdmService.DeleteAdministrativeUnit:output_type -> mdm.v1.DeleteResponse
-	19, // 83: mdm.v1.MdmService.ListAreaTypes:output_type -> mdm.v1.ListAreaTypesResponse
-	2,  // 84: mdm.v1.MdmService.GetAreaType:output_type -> mdm.v1.AreaType
-	2,  // 85: mdm.v1.MdmService.CreateAreaType:output_type -> mdm.v1.AreaType
-	2,  // 86: mdm.v1.MdmService.UpdateAreaType:output_type -> mdm.v1.AreaType
-	9,  // 87: mdm.v1.MdmService.DeleteAreaType:output_type -> mdm.v1.DeleteResponse
-	25, // 88: mdm.v1.MdmService.ListAreas:output_type -> mdm.v1.ListAreasResponse
-	26, // 89: mdm.v1.MdmService.ListAreaTree:output_type -> mdm.v1.ListAreaTreeResponse
-	3,  // 90: mdm.v1.MdmService.GetArea:output_type -> mdm.v1.Area
-	3,  // 91: mdm.v1.MdmService.CreateArea:output_type -> mdm.v1.Area
-	3,  // 92: mdm.v1.MdmService.UpdateArea:output_type -> mdm.v1.Area
-	9,  // 93: mdm.v1.MdmService.DeleteArea:output_type -> mdm.v1.DeleteResponse
-	5,  // 94: mdm.v1.MdmService.AssignAreaAdministrativeUnit:output_type -> mdm.v1.AreaAdministrativeUnit
-	33, // 95: mdm.v1.MdmService.ListAreaAdministrativeUnits:output_type -> mdm.v1.ListAreaAdministrativeUnitsResponse
-	9,  // 96: mdm.v1.MdmService.RemoveAreaAdministrativeUnit:output_type -> mdm.v1.DeleteResponse
-	36, // 97: mdm.v1.MdmService.ListCodeSets:output_type -> mdm.v1.ListCodeSetsResponse
-	6,  // 98: mdm.v1.MdmService.GetCodeSet:output_type -> mdm.v1.CodeSet
-	6,  // 99: mdm.v1.MdmService.CreateCodeSet:output_type -> mdm.v1.CodeSet
-	6,  // 100: mdm.v1.MdmService.UpdateCodeSet:output_type -> mdm.v1.CodeSet
-	9,  // 101: mdm.v1.MdmService.DeleteCodeSet:output_type -> mdm.v1.DeleteResponse
-	42, // 102: mdm.v1.MdmService.ListCodeItems:output_type -> mdm.v1.ListCodeItemsResponse
-	7,  // 103: mdm.v1.MdmService.GetCodeItem:output_type -> mdm.v1.CodeItem
-	7,  // 104: mdm.v1.MdmService.CreateCodeItem:output_type -> mdm.v1.CodeItem
-	7,  // 105: mdm.v1.MdmService.UpdateCodeItem:output_type -> mdm.v1.CodeItem
-	9,  // 106: mdm.v1.MdmService.DeleteCodeItem:output_type -> mdm.v1.DeleteResponse
-	48, // 107: mdm.v1.MdmService.ListSystemParameters:output_type -> mdm.v1.ListSystemParametersResponse
-	8,  // 108: mdm.v1.MdmService.GetSystemParameter:output_type -> mdm.v1.SystemParameter
-	8,  // 109: mdm.v1.MdmService.CreateSystemParameter:output_type -> mdm.v1.SystemParameter
-	8,  // 110: mdm.v1.MdmService.UpdateSystemParameter:output_type -> mdm.v1.SystemParameter
-	9,  // 111: mdm.v1.MdmService.DeleteSystemParameter:output_type -> mdm.v1.DeleteResponse
-	75, // [75:112] is the sub-list for method output_type
-	38, // [38:75] is the sub-list for method input_type
+	12, // 38: mdm.v1.MdmService.ListAdministrativeUnits:input_type -> mdm.v1.ListAdministrativeUnitsRequest
+	12, // 39: mdm.v1.MdmService.ListAdministrativeUnitTree:input_type -> mdm.v1.ListAdministrativeUnitsRequest
+	12, // 40: mdm.v1.MdmService.ListProvinces:input_type -> mdm.v1.ListAdministrativeUnitsRequest
+	15, // 41: mdm.v1.MdmService.ListWards:input_type -> mdm.v1.ListWardsRequest
+	16, // 42: mdm.v1.MdmService.GetAdministrativeUnit:input_type -> mdm.v1.GetAdministrativeUnitRequest
+	17, // 43: mdm.v1.MdmService.CreateAdministrativeUnit:input_type -> mdm.v1.CreateAdministrativeUnitRequest
+	18, // 44: mdm.v1.MdmService.UpdateAdministrativeUnit:input_type -> mdm.v1.UpdateAdministrativeUnitRequest
+	19, // 45: mdm.v1.MdmService.DeleteAdministrativeUnit:input_type -> mdm.v1.DeleteAdministrativeUnitRequest
+	10, // 46: mdm.v1.MdmService.SyncAdministrativeUnitsFromAddressKit:input_type -> mdm.v1.SyncAdministrativeUnitsFromAddressKitRequest
+	20, // 47: mdm.v1.MdmService.ListAreaTypes:input_type -> mdm.v1.ListAreaTypesRequest
+	22, // 48: mdm.v1.MdmService.GetAreaType:input_type -> mdm.v1.GetAreaTypeRequest
+	23, // 49: mdm.v1.MdmService.CreateAreaType:input_type -> mdm.v1.CreateAreaTypeRequest
+	24, // 50: mdm.v1.MdmService.UpdateAreaType:input_type -> mdm.v1.UpdateAreaTypeRequest
+	25, // 51: mdm.v1.MdmService.DeleteAreaType:input_type -> mdm.v1.DeleteAreaTypeRequest
+	26, // 52: mdm.v1.MdmService.ListAreas:input_type -> mdm.v1.ListAreasRequest
+	26, // 53: mdm.v1.MdmService.ListAreaTree:input_type -> mdm.v1.ListAreasRequest
+	29, // 54: mdm.v1.MdmService.GetArea:input_type -> mdm.v1.GetAreaRequest
+	30, // 55: mdm.v1.MdmService.CreateArea:input_type -> mdm.v1.CreateAreaRequest
+	31, // 56: mdm.v1.MdmService.UpdateArea:input_type -> mdm.v1.UpdateAreaRequest
+	32, // 57: mdm.v1.MdmService.DeleteArea:input_type -> mdm.v1.DeleteAreaRequest
+	33, // 58: mdm.v1.MdmService.AssignAreaAdministrativeUnit:input_type -> mdm.v1.AssignAreaAdministrativeUnitRequest
+	34, // 59: mdm.v1.MdmService.ListAreaAdministrativeUnits:input_type -> mdm.v1.ListAreaAdministrativeUnitsRequest
+	36, // 60: mdm.v1.MdmService.RemoveAreaAdministrativeUnit:input_type -> mdm.v1.RemoveAreaAdministrativeUnitRequest
+	37, // 61: mdm.v1.MdmService.ListCodeSets:input_type -> mdm.v1.ListCodeSetsRequest
+	39, // 62: mdm.v1.MdmService.GetCodeSet:input_type -> mdm.v1.GetCodeSetRequest
+	40, // 63: mdm.v1.MdmService.CreateCodeSet:input_type -> mdm.v1.CreateCodeSetRequest
+	41, // 64: mdm.v1.MdmService.UpdateCodeSet:input_type -> mdm.v1.UpdateCodeSetRequest
+	42, // 65: mdm.v1.MdmService.DeleteCodeSet:input_type -> mdm.v1.DeleteCodeSetRequest
+	43, // 66: mdm.v1.MdmService.ListCodeItems:input_type -> mdm.v1.ListCodeItemsRequest
+	45, // 67: mdm.v1.MdmService.GetCodeItem:input_type -> mdm.v1.GetCodeItemRequest
+	46, // 68: mdm.v1.MdmService.CreateCodeItem:input_type -> mdm.v1.CreateCodeItemRequest
+	47, // 69: mdm.v1.MdmService.UpdateCodeItem:input_type -> mdm.v1.UpdateCodeItemRequest
+	48, // 70: mdm.v1.MdmService.DeleteCodeItem:input_type -> mdm.v1.DeleteCodeItemRequest
+	49, // 71: mdm.v1.MdmService.ListSystemParameters:input_type -> mdm.v1.ListSystemParametersRequest
+	51, // 72: mdm.v1.MdmService.GetSystemParameter:input_type -> mdm.v1.GetSystemParameterRequest
+	52, // 73: mdm.v1.MdmService.CreateSystemParameter:input_type -> mdm.v1.CreateSystemParameterRequest
+	53, // 74: mdm.v1.MdmService.UpdateSystemParameter:input_type -> mdm.v1.UpdateSystemParameterRequest
+	54, // 75: mdm.v1.MdmService.DeleteSystemParameter:input_type -> mdm.v1.DeleteSystemParameterRequest
+	13, // 76: mdm.v1.MdmService.ListAdministrativeUnits:output_type -> mdm.v1.ListAdministrativeUnitsResponse
+	14, // 77: mdm.v1.MdmService.ListAdministrativeUnitTree:output_type -> mdm.v1.ListAdministrativeUnitTreeResponse
+	13, // 78: mdm.v1.MdmService.ListProvinces:output_type -> mdm.v1.ListAdministrativeUnitsResponse
+	13, // 79: mdm.v1.MdmService.ListWards:output_type -> mdm.v1.ListAdministrativeUnitsResponse
+	0,  // 80: mdm.v1.MdmService.GetAdministrativeUnit:output_type -> mdm.v1.AdministrativeUnit
+	0,  // 81: mdm.v1.MdmService.CreateAdministrativeUnit:output_type -> mdm.v1.AdministrativeUnit
+	0,  // 82: mdm.v1.MdmService.UpdateAdministrativeUnit:output_type -> mdm.v1.AdministrativeUnit
+	9,  // 83: mdm.v1.MdmService.DeleteAdministrativeUnit:output_type -> mdm.v1.DeleteResponse
+	11, // 84: mdm.v1.MdmService.SyncAdministrativeUnitsFromAddressKit:output_type -> mdm.v1.SyncAdministrativeUnitsFromAddressKitResponse
+	21, // 85: mdm.v1.MdmService.ListAreaTypes:output_type -> mdm.v1.ListAreaTypesResponse
+	2,  // 86: mdm.v1.MdmService.GetAreaType:output_type -> mdm.v1.AreaType
+	2,  // 87: mdm.v1.MdmService.CreateAreaType:output_type -> mdm.v1.AreaType
+	2,  // 88: mdm.v1.MdmService.UpdateAreaType:output_type -> mdm.v1.AreaType
+	9,  // 89: mdm.v1.MdmService.DeleteAreaType:output_type -> mdm.v1.DeleteResponse
+	27, // 90: mdm.v1.MdmService.ListAreas:output_type -> mdm.v1.ListAreasResponse
+	28, // 91: mdm.v1.MdmService.ListAreaTree:output_type -> mdm.v1.ListAreaTreeResponse
+	3,  // 92: mdm.v1.MdmService.GetArea:output_type -> mdm.v1.Area
+	3,  // 93: mdm.v1.MdmService.CreateArea:output_type -> mdm.v1.Area
+	3,  // 94: mdm.v1.MdmService.UpdateArea:output_type -> mdm.v1.Area
+	9,  // 95: mdm.v1.MdmService.DeleteArea:output_type -> mdm.v1.DeleteResponse
+	5,  // 96: mdm.v1.MdmService.AssignAreaAdministrativeUnit:output_type -> mdm.v1.AreaAdministrativeUnit
+	35, // 97: mdm.v1.MdmService.ListAreaAdministrativeUnits:output_type -> mdm.v1.ListAreaAdministrativeUnitsResponse
+	9,  // 98: mdm.v1.MdmService.RemoveAreaAdministrativeUnit:output_type -> mdm.v1.DeleteResponse
+	38, // 99: mdm.v1.MdmService.ListCodeSets:output_type -> mdm.v1.ListCodeSetsResponse
+	6,  // 100: mdm.v1.MdmService.GetCodeSet:output_type -> mdm.v1.CodeSet
+	6,  // 101: mdm.v1.MdmService.CreateCodeSet:output_type -> mdm.v1.CodeSet
+	6,  // 102: mdm.v1.MdmService.UpdateCodeSet:output_type -> mdm.v1.CodeSet
+	9,  // 103: mdm.v1.MdmService.DeleteCodeSet:output_type -> mdm.v1.DeleteResponse
+	44, // 104: mdm.v1.MdmService.ListCodeItems:output_type -> mdm.v1.ListCodeItemsResponse
+	7,  // 105: mdm.v1.MdmService.GetCodeItem:output_type -> mdm.v1.CodeItem
+	7,  // 106: mdm.v1.MdmService.CreateCodeItem:output_type -> mdm.v1.CodeItem
+	7,  // 107: mdm.v1.MdmService.UpdateCodeItem:output_type -> mdm.v1.CodeItem
+	9,  // 108: mdm.v1.MdmService.DeleteCodeItem:output_type -> mdm.v1.DeleteResponse
+	50, // 109: mdm.v1.MdmService.ListSystemParameters:output_type -> mdm.v1.ListSystemParametersResponse
+	8,  // 110: mdm.v1.MdmService.GetSystemParameter:output_type -> mdm.v1.SystemParameter
+	8,  // 111: mdm.v1.MdmService.CreateSystemParameter:output_type -> mdm.v1.SystemParameter
+	8,  // 112: mdm.v1.MdmService.UpdateSystemParameter:output_type -> mdm.v1.SystemParameter
+	9,  // 113: mdm.v1.MdmService.DeleteSystemParameter:output_type -> mdm.v1.DeleteResponse
+	76, // [76:114] is the sub-list for method output_type
+	38, // [38:76] is the sub-list for method input_type
 	38, // [38:38] is the sub-list for extension type_name
 	38, // [38:38] is the sub-list for extension extendee
 	0,  // [0:38] is the sub-list for field type_name
@@ -3915,7 +4031,7 @@ func file_mdm_v1_mdm_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_mdm_v1_mdm_proto_rawDesc), len(file_mdm_v1_mdm_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   53,
+			NumMessages:   55,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

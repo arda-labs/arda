@@ -19,43 +19,44 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	MdmService_ListAdministrativeUnits_FullMethodName      = "/mdm.v1.MdmService/ListAdministrativeUnits"
-	MdmService_ListAdministrativeUnitTree_FullMethodName   = "/mdm.v1.MdmService/ListAdministrativeUnitTree"
-	MdmService_ListProvinces_FullMethodName                = "/mdm.v1.MdmService/ListProvinces"
-	MdmService_ListWards_FullMethodName                    = "/mdm.v1.MdmService/ListWards"
-	MdmService_GetAdministrativeUnit_FullMethodName        = "/mdm.v1.MdmService/GetAdministrativeUnit"
-	MdmService_CreateAdministrativeUnit_FullMethodName     = "/mdm.v1.MdmService/CreateAdministrativeUnit"
-	MdmService_UpdateAdministrativeUnit_FullMethodName     = "/mdm.v1.MdmService/UpdateAdministrativeUnit"
-	MdmService_DeleteAdministrativeUnit_FullMethodName     = "/mdm.v1.MdmService/DeleteAdministrativeUnit"
-	MdmService_ListAreaTypes_FullMethodName                = "/mdm.v1.MdmService/ListAreaTypes"
-	MdmService_GetAreaType_FullMethodName                  = "/mdm.v1.MdmService/GetAreaType"
-	MdmService_CreateAreaType_FullMethodName               = "/mdm.v1.MdmService/CreateAreaType"
-	MdmService_UpdateAreaType_FullMethodName               = "/mdm.v1.MdmService/UpdateAreaType"
-	MdmService_DeleteAreaType_FullMethodName               = "/mdm.v1.MdmService/DeleteAreaType"
-	MdmService_ListAreas_FullMethodName                    = "/mdm.v1.MdmService/ListAreas"
-	MdmService_ListAreaTree_FullMethodName                 = "/mdm.v1.MdmService/ListAreaTree"
-	MdmService_GetArea_FullMethodName                      = "/mdm.v1.MdmService/GetArea"
-	MdmService_CreateArea_FullMethodName                   = "/mdm.v1.MdmService/CreateArea"
-	MdmService_UpdateArea_FullMethodName                   = "/mdm.v1.MdmService/UpdateArea"
-	MdmService_DeleteArea_FullMethodName                   = "/mdm.v1.MdmService/DeleteArea"
-	MdmService_AssignAreaAdministrativeUnit_FullMethodName = "/mdm.v1.MdmService/AssignAreaAdministrativeUnit"
-	MdmService_ListAreaAdministrativeUnits_FullMethodName  = "/mdm.v1.MdmService/ListAreaAdministrativeUnits"
-	MdmService_RemoveAreaAdministrativeUnit_FullMethodName = "/mdm.v1.MdmService/RemoveAreaAdministrativeUnit"
-	MdmService_ListCodeSets_FullMethodName                 = "/mdm.v1.MdmService/ListCodeSets"
-	MdmService_GetCodeSet_FullMethodName                   = "/mdm.v1.MdmService/GetCodeSet"
-	MdmService_CreateCodeSet_FullMethodName                = "/mdm.v1.MdmService/CreateCodeSet"
-	MdmService_UpdateCodeSet_FullMethodName                = "/mdm.v1.MdmService/UpdateCodeSet"
-	MdmService_DeleteCodeSet_FullMethodName                = "/mdm.v1.MdmService/DeleteCodeSet"
-	MdmService_ListCodeItems_FullMethodName                = "/mdm.v1.MdmService/ListCodeItems"
-	MdmService_GetCodeItem_FullMethodName                  = "/mdm.v1.MdmService/GetCodeItem"
-	MdmService_CreateCodeItem_FullMethodName               = "/mdm.v1.MdmService/CreateCodeItem"
-	MdmService_UpdateCodeItem_FullMethodName               = "/mdm.v1.MdmService/UpdateCodeItem"
-	MdmService_DeleteCodeItem_FullMethodName               = "/mdm.v1.MdmService/DeleteCodeItem"
-	MdmService_ListSystemParameters_FullMethodName         = "/mdm.v1.MdmService/ListSystemParameters"
-	MdmService_GetSystemParameter_FullMethodName           = "/mdm.v1.MdmService/GetSystemParameter"
-	MdmService_CreateSystemParameter_FullMethodName        = "/mdm.v1.MdmService/CreateSystemParameter"
-	MdmService_UpdateSystemParameter_FullMethodName        = "/mdm.v1.MdmService/UpdateSystemParameter"
-	MdmService_DeleteSystemParameter_FullMethodName        = "/mdm.v1.MdmService/DeleteSystemParameter"
+	MdmService_ListAdministrativeUnits_FullMethodName               = "/mdm.v1.MdmService/ListAdministrativeUnits"
+	MdmService_ListAdministrativeUnitTree_FullMethodName            = "/mdm.v1.MdmService/ListAdministrativeUnitTree"
+	MdmService_ListProvinces_FullMethodName                         = "/mdm.v1.MdmService/ListProvinces"
+	MdmService_ListWards_FullMethodName                             = "/mdm.v1.MdmService/ListWards"
+	MdmService_GetAdministrativeUnit_FullMethodName                 = "/mdm.v1.MdmService/GetAdministrativeUnit"
+	MdmService_CreateAdministrativeUnit_FullMethodName              = "/mdm.v1.MdmService/CreateAdministrativeUnit"
+	MdmService_UpdateAdministrativeUnit_FullMethodName              = "/mdm.v1.MdmService/UpdateAdministrativeUnit"
+	MdmService_DeleteAdministrativeUnit_FullMethodName              = "/mdm.v1.MdmService/DeleteAdministrativeUnit"
+	MdmService_SyncAdministrativeUnitsFromAddressKit_FullMethodName = "/mdm.v1.MdmService/SyncAdministrativeUnitsFromAddressKit"
+	MdmService_ListAreaTypes_FullMethodName                         = "/mdm.v1.MdmService/ListAreaTypes"
+	MdmService_GetAreaType_FullMethodName                           = "/mdm.v1.MdmService/GetAreaType"
+	MdmService_CreateAreaType_FullMethodName                        = "/mdm.v1.MdmService/CreateAreaType"
+	MdmService_UpdateAreaType_FullMethodName                        = "/mdm.v1.MdmService/UpdateAreaType"
+	MdmService_DeleteAreaType_FullMethodName                        = "/mdm.v1.MdmService/DeleteAreaType"
+	MdmService_ListAreas_FullMethodName                             = "/mdm.v1.MdmService/ListAreas"
+	MdmService_ListAreaTree_FullMethodName                          = "/mdm.v1.MdmService/ListAreaTree"
+	MdmService_GetArea_FullMethodName                               = "/mdm.v1.MdmService/GetArea"
+	MdmService_CreateArea_FullMethodName                            = "/mdm.v1.MdmService/CreateArea"
+	MdmService_UpdateArea_FullMethodName                            = "/mdm.v1.MdmService/UpdateArea"
+	MdmService_DeleteArea_FullMethodName                            = "/mdm.v1.MdmService/DeleteArea"
+	MdmService_AssignAreaAdministrativeUnit_FullMethodName          = "/mdm.v1.MdmService/AssignAreaAdministrativeUnit"
+	MdmService_ListAreaAdministrativeUnits_FullMethodName           = "/mdm.v1.MdmService/ListAreaAdministrativeUnits"
+	MdmService_RemoveAreaAdministrativeUnit_FullMethodName          = "/mdm.v1.MdmService/RemoveAreaAdministrativeUnit"
+	MdmService_ListCodeSets_FullMethodName                          = "/mdm.v1.MdmService/ListCodeSets"
+	MdmService_GetCodeSet_FullMethodName                            = "/mdm.v1.MdmService/GetCodeSet"
+	MdmService_CreateCodeSet_FullMethodName                         = "/mdm.v1.MdmService/CreateCodeSet"
+	MdmService_UpdateCodeSet_FullMethodName                         = "/mdm.v1.MdmService/UpdateCodeSet"
+	MdmService_DeleteCodeSet_FullMethodName                         = "/mdm.v1.MdmService/DeleteCodeSet"
+	MdmService_ListCodeItems_FullMethodName                         = "/mdm.v1.MdmService/ListCodeItems"
+	MdmService_GetCodeItem_FullMethodName                           = "/mdm.v1.MdmService/GetCodeItem"
+	MdmService_CreateCodeItem_FullMethodName                        = "/mdm.v1.MdmService/CreateCodeItem"
+	MdmService_UpdateCodeItem_FullMethodName                        = "/mdm.v1.MdmService/UpdateCodeItem"
+	MdmService_DeleteCodeItem_FullMethodName                        = "/mdm.v1.MdmService/DeleteCodeItem"
+	MdmService_ListSystemParameters_FullMethodName                  = "/mdm.v1.MdmService/ListSystemParameters"
+	MdmService_GetSystemParameter_FullMethodName                    = "/mdm.v1.MdmService/GetSystemParameter"
+	MdmService_CreateSystemParameter_FullMethodName                 = "/mdm.v1.MdmService/CreateSystemParameter"
+	MdmService_UpdateSystemParameter_FullMethodName                 = "/mdm.v1.MdmService/UpdateSystemParameter"
+	MdmService_DeleteSystemParameter_FullMethodName                 = "/mdm.v1.MdmService/DeleteSystemParameter"
 )
 
 // MdmServiceClient is the client API for MdmService service.
@@ -70,6 +71,7 @@ type MdmServiceClient interface {
 	CreateAdministrativeUnit(ctx context.Context, in *CreateAdministrativeUnitRequest, opts ...grpc.CallOption) (*AdministrativeUnit, error)
 	UpdateAdministrativeUnit(ctx context.Context, in *UpdateAdministrativeUnitRequest, opts ...grpc.CallOption) (*AdministrativeUnit, error)
 	DeleteAdministrativeUnit(ctx context.Context, in *DeleteAdministrativeUnitRequest, opts ...grpc.CallOption) (*DeleteResponse, error)
+	SyncAdministrativeUnitsFromAddressKit(ctx context.Context, in *SyncAdministrativeUnitsFromAddressKitRequest, opts ...grpc.CallOption) (*SyncAdministrativeUnitsFromAddressKitResponse, error)
 	ListAreaTypes(ctx context.Context, in *ListAreaTypesRequest, opts ...grpc.CallOption) (*ListAreaTypesResponse, error)
 	GetAreaType(ctx context.Context, in *GetAreaTypeRequest, opts ...grpc.CallOption) (*AreaType, error)
 	CreateAreaType(ctx context.Context, in *CreateAreaTypeRequest, opts ...grpc.CallOption) (*AreaType, error)
@@ -183,6 +185,16 @@ func (c *mdmServiceClient) DeleteAdministrativeUnit(ctx context.Context, in *Del
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DeleteResponse)
 	err := c.cc.Invoke(ctx, MdmService_DeleteAdministrativeUnit_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mdmServiceClient) SyncAdministrativeUnitsFromAddressKit(ctx context.Context, in *SyncAdministrativeUnitsFromAddressKitRequest, opts ...grpc.CallOption) (*SyncAdministrativeUnitsFromAddressKitResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SyncAdministrativeUnitsFromAddressKitResponse)
+	err := c.cc.Invoke(ctx, MdmService_SyncAdministrativeUnitsFromAddressKit_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -491,6 +503,7 @@ type MdmServiceServer interface {
 	CreateAdministrativeUnit(context.Context, *CreateAdministrativeUnitRequest) (*AdministrativeUnit, error)
 	UpdateAdministrativeUnit(context.Context, *UpdateAdministrativeUnitRequest) (*AdministrativeUnit, error)
 	DeleteAdministrativeUnit(context.Context, *DeleteAdministrativeUnitRequest) (*DeleteResponse, error)
+	SyncAdministrativeUnitsFromAddressKit(context.Context, *SyncAdministrativeUnitsFromAddressKitRequest) (*SyncAdministrativeUnitsFromAddressKitResponse, error)
 	ListAreaTypes(context.Context, *ListAreaTypesRequest) (*ListAreaTypesResponse, error)
 	GetAreaType(context.Context, *GetAreaTypeRequest) (*AreaType, error)
 	CreateAreaType(context.Context, *CreateAreaTypeRequest) (*AreaType, error)
@@ -553,6 +566,9 @@ func (UnimplementedMdmServiceServer) UpdateAdministrativeUnit(context.Context, *
 }
 func (UnimplementedMdmServiceServer) DeleteAdministrativeUnit(context.Context, *DeleteAdministrativeUnitRequest) (*DeleteResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method DeleteAdministrativeUnit not implemented")
+}
+func (UnimplementedMdmServiceServer) SyncAdministrativeUnitsFromAddressKit(context.Context, *SyncAdministrativeUnitsFromAddressKitRequest) (*SyncAdministrativeUnitsFromAddressKitResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method SyncAdministrativeUnitsFromAddressKit not implemented")
 }
 func (UnimplementedMdmServiceServer) ListAreaTypes(context.Context, *ListAreaTypesRequest) (*ListAreaTypesResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method ListAreaTypes not implemented")
@@ -802,6 +818,24 @@ func _MdmService_DeleteAdministrativeUnit_Handler(srv interface{}, ctx context.C
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(MdmServiceServer).DeleteAdministrativeUnit(ctx, req.(*DeleteAdministrativeUnitRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MdmService_SyncAdministrativeUnitsFromAddressKit_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SyncAdministrativeUnitsFromAddressKitRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MdmServiceServer).SyncAdministrativeUnitsFromAddressKit(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MdmService_SyncAdministrativeUnitsFromAddressKit_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MdmServiceServer).SyncAdministrativeUnitsFromAddressKit(ctx, req.(*SyncAdministrativeUnitsFromAddressKitRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1366,6 +1400,10 @@ var MdmService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteAdministrativeUnit",
 			Handler:    _MdmService_DeleteAdministrativeUnit_Handler,
+		},
+		{
+			MethodName: "SyncAdministrativeUnitsFromAddressKit",
+			Handler:    _MdmService_SyncAdministrativeUnitsFromAddressKit_Handler,
 		},
 		{
 			MethodName: "ListAreaTypes",

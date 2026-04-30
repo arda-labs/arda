@@ -50,6 +50,7 @@ const OperationMdmServiceListProvinces = "/mdm.v1.MdmService/ListProvinces"
 const OperationMdmServiceListSystemParameters = "/mdm.v1.MdmService/ListSystemParameters"
 const OperationMdmServiceListWards = "/mdm.v1.MdmService/ListWards"
 const OperationMdmServiceRemoveAreaAdministrativeUnit = "/mdm.v1.MdmService/RemoveAreaAdministrativeUnit"
+const OperationMdmServiceSyncAdministrativeUnitsFromAddressKit = "/mdm.v1.MdmService/SyncAdministrativeUnitsFromAddressKit"
 const OperationMdmServiceUpdateAdministrativeUnit = "/mdm.v1.MdmService/UpdateAdministrativeUnit"
 const OperationMdmServiceUpdateArea = "/mdm.v1.MdmService/UpdateArea"
 const OperationMdmServiceUpdateAreaType = "/mdm.v1.MdmService/UpdateAreaType"
@@ -89,6 +90,7 @@ type MdmServiceHTTPServer interface {
 	ListSystemParameters(context.Context, *ListSystemParametersRequest) (*ListSystemParametersResponse, error)
 	ListWards(context.Context, *ListWardsRequest) (*ListAdministrativeUnitsResponse, error)
 	RemoveAreaAdministrativeUnit(context.Context, *RemoveAreaAdministrativeUnitRequest) (*DeleteResponse, error)
+	SyncAdministrativeUnitsFromAddressKit(context.Context, *SyncAdministrativeUnitsFromAddressKitRequest) (*SyncAdministrativeUnitsFromAddressKitResponse, error)
 	UpdateAdministrativeUnit(context.Context, *UpdateAdministrativeUnitRequest) (*AdministrativeUnit, error)
 	UpdateArea(context.Context, *UpdateAreaRequest) (*Area, error)
 	UpdateAreaType(context.Context, *UpdateAreaTypeRequest) (*AreaType, error)
@@ -107,6 +109,7 @@ func RegisterMdmServiceHTTPServer(s *http.Server, srv MdmServiceHTTPServer) {
 	r.POST("/v1/mdm/administrative-units", _MdmService_CreateAdministrativeUnit0_HTTP_Handler(srv))
 	r.PUT("/v1/mdm/administrative-units/{id}", _MdmService_UpdateAdministrativeUnit0_HTTP_Handler(srv))
 	r.DELETE("/v1/mdm/administrative-units/{id}", _MdmService_DeleteAdministrativeUnit0_HTTP_Handler(srv))
+	r.POST("/v1/mdm/administrative-units/sync-addresskit", _MdmService_SyncAdministrativeUnitsFromAddressKit0_HTTP_Handler(srv))
 	r.GET("/v1/mdm/area-types", _MdmService_ListAreaTypes0_HTTP_Handler(srv))
 	r.GET("/v1/mdm/area-types/{id}", _MdmService_GetAreaType0_HTTP_Handler(srv))
 	r.POST("/v1/mdm/area-types", _MdmService_CreateAreaType0_HTTP_Handler(srv))
@@ -304,6 +307,28 @@ func _MdmService_DeleteAdministrativeUnit0_HTTP_Handler(srv MdmServiceHTTPServer
 			return err
 		}
 		reply := out.(*DeleteResponse)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _MdmService_SyncAdministrativeUnitsFromAddressKit0_HTTP_Handler(srv MdmServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in SyncAdministrativeUnitsFromAddressKitRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationMdmServiceSyncAdministrativeUnitsFromAddressKit)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.SyncAdministrativeUnitsFromAddressKit(ctx, req.(*SyncAdministrativeUnitsFromAddressKitRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*SyncAdministrativeUnitsFromAddressKitResponse)
 		return ctx.Result(200, reply)
 	}
 }
@@ -984,6 +1009,7 @@ type MdmServiceHTTPClient interface {
 	ListSystemParameters(ctx context.Context, req *ListSystemParametersRequest, opts ...http.CallOption) (rsp *ListSystemParametersResponse, err error)
 	ListWards(ctx context.Context, req *ListWardsRequest, opts ...http.CallOption) (rsp *ListAdministrativeUnitsResponse, err error)
 	RemoveAreaAdministrativeUnit(ctx context.Context, req *RemoveAreaAdministrativeUnitRequest, opts ...http.CallOption) (rsp *DeleteResponse, err error)
+	SyncAdministrativeUnitsFromAddressKit(ctx context.Context, req *SyncAdministrativeUnitsFromAddressKitRequest, opts ...http.CallOption) (rsp *SyncAdministrativeUnitsFromAddressKitResponse, err error)
 	UpdateAdministrativeUnit(ctx context.Context, req *UpdateAdministrativeUnitRequest, opts ...http.CallOption) (rsp *AdministrativeUnit, err error)
 	UpdateArea(ctx context.Context, req *UpdateAreaRequest, opts ...http.CallOption) (rsp *Area, err error)
 	UpdateAreaType(ctx context.Context, req *UpdateAreaTypeRequest, opts ...http.CallOption) (rsp *AreaType, err error)
@@ -1397,6 +1423,19 @@ func (c *MdmServiceHTTPClientImpl) RemoveAreaAdministrativeUnit(ctx context.Cont
 	opts = append(opts, http.Operation(OperationMdmServiceRemoveAreaAdministrativeUnit))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "DELETE", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *MdmServiceHTTPClientImpl) SyncAdministrativeUnitsFromAddressKit(ctx context.Context, in *SyncAdministrativeUnitsFromAddressKitRequest, opts ...http.CallOption) (*SyncAdministrativeUnitsFromAddressKitResponse, error) {
+	var out SyncAdministrativeUnitsFromAddressKitResponse
+	pattern := "/v1/mdm/administrative-units/sync-addresskit"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationMdmServiceSyncAdministrativeUnitsFromAddressKit))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
 	if err != nil {
 		return nil, err
 	}

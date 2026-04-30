@@ -113,6 +113,74 @@ func (r *MdmRepo) DeleteAdministrativeUnit(ctx context.Context, id string) error
 	return softDelete(ctx, r.data, "administrative_units", id)
 }
 
+func (r *MdmRepo) ReplaceAdministrativeUnits(ctx context.Context, units []*biz.AdministrativeUnit) error {
+	tx, err := r.data.db.Pool.Begin(ctx)
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback(ctx)
+
+	if _, err := tx.Exec(ctx, `DELETE FROM area_administrative_units`); err != nil {
+		return err
+	}
+	if _, err := tx.Exec(ctx, `DELETE FROM administrative_unit_mappings`); err != nil {
+		return err
+	}
+	if _, err := tx.Exec(ctx, `DELETE FROM administrative_units`); err != nil {
+		return err
+	}
+
+	provinceIDs := make(map[string]string)
+	for _, unit := range units {
+		if unit.Level != "PROVINCE" {
+			continue
+		}
+		var id string
+		if err := tx.QueryRow(ctx, `
+			INSERT INTO administrative_units (
+				code, name, full_name, short_name, level, unit_type, parent_id, path, sort_order,
+				latitude, longitude, status, effective_from, effective_to, source, metadata
+			)
+			VALUES ($1, $2, $3, $4, $5, $6, NULL, $7, $8,
+			        NULLIF($9, 0), NULLIF($10, 0), $11, NULLIF($12, '')::date, NULLIF($13, '')::date,
+			        $14, COALESCE(NULLIF($15, '')::jsonb, '{}'::jsonb))
+			RETURNING id::text`,
+			unit.Code, unit.Name, unit.FullName, unit.ShortName, unit.Level, unit.UnitType,
+			unit.Path, unit.SortOrder, unit.Latitude, unit.Longitude, unit.Status,
+			unit.EffectiveFrom, unit.EffectiveTo, unit.Source, unit.MetadataJSON,
+		).Scan(&id); err != nil {
+			return err
+		}
+		provinceIDs[unit.Code] = id
+	}
+
+	for _, unit := range units {
+		if unit.Level == "PROVINCE" {
+			continue
+		}
+		parentID, ok := provinceIDs[unit.ParentID]
+		if !ok {
+			return fmt.Errorf("province code %s for administrative unit %s not found", unit.ParentID, unit.Code)
+		}
+		if _, err := tx.Exec(ctx, `
+			INSERT INTO administrative_units (
+				code, name, full_name, short_name, level, unit_type, parent_id, path, sort_order,
+				latitude, longitude, status, effective_from, effective_to, source, metadata
+			)
+			VALUES ($1, $2, $3, $4, $5, $6, $7::uuid, $8, $9,
+			        NULLIF($10, 0), NULLIF($11, 0), $12, NULLIF($13, '')::date, NULLIF($14, '')::date,
+			        $15, COALESCE(NULLIF($16, '')::jsonb, '{}'::jsonb))`,
+			unit.Code, unit.Name, unit.FullName, unit.ShortName, unit.Level, unit.UnitType, parentID,
+			unit.Path, unit.SortOrder, unit.Latitude, unit.Longitude, unit.Status,
+			unit.EffectiveFrom, unit.EffectiveTo, unit.Source, unit.MetadataJSON,
+		); err != nil {
+			return err
+		}
+	}
+
+	return tx.Commit(ctx)
+}
+
 func (r *MdmRepo) ListAreaTypes(ctx context.Context, filter biz.PageFilter) ([]*biz.AreaType, string, error) {
 	page := pagination.Normalize(filter.PageSize, filter.PageToken)
 	rows, err := r.data.db.Pool.Query(ctx, `

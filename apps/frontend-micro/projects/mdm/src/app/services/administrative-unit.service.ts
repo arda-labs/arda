@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, map } from 'rxjs';
-import { AdministrativeUnit, ListOptions, PageResponse } from '../models/mdm.models';
+import { AdministrativeUnit, AdministrativeUnitNode, AdministrativeUnitSyncResult, ListOptions, PageResponse } from '../models/mdm.models';
 import { buildParams } from './mdm-http';
 
 @Injectable({ providedIn: 'root' })
@@ -14,6 +14,12 @@ export class AdministrativeUnitService {
         items: (resp.units ?? []).map((item: any) => this.toModel(item)),
         nextPageToken: resp.next_page_token ?? resp.nextPageToken ?? '',
       })),
+    );
+  }
+
+  listTree(options: ListOptions = {}): Observable<AdministrativeUnitNode[]> {
+    return this.http.get<any>('/api/v1/mdm/administrative-units/tree', { params: buildParams(options) }).pipe(
+      map(resp => (resp.nodes ?? []).map((item: any) => this.toNodeModel(item))),
     );
   }
 
@@ -45,6 +51,17 @@ export class AdministrativeUnitService {
     return this.http.delete<void>(`/api/v1/mdm/administrative-units/${encodeURIComponent(id)}`);
   }
 
+  syncFromAddressKit(): Observable<AdministrativeUnitSyncResult> {
+    return this.http.post<any>('/api/v1/mdm/administrative-units/sync-addresskit', {}).pipe(
+      map(resp => ({
+        provinceCount: Number(resp.province_count ?? resp.provinceCount ?? 0),
+        wardCount: Number(resp.ward_count ?? resp.wardCount ?? 0),
+        effectiveDate: resp.effective_date ?? resp.effectiveDate ?? '',
+        source: resp.source ?? '',
+      })),
+    );
+  }
+
   private toModel(item: any): AdministrativeUnit {
     return {
       id: item.id ?? '',
@@ -64,6 +81,13 @@ export class AdministrativeUnitService {
       effectiveTo: item.effective_to ?? item.effectiveTo ?? '',
       source: item.source ?? '',
       metadataJson: item.metadata_json ?? item.metadataJson ?? '{}',
+    };
+  }
+
+  private toNodeModel(item: any): AdministrativeUnitNode {
+    return {
+      unit: this.toModel(item.unit ?? {}),
+      children: (item.children ?? []).map((child: any) => this.toNodeModel(child)),
     };
   }
 
@@ -89,4 +113,3 @@ export class AdministrativeUnitService {
     };
   }
 }
-

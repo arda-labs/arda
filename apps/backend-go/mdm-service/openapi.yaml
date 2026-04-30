@@ -61,6 +61,24 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/mdm.v1.AdministrativeUnit'
+    /v1/mdm/administrative-units/sync-addresskit:
+        post:
+            tags:
+                - MdmService
+            operationId: MdmService_SyncAdministrativeUnitsFromAddressKit
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/mdm.v1.SyncAdministrativeUnitsFromAddressKitRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mdm.v1.SyncAdministrativeUnitsFromAddressKitResponse'
     /v1/mdm/administrative-units/tree:
         get:
             tags:
@@ -1195,6 +1213,22 @@ components:
                     items:
                         $ref: '#/components/schemas/mdm.v1.SystemParameter'
                 nextPageToken:
+                    type: string
+        mdm.v1.SyncAdministrativeUnitsFromAddressKitRequest:
+            type: object
+            properties: {}
+        mdm.v1.SyncAdministrativeUnitsFromAddressKitResponse:
+            type: object
+            properties:
+                provinceCount:
+                    type: integer
+                    format: int32
+                wardCount:
+                    type: integer
+                    format: int32
+                effectiveDate:
+                    type: string
+                source:
                     type: string
         mdm.v1.SystemParameter:
             type: object

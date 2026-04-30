@@ -1,0 +1,2 @@
+-- No rollback seed is available. Address data is restored by running
+-- POST /v1/mdm/administrative-units/sync-addresskit.

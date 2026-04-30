@@ -77,6 +77,7 @@ export class AppHeader implements OnDestroy {
     effect(() => {
       const userId = this.currentUserId();
       if (userId) {
+        this.inboxService.startRealtime(userId);
         this.refreshNotifications();
       } else {
         this.inboxService.clear();
@@ -126,6 +127,7 @@ export class AppHeader implements OnDestroy {
     if (this.notificationTimer) {
       clearInterval(this.notificationTimer);
     }
+    this.inboxService.stopRealtime();
   }
 
   changeLang(lang: string) {

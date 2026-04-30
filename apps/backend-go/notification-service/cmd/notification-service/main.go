@@ -10,6 +10,7 @@ import (
 	"github.com/arda-labs/arda/arda-be-go/services/notification-service/internal/biz"
 	"github.com/arda-labs/arda/arda-be-go/services/notification-service/internal/conf"
 	"github.com/arda-labs/arda/arda-be-go/services/notification-service/internal/data"
+	"github.com/arda-labs/arda/arda-be-go/services/notification-service/internal/realtime"
 	"github.com/arda-labs/arda/arda-be-go/services/notification-service/internal/server"
 	"github.com/arda-labs/arda/arda-be-go/services/notification-service/internal/service"
 	"github.com/arda-labs/arda/arda-be-go/services/notification-service/internal/worker"
@@ -77,8 +78,9 @@ func main() {
 	}
 	defer cleanup()
 	repo := data.NewNotificationRepo(d)
-	uc := biz.NewNotificationUsecase(repo)
-	svc := service.NewNotificationService(uc)
+	hub := realtime.NewHub()
+	uc := biz.NewNotificationUsecase(repo, hub)
+	svc := service.NewNotificationService(uc, hub)
 	hs := server.NewHTTPServer(bc.Server, bc.Jwt, svc, logger)
 	gs := server.NewGRPCServer(bc.Server, svc, logger)
 	workerCtx, stopWorker := context.WithCancel(context.Background())

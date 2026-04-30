@@ -74,12 +74,22 @@ type NotificationRepo interface {
 	UpsertProviderConfig(ctx context.Context, item *ProviderConfig) (*ProviderConfig, error)
 }
 
-type NotificationUsecase struct {
-	repo NotificationRepo
+type InAppEventPublisher interface {
+	PublishInAppNotification(item *InAppNotification)
+	PublishInAppCountChanged(recipientType, recipientID string)
 }
 
-func NewNotificationUsecase(repo NotificationRepo) *NotificationUsecase {
-	return &NotificationUsecase{repo: repo}
+type NotificationUsecase struct {
+	repo      NotificationRepo
+	publisher InAppEventPublisher
+}
+
+func NewNotificationUsecase(repo NotificationRepo, publishers ...InAppEventPublisher) *NotificationUsecase {
+	var publisher InAppEventPublisher
+	if len(publishers) > 0 {
+		publisher = publishers[0]
+	}
+	return &NotificationUsecase{repo: repo, publisher: publisher}
 }
 
 type NotificationTemplate struct {

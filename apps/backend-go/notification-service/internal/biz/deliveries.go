@@ -50,6 +50,7 @@ func (uc *NotificationUsecase) processDelivery(ctx context.Context, delivery *No
 			_, _ = uc.repo.MarkDeliveryFailed(ctx, delivery.ID, err.Error(), retryAfterSeconds(delivery.AttemptCount))
 			return err
 		}
+		uc.publishInAppNotification(inbox)
 		_, err = uc.repo.MarkDeliveryDelivered(ctx, delivery.ID, "IN_APP_STORE", inbox.ID, `{"status":"stored"}`)
 		return err
 	default:

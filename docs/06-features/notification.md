@@ -2,10 +2,11 @@
 
 Updated: 2026-04-30
 
-Status: Implementation started. Parts 1 to 3 scaffold `notification-service`
-with template APIs, durable notification requests, delivery queue, retry API,
-DB-backed in-app delivery worker, and provider configuration records. External
-provider adapters, preferences, and operations UI are still roadmap.
+Status: Implementation started. `notification-service` now has template APIs,
+durable notification requests, delivery queue, retry API, DB-backed in-app
+delivery, provider configuration records, shell inbox polling, and an SSE
+stream for realtime in-app updates. External provider adapters, preferences,
+and Kafka consumers are still roadmap.
 
 ## Goal
 
@@ -50,9 +51,25 @@ Notification service does not own:
 | Backend stack | Go/Kratos, same service layout as IAM and MDM |
 | Database | Dedicated `notification` PostgreSQL database |
 | API prefix | Native `/v1/notifications/*`, gateway `/api/v1/notifications/*` |
-| Frontend MFE | Add pages under an ops/system area later, not inside MDM |
-| Async mechanism | Start with DB outbox/worker; move to Redpanda/Kafka when infra is ready |
+| Frontend MFE | Dedicated `ntf` MFE plus shell notification bell |
+| Async mechanism | Redpanda/Kafka for cross-service events; DB queue remains source of truth |
 | Primary consumers | IAM, CRM, payments, loan, accounting, workflow/BPM |
+
+## Target Event Architecture
+
+```text
+Domain services
+  -> Redpanda/Kafka topic: arda.notification.events.v1
+  -> notification-service consumer
+  -> notification_requests + notification_deliveries + in_app_notifications
+  -> SSE stream to shell bell
+  -> polling fallback and periodic reconciliation
+```
+
+Kafka carries domain events and supports decoupling, replay, and scalable
+consumers. PostgreSQL remains the durable notification source of truth. SSE is
+the primary browser realtime path for in-app notifications, while polling is the
+fallback and periodic sync mechanism.
 
 ## Core Flows
 
@@ -121,7 +138,10 @@ External service-facing APIs:
 | `POST /v1/notifications/deliveries/{id}/retry` | Manual retry for failed delivery |
 | `POST /v1/notifications/deliveries/run-once` | Admin/local hook to process one delivery batch |
 | `GET /v1/notifications/in-app` | List in-app inbox records by recipient |
+| `GET /v1/notifications/in-app/unread-count` | Count unread in-app inbox records |
+| `GET /v1/notifications/in-app/stream` | SSE stream for realtime in-app updates |
 | `POST /v1/notifications/in-app/{id}/read` | Mark an in-app notification as read |
+| `POST /v1/notifications/in-app/read-all` | Mark all recipient in-app notifications as read |
 
 Admin APIs:
 
@@ -223,6 +243,7 @@ Phase 3: Vietnam banking channels
 Phase 4: platform event integration
 
 - Standardize outbox event envelope.
+- Add Redpanda/Kafka consumer for `arda.notification.events.v1`.
 - Integrate IAM security events.
 - Integrate CRM customer lifecycle events.
 - Integrate future payments/loan/accounting events.

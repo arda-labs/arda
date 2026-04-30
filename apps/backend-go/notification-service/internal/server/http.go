@@ -38,6 +38,8 @@ func NewHTTPServer(c *conf.Server, jwt *conf.JWT, svc *service.NotificationServi
 	}
 	srv := khttp.NewServer(opts...)
 	notificationv1.RegisterNotificationServiceHTTPServer(srv, svc)
+	srv.HandleFunc("/v1/notifications/in-app/stream", svc.StreamInAppNotifications)
+	srv.HandleFunc("/api/v1/notifications/in-app/stream", svc.StreamInAppNotifications)
 	srv.HandleFunc("/health", func(w stdlib.ResponseWriter, r *stdlib.Request) {
 		w.WriteHeader(stdlib.StatusOK)
 		_, _ = w.Write([]byte("OK"))

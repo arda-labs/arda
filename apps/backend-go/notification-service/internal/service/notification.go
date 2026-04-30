@@ -6,17 +6,19 @@ import (
 
 	pb "github.com/arda-labs/arda/arda-be-go/services/notification-service/api/notification/v1"
 	"github.com/arda-labs/arda/arda-be-go/services/notification-service/internal/biz"
+	"github.com/arda-labs/arda/arda-be-go/services/notification-service/internal/realtime"
 	kratoserrors "github.com/go-kratos/kratos/v2/errors"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 type NotificationService struct {
 	pb.UnimplementedNotificationServiceServer
-	uc *biz.NotificationUsecase
+	uc  *biz.NotificationUsecase
+	hub *realtime.Hub
 }
 
-func NewNotificationService(uc *biz.NotificationUsecase) *NotificationService {
-	return &NotificationService{uc: uc}
+func NewNotificationService(uc *biz.NotificationUsecase, hub *realtime.Hub) *NotificationService {
+	return &NotificationService{uc: uc, hub: hub}
 }
 
 func toServiceError(err error) error {

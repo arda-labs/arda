@@ -20,7 +20,12 @@ func (uc *NotificationUsecase) MarkInAppNotificationRead(ctx context.Context, id
 	if actor == "" {
 		actor = "SYSTEM"
 	}
-	return uc.repo.MarkInAppNotificationRead(ctx, strings.TrimSpace(id), actor)
+	item, err := uc.repo.MarkInAppNotificationRead(ctx, strings.TrimSpace(id), actor)
+	if err != nil {
+		return nil, err
+	}
+	uc.publishInAppCountChanged(item.RecipientType, item.RecipientID)
+	return item, nil
 }
 
 func (uc *NotificationUsecase) CountUnreadInAppNotifications(ctx context.Context, recipientType, recipientID string) (int, error) {
@@ -42,5 +47,22 @@ func (uc *NotificationUsecase) MarkAllInAppNotificationsRead(ctx context.Context
 	if recipientID == "" {
 		return 0, ErrInvalidArgument
 	}
-	return uc.repo.MarkAllInAppNotificationsRead(ctx, recipientType, recipientID, actor)
+	updated, err := uc.repo.MarkAllInAppNotificationsRead(ctx, recipientType, recipientID, actor)
+	if err != nil {
+		return 0, err
+	}
+	uc.publishInAppCountChanged(recipientType, recipientID)
+	return updated, nil
+}
+
+func (uc *NotificationUsecase) publishInAppNotification(item *InAppNotification) {
+	if uc.publisher != nil && item != nil {
+		uc.publisher.PublishInAppNotification(item)
+	}
+}
+
+func (uc *NotificationUsecase) publishInAppCountChanged(recipientType, recipientID string) {
+	if uc.publisher != nil {
+		uc.publisher.PublishInAppCountChanged(recipientType, recipientID)
+	}
 }

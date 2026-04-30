@@ -34,6 +34,8 @@ const (
 	NotificationService_RunDeliveryWorkerOnce_FullMethodName     = "/notification.v1.NotificationService/RunDeliveryWorkerOnce"
 	NotificationService_ListInAppNotifications_FullMethodName    = "/notification.v1.NotificationService/ListInAppNotifications"
 	NotificationService_MarkInAppNotificationRead_FullMethodName = "/notification.v1.NotificationService/MarkInAppNotificationRead"
+	NotificationService_ListProviderConfigs_FullMethodName       = "/notification.v1.NotificationService/ListProviderConfigs"
+	NotificationService_UpsertProviderConfig_FullMethodName      = "/notification.v1.NotificationService/UpsertProviderConfig"
 )
 
 // NotificationServiceClient is the client API for NotificationService service.
@@ -55,6 +57,8 @@ type NotificationServiceClient interface {
 	RunDeliveryWorkerOnce(ctx context.Context, in *RunDeliveryWorkerOnceRequest, opts ...grpc.CallOption) (*RunDeliveryWorkerOnceResponse, error)
 	ListInAppNotifications(ctx context.Context, in *ListInAppNotificationsRequest, opts ...grpc.CallOption) (*ListInAppNotificationsResponse, error)
 	MarkInAppNotificationRead(ctx context.Context, in *MarkInAppNotificationReadRequest, opts ...grpc.CallOption) (*InAppNotification, error)
+	ListProviderConfigs(ctx context.Context, in *ListProviderConfigsRequest, opts ...grpc.CallOption) (*ListProviderConfigsResponse, error)
+	UpsertProviderConfig(ctx context.Context, in *UpsertProviderConfigRequest, opts ...grpc.CallOption) (*ProviderConfig, error)
 }
 
 type notificationServiceClient struct {
@@ -215,6 +219,26 @@ func (c *notificationServiceClient) MarkInAppNotificationRead(ctx context.Contex
 	return out, nil
 }
 
+func (c *notificationServiceClient) ListProviderConfigs(ctx context.Context, in *ListProviderConfigsRequest, opts ...grpc.CallOption) (*ListProviderConfigsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListProviderConfigsResponse)
+	err := c.cc.Invoke(ctx, NotificationService_ListProviderConfigs_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *notificationServiceClient) UpsertProviderConfig(ctx context.Context, in *UpsertProviderConfigRequest, opts ...grpc.CallOption) (*ProviderConfig, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ProviderConfig)
+	err := c.cc.Invoke(ctx, NotificationService_UpsertProviderConfig_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // NotificationServiceServer is the server API for NotificationService service.
 // All implementations must embed UnimplementedNotificationServiceServer
 // for forward compatibility.
@@ -234,6 +258,8 @@ type NotificationServiceServer interface {
 	RunDeliveryWorkerOnce(context.Context, *RunDeliveryWorkerOnceRequest) (*RunDeliveryWorkerOnceResponse, error)
 	ListInAppNotifications(context.Context, *ListInAppNotificationsRequest) (*ListInAppNotificationsResponse, error)
 	MarkInAppNotificationRead(context.Context, *MarkInAppNotificationReadRequest) (*InAppNotification, error)
+	ListProviderConfigs(context.Context, *ListProviderConfigsRequest) (*ListProviderConfigsResponse, error)
+	UpsertProviderConfig(context.Context, *UpsertProviderConfigRequest) (*ProviderConfig, error)
 	mustEmbedUnimplementedNotificationServiceServer()
 }
 
@@ -288,6 +314,12 @@ func (UnimplementedNotificationServiceServer) ListInAppNotifications(context.Con
 }
 func (UnimplementedNotificationServiceServer) MarkInAppNotificationRead(context.Context, *MarkInAppNotificationReadRequest) (*InAppNotification, error) {
 	return nil, status.Error(codes.Unimplemented, "method MarkInAppNotificationRead not implemented")
+}
+func (UnimplementedNotificationServiceServer) ListProviderConfigs(context.Context, *ListProviderConfigsRequest) (*ListProviderConfigsResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListProviderConfigs not implemented")
+}
+func (UnimplementedNotificationServiceServer) UpsertProviderConfig(context.Context, *UpsertProviderConfigRequest) (*ProviderConfig, error) {
+	return nil, status.Error(codes.Unimplemented, "method UpsertProviderConfig not implemented")
 }
 func (UnimplementedNotificationServiceServer) mustEmbedUnimplementedNotificationServiceServer() {}
 func (UnimplementedNotificationServiceServer) testEmbeddedByValue()                             {}
@@ -580,6 +612,42 @@ func _NotificationService_MarkInAppNotificationRead_Handler(srv interface{}, ctx
 	return interceptor(ctx, in, info, handler)
 }
 
+func _NotificationService_ListProviderConfigs_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListProviderConfigsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NotificationServiceServer).ListProviderConfigs(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: NotificationService_ListProviderConfigs_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NotificationServiceServer).ListProviderConfigs(ctx, req.(*ListProviderConfigsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _NotificationService_UpsertProviderConfig_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpsertProviderConfigRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NotificationServiceServer).UpsertProviderConfig(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: NotificationService_UpsertProviderConfig_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NotificationServiceServer).UpsertProviderConfig(ctx, req.(*UpsertProviderConfigRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // NotificationService_ServiceDesc is the grpc.ServiceDesc for NotificationService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -646,6 +714,14 @@ var NotificationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "MarkInAppNotificationRead",
 			Handler:    _NotificationService_MarkInAppNotificationRead_Handler,
+		},
+		{
+			MethodName: "ListProviderConfigs",
+			Handler:    _NotificationService_ListProviderConfigs_Handler,
+		},
+		{
+			MethodName: "UpsertProviderConfig",
+			Handler:    _NotificationService_UpsertProviderConfig_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

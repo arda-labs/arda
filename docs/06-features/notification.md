@@ -2,10 +2,10 @@
 
 Updated: 2026-04-30
 
-Status: Implementation started. Parts 1 and 2 scaffold `notification-service`
+Status: Implementation started. Parts 1 to 3 scaffold `notification-service`
 with template APIs, durable notification requests, delivery queue, retry API,
-and a DB-backed in-app delivery worker. External provider adapters,
-preferences, and operations UI are still roadmap.
+DB-backed in-app delivery worker, and provider configuration records. External
+provider adapters, preferences, and operations UI are still roadmap.
 
 ## Goal
 
@@ -93,7 +93,7 @@ Initial tables:
 | `notification_deliveries` | Implemented. Per-channel delivery job with status, attempt count, provider result |
 | `in_app_notifications` | Implemented. Internal inbox records created from delivered `IN_APP` jobs |
 | `notification_preferences` | User/customer channel preference, opt-in/opt-out, quiet hours |
-| `notification_provider_configs` | Provider code, channel, priority, rate limit, status, non-secret metadata |
+| `notification_provider_configs` | Implemented. Provider code, channel, priority, rate limit, status, non-secret metadata |
 | `notification_audit_logs` | Template changes, approval actions, resend/manual override actions |
 
 Recommended delivery statuses:
@@ -133,6 +133,7 @@ Admin APIs:
 | `POST /v1/notifications/templates/{id}/versions` | Create new version |
 | `POST /v1/notifications/template-versions/{id}/approve` | Approve version |
 | `GET /v1/notifications/provider-configs` | List providers |
+| `PUT /v1/notifications/provider-configs/{code}` | Create or update a non-secret provider config |
 | `PUT /v1/notifications/preferences/{subject_id}` | Update preferences |
 
 Frontend pages for v1:
@@ -202,7 +203,8 @@ Phase 1: service skeleton and durable queue
 - Done: implement template CRUD and template-version approval.
 - Done: implement request creation, delivery queue, retry API, and worker loop.
 - Done: support real `IN_APP` delivery by storing inbox records in database.
-- Next: support `EMAIL` provider adapter and provider configuration.
+- Done: add provider configuration registry with non-secret metadata.
+- Next: support `EMAIL` provider adapter and runtime secret loading.
 
 Phase 2: operations UI
 

@@ -21,8 +21,15 @@ Part 2 implements durable in-app delivery:
 - Retry API for failed/dead-letter jobs.
 - Background worker loop that claims due jobs and stores in-app messages.
 
-External provider adapters, preferences, quiet-hour policy, audit UI, and
-operations dashboard are intentionally left for later parts.
+Part 3 implements provider configuration records:
+
+- `notification_provider_configs` stores provider code, channel, priority,
+  rate limit, status, and non-secret options.
+- `IN_APP_STORE` is seeded as the active in-app provider.
+- API can list and upsert provider configs without storing secrets in DB.
+
+External provider adapters, runtime secrets, preferences, quiet-hour policy,
+audit UI, and operations dashboard are intentionally left for later parts.
 
 ## Main APIs
 
@@ -34,6 +41,8 @@ POST /v1/notifications/deliveries/{id}/retry
 POST /v1/notifications/deliveries/run-once
 GET  /v1/notifications/in-app?recipient_type=USER&recipient_id={id}
 POST /v1/notifications/in-app/{id}/read
+GET  /v1/notifications/provider-configs
+PUT  /v1/notifications/provider-configs/{code}
 ```
 
 Minimal request example:

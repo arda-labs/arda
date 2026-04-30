@@ -140,6 +140,51 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/notification.v1.InAppNotification'
+    /v1/notifications/provider-configs:
+        get:
+            tags:
+                - NotificationService
+            operationId: NotificationService_ListProviderConfigs
+            parameters:
+                - name: channel
+                  in: query
+                  schema:
+                    type: string
+                - name: status
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/notification.v1.ListProviderConfigsResponse'
+    /v1/notifications/provider-configs/{code}:
+        put:
+            tags:
+                - NotificationService
+            operationId: NotificationService_UpsertProviderConfig
+            parameters:
+                - name: code
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/notification.v1.UpsertProviderConfigRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/notification.v1.ProviderConfig'
     /v1/notifications/requests:
         post:
             tags:
@@ -432,6 +477,13 @@ components:
                         $ref: '#/components/schemas/notification.v1.InAppNotification'
                 nextPageToken:
                     type: string
+        notification.v1.ListProviderConfigsResponse:
+            type: object
+            properties:
+                providerConfigs:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/notification.v1.ProviderConfig'
         notification.v1.ListTemplateVersionsResponse:
             type: object
             properties:
@@ -613,6 +665,33 @@ components:
                 updatedAt:
                     type: string
                     format: date-time
+        notification.v1.ProviderConfig:
+            type: object
+            properties:
+                id:
+                    type: string
+                code:
+                    type: string
+                channel:
+                    type: string
+                name:
+                    type: string
+                priority:
+                    type: integer
+                    format: int32
+                rateLimitPerMinute:
+                    type: integer
+                    format: int32
+                optionsJson:
+                    type: string
+                status:
+                    type: string
+                createdAt:
+                    type: string
+                    format: date-time
+                updatedAt:
+                    type: string
+                    format: date-time
         notification.v1.RetryDeliveryRequest:
             type: object
             properties:
@@ -644,5 +723,12 @@ components:
                     type: string
                 template:
                     $ref: '#/components/schemas/notification.v1.NotificationTemplate'
+        notification.v1.UpsertProviderConfigRequest:
+            type: object
+            properties:
+                code:
+                    type: string
+                providerConfig:
+                    $ref: '#/components/schemas/notification.v1.ProviderConfig'
 tags:
     - name: NotificationService

@@ -42,6 +42,11 @@ type InAppFilter struct {
 	PageToken     string
 }
 
+type ProviderConfigFilter struct {
+	Channel string
+	Status  string
+}
+
 type NotificationRepo interface {
 	ListTemplates(ctx context.Context, filter PageFilter) ([]*NotificationTemplate, string, error)
 	GetTemplate(ctx context.Context, id string) (*NotificationTemplate, error)
@@ -63,6 +68,8 @@ type NotificationRepo interface {
 	MarkDeliveryFailed(ctx context.Context, id, message string, retryAfterSeconds int) (*NotificationDelivery, error)
 	ListInAppNotifications(ctx context.Context, filter InAppFilter) ([]*InAppNotification, string, error)
 	MarkInAppNotificationRead(ctx context.Context, id, actor string) (*InAppNotification, error)
+	ListProviderConfigs(ctx context.Context, filter ProviderConfigFilter) ([]*ProviderConfig, error)
+	UpsertProviderConfig(ctx context.Context, item *ProviderConfig) (*ProviderConfig, error)
 }
 
 type NotificationUsecase struct {
@@ -159,6 +166,19 @@ type InAppNotification struct {
 	Status        string
 	ReadAt        time.Time
 	CreatedAt     time.Time
+}
+
+type ProviderConfig struct {
+	ID                 string
+	Code               string
+	Channel            string
+	Name               string
+	Priority           int
+	RateLimitPerMinute int
+	OptionsJSON        string
+	Status             string
+	CreatedAt          time.Time
+	UpdatedAt          time.Time
 }
 
 func (uc *NotificationUsecase) ListTemplates(ctx context.Context, filter PageFilter) ([]*NotificationTemplate, string, error) {

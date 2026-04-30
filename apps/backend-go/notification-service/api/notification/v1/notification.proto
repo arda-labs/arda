@@ -55,6 +55,12 @@ service NotificationService {
   rpc MarkInAppNotificationRead(MarkInAppNotificationReadRequest) returns (InAppNotification) {
     option (google.api.http) = { post: "/v1/notifications/in-app/{id}/read" body: "*" };
   }
+  rpc ListProviderConfigs(ListProviderConfigsRequest) returns (ListProviderConfigsResponse) {
+    option (google.api.http) = { get: "/v1/notifications/provider-configs" };
+  }
+  rpc UpsertProviderConfig(UpsertProviderConfigRequest) returns (ProviderConfig) {
+    option (google.api.http) = { put: "/v1/notifications/provider-configs/{code}" body: "*" };
+  }
 }
 
 message NotificationTemplate {
@@ -145,6 +151,19 @@ message InAppNotification {
   google.protobuf.Timestamp created_at = 10;
 }
 
+message ProviderConfig {
+  string id = 1;
+  string code = 2;
+  string channel = 3;
+  string name = 4;
+  int32 priority = 5;
+  int32 rate_limit_per_minute = 6;
+  string options_json = 7;
+  string status = 8;
+  google.protobuf.Timestamp created_at = 9;
+  google.protobuf.Timestamp updated_at = 10;
+}
+
 message DeleteResponse {}
 
 message ListTemplatesRequest {
@@ -225,4 +244,15 @@ message ListInAppNotificationsResponse {
 message MarkInAppNotificationReadRequest {
   string id = 1;
   string actor = 2;
+}
+message ListProviderConfigsRequest {
+  string channel = 1;
+  string status = 2;
+}
+message ListProviderConfigsResponse {
+  repeated ProviderConfig provider_configs = 1;
+}
+message UpsertProviderConfigRequest {
+  string code = 1;
+  ProviderConfig provider_config = 2;
 }

@@ -43,3 +43,6 @@ target/
 
 # Logs
 *.log
+
+# Local worktrees
+.worktrees/

@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package conf;
+option go_package = "github.com/arda-labs/arda/apps/backend-go/media-service/internal/conf;conf";
+
+import "google/protobuf/duration.proto";
+
+message Bootstrap {
+  Server server = 1;
+  Data data = 2;
+  Storage storage = 3;
+}
+
+message Server {
+  message HTTP {
+    string network = 1;
+    string addr = 2;
+    google.protobuf.Duration timeout = 3;
+  }
+  HTTP http = 1;
+}
+
+message Data {
+  message Database {
+    string driver = 1;
+    string source = 2;
+  }
+  Database database = 1;
+}
+
+message Storage {
+  message S3 {
+    string endpoint = 1;
+    string region = 2;
+    string bucket = 3;
+    string access_key = 4;
+    string secret_key = 5;
+    string upload_url_ttl = 6;
+    string download_url_ttl = 7;
+  }
+  S3 s3 = 1;
+}

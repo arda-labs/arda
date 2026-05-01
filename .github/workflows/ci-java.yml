@@ -27,8 +27,14 @@ jobs:
         id: filter
         with:
           filters: |
-            accounting: 'apps/backend-java/accounting/**'
-            crm-service: 'apps/backend-java/crm-service/**'
+            accounting:
+              - 'apps/backend-java/accounting/**'
+              - 'apps/backend-java/build.gradle.kts'
+              - 'apps/backend-java/settings.gradle.kts'
+            crm-service:
+              - 'apps/backend-java/crm-service/**'
+              - 'apps/backend-java/build.gradle.kts'
+              - 'apps/backend-java/settings.gradle.kts'
 
   build-and-push:
     needs: changes

@@ -1,6 +1,6 @@
 # Arda Monorepo Guide
 
-Updated: 2026-04-30
+Updated: 2026-05-02
 
 This file is a quick orientation guide for contributors and coding agents.
 The source of truth for runtime manifests is the sibling repo `arda-infra`.
@@ -13,41 +13,45 @@ arda/
 │   ├── frontend-micro/
 │   │   ├── angular.json
 │   │   └── projects/
-│   │       ├── shell/
-│   │       ├── iam/
-│   │       ├── mdm/
-│   │       └── core/
+│   │       ├── shell/           # Host (4200)
+│   │       ├── iam/             # Remote (4201)
+│   │       ├── mdm/             # Remote (4202)
+│   │       ├── crm/             # Remote (4210)
+│   │       └── core/            # Lib
 │   ├── backend-go/
 │   │   ├── go.work
-│   │   ├── iam-service/
-│   │   ├── mdm-service/
-│   │   └── crm-service/
+│   │   ├── iam-service/         # HTTP: 8000, gRPC: 9000
+│   │   ├── mdm-service/         # HTTP: 8001, gRPC: 9001
+│   │   └── bpm-service/         # HTTP: 8003, gRPC: 9003
 │   └── backend-java/
-│       └── accounting_tmp/
+│       ├── crm-service/         # HTTP: 8010, gRPC: 9010
+│       ├── hrm-service/         # HTTP: 8011, gRPC: 9011
+│       └── loan-service/        # HTTP: 8012, gRPC: 9012
 ├── libs/
-│   └── go/pkg/
+│   ├── go/pkg/
+│   └── java/
 ├── docs/
 └── .github/workflows/
 ```
 
 ## Current Modules
 
-| Module | Status |
-| --- | --- |
-| `apps/frontend-micro/projects/shell` | Active host MFE |
-| `apps/frontend-micro/projects/iam` | Active IAM remote MFE |
-| `apps/frontend-micro/projects/mdm` | Active MDM remote MFE |
-| `apps/backend-go/iam-service` | Active Go service |
-| `apps/backend-go/mdm-service` | Active Go service |
-| `apps/backend-go/crm-service` | Skeleton / roadmap |
-| `apps/backend-java/accounting_tmp` | Prototype |
+| Module | Status | Port (Dev) |
+| --- | --- | --- |
+| `projects/shell` | Active host MFE | 4200 |
+| `projects/iam` | Active remote MFE | 4201 |
+| `projects/mdm` | Active remote MFE | 4202 |
+| `iam-service` (Go) | Active | 8000 / 9000 |
+| `mdm-service` (Go) | Active | 8001 / 9001 |
+| `crm-service` (Java) | Active | 8010 / 9010 |
 
 ## Frontend
 
 - Workspace: `apps/frontend-micro`
 - Framework: Angular 21 with `@angular-architects/native-federation`
-- Projects: `shell`, `iam`, `mdm`, `core`
+- Port Mapping: Shell (4200), Go MFEs (4201-4209), Java MFEs (4210-4219)
 - Runtime remote config: `projects/shell/public/env.js`
+
 - Build:
   ```powershell
   cd apps\frontend-micro
@@ -60,24 +64,22 @@ arda/
 
 - Workspace: `apps/backend-go/go.work`
 - Shared Go package: `libs/go/pkg`
+- Port Mapping: HTTP (800x), gRPC (900x)
 - Run a service:
   ```powershell
   cd apps\backend-go\iam-service
   kratos run
-  ```
-- Test:
-  ```powershell
-  go test ./...
   ```
 
 ## Backend Java
 
 - Workspace: `apps/backend-java`
 - Standard: Java 25 (LTS) with Spring Boot 4.0.6
-- Engine: Camunda 8 (Zeebe) integration
+- Core Engine: Virtual Threads (Loom) for imperative high-concurrency
+- Migration: Flyway for database schema management
+- Port Mapping: HTTP (801x), gRPC (901x)
 - Language: Pure Java (migrated from Kotlin)
-- CI still expects a future `apps/backend-java/accounting` module, so Java
-  pipeline and docs should be aligned before treating it as deployable.
+- Camunda 8 (Zeebe) integration active in CRM.
 
 ## Infrastructure
 

@@ -1,8 +1,8 @@
 # Java Backend Architecture
 
-Updated: 2026-05-01
+Updated: 2026-05-02
 
-The Java backend provides core-banking domains and complex business processes. It has been fully migrated to **Java 25 (LTS)** and **Spring Boot 4.0.6**.
+The Java backend provides core-banking domains and complex business processes. It has been fully migrated to **Java 25 (LTS)** and **Spring Boot 4.0.6**, leveraging **Virtual Threads (Project Loom)** for a high-performance imperative model.
 
 ## Current Structure
 
@@ -10,30 +10,25 @@ The Java backend provides core-banking domains and complex business processes. I
 apps/backend-java/
 ├── build.gradle.kts      # Global Spring Boot 4 and Java 25 configuration
 ├── settings.gradle.kts   # Foojay JDK resolver
-└── crm-service/          # Active CRM service with Camunda 8
-    ├── build.gradle.kts
-    ├── Dockerfile
-    └── src/main/java/io/arda/crm/
+├── crm-service/          # 8010/9010 - Camunda 8, Flyway
+├── hrm-service/          # 8011/9011
+└── loan-service/         # 8012/9012
 ```
 
-Shared logic is maintained in:
+## Technology Stack
 
-```text
-libs/java/
-├── common/               # Records for ArdaContext, ApiResponse, ErrorCode
-├── database/             # BaseEntity and R2DBC support
-├── grpc-client/          # Context propagation interceptors
-├── messaging/            # CloudEvents and Kafka producers
-└── security/             # WebFlux security filters and Gateway header trust
-```
+- **Language**: Pure Java 25 (LTS).
+- **Framework**: Spring Boot 4.0.6.
+- **Concurrency**: Virtual Threads enabled (`spring.threads.virtual.enabled=true`).
+- **Data Access**: Spring Data JPA with Hibernate (Imperative).
+- **Migration**: Flyway DB for versioned schema management.
+- **Process Engine**: Camunda 8 (Zeebe) integration.
 
 ## Standards
 
-- **Language**: Pure Java 25 (Kotlin has been removed to resolve JDK 25 toolchain issues).
-- **Framework**: Spring Boot 4.0.6 (latest milestones).
-- **Process Engine**: Camunda 8 (Zeebe) using the Spring Boot SDK.
-- **Data Access**: Spring Data R2DBC for reactive persistence.
-- **Data Structures**: Prefer **Java Records** for DTOs, API responses, and immutable context.
+- **Imperative Model**: Migrated away from Reactive (WebFlux) to simplify business logic while maintaining high concurrency via Virtual Threads.
+- **Data Structures**: Use **Java Records** for DTOs and immutable context.
+- **Error Handling**: Standardized `ApiResponse<T>` and `ArdaContext` propagation across thread boundaries.
 
 ## Deployment
 

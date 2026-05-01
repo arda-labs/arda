@@ -1,10 +1,9 @@
 # Architecture Overview
 
-Updated: 2026-04-30
+Updated: 2026-05-02
 
 Arda is currently a compact application monorepo backed by a separate GitOps
-repository. The long-term target is a financial microservice platform, but the
-current implementation should be described narrowly and accurately.
+repository. The long-term target is a financial microservice platform.
 
 ## Current System Shape
 
@@ -12,25 +11,23 @@ current implementation should be described narrowly and accurately.
 Browser
   |
   v
-APISIX Gateway
-  |-- /*              -> mfe-shell
-  |-- /mfe-iam/*      -> mfe-iam remote assets
-  |-- /mfe-mdm/*      -> mfe-mdm remote assets
-  |-- /api/v1/*       -> iam-service
-  |-- /api/v1/mdm/*   -> mdm-service
+APISIX Gateway (9080)
+  |-- /*              -> mfe-shell (4200)
+  |-- /mfe-iam/*      -> mfe-iam (4201)
+  |-- /mfe-mdm/*      -> mfe-mdm (4202)
+  |-- /api/v1/*       -> iam-service (8000)
+  |-- /api/v1/mdm/*   -> mdm-service (8001)
   |
   v
-Go/Kratos and Java/Spring services
-  |-- iam-service (Go)
-  |-- mdm-service (Go)
-  |-- crm-service (Java 25, SB 4, Camunda 8)
+Backend Services
+  |-- Go: IAM (8000), MDM (8001), Media (8002), BPM (8003), NTF (8004)
+  |-- Java: CRM (8010), HRM (8011), Loan (8012)
   |
   v
 PostgreSQL on thinkcenter
 ```
 
-Zitadel provides OIDC authentication. IAM owns tenant membership, roles,
-permissions, menus, and forward-auth policy once APISIX auth is formalized.
+Zitadel provides OIDC authentication. IAM owns tenant membership and roles.
 
 ## Repository Boundaries
 
@@ -62,40 +59,21 @@ apps/frontend-micro/
 The shell initializes Native Federation from runtime `env.js`:
 
 ```js
-window.__env.mfeIamUrl = 'http://localhost:9080/mfe-iam';
-window.__env.mfeMdmUrl = 'http://localhost:9080/mfe-mdm';
+window.__env.mfeIamUrl = 'http://localhost:4201';
+window.__env.mfeMdmUrl = 'http://localhost:4202';
 ```
-
-Shell routes:
-
-| Shell route | Owner |
-| --- | --- |
-| `/home` | Shell |
-| `/settings` | Shell |
-| `/workspaces` | Shell |
-| `/iam/*` | IAM remote |
-| `/mdm/*` | MDM remote |
 
 ## Backend Go Layer
 
 ```text
 apps/backend-go/
 ├── go.work
-├── iam-service/
-├── mdm-service/
-└── crm-service/
+├── iam-service/         # 8000
+├── mdm-service/         # 8001
+├── media-service/       # 8002
+├── bpm-service/         # 8003
+└── notification-service/# 8004
 ```
-
-Active services:
-
-| Service | Status | HTTP | gRPC | Database |
-| --- | --- | --- | --- | --- |
-| `iam-service` | Active | `8000` | `9000` | `iam` |
-| `mdm-service` | Active | `8001` | `9001` | `mdm` |
-| `notification-service` | Started | `8002` | `9002` | `notification` |
-| `crm-service` | Active (Java) | `8003` | N/A | `crm` |
-
-Service-native HTTP routes use `/v1/*`; APISIX exposes them as `/api/v1/*`.
 
 ## Backend Java Layer
 
@@ -103,12 +81,10 @@ Service-native HTTP routes use `/v1/*`; APISIX exposes them as `/api/v1/*`.
 apps/backend-java/
 ├── build.gradle.kts
 ├── settings.gradle.kts
-└── accounting_tmp/
+├── crm-service/         # 8010
+├── hrm-service/         # 8011
+└── loan-service/        # 8012
 ```
-
-`accounting_tmp` is a prototype, not a deployable production service yet. Java
-CI and docs should be aligned when it is renamed to the final `accounting`
-module.
 
 ## Infrastructure Layer
 

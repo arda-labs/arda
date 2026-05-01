@@ -4,7 +4,7 @@ Arda is the application monorepo for a financial and banking platform. It
 contains the frontend micro-frontends, Go operational services, Java
 core-banking services, shared libraries, CI workflows, and documentation.
 
-Updated: 2026-04-30
+Updated: 2026-05-02
 
 ## Current Reality
 
@@ -16,9 +16,6 @@ The active repositories are:
 | `arda-labs/arda-infra` | Kubernetes manifests, APISIX routes, ArgoCD apps, runtime config |
 | `arda-labs/.github` | Organization profile and GitHub metadata |
 
-There are no active split repos such as `arda-mfe`, `arda-be`, or
-`arda-core`. Those names appear only in older planning documents.
-
 ## Repository Structure
 
 ```text
@@ -26,20 +23,25 @@ arda/
 ├── apps/
 │   ├── frontend-micro/          # Angular CLI workspace with Native Federation
 │   │   └── projects/
-│   │       ├── shell/           # Host app, layout, auth callback, workspace UI
-│   │       ├── iam/             # IAM remote MFE
-│   │       ├── mdm/             # MDM remote MFE
-│   │       ├── ntf/             # Notification operations remote MFE
+│   │       ├── shell/           # Host app (4200)
+│   │       ├── iam/             # IAM remote (4201)
+│   │       ├── mdm/             # MDM remote (4202)
+│   │       ├── ntf/             # Notification remote (4204)
+│   │       ├── crm/             # CRM remote (4210)
 │   │       └── core/            # Shared Angular library
 │   ├── backend-go/              # Go workspace for Kratos services
-│   │   ├── iam-service/         # Identity, tenants, menus, permissions
-│   │   ├── mdm-service/         # Master Data Management
-│   │   ├── notification-service/# Notification templates and delivery roadmap
-│   │   └── crm-service/         # Skeleton / roadmap service
-│   └── backend-java/            # Gradle workspace
-│       └── accounting_tmp/      # Accounting prototype
+│   │   ├── iam-service/         # Identity (8000/9000)
+│   │   ├── mdm-service/         # Master Data (8001/9001)
+│   │   ├── media-service/       # Storage (8002/9002)
+│   │   ├── bpm-service/         # Zeebe worker (8003/9003)
+│   │   └── notification-service/# Delivery (8004/9004)
+│   └── backend-java/            # Gradle workspace (Java 25 + Virtual Threads)
+│       ├── crm-service/         # Customer mgmt (8010/9010)
+│       ├── hrm-service/         # Human resources (8011/9011)
+│       └── loan-service/        # Lending core (8012/9012)
 ├── libs/
-│   └── go/pkg/                  # Shared Go helpers
+│   ├── go/pkg/                  # Shared Go helpers
+│   └── java/                    # Shared Java libs (Imperative)
 ├── docs/                        # Architecture, feature, and operating docs
 └── .github/workflows/           # CI and GitOps update workflows
 ```
@@ -48,22 +50,22 @@ Runtime manifests live in the sibling repo `../arda-infra`.
 
 ## Implemented Modules
 
-| Area | Status |
-| --- | --- |
-| Shell MFE | Active, runs on port `3000`, loads remotes from runtime `env.js` |
-| IAM MFE | Active remote, runs on port `3002`, route `/app/iam/*` |
-| MDM MFE | Active remote, runs on port `3001`, route `/app/mdm/*` |
-| NTF MFE | Active remote, runs on port `3003`, route `/app/ntf/*` |
-| IAM service | Active Go/Kratos service, default HTTP `8000`, gRPC `9000` |
-| MDM service | Active Go/Kratos service, default HTTP `8001`, gRPC `9001` |
-| Notification service | Active Go/Kratos service; templates, delivery queue, in-app inbox, provider config |
-| CRM service | Active Java/Spring Boot 4.0 service with Camunda 8 |
-| Accounting Java | Prototype under `apps/backend-java/accounting_tmp` |
+| Area | Status | Port (Dev) |
+| --- | --- | --- |
+| Shell MFE | Active | 4200 |
+| IAM MFE | Active | 4201 |
+| MDM MFE | Active | 4202 |
+| IAM service | Active (Go) | 8000 / 9000 |
+| MDM service | Active (Go) | 8001 / 9001 |
+| CRM service | Active (Java 25) | 8010 / 9010 |
 
 ## Local Development
 
-Use APISIX for integration checks so local traffic has the same path shape as
-deployed traffic.
+Standardized port mapping:
+
+- Frontend: Shell (4200), Go-MFEs (4201-4209), Java-MFEs (4210-4219).
+- Backend Go: HTTP (800x), gRPC (900x).
+- Backend Java: HTTP (801x), gRPC (901x).
 
 ```powershell
 cd D:\Github\arda-labs\arda-infra\local\apisix

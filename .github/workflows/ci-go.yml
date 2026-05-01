@@ -26,6 +26,8 @@ jobs:
             iam-service: 'apps/backend-go/iam-service/**'
             mdm-service: 'apps/backend-go/mdm-service/**'
             notification-service: 'apps/backend-go/notification-service/**'
+            media-service: 'apps/backend-go/media-service/**'
+            bpm-bridge: 'apps/backend-go/bpm-bridge/**'
 
   build-and-push:
     needs: changes

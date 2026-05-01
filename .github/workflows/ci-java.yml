@@ -28,6 +28,7 @@ jobs:
         with:
           filters: |
             accounting: 'apps/backend-java/accounting/**'
+            crm-service: 'apps/backend-java/crm-service/**'
 
   build-and-push:
     needs: changes

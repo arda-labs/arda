@@ -1,0 +1,94 @@
+<p-toast />
+
+<main class="template-studio">
+  <section class="hero-panel" aria-labelledby="template-upload-title">
+    <div class="hero-copy">
+      <p class="eyebrow">Media control room</p>
+      <h1 id="template-upload-title">Template Vault</h1>
+      <p class="hero-text">Upload template file qua luồng presigned URL: metadata được quản trị bởi Media Service, binary đi thẳng vào SeaweedFS S3.</p>
+      <div class="hero-actions">
+        <label class="primary-upload" for="template-file-input">Chọn template</label>
+        <button type="button" class="ghost-action" (click)="clearReady()" [disabled]="readyCount() === 0">Dọn file đã sẵn sàng</button>
+      </div>
+      <input id="template-file-input" class="sr-only" type="file" multiple accept=".doc,.docx,.xls,.xlsx,.pdf,.html,.json,.txt" (change)="onFileSelected($event)" />
+    </div>
+
+    <div class="signal-board" aria-label="Upload summary">
+      <div>
+        <span>READY</span>
+        <strong>{{ readyCount() }}</strong>
+      </div>
+      <div>
+        <span>UPLINK</span>
+        <strong>{{ uploadingCount() }}</strong>
+      </div>
+      <div>
+        <span>PAYLOAD</span>
+        <strong>{{ formatBytes(totalBytes()) }}</strong>
+      </div>
+    </div>
+  </section>
+
+  <section class="workspace-grid">
+    <div class="drop-zone" [class.drop-zone--active]="isDragging()" (dragover)="onDragOver($event)" (dragleave)="onDragLeave()" (drop)="onDrop($event)">
+      <div class="drop-orbit" aria-hidden="true"></div>
+      <div class="drop-content">
+        <span class="drop-kicker">S3 Direct Upload</span>
+        <h2>Kéo file template vào vùng này</h2>
+        <p>Hỗ trợ DOCX, XLSX, PDF, HTML, JSON. Object key được backend sinh để tránh path traversal.</p>
+        <label class="drop-button" for="template-file-input">Browse file</label>
+      </div>
+    </div>
+
+    <aside class="governance-card" aria-labelledby="governance-title">
+      <p class="eyebrow">Governance</p>
+      <h2 id="governance-title">Upload policy</h2>
+      <ul>
+        <li><span></span>Presigned URL hết hạn sau 15 phút</li>
+        <li><span></span>Confirm bằng HeadObject trước khi READY</li>
+        <li><span></span>Pending file được cleanup sau 24 giờ</li>
+        <li><span></span>Module mặc định: template</li>
+      </ul>
+    </aside>
+  </section>
+
+  <section class="queue-panel" aria-labelledby="queue-title">
+    <div class="queue-header">
+      <div>
+        <p class="eyebrow">Upload queue</p>
+        <h2 id="queue-title">Template pipeline</h2>
+      </div>
+      <button type="button" class="ghost-action" (click)="uploadAll()" [disabled]="!hasQueue()">Upload lại file lỗi</button>
+    </div>
+
+    @if (!hasQueue()) {
+      <div class="empty-state">
+        <div class="empty-mark">TV</div>
+        <h3>Chưa có template nào trong hàng đợi</h3>
+        <p>Chọn file để bắt đầu luồng init → PUT S3 → confirm.</p>
+      </div>
+    } @else {
+      <div class="queue-list">
+        @for (item of queue(); track item.id) {
+          <article class="queue-item">
+            <div class="file-monogram">{{ item.type }}</div>
+            <div class="file-main">
+              <div class="file-title-row">
+                <div>
+                  <h3>{{ item.name }}</h3>
+                  <p>{{ formatBytes(item.size) }} · {{ item.module }} · {{ item.media?.objectKey || 'chờ cấp object key' }}</p>
+                </div>
+                <p-tag [value]="item.status" [severity]="severity(item.status)" />
+              </div>
+              <p-progressbar [value]="item.progress" [showValue]="false" />
+              @if (item.error) {
+                <p class="file-error">{{ item.error }}</p>
+              }
+            </div>
+            <button type="button" class="remove-button" [attr.aria-label]="'Xóa ' + item.name" (click)="removeItem(item.id)">×</button>
+          </article>
+        }
+      </div>
+    }
+  </section>
+</main>

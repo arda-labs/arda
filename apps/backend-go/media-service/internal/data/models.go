@@ -7,7 +7,11 @@ type MediaMetadata struct {
 	Filename    string
 	ContentType string
 	SizeBytes   int64
-	S3Key       string
-	OwnerID     *string
+	Bucket      string
+	ObjectKey   string
+	OwnerID     string
+	Module      string
+	Status      string
 	CreatedAt   time.Time
+	UpdatedAt   time.Time
 }

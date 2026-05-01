@@ -3,7 +3,7 @@ go 1.26.2
 use (
 	..\..\libs\go\pkg
 	./mdm-service
-	./crm-service
+	./media-service
 	./iam-service
 	./notification-service
 )

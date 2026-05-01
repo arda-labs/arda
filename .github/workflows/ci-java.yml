@@ -43,6 +43,8 @@ jobs:
       matrix:
         service: ${{ fromJson(needs.changes.outputs.services) }}
     runs-on: ubuntu-latest
+    outputs:
+      short_tag: ${{ steps.docker_build.outputs.short_tag }}
     permissions:
       contents: read
       packages: write
@@ -64,11 +66,13 @@ jobs:
           password: ${{ secrets.GITOPS_PAT }}
 
       - name: Build and Push Docker Image
+        id: docker_build
         run: |
           SERVICE_NAME=${{ matrix.service }}
           IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/$SERVICE_NAME
           TAG=${{ github.sha }}
           SHORT_TAG=${TAG:0:7}
+          echo "short_tag=$SHORT_TAG" >> $GITHUB_OUTPUT
 
           # Path: apps/backend-java/$SERVICE_NAME/Dockerfile
           docker build -t $IMAGE_NAME:$SHORT_TAG -t $IMAGE_NAME:latest \
@@ -87,6 +91,6 @@ jobs:
     with:
       service_path: ${{ matrix.service }}
       image_name: ghcr.io/${{ github.repository_owner }}/${{ matrix.service }}
-      image_tag: ${{ github.sha }}
+      image_tag: ${{ needs.build-and-push.outputs.short_tag }}
     secrets:
       GITOPS_PAT: ${{ secrets.GITOPS_PAT }}

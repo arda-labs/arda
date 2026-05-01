@@ -9,3 +9,4 @@ class CrmApplication
 fun main(args: Array<String>) {
     runApplication<CrmApplication>(*args)
 }
+// Force rebuild 1

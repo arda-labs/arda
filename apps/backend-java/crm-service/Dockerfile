@@ -7,7 +7,7 @@ WORKDIR /app/apps/backend-java
 # we use the pre-installed gradle if available or install it.
 # Better yet, let's use a standard gradle image with jdk 25 if it exists in the future,
 # but for now we follow the instruction.
-RUN ./gradlew :crm-service:build -x test || gradle :crm-service:build -x test
+RUN chmod +x gradlew && ./gradlew :crm-service:build -x test
 
 FROM eclipse-temurin:25-jre-alpine
 WORKDIR /app

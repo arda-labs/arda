@@ -35,6 +35,7 @@ jobs:
               - 'apps/backend-java/crm-service/**'
               - 'apps/backend-java/build.gradle.kts'
               - 'apps/backend-java/settings.gradle.kts'
+              - 'libs/java/**'
 
   build-and-push:
     needs: changes

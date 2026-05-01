@@ -10,6 +10,7 @@ import (
 	"github.com/arda-labs/arda/arda-be-go/services/notification-service/internal/biz"
 	"github.com/arda-labs/arda/arda-be-go/services/notification-service/internal/conf"
 	"github.com/arda-labs/arda/arda-be-go/services/notification-service/internal/data"
+	"github.com/arda-labs/arda/arda-be-go/services/notification-service/internal/events"
 	"github.com/arda-labs/arda/arda-be-go/services/notification-service/internal/realtime"
 	"github.com/arda-labs/arda/arda-be-go/services/notification-service/internal/server"
 	"github.com/arda-labs/arda/arda-be-go/services/notification-service/internal/service"
@@ -86,6 +87,7 @@ func main() {
 	workerCtx, stopWorker := context.WithCancel(context.Background())
 	defer stopWorker()
 	worker.NewDeliveryWorker(uc, logger, id, 5*time.Second, 20).Start(workerCtx)
+	startKafkaConsumer(workerCtx, uc, logger)
 
 	app := kratos.New(
 		kratos.ID(id),
@@ -97,4 +99,21 @@ func main() {
 	if err := app.Run(); err != nil {
 		panic(err)
 	}
+}
+
+func startKafkaConsumer(ctx context.Context, uc *biz.NotificationUsecase, logger log.Logger) {
+	brokers := events.ParseBrokers(os.Getenv("KAFKA_BROKERS"))
+	if len(brokers) == 0 {
+		log.NewHelper(logger).Info("notification kafka consumer disabled: KAFKA_BROKERS is empty")
+		return
+	}
+	topic := os.Getenv("KAFKA_NOTIFICATION_TOPIC")
+	if topic == "" {
+		topic = "arda.notification.events.v1"
+	}
+	groupID := os.Getenv("KAFKA_NOTIFICATION_GROUP")
+	if groupID == "" {
+		groupID = "notification-service"
+	}
+	events.NewKafkaConsumer(events.KafkaConfig{Brokers: brokers, Topic: topic, GroupID: groupID}, uc, logger).Start(ctx)
 }

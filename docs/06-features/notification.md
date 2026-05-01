@@ -60,7 +60,7 @@ Notification service does not own:
 ```text
 Domain services
   -> Redpanda/Kafka topic: arda.notification.events.v1
-  -> notification-service consumer
+  -> notification-service Kafka consumer
   -> notification_requests + notification_deliveries + in_app_notifications
   -> SSE stream to shell bell
   -> polling fallback and periodic reconciliation
@@ -70,6 +70,35 @@ Kafka carries domain events and supports decoupling, replay, and scalable
 consumers. PostgreSQL remains the durable notification source of truth. SSE is
 the primary browser realtime path for in-app notifications, while polling is the
 fallback and periodic sync mechanism.
+
+Default Kafka runtime:
+
+```text
+KAFKA_BROKERS=redpanda.arda-apps.svc.cluster.local:9092
+KAFKA_NOTIFICATION_TOPIC=arda.notification.events.v1
+KAFKA_NOTIFICATION_GROUP=notification-service
+```
+
+Event envelope v1:
+
+```json
+{
+  "eventId": "iam-login-001",
+  "sourceService": "IAM",
+  "eventType": "SECURITY_LOGIN",
+  "correlationId": "login-001",
+  "templateCode": "IAM_SECURITY_LOGIN",
+  "recipientType": "USER",
+  "recipientId": "user-001",
+  "channels": ["IN_APP"],
+  "language": "vi",
+  "payload": {
+    "login_time": "2026-05-01 09:00",
+    "ip_address": "127.0.0.1"
+  },
+  "priority": 10
+}
+```
 
 ## Core Flows
 
@@ -243,7 +272,7 @@ Phase 3: Vietnam banking channels
 Phase 4: platform event integration
 
 - Standardize outbox event envelope.
-- Add Redpanda/Kafka consumer for `arda.notification.events.v1`.
+- Done: add Redpanda/Kafka consumer for `arda.notification.events.v1`.
 - Integrate IAM security events.
 - Integrate CRM customer lifecycle events.
 - Integrate future payments/loan/accounting events.

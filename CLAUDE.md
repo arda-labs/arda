@@ -73,7 +73,9 @@ arda/
 ## Backend Java
 
 - Workspace: `apps/backend-java`
-- Current prototype: `accounting_tmp`
+- Standard: Java 25 (LTS) with Spring Boot 4.0.6
+- Engine: Camunda 8 (Zeebe) integration
+- Language: Pure Java (migrated from Kotlin)
 - CI still expects a future `apps/backend-java/accounting` module, so Java
   pipeline and docs should be aligned before treating it as deployable.
 

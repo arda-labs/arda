@@ -1,50 +1,60 @@
 # Java Backend Architecture
 
-Updated: 2026-04-30
+Updated: 2026-05-01
 
-The Java/Kotlin backend is currently a prototype area, not a deployed
-production service layer.
+The Java backend provides core-banking domains and complex business processes. It has been fully migrated to **Java 25 (LTS)** and **Spring Boot 4.0.6**.
 
 ## Current Structure
 
 ```text
 apps/backend-java/
-├── build.gradle.kts
-├── settings.gradle.kts
-└── accounting_tmp/
+├── build.gradle.kts      # Global Spring Boot 4 and Java 25 configuration
+├── settings.gradle.kts   # Foojay JDK resolver
+└── crm-service/          # Active CRM service with Camunda 8
     ├── build.gradle.kts
     ├── Dockerfile
-    └── src/main/kotlin/arda/accounting/
+    └── src/main/java/io/arda/crm/
 ```
 
-`accounting_tmp` contains early accounting domain models such as `Account` and
-`Journal`. It should not be documented as the final accounting service until
-the module name, API boundary, persistence model, and CI workflow are aligned.
+Shared logic is maintained in:
 
-## Target Direction
+```text
+libs/java/
+├── common/               # Records for ArdaContext, ApiResponse, ErrorCode
+├── database/             # BaseEntity and R2DBC support
+├── grpc-client/          # Context propagation interceptors
+├── messaging/            # CloudEvents and Kafka producers
+└── security/             # WebFlux security filters and Gateway header trust
+```
 
-The intended Java layer is for core-banking domains that need stronger
-transactional modeling than the operational Go services:
+## Standards
 
-- accounting;
-- loan;
-- deposit;
-- treasury.
+- **Language**: Pure Java 25 (Kotlin has been removed to resolve JDK 25 toolchain issues).
+- **Framework**: Spring Boot 4.0.6 (latest milestones).
+- **Process Engine**: Camunda 8 (Zeebe) using the Spring Boot SDK.
+- **Data Access**: Spring Data R2DBC for reactive persistence.
+- **Data Structures**: Prefer **Java Records** for DTOs, API responses, and immutable context.
 
-The target stack may include Spring Boot, Gradle, PostgreSQL, and native-image
-optimization, but those are roadmap choices until implemented in the repo.
+## Deployment
 
-## Current Gap
+The Java pipeline is configured to build and containerize services using Gradle and Docker.
+The `crm-service` is the first active production-grade Java module in the workspace.
 
-`.github/workflows/ci-java.yml` detects `apps/backend-java/accounting/**`, while
-the current code is under `apps/backend-java/accounting_tmp/**`. Before Java is
-treated as deployable, choose one of these paths:
+## Near-term Modules
 
-1. Rename `accounting_tmp` to `accounting` and make the CI workflow real.
-2. Keep `accounting_tmp` as a prototype and disable or retarget Java CI.
+The intended Java layer is for core-banking and process-heavy domains:
 
-## Design Rule
+- **CRM**: Customer lifecycle and onboarding via Camunda 8.
+- **Accounting**: Double-entry ledger and financial reporting.
+- **Loan**: Credit lifecycle and repayment schedules.
+- **Deposit**: Account lifecycle and interest calculations.
 
-Do not place shared reference lists or platform parameters in the Java core
-services. Cross-domain reference data belongs in MDM unless a value is owned by
-a specific product domain.
+## Configuration
+
+Services use YAML-based configuration, standardized to work across local development and Kubernetes (ArgoCD/ConfigMaps).
+
+Database user for CRM:
+
+```text
+postgres://crm:crm%40123@thinkcenter:5432/crm?sslmode=disable
+```

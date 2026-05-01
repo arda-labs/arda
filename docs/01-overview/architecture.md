@@ -20,10 +20,10 @@ APISIX Gateway
   |-- /api/v1/mdm/*   -> mdm-service
   |
   v
-Go/Kratos services
-  |-- iam-service
-  |-- mdm-service
-  |-- crm-service skeleton
+Go/Kratos and Java/Spring services
+  |-- iam-service (Go)
+  |-- mdm-service (Go)
+  |-- crm-service (Java 25, SB 4, Camunda 8)
   |
   v
 PostgreSQL on thinkcenter
@@ -93,7 +93,7 @@ Active services:
 | `iam-service` | Active | `8000` | `9000` | `iam` |
 | `mdm-service` | Active | `8001` | `9001` | `mdm` |
 | `notification-service` | Started | `8002` | `9002` | `notification` |
-| `crm-service` | Skeleton / roadmap | TBD | TBD | TBD |
+| `crm-service` | Active (Java) | `8003` | N/A | `crm` |
 
 Service-native HTTP routes use `/v1/*`; APISIX exposes them as `/api/v1/*`.
 

@@ -1,8 +1,8 @@
 # Arda
 
 Arda is the application monorepo for a financial and banking platform. It
-contains the frontend micro-frontends, Go operational services, Java/Kotlin
-core-banking prototypes, shared libraries, CI workflows, and documentation.
+contains the frontend micro-frontends, Go operational services, Java
+core-banking services, shared libraries, CI workflows, and documentation.
 
 Updated: 2026-04-30
 
@@ -57,7 +57,7 @@ Runtime manifests live in the sibling repo `../arda-infra`.
 | IAM service | Active Go/Kratos service, default HTTP `8000`, gRPC `9000` |
 | MDM service | Active Go/Kratos service, default HTTP `8001`, gRPC `9001` |
 | Notification service | Active Go/Kratos service; templates, delivery queue, in-app inbox, provider config |
-| CRM service | Present in Go workspace as skeleton/roadmap |
+| CRM service | Active Java/Spring Boot 4.0 service with Camunda 8 |
 | Accounting Java | Prototype under `apps/backend-java/accounting_tmp` |
 
 ## Local Development

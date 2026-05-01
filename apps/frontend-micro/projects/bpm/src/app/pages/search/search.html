@@ -1,0 +1,85 @@
+<div class="search-container p-4">
+  <div class="flex justify-between items-center mb-6">
+    <h2 class="text-3xl font-bold">Tra cứu giao dịch & Tiến trình</h2>
+    <p-button label="Xuất dữ liệu" icon="pi pi-file-export" severity="secondary" [text]="true" (onClick)="onExport()" />
+  </div>
+
+  <div class="card p-6 border border-gray-200 rounded-lg mb-8 bg-gray-50">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 items-end">
+      <div class="flex flex-col gap-2">
+        <label class="font-bold text-sm text-gray-700">Loại quy trình</label>
+        <p-select
+          [options]="processTypes"
+          [(ngModel)]="selectedProcess"
+          optionLabel="label"
+          optionValue="value"
+          class="w-full" />
+      </div>
+
+      <div class="flex flex-col gap-2 md:col-span-2">
+        <label class="font-bold text-sm text-gray-700">Mã hồ sơ / Tên khách hàng / ID tiến trình</label>
+        <p-iconfield>
+          <p-inputicon class="pi pi-search" />
+          <input
+            pInputText
+            [(ngModel)]="searchQuery"
+            placeholder="Tìm theo nhiều tiêu chí..."
+            class="w-full" />
+        </p-iconfield>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <label class="font-bold text-sm text-gray-700">Khoảng thời gian</label>
+        <p-datepicker
+          [(ngModel)]="dateRange"
+          selectionMode="range"
+          [showIcon]="true"
+          placeholder="Chọn từ ngày - đến ngày"
+          class="w-full" />
+      </div>
+    </div>
+
+    <div class="flex justify-center mt-6">
+      <p-button label="Tìm kiếm ngay" icon="pi pi-search" class="w-full md:w-48" (onClick)="onSearch()" />
+    </div>
+  </div>
+
+  <p-table
+    [value]="results()"
+    [paginator]="true"
+    [rows]="10"
+    [tableStyle]="{ 'min-width': '60rem' }"
+    class="custom-table">
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 150px">Mã tiến trình</th>
+        <th>Quy trình</th>
+        <th>Đối tượng khách hàng</th>
+        <th style="width: 150px">Trạng thái</th>
+        <th style="width: 200px">Ngày hoàn thành</th>
+        <th style="width: 100px">Thao tác</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-item>
+      <tr>
+        <td><span class="font-mono text-blue-600 font-bold underline cursor-pointer">{{ item.id }}</span></td>
+        <td>{{ item.process }}</td>
+        <td><span class="font-medium">{{ item.customer }}</span></td>
+        <td>
+          <p-tag [value]="item.status" [severity]="getStatusSeverity(item.status)" />
+        </td>
+        <td>{{ item.completedDate }}</td>
+        <td>
+          <p-button icon="pi pi-info-circle" [text]="true" rounded pTooltip="Xem chi tiết" />
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="6" class="text-center p-8 text-gray-500 italic">
+          Không tìm thấy giao dịch nào phù hợp với tiêu chí tìm kiếm.
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

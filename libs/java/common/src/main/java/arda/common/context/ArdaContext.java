@@ -1,9 +1,8 @@
 package arda.common.context;
 
-import reactor.core.publisher.Mono;
-import reactor.util.context.Context;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 public record ArdaContext(
     String userId,
@@ -11,7 +10,8 @@ public record ArdaContext(
     String tenantId,
     List<String> roles
 ) {
-    private static final Class<ArdaContext> CONTEXT_KEY = ArdaContext.class;
+    // ThreadLocal for Imperative/Virtual Threads flow
+    private static final ThreadLocal<ArdaContext> THREAD_LOCAL = new ThreadLocal<>();
 
     public ArdaContext {
         if (roles == null) roles = Collections.emptyList();
@@ -21,21 +21,22 @@ public record ArdaContext(
         return new ArdaContext(null, null, null, Collections.emptyList());
     }
 
-    public static Mono<ArdaContext> current() {
-        return Mono.deferContextual(ctx -> {
-            if (ctx.hasKey(CONTEXT_KEY)) {
-                return Mono.just(ctx.get(CONTEXT_KEY));
-            } else {
-                return Mono.just(empty());
-            }
-        });
+    /**
+     * For Imperative/Virtual Threads flow (Standard for Java 25+).
+     */
+    public static ArdaContext current() {
+        return Optional.ofNullable(THREAD_LOCAL.get()).orElse(empty());
     }
 
-    public static Context withContext(ArdaContext context) {
-        return Context.of(CONTEXT_KEY, context);
+    public static void set(ArdaContext context) {
+        THREAD_LOCAL.set(context);
     }
 
-    public static Mono<String> getTraceId() {
-        return current().map(ArdaContext::traceId);
+    public static void clear() {
+        THREAD_LOCAL.remove();
+    }
+
+    public static String getTraceId() {
+        return Optional.ofNullable(current().traceId()).orElse("unknown");
     }
 }

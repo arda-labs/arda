@@ -1,0 +1,69 @@
+<div class="assignment-container p-4">
+  <p-toast />
+
+  <div class="flex justify-between items-center mb-6">
+    <div class="flex items-center gap-4">
+      <h2 class="text-2xl font-bold">Quy tắc chia bài</h2>
+      <p-select
+        [options]="modules"
+        [(ngModel)]="selectedModule"
+        optionLabel="label"
+        optionValue="value"
+        class="w-full md:w-72" />
+    </div>
+    <p-button label="Lưu cấu hình" icon="pi pi-save" (onClick)="onSave()" />
+  </div>
+
+  <p-card header="Chiến lược phân bổ" class="mb-6">
+    <div class="flex items-center gap-4">
+      <label for="strategy" class="font-medium">Chọn chiến lược:</label>
+      <p-select
+        [options]="strategies"
+        [(ngModel)]="selectedStrategy"
+        optionLabel="label"
+        optionValue="value"
+        placeholder="Chọn một chiến lược"
+        class="w-full md:w-56" />
+    </div>
+    <p class="mt-4 text-gray-600 italic" *ngIf="selectedStrategy() === 'ROUND_ROBIN'">
+      * Hệ thống sẽ lần lượt chia hồ sơ cho từng nhân viên trong danh sách đang hoạt động.
+    </p>
+    <p class="mt-4 text-gray-600 italic" *ngIf="selectedStrategy() === 'LOAD_BALANCE'">
+      * Hệ thống sẽ ưu tiên chia hồ sơ cho nhân viên đang có ít hồ sơ nhất (Backlog thấp).
+    </p>
+    <p class="mt-4 text-gray-600 italic" *ngIf="selectedStrategy() === 'WEIGHTED'">
+      * Hồ sơ được chia dựa trên Trọng số (Weight) - nhân viên có trọng số cao hơn sẽ nhận được nhiều hồ sơ hơn.
+    </p>
+  </p-card>
+
+  <p-card header="Danh sách nhân viên áp dụng">
+    <p-table [value]="rules()" [tableStyle]="{ 'min-width': '50rem' }">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>ID</th>
+          <th>Tên nhân viên</th>
+          <th>Phòng ban</th>
+          <th>Hồ sơ hiện tại</th>
+          <th>Trọng số (Weight)</th>
+          <th>Trạng thái</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rule>
+        <tr>
+          <td><span class="font-mono">{{ rule.id }}</span></td>
+          <td>{{ rule.name }}</td>
+          <td>{{ rule.department }}</td>
+          <td>
+            <p-tag [value]="rule.taskCount" [severity]="getLoadSeverity(rule.taskCount)" />
+          </td>
+          <td>
+            <p-inputnumber [(ngModel)]="rule.weight" [showButtons]="true" [min]="1" [max]="10" size="small" />
+          </td>
+          <td>
+            <p-toggleswitch [(ngModel)]="rule.active" />
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </p-card>
+</div>

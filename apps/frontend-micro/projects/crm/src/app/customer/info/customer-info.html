@@ -1,0 +1,37 @@
+<div class="customer-info-page p-4">
+  <div class="flex justify-between items-center mb-6">
+    <h2 class="text-3xl font-bold">Chi tiết hồ sơ khách hàng</h2>
+    <div class="flex gap-2">
+      <button class="p-button p-button-secondary p-button-outlined">Lưu nháp</button>
+      <button class="p-button p-button-primary">Gửi duyệt</button>
+    </div>
+  </div>
+
+  <p-tabs [value]="0">
+    <p-tablist>
+      <p-tab [value]="0">
+        <i class="pi pi-user mr-2"></i> Thông tin cơ bản
+      </p-tab>
+      <p-tab [value]="1">
+        <i class="pi pi-file mr-2"></i> Hồ sơ đính kèm
+      </p-tab>
+      <p-tab [value]="2">
+        <i class="pi pi-history mr-2"></i> Lịch sử tác động
+      </p-tab>
+    </p-tablist>
+    
+    <p-tabpanels>
+      <p-tabpanel [value]="0">
+        <app-basic-info></app-basic-info>
+      </p-tabpanel>
+      <p-tabpanel [value]="1">
+        <app-attachments></app-attachments>
+      </p-tabpanel>
+      <p-tabpanel [value]="2">
+        <div class="p-4">
+          <p class="text-gray-600">Lịch sử tác động sẽ được hiển thị tại đây.</p>
+        </div>
+      </p-tabpanel>
+    </p-tabpanels>
+  </p-tabs>
+</div>

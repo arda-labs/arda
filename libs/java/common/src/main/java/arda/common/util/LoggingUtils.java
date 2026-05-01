@@ -4,15 +4,12 @@ import arda.common.context.ArdaContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
-import reactor.core.publisher.Mono;
-import reactor.core.publisher.Signal;
 
-import java.util.function.Consumer;
-import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
  * Standardized Logging Utility for Arda Platform.
- * Supports Structured Logging and Reactive Context propagation.
+ * Supports Structured Logging and Virtual Thread context propagation.
  */
 public class LoggingUtils {
 
@@ -21,31 +18,32 @@ public class LoggingUtils {
     }
 
     /**
-     * Log a message with context information from Reactor Context.
-     * Usage: .flatMap(it -> LoggingUtils.logInfo(log, "Processing item: " + it).thenReturn(it))
+     * Log a message with context information.
+     * Synchronous and Virtual Thread safe.
      */
-    public static Mono<Void> logInfo(Logger logger, String message) {
-        return ArdaContext.current().map(ctx -> {
+    public static void info(Logger logger, String message) {
+        ArdaContext ctx = ArdaContext.current();
+        try {
             MDC.put("userId", ctx.userId() != null ? ctx.userId() : "system");
             MDC.put("traceId", ctx.traceId() != null ? ctx.traceId() : "unknown");
+            MDC.put("tenantId", ctx.tenantId() != null ? ctx.tenantId() : "shared");
             logger.info(message);
+        } finally {
             MDC.clear();
-            return (Void) null;
-        });
+        }
     }
 
     /**
-     * Helper to wrap log for Reactive pipelines using doOnEach.
+     * Executes a supplier within a logging context.
      */
-    public static <T> Consumer<Signal<T>> logOnNext(Logger logger, Function<T, String> logStatement) {
-        return signal -> {
-            if (signal.isOnNext()) {
-                ArdaContext ctx = signal.getContextView().getOrDefault(ArdaContext.class, ArdaContext.empty());
-                MDC.put("userId", ctx.userId() != null ? ctx.userId() : "system");
-                MDC.put("traceId", ctx.traceId() != null ? ctx.traceId() : "unknown");
-                logger.info(logStatement.apply(signal.get()));
-                MDC.clear();
-            }
-        };
+    public static <T> T withContext(Supplier<T> supplier) {
+        ArdaContext ctx = ArdaContext.current();
+        try {
+            MDC.put("userId", ctx.userId() != null ? ctx.userId() : "system");
+            MDC.put("traceId", ctx.traceId() != null ? ctx.traceId() : "unknown");
+            return supplier.get();
+        } finally {
+            MDC.clear();
+        }
     }
 }

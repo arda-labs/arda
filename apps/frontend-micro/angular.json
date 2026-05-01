@@ -52,8 +52,12 @@
                 "input": "projects/shell/public"
               }
             ],
-            "styles": ["projects/shell/src/styles.css"],
-            "polyfills": ["es-module-shims"]
+            "styles": [
+              "projects/shell/src/styles.css"
+            ],
+            "polyfills": [
+              "es-module-shims"
+            ]
           },
           "configurations": {
             "production": {
@@ -92,7 +96,7 @@
           "defaultConfiguration": "development",
           "options": {
             "host": "0.0.0.0",
-            "port": 3000
+            "port": 4200
           }
         }
       }
@@ -142,8 +146,12 @@
                 "input": "projects/iam/public"
               }
             ],
-            "styles": ["projects/iam/src/styles.css"],
-            "polyfills": ["es-module-shims"]
+            "styles": [
+              "projects/iam/src/styles.css"
+            ],
+            "polyfills": [
+              "es-module-shims"
+            ]
           },
           "configurations": {
             "production": {
@@ -182,7 +190,7 @@
           "defaultConfiguration": "development",
           "options": {
             "host": "0.0.0.0",
-            "port": 3002
+            "port": 4201
           }
         }
       }
@@ -232,8 +240,12 @@
                 "input": "projects/mdm/public"
               }
             ],
-            "styles": ["projects/mdm/src/styles.css"],
-            "polyfills": ["es-module-shims"]
+            "styles": [
+              "projects/mdm/src/styles.css"
+            ],
+            "polyfills": [
+              "es-module-shims"
+            ]
           },
           "configurations": {
             "production": {
@@ -272,7 +284,7 @@
           "defaultConfiguration": "development",
           "options": {
             "host": "0.0.0.0",
-            "port": 3001
+            "port": 4202
           }
         }
       }
@@ -317,8 +329,12 @@
             "browser": "projects/ntf/src/main.ts",
             "tsConfig": "projects/ntf/tsconfig.app.json",
             "assets": [],
-            "styles": ["projects/ntf/src/styles.css"],
-            "polyfills": ["es-module-shims"]
+            "styles": [
+              "projects/ntf/src/styles.css"
+            ],
+            "polyfills": [
+              "es-module-shims"
+            ]
           },
           "configurations": {
             "production": {
@@ -357,7 +373,7 @@
           "defaultConfiguration": "development",
           "options": {
             "host": "0.0.0.0",
-            "port": 3003
+            "port": 4204
           }
         }
       }
@@ -384,6 +400,400 @@
           "builder": "@angular/build:unit-test",
           "options": {
             "tsConfig": "projects/core/tsconfig.spec.json"
+          }
+        }
+      }
+    },
+    "crm": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "projects/crm",
+      "sourceRoot": "projects/crm/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-architects/native-federation:build",
+          "options": {},
+          "configurations": {
+            "production": {
+              "target": "crm:esbuild:production"
+            },
+            "development": {
+              "target": "crm:esbuild:development",
+              "dev": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-architects/native-federation:build",
+          "options": {
+            "target": "crm:serve-original:development",
+            "rebuildDelay": 500,
+            "dev": true,
+            "cacheExternalArtifacts": false,
+            "port": 4203
+          }
+        },
+        "test": {
+          "builder": "@angular/build:unit-test"
+        },
+        "esbuild": {
+          "builder": "@angular/build:application",
+          "options": {
+            "browser": "projects/crm/src/main.ts",
+            "tsConfig": "projects/crm/tsconfig.app.json",
+            "inlineStyleLanguage": "css",
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "projects/crm/public"
+              }
+            ],
+            "styles": [
+              "projects/crm/src/styles.css"
+            ],
+            "polyfills": [
+              "es-module-shims"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kB",
+                  "maximumError": "1MB"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve-original": {
+          "builder": "@angular/build:dev-server",
+          "configurations": {
+            "production": {
+              "buildTarget": "crm:esbuild:production"
+            },
+            "development": {
+              "buildTarget": "crm:esbuild:development"
+            }
+          },
+          "defaultConfiguration": "development",
+          "options": {
+            "port": 4210
+          }
+        }
+      }
+    },
+    "bpm": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "projects/bpm",
+      "sourceRoot": "projects/bpm/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-architects/native-federation:build",
+          "options": {},
+          "configurations": {
+            "production": {
+              "target": "bpm:esbuild:production"
+            },
+            "development": {
+              "target": "bpm:esbuild:development",
+              "dev": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-architects/native-federation:build",
+          "options": {
+            "target": "bpm:serve-original:development",
+            "rebuildDelay": 500,
+            "dev": true,
+            "cacheExternalArtifacts": false,
+            "port": 4204
+          }
+        },
+        "test": {
+          "builder": "@angular/build:unit-test"
+        },
+        "esbuild": {
+          "builder": "@angular/build:application",
+          "options": {
+            "browser": "projects/bpm/src/main.ts",
+            "tsConfig": "projects/bpm/tsconfig.app.json",
+            "inlineStyleLanguage": "css",
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "projects/bpm/public"
+              }
+            ],
+            "styles": [
+              "projects/bpm/src/styles.css",
+              "node_modules/bpmn-js/dist/assets/diagram-js.css",
+              "node_modules/bpmn-js/dist/assets/bpmn-font/css/bpmn.css"
+            ],
+            "polyfills": [
+              "es-module-shims"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kB",
+                  "maximumError": "1MB"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve-original": {
+          "builder": "@angular/build:dev-server",
+          "configurations": {
+            "production": {
+              "buildTarget": "bpm:esbuild:production"
+            },
+            "development": {
+              "buildTarget": "bpm:esbuild:development"
+            }
+          },
+          "defaultConfiguration": "development",
+          "options": {
+            "port": 4213
+          }
+        }
+      }
+    },
+    "loan": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "projects/loan",
+      "sourceRoot": "projects/loan/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-architects/native-federation:build",
+          "options": {},
+          "configurations": {
+            "production": {
+              "target": "loan:esbuild:production"
+            },
+            "development": {
+              "target": "loan:esbuild:development",
+              "dev": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-architects/native-federation:build",
+          "options": {
+            "target": "loan:serve-original:development",
+            "rebuildDelay": 500,
+            "dev": true,
+            "cacheExternalArtifacts": false,
+            "port": 4205
+          }
+        },
+        "test": {
+          "builder": "@angular/build:unit-test"
+        },
+        "esbuild": {
+          "builder": "@angular/build:application",
+          "options": {
+            "browser": "projects/loan/src/main.ts",
+            "tsConfig": "projects/loan/tsconfig.app.json",
+            "inlineStyleLanguage": "css",
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "projects/loan/public"
+              }
+            ],
+            "styles": [
+              "projects/loan/src/styles.css"
+            ],
+            "polyfills": [
+              "es-module-shims"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kB",
+                  "maximumError": "1MB"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve-original": {
+          "builder": "@angular/build:dev-server",
+          "configurations": {
+            "production": {
+              "buildTarget": "loan:esbuild:production"
+            },
+            "development": {
+              "buildTarget": "loan:esbuild:development"
+            }
+          },
+          "defaultConfiguration": "development",
+          "options": {
+            "port": 4212
+          }
+        }
+      }
+    },
+    "hrm": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "projects/hrm",
+      "sourceRoot": "projects/hrm/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-architects/native-federation:build",
+          "options": {},
+          "configurations": {
+            "production": {
+              "target": "hrm:esbuild:production"
+            },
+            "development": {
+              "target": "hrm:esbuild:development",
+              "dev": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-architects/native-federation:build",
+          "options": {
+            "target": "hrm:serve-original:development",
+            "rebuildDelay": 500,
+            "dev": true,
+            "cacheExternalArtifacts": false,
+            "port": 4206
+          }
+        },
+        "test": {
+          "builder": "@angular/build:unit-test"
+        },
+        "esbuild": {
+          "builder": "@angular/build:application",
+          "options": {
+            "browser": "projects/hrm/src/main.ts",
+            "tsConfig": "projects/hrm/tsconfig.app.json",
+            "inlineStyleLanguage": "css",
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "projects/hrm/public"
+              }
+            ],
+            "styles": [
+              "projects/hrm/src/styles.css"
+            ],
+            "polyfills": [
+              "es-module-shims"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kB",
+                  "maximumError": "1MB"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve-original": {
+          "builder": "@angular/build:dev-server",
+          "configurations": {
+            "production": {
+              "buildTarget": "hrm:esbuild:production"
+            },
+            "development": {
+              "buildTarget": "hrm:esbuild:development"
+            }
+          },
+          "defaultConfiguration": "development",
+          "options": {
+            "port": 4211
           }
         }
       }

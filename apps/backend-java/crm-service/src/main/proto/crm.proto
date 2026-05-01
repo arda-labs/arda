@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package api.crm.v1;
+
+option java_multiple_files = true;
+option java_package = "io.arda.crm.v1";
+option java_outer_classname = "CrmProto";
+
+service CRM {
+  rpc FinalizeCustomer (FinalizeCustomerRequest) returns (FinalizeCustomerReply);
+}
+
+message FinalizeCustomerRequest {
+  string customer_id = 1;
+  string status = 2;
+}
+
+message FinalizeCustomerReply {
+  bool success = 1;
+  string message = 2;
+}

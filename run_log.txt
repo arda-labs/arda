@@ -1,0 +1,672 @@
+changes	Set up job	﻿2026-05-01T17:07:53.8345587Z Current runner version: '2.334.0'
+changes	Set up job	2026-05-01T17:07:53.8369895Z ##[group]Runner Image Provisioner
+changes	Set up job	2026-05-01T17:07:53.8370763Z Hosted Compute Agent
+changes	Set up job	2026-05-01T17:07:53.8371274Z Version: 20260213.493
+changes	Set up job	2026-05-01T17:07:53.8372065Z Commit: 5c115507f6dd24b8de37d8bbe0bb4509d0cc0fa3
+changes	Set up job	2026-05-01T17:07:53.8372781Z Build Date: 2026-02-13T00:28:41Z
+changes	Set up job	2026-05-01T17:07:53.8373469Z Worker ID: {897fa73a-5139-4701-9c86-73c6e468f70d}
+changes	Set up job	2026-05-01T17:07:53.8374128Z Azure Region: eastus2
+changes	Set up job	2026-05-01T17:07:53.8374643Z ##[endgroup]
+changes	Set up job	2026-05-01T17:07:53.8376207Z ##[group]Operating System
+changes	Set up job	2026-05-01T17:07:53.8376782Z Ubuntu
+changes	Set up job	2026-05-01T17:07:53.8377316Z 24.04.4
+changes	Set up job	2026-05-01T17:07:53.8377772Z LTS
+changes	Set up job	2026-05-01T17:07:53.8378216Z ##[endgroup]
+changes	Set up job	2026-05-01T17:07:53.8378645Z ##[group]Runner Image
+changes	Set up job	2026-05-01T17:07:53.8379230Z Image: ubuntu-24.04
+changes	Set up job	2026-05-01T17:07:53.8379758Z Version: 20260413.86.1
+changes	Set up job	2026-05-01T17:07:53.8380700Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260413.86/images/ubuntu/Ubuntu2404-Readme.md
+changes	Set up job	2026-05-01T17:07:53.8382713Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260413.86
+changes	Set up job	2026-05-01T17:07:53.8383650Z ##[endgroup]
+changes	Set up job	2026-05-01T17:07:53.8385156Z ##[group]GITHUB_TOKEN Permissions
+changes	Set up job	2026-05-01T17:07:53.8387496Z Contents: read
+changes	Set up job	2026-05-01T17:07:53.8388436Z Metadata: read
+changes	Set up job	2026-05-01T17:07:53.8389186Z Packages: read
+changes	Set up job	2026-05-01T17:07:53.8389878Z ##[endgroup]
+changes	Set up job	2026-05-01T17:07:53.8392950Z Secret source: Actions
+changes	Set up job	2026-05-01T17:07:53.8394027Z Prepare workflow directory
+changes	Set up job	2026-05-01T17:07:53.8725452Z Prepare all required actions
+changes	Set up job	2026-05-01T17:07:53.8762461Z Getting action download info
+changes	Set up job	2026-05-01T17:07:54.2700218Z Download action repository 'actions/checkout@v4' (SHA:34e114876b0b11c390a56381ad16ebd13914f8d5)
+changes	Set up job	2026-05-01T17:07:54.3853813Z Download action repository 'dorny/paths-filter@v3' (SHA:d1c1ffe0248fe513906c8e24db8ea791d46f8590)
+changes	Set up job	2026-05-01T17:07:54.6235037Z Complete job name: changes
+changes	Run actions/checkout@v4	﻿2026-05-01T17:07:54.6962556Z ##[group]Run actions/checkout@v4
+changes	Run actions/checkout@v4	2026-05-01T17:07:54.6963526Z with:
+changes	Run actions/checkout@v4	2026-05-01T17:07:54.6963973Z   repository: arda-labs/arda
+changes	Run actions/checkout@v4	2026-05-01T17:07:54.6964639Z   token: ***
+changes	Run actions/checkout@v4	2026-05-01T17:07:54.6965033Z   ssh-strict: true
+changes	Run actions/checkout@v4	2026-05-01T17:07:54.6965446Z   ssh-user: git
+changes	Run actions/checkout@v4	2026-05-01T17:07:54.6965878Z   persist-credentials: true
+changes	Run actions/checkout@v4	2026-05-01T17:07:54.6966352Z   clean: true
+changes	Run actions/checkout@v4	2026-05-01T17:07:54.6966772Z   sparse-checkout-cone-mode: true
+changes	Run actions/checkout@v4	2026-05-01T17:07:54.6967281Z   fetch-depth: 1
+changes	Run actions/checkout@v4	2026-05-01T17:07:54.6967702Z   fetch-tags: false
+changes	Run actions/checkout@v4	2026-05-01T17:07:54.6968120Z   show-progress: true
+changes	Run actions/checkout@v4	2026-05-01T17:07:54.6968563Z   lfs: false
+changes	Run actions/checkout@v4	2026-05-01T17:07:54.6968950Z   submodules: false
+changes	Run actions/checkout@v4	2026-05-01T17:07:54.6969378Z   set-safe-directory: true
+changes	Run actions/checkout@v4	2026-05-01T17:07:54.6970062Z ##[endgroup]
+changes	Run actions/checkout@v4	2026-05-01T17:07:54.8084459Z Syncing repository: arda-labs/arda
+changes	Run actions/checkout@v4	2026-05-01T17:07:54.8087132Z ##[group]Getting Git version info
+changes	Run actions/checkout@v4	2026-05-01T17:07:54.8088425Z Working directory is '/home/runner/work/arda/arda'
+changes	Run actions/checkout@v4	2026-05-01T17:07:54.8090210Z [command]/usr/bin/git version
+changes	Run actions/checkout@v4	2026-05-01T17:07:54.8145929Z git version 2.53.0
+changes	Run actions/checkout@v4	2026-05-01T17:07:54.8172739Z ##[endgroup]
+changes	Run actions/checkout@v4	2026-05-01T17:07:54.8187458Z Temporarily overriding HOME='/home/runner/work/_temp/b218b5d1-88de-4151-82af-f00d574e9c66' before making global git config changes
+changes	Run actions/checkout@v4	2026-05-01T17:07:54.8188997Z Adding repository directory to the temporary git global config as a safe directory
+changes	Run actions/checkout@v4	2026-05-01T17:07:54.8205235Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/arda/arda
+changes	Run actions/checkout@v4	2026-05-01T17:07:54.8236807Z Deleting the contents of '/home/runner/work/arda/arda'
+changes	Run actions/checkout@v4	2026-05-01T17:07:54.8239858Z ##[group]Initializing the repository
+changes	Run actions/checkout@v4	2026-05-01T17:07:54.8244276Z [command]/usr/bin/git init /home/runner/work/arda/arda
+changes	Run actions/checkout@v4	2026-05-01T17:07:54.8352611Z hint: Using 'master' as the name for the initial branch. This default branch name
+changes	Run actions/checkout@v4	2026-05-01T17:07:54.8354164Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+changes	Run actions/checkout@v4	2026-05-01T17:07:54.8355590Z hint: to use in all of your new repositories, which will suppress this warning,
+changes	Run actions/checkout@v4	2026-05-01T17:07:54.8356621Z hint: call:
+changes	Run actions/checkout@v4	2026-05-01T17:07:54.8357492Z hint:
+changes	Run actions/checkout@v4	2026-05-01T17:07:54.8358152Z hint: 	git config --global init.defaultBranch <name>
+changes	Run actions/checkout@v4	2026-05-01T17:07:54.8358965Z hint:
+changes	Run actions/checkout@v4	2026-05-01T17:07:54.8359683Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+changes	Run actions/checkout@v4	2026-05-01T17:07:54.8360787Z hint: 'development'. The just-created branch can be renamed via this command:
+changes	Run actions/checkout@v4	2026-05-01T17:07:54.8361639Z hint:
+changes	Run actions/checkout@v4	2026-05-01T17:07:54.8362995Z hint: 	git branch -m <name>
+changes	Run actions/checkout@v4	2026-05-01T17:07:54.8363675Z hint:
+changes	Run actions/checkout@v4	2026-05-01T17:07:54.8364329Z hint: Disable this message with "git config set advice.defaultBranchName false"
+changes	Run actions/checkout@v4	2026-05-01T17:07:54.8365882Z Initialized empty Git repository in /home/runner/work/arda/arda/.git/
+changes	Run actions/checkout@v4	2026-05-01T17:07:54.8368510Z [command]/usr/bin/git remote add origin https://github.com/arda-labs/arda
+changes	Run actions/checkout@v4	2026-05-01T17:07:54.8403657Z ##[endgroup]
+changes	Run actions/checkout@v4	2026-05-01T17:07:54.8404491Z ##[group]Disabling automatic garbage collection
+changes	Run actions/checkout@v4	2026-05-01T17:07:54.8409452Z [command]/usr/bin/git config --local gc.auto 0
+changes	Run actions/checkout@v4	2026-05-01T17:07:54.8441740Z ##[endgroup]
+changes	Run actions/checkout@v4	2026-05-01T17:07:54.8442937Z ##[group]Setting up auth
+changes	Run actions/checkout@v4	2026-05-01T17:07:54.8453014Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+changes	Run actions/checkout@v4	2026-05-01T17:07:54.8487856Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+changes	Run actions/checkout@v4	2026-05-01T17:07:54.8805985Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+changes	Run actions/checkout@v4	2026-05-01T17:07:54.8839903Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+changes	Run actions/checkout@v4	2026-05-01T17:07:54.9082286Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+changes	Run actions/checkout@v4	2026-05-01T17:07:54.9120736Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+changes	Run actions/checkout@v4	2026-05-01T17:07:54.9354207Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+changes	Run actions/checkout@v4	2026-05-01T17:07:54.9388068Z ##[endgroup]
+changes	Run actions/checkout@v4	2026-05-01T17:07:54.9389012Z ##[group]Fetching the repository
+changes	Run actions/checkout@v4	2026-05-01T17:07:54.9397463Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +f6b5b7bc95bd86209e6b371e07f3ab3ce5e7ab4b:refs/remotes/origin/main
+changes	Run actions/checkout@v4	2026-05-01T17:07:55.3126030Z From https://github.com/arda-labs/arda
+changes	Run actions/checkout@v4	2026-05-01T17:07:55.3127678Z  * [new ref]         f6b5b7bc95bd86209e6b371e07f3ab3ce5e7ab4b -> origin/main
+changes	Run actions/checkout@v4	2026-05-01T17:07:55.3154995Z ##[endgroup]
+changes	Run actions/checkout@v4	2026-05-01T17:07:55.3156050Z ##[group]Determining the checkout info
+changes	Run actions/checkout@v4	2026-05-01T17:07:55.3157380Z ##[endgroup]
+changes	Run actions/checkout@v4	2026-05-01T17:07:55.3162038Z [command]/usr/bin/git sparse-checkout disable
+changes	Run actions/checkout@v4	2026-05-01T17:07:55.3204550Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+changes	Run actions/checkout@v4	2026-05-01T17:07:55.3226889Z ##[group]Checking out the ref
+changes	Run actions/checkout@v4	2026-05-01T17:07:55.3229711Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+changes	Run actions/checkout@v4	2026-05-01T17:07:55.3688066Z Switched to a new branch 'main'
+changes	Run actions/checkout@v4	2026-05-01T17:07:55.3690581Z branch 'main' set up to track 'origin/main'.
+changes	Run actions/checkout@v4	2026-05-01T17:07:55.3699934Z ##[endgroup]
+changes	Run actions/checkout@v4	2026-05-01T17:07:55.3731628Z [command]/usr/bin/git log -1 --format=%H
+changes	Run actions/checkout@v4	2026-05-01T17:07:55.3753060Z f6b5b7bc95bd86209e6b371e07f3ab3ce5e7ab4b
+changes	Run dorny/paths-filter@v3	﻿2026-05-01T17:07:55.4035864Z ##[group]Run dorny/paths-filter@v3
+changes	Run dorny/paths-filter@v3	2026-05-01T17:07:55.4037025Z with:
+changes	Run dorny/paths-filter@v3	2026-05-01T17:07:55.4041320Z   filters: accounting:
+changes	Run dorny/paths-filter@v3	  - 'apps/backend-java/accounting/**'
+changes	Run dorny/paths-filter@v3	  - 'apps/backend-java/build.gradle.kts'
+changes	Run dorny/paths-filter@v3	  - 'apps/backend-java/settings.gradle.kts'
+changes	Run dorny/paths-filter@v3	crm-service:
+changes	Run dorny/paths-filter@v3	  - 'apps/backend-java/crm-service/**'
+changes	Run dorny/paths-filter@v3	  - 'apps/backend-java/build.gradle.kts'
+changes	Run dorny/paths-filter@v3	  - 'apps/backend-java/settings.gradle.kts'
+changes	Run dorny/paths-filter@v3	
+changes	Run dorny/paths-filter@v3	2026-05-01T17:07:55.4046387Z   token: ***
+changes	Run dorny/paths-filter@v3	2026-05-01T17:07:55.4047230Z   list-files: none
+changes	Run dorny/paths-filter@v3	2026-05-01T17:07:55.4048176Z   initial-fetch-depth: 100
+changes	Run dorny/paths-filter@v3	2026-05-01T17:07:55.4049237Z   predicate-quantifier: some
+changes	Run dorny/paths-filter@v3	2026-05-01T17:07:55.4050487Z ##[endgroup]
+changes	Run dorny/paths-filter@v3	2026-05-01T17:07:55.5016259Z ##[group]Get current git ref
+changes	Run dorny/paths-filter@v3	2026-05-01T17:07:55.5057835Z [command]/usr/bin/git branch --show-current
+changes	Run dorny/paths-filter@v3	2026-05-01T17:07:55.5092766Z main
+changes	Run dorny/paths-filter@v3	2026-05-01T17:07:55.5117307Z ##[endgroup]
+changes	Run dorny/paths-filter@v3	2026-05-01T17:07:55.5119457Z Changes will be detected between d9b3255abe54f42afce6e6e301e1dfbffc274a1e and main
+changes	Run dorny/paths-filter@v3	2026-05-01T17:07:55.5123198Z ##[group]Ensuring d9b3255abe54f42afce6e6e301e1dfbffc274a1e is fetched from origin
+changes	Run dorny/paths-filter@v3	2026-05-01T17:07:55.5134547Z [command]/usr/bin/git cat-file -e d9b3255abe54f42afce6e6e301e1dfbffc274a1e^{commit}
+changes	Run dorny/paths-filter@v3	2026-05-01T17:07:55.5162462Z fatal: Not a valid object name d9b3255abe54f42afce6e6e301e1dfbffc274a1e^{commit}
+changes	Run dorny/paths-filter@v3	2026-05-01T17:07:55.5187273Z [command]/usr/bin/git fetch --depth=1 --no-tags origin d9b3255abe54f42afce6e6e301e1dfbffc274a1e
+changes	Run dorny/paths-filter@v3	2026-05-01T17:07:55.7766722Z From https://github.com/arda-labs/arda
+changes	Run dorny/paths-filter@v3	2026-05-01T17:07:55.7770134Z  * branch            d9b3255abe54f42afce6e6e301e1dfbffc274a1e -> FETCH_HEAD
+changes	Run dorny/paths-filter@v3	2026-05-01T17:07:55.7803041Z [command]/usr/bin/git cat-file -e d9b3255abe54f42afce6e6e301e1dfbffc274a1e^{commit}
+changes	Run dorny/paths-filter@v3	2026-05-01T17:07:55.7831344Z ##[endgroup]
+changes	Run dorny/paths-filter@v3	2026-05-01T17:07:55.7833349Z ##[group]Ensuring main is fetched from origin
+changes	Run dorny/paths-filter@v3	2026-05-01T17:07:55.7850526Z [command]/usr/bin/git show-ref main
+changes	Run dorny/paths-filter@v3	2026-05-01T17:07:55.7873448Z f6b5b7bc95bd86209e6b371e07f3ab3ce5e7ab4b refs/heads/main
+changes	Run dorny/paths-filter@v3	2026-05-01T17:07:55.7876412Z f6b5b7bc95bd86209e6b371e07f3ab3ce5e7ab4b refs/remotes/origin/main
+changes	Run dorny/paths-filter@v3	2026-05-01T17:07:55.7884547Z ##[endgroup]
+changes	Run dorny/paths-filter@v3	2026-05-01T17:07:55.7887606Z ##[group]Change detection d9b3255abe54f42afce6e6e301e1dfbffc274a1e..main
+changes	Run dorny/paths-filter@v3	2026-05-01T17:07:55.7898211Z [command]/usr/bin/git diff --no-renames --name-status -z d9b3255abe54f42afce6e6e301e1dfbffc274a1e..refs/remotes/origin/main
+changes	Run dorny/paths-filter@v3	2026-05-01T17:07:55.8036862Z M .github/workflows/ci-java.yml M CLAUDE.md M README.md D apps/backend-java/accounting_tmp/Dockerfile D apps/backend-java/accounting_tmp/build.gradle.kts D apps/backend-java/accounting_tmp/src/main/kotlin/arda/accounting/AccountingApplication.kt D apps/backend-java/accounting_tmp/src/main/kotlin/arda/accounting/application/dto/TransferRequest.kt D apps/backend-java/accounting_tmp/src/main/kotlin/arda/accounting/application/service/AccountingApplicationService.kt D apps/backend-java/accounting_tmp/src/main/kotlin/arda/accounting/config/ArdaConfig.kt D apps/backend-java/accounting_tmp/src/main/kotlin/arda/accounting/domain/model/Account.kt D apps/backend-java/accounting_tmp/src/main/kotlin/arda/accounting/domain/model/Journal.kt D apps/backend-java/accounting_tmp/src/main/kotlin/arda/accounting/domain/service/AccountingDomainService.kt D apps/backend-java/accounting_tmp/src/main/kotlin/arda/accounting/infrastructure/persistence/PersistenceEntities.kt D apps/backend-java/accounting_tmp/src/main/kotlin/arda/accounting/infrastructure/persistence/Repositories.kt D apps/backend-java/accounting_tmp/src/main/kotlin/arda/accounting/web/AccountingController.kt D apps/backend-java/accounting_tmp/src/main/resources/application.yaml D apps/backend-java/accounting_tmp/src/main/resources/schema.sql M apps/backend-java/build.gradle.kts M apps/backend-java/crm-service/Dockerfile M apps/backend-java/crm-service/build.gradle.kts A apps/backend-java/crm-service/src/main/java/io/arda/crm/CrmApplication.java A apps/backend-java/crm-service/src/main/java/io/arda/crm/domain/Customer.java A apps/backend-java/crm-service/src/main/java/io/arda/crm/domain/CustomerRepository.java A apps/backend-java/crm-service/src/main/java/io/arda/crm/worker/CustomerWorker.java D apps/backend-java/crm-service/src/main/kotlin/io/arda/crm/CrmApplication.kt D apps/backend-java/crm-service/src/main/kotlin/io/arda/crm/domain/Customer.kt D apps/backend-java/crm-service/src/main/kotlin/io/arda/crm/domain/CustomerRepository.kt D apps/backend-java/crm-service/src/main/kotlin/io/arda/crm/worker/CustomerWorker.kt A apps/backend-java/gradle/wrapper/gradle-wrapper.jar A apps/backend-java/gradle/wrapper/gradle-wrapper.properties A apps/backend-java/gradlew A apps/backend-java/gradlew.bat M apps/backend-java/settings.gradle.kts M docs/01-overview/architecture.md M docs/03-backend-java/architecture.md M libs/java/common/build.gradle.kts A libs/java/common/src/main/java/arda/common/context/ArdaContext.java A libs/java/common/src/main/java/arda/common/exception/BaseException.java A libs/java/common/src/main/java/arda/common/exception/ErrorCode.java A libs/java/common/src/main/java/arda/common/model/ApiResponse.java A libs/java/common/src/main/java/arda/common/model/PageResponse.java A libs/java/common/src/main/java/arda/common/util/LoggingUtils.java A libs/java/common/src/main/java/arda/common/util/MoneyUtils.java D libs/java/common/src/main/kotlin/arda/common/context/ArdaContext.kt D libs/java/common/src/main/kotlin/arda/common/exception/BaseException.kt D libs/java/common/src/main/kotlin/arda/common/exception/ErrorCode.kt D libs/java/common/src/main/kotlin/arda/common/model/ApiResponse.kt D libs/java/common/src/main/kotlin/arda/common/model/PageResponse.kt D libs/java/common/src/main/kotlin/arda/common/util/LoggingUtils.kt D libs/java/common/src/main/kotlin/arda/common/util/MoneyUtils.kt M libs/java/database/build.gradle.kts A libs/java/database/src/main/java/arda/database/entity/BaseEntity.java D libs/java/database/src/main/kotlin/arda/database/entity/BaseEntity.kt M libs/java/grpc-client/build.gradle.kts A libs/java/grpc-client/src/main/java/arda/grpc/interceptor/ClientContextInterceptor.java A libs/java/grpc-client/src/main/java/arda/grpc/interceptor/ClientLoggingInterceptor.java D libs/java/grpc-client/src/main/kotlin/arda/grpc/interceptor/ClientContextInterceptor.kt D libs/java/grpc-client/src/main/kotlin/arda/grpc/interceptor/ClientLoggingInterceptor.kt M libs/java/messaging/build.gradle.kts A libs/java/messaging/src/main/java/arda/messaging/consumer/IdempotencyHandler.java A libs/java/messaging/src/main/java/arda/messaging/event/ArdaEvent.java A libs/java/messaging/src/main/java/arda/messaging/producer/ArdaEventProducer.java D libs/java/messaging/src/main/kotlin/arda/messaging/consumer/IdempotencyHandler.kt D libs/java/messaging/src/main/kotlin/arda/messaging/event/ArdaEvent.kt D libs/java/messaging/src/main/kotlin/arda/messaging/producer/ArdaEventProducer.kt M libs/java/security/build.gradle.kts A libs/java/security/src/main/java/arda/security/config/ArdaSecurityConfig.java A libs/java/security/src/main/java/arda/security/filter/ArdaSecurityFilter.java D libs/java/security/src/main/kotlin/arda/security/config/ArdaSecurityConfig.kt D libs/java/security/src/main/kotlin/arda/security/filter/ArdaSecurityFilter.kt 
+changes	Run dorny/paths-filter@v3	2026-05-01T17:07:55.8108690Z ##[endgroup]
+changes	Run dorny/paths-filter@v3	2026-05-01T17:07:55.8109498Z Detected 70 changed files
+changes	Run dorny/paths-filter@v3	2026-05-01T17:07:55.8110349Z Results:
+changes	Run dorny/paths-filter@v3	2026-05-01T17:07:55.8111613Z ##[group]Filter accounting = true
+changes	Run dorny/paths-filter@v3	2026-05-01T17:07:55.8112837Z Matching files:
+changes	Run dorny/paths-filter@v3	2026-05-01T17:07:55.8113729Z apps/backend-java/build.gradle.kts [modified]
+changes	Run dorny/paths-filter@v3	2026-05-01T17:07:55.8115002Z apps/backend-java/settings.gradle.kts [modified]
+changes	Run dorny/paths-filter@v3	2026-05-01T17:07:55.8116665Z ##[endgroup]
+changes	Run dorny/paths-filter@v3	2026-05-01T17:07:55.8117997Z ##[group]Filter crm-service = true
+changes	Run dorny/paths-filter@v3	2026-05-01T17:07:55.8119041Z Matching files:
+changes	Run dorny/paths-filter@v3	2026-05-01T17:07:55.8119925Z apps/backend-java/build.gradle.kts [modified]
+changes	Run dorny/paths-filter@v3	2026-05-01T17:07:55.8121189Z apps/backend-java/crm-service/Dockerfile [modified]
+changes	Run dorny/paths-filter@v3	2026-05-01T17:07:55.8122882Z apps/backend-java/crm-service/build.gradle.kts [modified]
+changes	Run dorny/paths-filter@v3	2026-05-01T17:07:55.8124714Z apps/backend-java/crm-service/src/main/java/io/arda/crm/CrmApplication.java [added]
+changes	Run dorny/paths-filter@v3	2026-05-01T17:07:55.8126911Z apps/backend-java/crm-service/src/main/java/io/arda/crm/domain/Customer.java [added]
+changes	Run dorny/paths-filter@v3	2026-05-01T17:07:55.8129444Z apps/backend-java/crm-service/src/main/java/io/arda/crm/domain/CustomerRepository.java [added]
+changes	Run dorny/paths-filter@v3	2026-05-01T17:07:55.8132035Z apps/backend-java/crm-service/src/main/java/io/arda/crm/worker/CustomerWorker.java [added]
+changes	Run dorny/paths-filter@v3	2026-05-01T17:07:55.8134519Z apps/backend-java/crm-service/src/main/kotlin/io/arda/crm/CrmApplication.kt [deleted]
+changes	Run dorny/paths-filter@v3	2026-05-01T17:07:55.8136958Z apps/backend-java/crm-service/src/main/kotlin/io/arda/crm/domain/Customer.kt [deleted]
+changes	Run dorny/paths-filter@v3	2026-05-01T17:07:55.8139313Z apps/backend-java/crm-service/src/main/kotlin/io/arda/crm/domain/CustomerRepository.kt [deleted]
+changes	Run dorny/paths-filter@v3	2026-05-01T17:07:55.8142206Z apps/backend-java/crm-service/src/main/kotlin/io/arda/crm/worker/CustomerWorker.kt [deleted]
+changes	Run dorny/paths-filter@v3	2026-05-01T17:07:55.8144063Z apps/backend-java/settings.gradle.kts [modified]
+changes	Run dorny/paths-filter@v3	2026-05-01T17:07:55.8145694Z ##[endgroup]
+changes	Run dorny/paths-filter@v3	2026-05-01T17:07:55.8146563Z Changes output set to ["accounting","crm-service"]
+changes	Post Run actions/checkout@v4	﻿2026-05-01T17:07:55.8430746Z Post job cleanup.
+changes	Post Run actions/checkout@v4	2026-05-01T17:07:55.9436802Z [command]/usr/bin/git version
+changes	Post Run actions/checkout@v4	2026-05-01T17:07:55.9473032Z git version 2.53.0
+changes	Post Run actions/checkout@v4	2026-05-01T17:07:55.9519965Z Temporarily overriding HOME='/home/runner/work/_temp/84dfff84-f724-4a60-97b3-649f50f9e010' before making global git config changes
+changes	Post Run actions/checkout@v4	2026-05-01T17:07:55.9524969Z Adding repository directory to the temporary git global config as a safe directory
+changes	Post Run actions/checkout@v4	2026-05-01T17:07:55.9528654Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/arda/arda
+changes	Post Run actions/checkout@v4	2026-05-01T17:07:55.9661306Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+changes	Post Run actions/checkout@v4	2026-05-01T17:07:55.9699484Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+changes	Post Run actions/checkout@v4	2026-05-01T17:07:55.9940367Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+changes	Post Run actions/checkout@v4	2026-05-01T17:07:55.9959673Z http.https://github.com/.extraheader
+changes	Post Run actions/checkout@v4	2026-05-01T17:07:55.9973735Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+changes	Post Run actions/checkout@v4	2026-05-01T17:07:56.0111218Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+changes	Post Run actions/checkout@v4	2026-05-01T17:07:56.0357050Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+changes	Post Run actions/checkout@v4	2026-05-01T17:07:56.0392254Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+changes	Complete job	﻿2026-05-01T17:07:56.0746331Z Evaluate and set job outputs
+changes	Complete job	2026-05-01T17:07:56.0755634Z Set output 'services'
+changes	Complete job	2026-05-01T17:07:56.0758362Z Cleaning up orphan processes
+changes	Complete job	2026-05-01T17:07:56.1321153Z ##[warning]Node.js 20 actions are deprecated. The following actions are running on Node.js 20 and may not work as expected: actions/checkout@v4, dorny/paths-filter@v3. Actions will be forced to run with Node.js 24 by default starting June 2nd, 2026. Node.js 20 will be removed from the runner on September 16th, 2026. Please check if updated versions of these actions are available that support Node.js 24. To opt into Node.js 24 now, set the FORCE_JAVASCRIPT_ACTIONS_TO_NODE24=true environment variable on the runner or in your workflow file. Once Node.js 24 becomes the default, you can temporarily opt out by setting ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+build-and-push (crm-service)	Set up job	﻿2026-05-01T17:08:01.4532371Z Current runner version: '2.334.0'
+build-and-push (crm-service)	Set up job	2026-05-01T17:08:01.4566820Z ##[group]Runner Image Provisioner
+build-and-push (crm-service)	Set up job	2026-05-01T17:08:01.4568109Z Hosted Compute Agent
+build-and-push (crm-service)	Set up job	2026-05-01T17:08:01.4568942Z Version: 20260213.493
+build-and-push (crm-service)	Set up job	2026-05-01T17:08:01.4570107Z Commit: 5c115507f6dd24b8de37d8bbe0bb4509d0cc0fa3
+build-and-push (crm-service)	Set up job	2026-05-01T17:08:01.4571256Z Build Date: 2026-02-13T00:28:41Z
+build-and-push (crm-service)	Set up job	2026-05-01T17:08:01.4572199Z Worker ID: {79f22066-0192-41f3-be1c-ccb923896525}
+build-and-push (crm-service)	Set up job	2026-05-01T17:08:01.4573179Z Azure Region: eastus
+build-and-push (crm-service)	Set up job	2026-05-01T17:08:01.4574017Z ##[endgroup]
+build-and-push (crm-service)	Set up job	2026-05-01T17:08:01.4576057Z ##[group]Operating System
+build-and-push (crm-service)	Set up job	2026-05-01T17:08:01.4577033Z Ubuntu
+build-and-push (crm-service)	Set up job	2026-05-01T17:08:01.4577709Z 24.04.4
+build-and-push (crm-service)	Set up job	2026-05-01T17:08:01.4578435Z LTS
+build-and-push (crm-service)	Set up job	2026-05-01T17:08:01.4579219Z ##[endgroup]
+build-and-push (crm-service)	Set up job	2026-05-01T17:08:01.4580140Z ##[group]Runner Image
+build-and-push (crm-service)	Set up job	2026-05-01T17:08:01.4581080Z Image: ubuntu-24.04
+build-and-push (crm-service)	Set up job	2026-05-01T17:08:01.4581804Z Version: 20260413.86.1
+build-and-push (crm-service)	Set up job	2026-05-01T17:08:01.4583539Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260413.86/images/ubuntu/Ubuntu2404-Readme.md
+build-and-push (crm-service)	Set up job	2026-05-01T17:08:01.4586078Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260413.86
+build-and-push (crm-service)	Set up job	2026-05-01T17:08:01.4587609Z ##[endgroup]
+build-and-push (crm-service)	Set up job	2026-05-01T17:08:01.4589462Z ##[group]GITHUB_TOKEN Permissions
+build-and-push (crm-service)	Set up job	2026-05-01T17:08:01.4592260Z Contents: read
+build-and-push (crm-service)	Set up job	2026-05-01T17:08:01.4593025Z Metadata: read
+build-and-push (crm-service)	Set up job	2026-05-01T17:08:01.4594274Z Packages: write
+build-and-push (crm-service)	Set up job	2026-05-01T17:08:01.4595089Z ##[endgroup]
+build-and-push (crm-service)	Set up job	2026-05-01T17:08:01.4598093Z Secret source: Actions
+build-and-push (crm-service)	Set up job	2026-05-01T17:08:01.4599645Z Prepare workflow directory
+build-and-push (crm-service)	Set up job	2026-05-01T17:08:01.5037840Z Prepare all required actions
+build-and-push (crm-service)	Set up job	2026-05-01T17:08:01.5089899Z Getting action download info
+build-and-push (crm-service)	Set up job	2026-05-01T17:08:01.8228914Z Download action repository 'actions/checkout@v4' (SHA:34e114876b0b11c390a56381ad16ebd13914f8d5)
+build-and-push (crm-service)	Set up job	2026-05-01T17:08:01.9113088Z Download action repository 'actions/setup-java@v4' (SHA:c1e323688fd81a25caa38c78aa6df2d33d3e20d9)
+build-and-push (crm-service)	Set up job	2026-05-01T17:08:02.1530182Z Download action repository 'docker/login-action@v3' (SHA:c94ce9fb468520275223c153574b00df6fe4bcc9)
+build-and-push (crm-service)	Set up job	2026-05-01T17:08:02.4775202Z Complete job name: build-and-push (crm-service)
+build-and-push (crm-service)	Run actions/checkout@v4	﻿2026-05-01T17:08:02.5465040Z ##[group]Run actions/checkout@v4
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:02.5465864Z with:
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:02.5466274Z   repository: arda-labs/arda
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:02.5466933Z   token: ***
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:02.5467315Z   ssh-strict: true
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:02.5467701Z   ssh-user: git
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:02.5468103Z   persist-credentials: true
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:02.5468541Z   clean: true
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:02.5468935Z   sparse-checkout-cone-mode: true
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:02.5469586Z   fetch-depth: 1
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:02.5469969Z   fetch-tags: false
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:02.5470364Z   show-progress: true
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:02.5470767Z   lfs: false
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:02.5471149Z   submodules: false
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:02.5471549Z   set-safe-directory: true
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:02.5472178Z ##[endgroup]
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:02.6569399Z Syncing repository: arda-labs/arda
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:02.6571189Z ##[group]Getting Git version info
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:02.6571806Z Working directory is '/home/runner/work/arda/arda'
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:02.6572742Z [command]/usr/bin/git version
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:02.6608096Z git version 2.53.0
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:02.6632697Z ##[endgroup]
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:02.6646425Z Temporarily overriding HOME='/home/runner/work/_temp/48e42850-0a64-4b75-8c8e-a7e17929bc21' before making global git config changes
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:02.6648485Z Adding repository directory to the temporary git global config as a safe directory
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:02.6658906Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/arda/arda
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:02.6691302Z Deleting the contents of '/home/runner/work/arda/arda'
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:02.6695050Z ##[group]Initializing the repository
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:02.6698947Z [command]/usr/bin/git init /home/runner/work/arda/arda
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:02.6755262Z hint: Using 'master' as the name for the initial branch. This default branch name
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:02.6757225Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:02.6759812Z hint: to use in all of your new repositories, which will suppress this warning,
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:02.6761376Z hint: call:
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:02.6762409Z hint:
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:02.6763543Z hint: 	git config --global init.defaultBranch <name>
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:02.6764870Z hint:
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:02.6765863Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:02.6767162Z hint: 'development'. The just-created branch can be renamed via this command:
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:02.6767987Z hint:
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:02.6768380Z hint: 	git branch -m <name>
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:02.6768876Z hint:
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:02.6769971Z hint: Disable this message with "git config set advice.defaultBranchName false"
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:02.6771003Z Initialized empty Git repository in /home/runner/work/arda/arda/.git/
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:02.6772536Z [command]/usr/bin/git remote add origin https://github.com/arda-labs/arda
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:02.6800611Z ##[endgroup]
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:02.6801338Z ##[group]Disabling automatic garbage collection
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:02.6804334Z [command]/usr/bin/git config --local gc.auto 0
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:02.6839165Z ##[endgroup]
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:02.6840028Z ##[group]Setting up auth
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:02.6840730Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:02.6869261Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:02.7148271Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:02.7176945Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:02.7400446Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:02.7430934Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:02.7671629Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:02.7706080Z ##[endgroup]
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:02.7707125Z ##[group]Fetching the repository
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:02.7714499Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +f6b5b7bc95bd86209e6b371e07f3ab3ce5e7ab4b:refs/remotes/origin/main
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:03.1485227Z From https://github.com/arda-labs/arda
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:03.1487215Z  * [new ref]         f6b5b7bc95bd86209e6b371e07f3ab3ce5e7ab4b -> origin/main
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:03.1519635Z ##[endgroup]
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:03.1521550Z ##[group]Determining the checkout info
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:03.1523563Z ##[endgroup]
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:03.1527076Z [command]/usr/bin/git sparse-checkout disable
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:03.1569392Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:03.1598084Z ##[group]Checking out the ref
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:03.1602145Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:03.2053300Z Switched to a new branch 'main'
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:03.2054750Z branch 'main' set up to track 'origin/main'.
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:03.2063912Z ##[endgroup]
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:03.2100973Z [command]/usr/bin/git log -1 --format=%H
+build-and-push (crm-service)	Run actions/checkout@v4	2026-05-01T17:08:03.2123463Z f6b5b7bc95bd86209e6b371e07f3ab3ce5e7ab4b
+build-and-push (crm-service)	Set up JDK 25	﻿2026-05-01T17:08:03.2487452Z ##[group]Run actions/setup-java@v4
+build-and-push (crm-service)	Set up JDK 25	2026-05-01T17:08:03.2488551Z with:
+build-and-push (crm-service)	Set up JDK 25	2026-05-01T17:08:03.2489646Z   java-version: 25
+build-and-push (crm-service)	Set up JDK 25	2026-05-01T17:08:03.2490506Z   distribution: temurin
+build-and-push (crm-service)	Set up JDK 25	2026-05-01T17:08:03.2491402Z   cache: gradle
+build-and-push (crm-service)	Set up JDK 25	2026-05-01T17:08:03.2492209Z   java-package: jdk
+build-and-push (crm-service)	Set up JDK 25	2026-05-01T17:08:03.2493054Z   check-latest: false
+build-and-push (crm-service)	Set up JDK 25	2026-05-01T17:08:03.2493922Z   server-id: github
+build-and-push (crm-service)	Set up JDK 25	2026-05-01T17:08:03.2494785Z   server-username: GITHUB_ACTOR
+build-and-push (crm-service)	Set up JDK 25	2026-05-01T17:08:03.2496029Z   server-password: GITHUB_TOKEN
+build-and-push (crm-service)	Set up JDK 25	2026-05-01T17:08:03.2497050Z   overwrite-settings: true
+build-and-push (crm-service)	Set up JDK 25	2026-05-01T17:08:03.2498001Z   job-status: success
+build-and-push (crm-service)	Set up JDK 25	2026-05-01T17:08:03.2499236Z   token: ***
+build-and-push (crm-service)	Set up JDK 25	2026-05-01T17:08:03.2499988Z ##[endgroup]
+build-and-push (crm-service)	Set up JDK 25	2026-05-01T17:08:03.4594753Z ##[group]Installed distributions
+build-and-push (crm-service)	Set up JDK 25	2026-05-01T17:08:03.4655307Z Resolved Java 25.0.2+10 from tool-cache
+build-and-push (crm-service)	Set up JDK 25	2026-05-01T17:08:03.4657936Z Setting Java 25.0.2+10 as the default
+build-and-push (crm-service)	Set up JDK 25	2026-05-01T17:08:03.4674391Z Creating toolchains.xml for JDK version 25 from temurin
+build-and-push (crm-service)	Set up JDK 25	2026-05-01T17:08:03.4788167Z Writing to /home/runner/.m2/toolchains.xml
+build-and-push (crm-service)	Set up JDK 25	2026-05-01T17:08:03.4789613Z 
+build-and-push (crm-service)	Set up JDK 25	2026-05-01T17:08:03.4791893Z Java configuration:
+build-and-push (crm-service)	Set up JDK 25	2026-05-01T17:08:03.4793084Z   Distribution: temurin
+build-and-push (crm-service)	Set up JDK 25	2026-05-01T17:08:03.4794312Z   Version: 25.0.2+10
+build-and-push (crm-service)	Set up JDK 25	2026-05-01T17:08:03.4796006Z   Path: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/25.0.2-10/x64
+build-and-push (crm-service)	Set up JDK 25	2026-05-01T17:08:03.4797534Z 
+build-and-push (crm-service)	Set up JDK 25	2026-05-01T17:08:03.4798798Z ##[endgroup]
+build-and-push (crm-service)	Set up JDK 25	2026-05-01T17:08:03.4814361Z Creating settings.xml with server-id: github
+build-and-push (crm-service)	Set up JDK 25	2026-05-01T17:08:03.4825604Z Writing to /home/runner/.m2/settings.xml
+build-and-push (crm-service)	Set up JDK 25	2026-05-01T17:08:03.7055858Z gradle cache is not found
+build-and-push (crm-service)	Login to GHCR	﻿2026-05-01T17:08:03.7348735Z ##[group]Run docker/login-action@v3
+build-and-push (crm-service)	Login to GHCR	2026-05-01T17:08:03.7350263Z with:
+build-and-push (crm-service)	Login to GHCR	2026-05-01T17:08:03.7350984Z   registry: ghcr.io
+build-and-push (crm-service)	Login to GHCR	2026-05-01T17:08:03.7351772Z   username: hoan02
+build-and-push (crm-service)	Login to GHCR	2026-05-01T17:08:03.7352945Z   password: ***
+build-and-push (crm-service)	Login to GHCR	2026-05-01T17:08:03.7353701Z   logout: true
+build-and-push (crm-service)	Login to GHCR	2026-05-01T17:08:03.7354433Z env:
+build-and-push (crm-service)	Login to GHCR	2026-05-01T17:08:03.7355516Z   JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/25.0.2-10/x64
+build-and-push (crm-service)	Login to GHCR	2026-05-01T17:08:03.7357351Z   JAVA_HOME_25_X64: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/25.0.2-10/x64
+build-and-push (crm-service)	Login to GHCR	2026-05-01T17:08:03.7358815Z ##[endgroup]
+build-and-push (crm-service)	Login to GHCR	2026-05-01T17:08:04.0430776Z Logging into ghcr.io...
+build-and-push (crm-service)	Login to GHCR	2026-05-01T17:08:04.2017706Z Login Succeeded!
+build-and-push (crm-service)	Build and Push Docker Image	﻿2026-05-01T17:08:04.2193305Z ##[group]Run SERVICE_NAME=crm-service
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:04.2194517Z [36;1mSERVICE_NAME=crm-service[0m
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:04.2195692Z [36;1mIMAGE_NAME=ghcr.io/arda-labs/$SERVICE_NAME[0m
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:04.2197071Z [36;1mTAG=f6b5b7bc95bd86209e6b371e07f3ab3ce5e7ab4b[0m
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:04.2198278Z [36;1mSHORT_TAG=${TAG:0:7}[0m
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:04.2199569Z [36;1mecho "short_tag=$SHORT_TAG" >> $GITHUB_OUTPUT[0m
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:04.2200716Z [36;1m[0m
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:04.2201673Z [36;1m# Path: apps/backend-java/$SERVICE_NAME/Dockerfile[0m
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:04.2203271Z [36;1mdocker build -t $IMAGE_NAME:$SHORT_TAG -t $IMAGE_NAME:latest \[0m
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:04.2204848Z [36;1m  -f apps/backend-java/$SERVICE_NAME/Dockerfile .[0m
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:04.2206051Z [36;1m[0m
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:04.2206867Z [36;1mdocker push $IMAGE_NAME:$SHORT_TAG[0m
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:04.2208188Z [36;1mdocker push $IMAGE_NAME:latest[0m
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:04.2235687Z shell: /usr/bin/bash -e {0}
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:04.2236633Z env:
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:04.2237795Z   JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/25.0.2-10/x64
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:04.2239847Z   JAVA_HOME_25_X64: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/25.0.2-10/x64
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:04.2241322Z ##[endgroup]
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:04.5679405Z #0 building with "default" instance using docker driver
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:04.5680435Z 
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:04.5680951Z #1 [internal] load build definition from Dockerfile
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:04.5682155Z #1 transferring dockerfile: 717B done
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:04.5683142Z #1 DONE 0.0s
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:04.5683563Z 
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:04.5684234Z #2 [auth] library/eclipse-temurin:pull token for registry-1.docker.io
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:04.5685548Z #2 DONE 0.0s
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:04.5685971Z 
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:04.5686654Z #3 [internal] load metadata for docker.io/library/eclipse-temurin:25-jdk
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:04.8837897Z #3 ...
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:04.8838536Z 
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:04.8839510Z #4 [internal] load metadata for docker.io/library/eclipse-temurin:25-jre-alpine
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:04.8841071Z #4 DONE 0.5s
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:04.9917965Z 
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:04.9919704Z #3 [internal] load metadata for docker.io/library/eclipse-temurin:25-jdk
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:04.9930309Z #3 DONE 0.5s
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:04.9930836Z 
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:04.9931381Z #5 [internal] load .dockerignore
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:04.9932901Z #5 transferring context: 2B done
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:04.9934345Z #5 DONE 0.0s
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:04.9934900Z 
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:04.9936725Z #6 [stage-1 1/3] FROM docker.io/library/eclipse-temurin:25-jre-alpine@sha256:c707c0d18cb9e8556380719f80d96a7529d0746fbb42143893949b98ed2f8943
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:04.9942043Z #6 resolve docker.io/library/eclipse-temurin:25-jre-alpine@sha256:c707c0d18cb9e8556380719f80d96a7529d0746fbb42143893949b98ed2f8943 done
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:05.1082511Z #6 ...
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:05.1083203Z 
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:05.1083587Z #7 [internal] load build context
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:05.1084678Z #7 transferring context: 5.58MB 0.1s done
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:05.1085698Z #7 DONE 0.1s
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:05.1086380Z 
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:05.1088330Z #6 [stage-1 1/3] FROM docker.io/library/eclipse-temurin:25-jre-alpine@sha256:c707c0d18cb9e8556380719f80d96a7529d0746fbb42143893949b98ed2f8943
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:05.1092141Z #6 sha256:1335792811458e3e4c22ab6e0025df0f3de8a92b49e4e96b6ccd8b88c370781f 9.44MB / 9.44MB 0.2s done
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:05.1095170Z #6 sha256:53473754426f243fd00d95d8839b6a0fedb13efffa3d3ccdf63b9b1d5386388b 15.73MB / 62.12MB 0.2s
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:05.1097717Z #6 sha256:c707c0d18cb9e8556380719f80d96a7529d0746fbb42143893949b98ed2f8943 2.68kB / 2.68kB done
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:05.1100232Z #6 sha256:609c3d5184aeabe15c1a077af6d1c53d0ba65df18347c67043d00195267c4f7d 1.94kB / 1.94kB done
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:05.1102505Z #6 sha256:a0343511dcbd63b3c40e9c7b685a29c6107e152694d784e23d46082eabd3aee0 4.18kB / 4.18kB done
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:05.1104763Z #6 sha256:6a0ac1617861a677b045b7ff88545213ec31c0ff08763195a70a4a5adda577bb 2.10MB / 3.86MB 0.2s
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:05.1107054Z #6 sha256:f20ccdd0c7bb68e396b2c66aa39ca2d60c83bd97e3b8ad8bb29b4eba112ef532 128B / 128B 0.2s done
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:05.2574193Z #6 sha256:53473754426f243fd00d95d8839b6a0fedb13efffa3d3ccdf63b9b1d5386388b 29.36MB / 62.12MB 0.3s
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:05.2578450Z #6 sha256:6a0ac1617861a677b045b7ff88545213ec31c0ff08763195a70a4a5adda577bb 3.86MB / 3.86MB 0.2s done
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:05.2582234Z #6 extracting sha256:6a0ac1617861a677b045b7ff88545213ec31c0ff08763195a70a4a5adda577bb 0.1s
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:05.2586841Z #6 sha256:5e109dd049422d199ac3c3328c12b15431660a3a1bc64d8fdd24f2f88da5efc4 2.28kB / 2.28kB 0.2s done
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:05.4063084Z #6 sha256:53473754426f243fd00d95d8839b6a0fedb13efffa3d3ccdf63b9b1d5386388b 45.09MB / 62.12MB 0.4s
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:05.4066188Z #6 extracting sha256:6a0ac1617861a677b045b7ff88545213ec31c0ff08763195a70a4a5adda577bb 0.1s done
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:05.4070217Z #6 extracting sha256:1335792811458e3e4c22ab6e0025df0f3de8a92b49e4e96b6ccd8b88c370781f
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:05.5078890Z #6 sha256:53473754426f243fd00d95d8839b6a0fedb13efffa3d3ccdf63b9b1d5386388b 62.12MB / 62.12MB 0.5s done
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:05.7413462Z #6 extracting sha256:1335792811458e3e4c22ab6e0025df0f3de8a92b49e4e96b6ccd8b88c370781f 0.4s done
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:06.0671417Z #6 extracting sha256:53473754426f243fd00d95d8839b6a0fedb13efffa3d3ccdf63b9b1d5386388b
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:07.2493205Z #6 extracting sha256:53473754426f243fd00d95d8839b6a0fedb13efffa3d3ccdf63b9b1d5386388b 1.1s done
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:07.5539897Z #6 extracting sha256:f20ccdd0c7bb68e396b2c66aa39ca2d60c83bd97e3b8ad8bb29b4eba112ef532
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:07.6686376Z #6 extracting sha256:f20ccdd0c7bb68e396b2c66aa39ca2d60c83bd97e3b8ad8bb29b4eba112ef532 done
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:07.6687412Z #6 extracting sha256:5e109dd049422d199ac3c3328c12b15431660a3a1bc64d8fdd24f2f88da5efc4 done
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:07.6688035Z #6 DONE 2.7s
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:07.6688243Z 
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:07.6688655Z #8 [stage-1 2/3] WORKDIR /app
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:07.6689269Z #8 DONE 0.0s
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:07.6689556Z 
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:07.6690396Z #9 [builder 1/5] FROM docker.io/library/eclipse-temurin:25-jdk@sha256:c3a5cfd77c9a43dd95269a266290d365b79b174381d8336a3f76a7ae117beefa
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:07.6691875Z #9 resolve docker.io/library/eclipse-temurin:25-jdk@sha256:c3a5cfd77c9a43dd95269a266290d365b79b174381d8336a3f76a7ae117beefa done
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:07.6693428Z #9 sha256:e904c692bcc277b0f880df4290b67729a3d10562289ea51e7544bb2c72f49eae 1.94kB / 1.94kB done
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:07.6694405Z #9 sha256:22694efc2ce1f10212a3244b96f82b36f529d86a25918dd98f5385cc5b979b49 6.29kB / 6.29kB done
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:07.6695405Z #9 sha256:c3a5cfd77c9a43dd95269a266290d365b79b174381d8336a3f76a7ae117beefa 7.18kB / 7.18kB done
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:07.6696429Z #9 sha256:b40150c1c2717d324cdb17278c8efdfa4dfcd2ffe083e976f0bcedf31115f081 29.73MB / 29.73MB 0.7s done
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:07.6697483Z #9 sha256:97c47a5c1a2f55ee2696423e5c0582023889a363dd5a3ec51a2633d6d340d973 17.46MB / 17.46MB 0.4s done
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:07.6698555Z #9 sha256:b38893372039c6251d8c3f63d95d127b0ce85aa0cd7250e1c5da23898f264e01 92.71MB / 92.71MB 1.3s done
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:07.6699939Z #9 sha256:4f4fb700ef54461cfa02571ae0db9a0dc1e0cdb5577484a6d75e68dc38e8acc1 32B / 32B 0.6s done
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:07.6701005Z #9 sha256:d92a694d8aa025f026ea647e2324c8daccda22c915159e8672c4a5f3e6861c91 2.28kB / 2.28kB 0.6s done
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:07.6702172Z #9 extracting sha256:b40150c1c2717d324cdb17278c8efdfa4dfcd2ffe083e976f0bcedf31115f081 1.2s done
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:07.6703206Z #9 extracting sha256:97c47a5c1a2f55ee2696423e5c0582023889a363dd5a3ec51a2633d6d340d973 0.8s
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:07.8040282Z #9 extracting sha256:97c47a5c1a2f55ee2696423e5c0582023889a363dd5a3ec51a2633d6d340d973 0.8s done
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:07.8041414Z #9 extracting sha256:b38893372039c6251d8c3f63d95d127b0ce85aa0cd7250e1c5da23898f264e01
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:08.9446037Z #9 extracting sha256:b38893372039c6251d8c3f63d95d127b0ce85aa0cd7250e1c5da23898f264e01 1.1s done
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:09.3506648Z #9 extracting sha256:4f4fb700ef54461cfa02571ae0db9a0dc1e0cdb5577484a6d75e68dc38e8acc1
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:09.4789736Z #9 extracting sha256:4f4fb700ef54461cfa02571ae0db9a0dc1e0cdb5577484a6d75e68dc38e8acc1 done
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:09.4791244Z #9 extracting sha256:d92a694d8aa025f026ea647e2324c8daccda22c915159e8672c4a5f3e6861c91 done
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:09.4791967Z #9 DONE 4.5s
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:09.4792232Z 
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:09.4792389Z #10 [builder 2/5] WORKDIR /app
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:09.4792703Z #10 DONE 0.0s
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:09.4792878Z 
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:09.4792999Z #11 [builder 3/5] COPY . .
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:09.4793298Z #11 DONE 0.1s
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:09.6193563Z 
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:09.6194845Z #12 [builder 4/5] WORKDIR /app/apps/backend-java
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:09.6195439Z #12 DONE 0.0s
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:09.6195818Z 
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:09.6196395Z #13 [builder 5/5] RUN ./gradlew :crm-service:build -x test || gradle :crm-service:build -x test
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:09.6197293Z #13 0.134 /bin/sh: 1: ./gradlew: Permission denied
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:09.6494230Z #13 0.134 /bin/sh: 1: gradle: not found
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:09.6497011Z #13 ERROR: process "/bin/sh -c ./gradlew :crm-service:build -x test || gradle :crm-service:build -x test" did not complete successfully: exit code: 127
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:09.6501374Z ------
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:09.6501930Z  > [builder 5/5] RUN ./gradlew :crm-service:build -x test || gradle :crm-service:build -x test:
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:09.6502745Z 0.134 /bin/sh: 1: ./gradlew: Permission denied
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:09.6503188Z 0.134 /bin/sh: 1: gradle: not found
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:09.6503542Z ------
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:09.6566767Z Dockerfile:10
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:09.6570008Z --------------------
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:09.6570838Z    8 |     # Better yet, let's use a standard gradle image with jdk 25 if it exists in the future,
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:09.6571819Z    9 |     # but for now we follow the instruction.
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:09.6572671Z   10 | >>> RUN ./gradlew :crm-service:build -x test || gradle :crm-service:build -x test
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:09.6573405Z   11 |     
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:09.6573842Z   12 |     FROM eclipse-temurin:25-jre-alpine
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:09.6574359Z --------------------
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:09.6575518Z ERROR: failed to build: failed to solve: process "/bin/sh -c ./gradlew :crm-service:build -x test || gradle :crm-service:build -x test" did not complete successfully: exit code: 127
+build-and-push (crm-service)	Build and Push Docker Image	2026-05-01T17:08:09.6694557Z ##[error]Process completed with exit code 1.
+build-and-push (crm-service)	Post Login to GHCR	﻿2026-05-01T17:08:09.6806071Z Post job cleanup.
+build-and-push (crm-service)	Post Login to GHCR	2026-05-01T17:08:09.9774604Z ##[group]Logout from ghcr.io
+build-and-push (crm-service)	Post Login to GHCR	2026-05-01T17:08:09.9823397Z [command]/usr/bin/docker logout ghcr.io
+build-and-push (crm-service)	Post Login to GHCR	2026-05-01T17:08:09.9961263Z Removing login credentials for ghcr.io
+build-and-push (crm-service)	Post Login to GHCR	2026-05-01T17:08:09.9990348Z ##[endgroup]
+build-and-push (crm-service)	Post Login to GHCR	2026-05-01T17:08:09.9991030Z ##[group]Post cache
+build-and-push (crm-service)	Post Login to GHCR	2026-05-01T17:08:09.9992843Z State not set
+build-and-push (crm-service)	Post Login to GHCR	2026-05-01T17:08:09.9993401Z ##[endgroup]
+build-and-push (crm-service)	Post Set up JDK 25	﻿2026-05-01T17:08:10.0139540Z Post job cleanup.
+build-and-push (crm-service)	Post Run actions/checkout@v4	﻿2026-05-01T17:08:10.1880287Z Post job cleanup.
+build-and-push (crm-service)	Post Run actions/checkout@v4	2026-05-01T17:08:10.2838464Z [command]/usr/bin/git version
+build-and-push (crm-service)	Post Run actions/checkout@v4	2026-05-01T17:08:10.2873650Z git version 2.53.0
+build-and-push (crm-service)	Post Run actions/checkout@v4	2026-05-01T17:08:10.2915957Z Temporarily overriding HOME='/home/runner/work/_temp/7ac37fa0-0387-4468-b63c-ad8255477119' before making global git config changes
+build-and-push (crm-service)	Post Run actions/checkout@v4	2026-05-01T17:08:10.2917206Z Adding repository directory to the temporary git global config as a safe directory
+build-and-push (crm-service)	Post Run actions/checkout@v4	2026-05-01T17:08:10.2922623Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/arda/arda
+build-and-push (crm-service)	Post Run actions/checkout@v4	2026-05-01T17:08:10.2958025Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+build-and-push (crm-service)	Post Run actions/checkout@v4	2026-05-01T17:08:10.2991885Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+build-and-push (crm-service)	Post Run actions/checkout@v4	2026-05-01T17:08:10.3231066Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+build-and-push (crm-service)	Post Run actions/checkout@v4	2026-05-01T17:08:10.3253167Z http.https://github.com/.extraheader
+build-and-push (crm-service)	Post Run actions/checkout@v4	2026-05-01T17:08:10.3265694Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+build-and-push (crm-service)	Post Run actions/checkout@v4	2026-05-01T17:08:10.3297016Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+build-and-push (crm-service)	Post Run actions/checkout@v4	2026-05-01T17:08:10.3525931Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+build-and-push (crm-service)	Post Run actions/checkout@v4	2026-05-01T17:08:10.3557214Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+build-and-push (crm-service)	Complete job	﻿2026-05-01T17:08:10.3890669Z Evaluate and set job outputs
+build-and-push (crm-service)	Complete job	2026-05-01T17:08:10.3895948Z Set output 'short_tag'
+build-and-push (crm-service)	Complete job	2026-05-01T17:08:10.3897675Z Cleaning up orphan processes
+build-and-push (crm-service)	Complete job	2026-05-01T17:08:10.4269842Z ##[warning]Node.js 20 actions are deprecated. The following actions are running on Node.js 20 and may not work as expected: actions/checkout@v4, actions/setup-java@v4, docker/login-action@v3. Actions will be forced to run with Node.js 24 by default starting June 2nd, 2026. Node.js 20 will be removed from the runner on September 16th, 2026. Please check if updated versions of these actions are available that support Node.js 24. To opt into Node.js 24 now, set the FORCE_JAVASCRIPT_ACTIONS_TO_NODE24=true environment variable on the runner or in your workflow file. Once Node.js 24 becomes the default, you can temporarily opt out by setting ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+build-and-push (accounting)	Set up job	﻿2026-05-01T17:08:02.1510244Z Current runner version: '2.334.0'
+build-and-push (accounting)	Set up job	2026-05-01T17:08:02.1535203Z ##[group]Runner Image Provisioner
+build-and-push (accounting)	Set up job	2026-05-01T17:08:02.1535998Z Hosted Compute Agent
+build-and-push (accounting)	Set up job	2026-05-01T17:08:02.1536576Z Version: 20260213.493
+build-and-push (accounting)	Set up job	2026-05-01T17:08:02.1537237Z Commit: 5c115507f6dd24b8de37d8bbe0bb4509d0cc0fa3
+build-and-push (accounting)	Set up job	2026-05-01T17:08:02.1537907Z Build Date: 2026-02-13T00:28:41Z
+build-and-push (accounting)	Set up job	2026-05-01T17:08:02.1538550Z Worker ID: {835c0fda-0363-4cb7-aaac-48696e8f41bb}
+build-and-push (accounting)	Set up job	2026-05-01T17:08:02.1539285Z Azure Region: westcentralus
+build-and-push (accounting)	Set up job	2026-05-01T17:08:02.1539814Z ##[endgroup]
+build-and-push (accounting)	Set up job	2026-05-01T17:08:02.1541219Z ##[group]Operating System
+build-and-push (accounting)	Set up job	2026-05-01T17:08:02.1541841Z Ubuntu
+build-and-push (accounting)	Set up job	2026-05-01T17:08:02.1542333Z 24.04.4
+build-and-push (accounting)	Set up job	2026-05-01T17:08:02.1542787Z LTS
+build-and-push (accounting)	Set up job	2026-05-01T17:08:02.1543238Z ##[endgroup]
+build-and-push (accounting)	Set up job	2026-05-01T17:08:02.1543746Z ##[group]Runner Image
+build-and-push (accounting)	Set up job	2026-05-01T17:08:02.1544513Z Image: ubuntu-24.04
+build-and-push (accounting)	Set up job	2026-05-01T17:08:02.1545081Z Version: 20260413.86.1
+build-and-push (accounting)	Set up job	2026-05-01T17:08:02.1546096Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260413.86/images/ubuntu/Ubuntu2404-Readme.md
+build-and-push (accounting)	Set up job	2026-05-01T17:08:02.1547750Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260413.86
+build-and-push (accounting)	Set up job	2026-05-01T17:08:02.1548679Z ##[endgroup]
+build-and-push (accounting)	Set up job	2026-05-01T17:08:02.1549696Z ##[group]GITHUB_TOKEN Permissions
+build-and-push (accounting)	Set up job	2026-05-01T17:08:02.1551520Z Contents: read
+build-and-push (accounting)	Set up job	2026-05-01T17:08:02.1552099Z Metadata: read
+build-and-push (accounting)	Set up job	2026-05-01T17:08:02.1552677Z Packages: write
+build-and-push (accounting)	Set up job	2026-05-01T17:08:02.1553168Z ##[endgroup]
+build-and-push (accounting)	Set up job	2026-05-01T17:08:02.1556039Z Secret source: Actions
+build-and-push (accounting)	Set up job	2026-05-01T17:08:02.1556863Z Prepare workflow directory
+build-and-push (accounting)	Set up job	2026-05-01T17:08:02.1908626Z Prepare all required actions
+build-and-push (accounting)	Set up job	2026-05-01T17:08:02.1965643Z Getting action download info
+build-and-push (accounting)	Set up job	2026-05-01T17:08:02.6680388Z Download action repository 'actions/checkout@v4' (SHA:34e114876b0b11c390a56381ad16ebd13914f8d5)
+build-and-push (accounting)	Set up job	2026-05-01T17:08:02.7973512Z Download action repository 'actions/setup-java@v4' (SHA:c1e323688fd81a25caa38c78aa6df2d33d3e20d9)
+build-and-push (accounting)	Set up job	2026-05-01T17:08:03.6875748Z Download action repository 'docker/login-action@v3' (SHA:c94ce9fb468520275223c153574b00df6fe4bcc9)
+build-and-push (accounting)	Set up job	2026-05-01T17:08:04.7824725Z Complete job name: build-and-push (accounting)
+build-and-push (accounting)	Run actions/checkout@v4	﻿2026-05-01T17:08:04.8663784Z ##[group]Run actions/checkout@v4
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:04.8665365Z with:
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:04.8666087Z   repository: arda-labs/arda
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:04.8667207Z   token: ***
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:04.8667906Z   ssh-strict: true
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:04.8668634Z   ssh-user: git
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:04.8669386Z   persist-credentials: true
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:04.8670276Z   clean: true
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:04.8671037Z   sparse-checkout-cone-mode: true
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:04.8671971Z   fetch-depth: 1
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:04.8672691Z   fetch-tags: false
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:04.8673452Z   show-progress: true
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:04.8674390Z   lfs: false
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:04.8675094Z   submodules: false
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:04.8675863Z   set-safe-directory: true
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:04.8677100Z ##[endgroup]
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:04.9831089Z Syncing repository: arda-labs/arda
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:04.9835177Z ##[group]Getting Git version info
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:04.9837176Z Working directory is '/home/runner/work/arda/arda'
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:04.9840202Z [command]/usr/bin/git version
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:04.9859839Z git version 2.53.0
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:04.9887765Z ##[endgroup]
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:04.9904829Z Temporarily overriding HOME='/home/runner/work/_temp/a222f1ef-1aaa-40ec-88f0-46f0f32682de' before making global git config changes
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:04.9909558Z Adding repository directory to the temporary git global config as a safe directory
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:04.9918556Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/arda/arda
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:04.9951602Z Deleting the contents of '/home/runner/work/arda/arda'
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:04.9955244Z ##[group]Initializing the repository
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:04.9959227Z [command]/usr/bin/git init /home/runner/work/arda/arda
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:05.0050105Z hint: Using 'master' as the name for the initial branch. This default branch name
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:05.0053441Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:05.0057206Z hint: to use in all of your new repositories, which will suppress this warning,
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:05.0059705Z hint: call:
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:05.0060982Z hint:
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:05.0062487Z hint: 	git config --global init.defaultBranch <name>
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:05.0064774Z hint:
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:05.0066589Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:05.0069598Z hint: 'development'. The just-created branch can be renamed via this command:
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:05.0071686Z hint:
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:05.0072450Z hint: 	git branch -m <name>
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:05.0073595Z hint:
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:05.0075220Z hint: Disable this message with "git config set advice.defaultBranchName false"
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:05.0078436Z Initialized empty Git repository in /home/runner/work/arda/arda/.git/
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:05.0082213Z [command]/usr/bin/git remote add origin https://github.com/arda-labs/arda
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:05.0096673Z ##[endgroup]
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:05.0098967Z ##[group]Disabling automatic garbage collection
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:05.0101234Z [command]/usr/bin/git config --local gc.auto 0
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:05.0130568Z ##[endgroup]
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:05.0132738Z ##[group]Setting up auth
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:05.0138501Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:05.0171303Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:05.0452930Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:05.0485050Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:05.0695792Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:05.0725172Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:05.0948775Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:05.0983503Z ##[endgroup]
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:05.0986062Z ##[group]Fetching the repository
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:05.0995351Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +f6b5b7bc95bd86209e6b371e07f3ab3ce5e7ab4b:refs/remotes/origin/main
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:05.9853036Z From https://github.com/arda-labs/arda
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:05.9854368Z  * [new ref]         f6b5b7bc95bd86209e6b371e07f3ab3ce5e7ab4b -> origin/main
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:05.9883301Z ##[endgroup]
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:05.9884250Z ##[group]Determining the checkout info
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:05.9885060Z ##[endgroup]
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:05.9890202Z [command]/usr/bin/git sparse-checkout disable
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:05.9926756Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:05.9951459Z ##[group]Checking out the ref
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:05.9956097Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:06.0410179Z Switched to a new branch 'main'
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:06.0413116Z branch 'main' set up to track 'origin/main'.
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:06.0420492Z ##[endgroup]
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:06.0453129Z [command]/usr/bin/git log -1 --format=%H
+build-and-push (accounting)	Run actions/checkout@v4	2026-05-01T17:08:06.0474400Z f6b5b7bc95bd86209e6b371e07f3ab3ce5e7ab4b
+build-and-push (accounting)	Set up JDK 25	﻿2026-05-01T17:08:06.0727632Z ##[group]Run actions/setup-java@v4
+build-and-push (accounting)	Set up JDK 25	2026-05-01T17:08:06.0727992Z with:
+build-and-push (accounting)	Set up JDK 25	2026-05-01T17:08:06.0728228Z   java-version: 25
+build-and-push (accounting)	Set up JDK 25	2026-05-01T17:08:06.0728470Z   distribution: temurin
+build-and-push (accounting)	Set up JDK 25	2026-05-01T17:08:06.0728722Z   cache: gradle
+build-and-push (accounting)	Set up JDK 25	2026-05-01T17:08:06.0728949Z   java-package: jdk
+build-and-push (accounting)	Set up JDK 25	2026-05-01T17:08:06.0729196Z   check-latest: false
+build-and-push (accounting)	Set up JDK 25	2026-05-01T17:08:06.0729441Z   server-id: github
+build-and-push (accounting)	Set up JDK 25	2026-05-01T17:08:06.0729679Z   server-username: GITHUB_ACTOR
+build-and-push (accounting)	Set up JDK 25	2026-05-01T17:08:06.0730152Z   server-password: GITHUB_TOKEN
+build-and-push (accounting)	Set up JDK 25	2026-05-01T17:08:06.0730437Z   overwrite-settings: true
+build-and-push (accounting)	Set up JDK 25	2026-05-01T17:08:06.0730705Z   job-status: success
+build-and-push (accounting)	Set up JDK 25	2026-05-01T17:08:06.0731091Z   token: ***
+build-and-push (accounting)	Set up JDK 25	2026-05-01T17:08:06.0731324Z ##[endgroup]
+build-and-push (accounting)	Set up JDK 25	2026-05-01T17:08:06.2721288Z ##[group]Installed distributions
+build-and-push (accounting)	Set up JDK 25	2026-05-01T17:08:06.2783012Z Resolved Java 25.0.2+10 from tool-cache
+build-and-push (accounting)	Set up JDK 25	2026-05-01T17:08:06.2783755Z Setting Java 25.0.2+10 as the default
+build-and-push (accounting)	Set up JDK 25	2026-05-01T17:08:06.2797859Z Creating toolchains.xml for JDK version 25 from temurin
+build-and-push (accounting)	Set up JDK 25	2026-05-01T17:08:06.2876633Z Writing to /home/runner/.m2/toolchains.xml
+build-and-push (accounting)	Set up JDK 25	2026-05-01T17:08:06.2877501Z 
+build-and-push (accounting)	Set up JDK 25	2026-05-01T17:08:06.2877683Z Java configuration:
+build-and-push (accounting)	Set up JDK 25	2026-05-01T17:08:06.2878629Z   Distribution: temurin
+build-and-push (accounting)	Set up JDK 25	2026-05-01T17:08:06.2880571Z   Version: 25.0.2+10
+build-and-push (accounting)	Set up JDK 25	2026-05-01T17:08:06.2881629Z   Path: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/25.0.2-10/x64
+build-and-push (accounting)	Set up JDK 25	2026-05-01T17:08:06.2882215Z 
+build-and-push (accounting)	Set up JDK 25	2026-05-01T17:08:06.2882660Z ##[endgroup]
+build-and-push (accounting)	Set up JDK 25	2026-05-01T17:08:06.2898114Z Creating settings.xml with server-id: github
+build-and-push (accounting)	Set up JDK 25	2026-05-01T17:08:06.2911006Z Writing to /home/runner/.m2/settings.xml
+build-and-push (accounting)	Set up JDK 25	2026-05-01T17:08:06.6963713Z gradle cache is not found
+build-and-push (accounting)	Login to GHCR	﻿2026-05-01T17:08:06.7188877Z ##[group]Run docker/login-action@v3
+build-and-push (accounting)	Login to GHCR	2026-05-01T17:08:06.7189219Z with:
+build-and-push (accounting)	Login to GHCR	2026-05-01T17:08:06.7189399Z   registry: ghcr.io
+build-and-push (accounting)	Login to GHCR	2026-05-01T17:08:06.7189606Z   username: hoan02
+build-and-push (accounting)	Login to GHCR	2026-05-01T17:08:06.7190013Z   password: ***
+build-and-push (accounting)	Login to GHCR	2026-05-01T17:08:06.7190216Z   logout: true
+build-and-push (accounting)	Login to GHCR	2026-05-01T17:08:06.7190394Z env:
+build-and-push (accounting)	Login to GHCR	2026-05-01T17:08:06.7190678Z   JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/25.0.2-10/x64
+build-and-push (accounting)	Login to GHCR	2026-05-01T17:08:06.7191169Z   JAVA_HOME_25_X64: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/25.0.2-10/x64
+build-and-push (accounting)	Login to GHCR	2026-05-01T17:08:06.7191534Z ##[endgroup]
+build-and-push (accounting)	Login to GHCR	2026-05-01T17:08:07.0293685Z Logging into ghcr.io...
+build-and-push (accounting)	Login to GHCR	2026-05-01T17:08:07.6406757Z Login Succeeded!
+build-and-push (accounting)	Build and Push Docker Image	﻿2026-05-01T17:08:07.6539080Z ##[group]Run SERVICE_NAME=accounting
+build-and-push (accounting)	Build and Push Docker Image	2026-05-01T17:08:07.6539478Z [36;1mSERVICE_NAME=accounting[0m
+build-and-push (accounting)	Build and Push Docker Image	2026-05-01T17:08:07.6539814Z [36;1mIMAGE_NAME=ghcr.io/arda-labs/$SERVICE_NAME[0m
+build-and-push (accounting)	Build and Push Docker Image	2026-05-01T17:08:07.6540199Z [36;1mTAG=f6b5b7bc95bd86209e6b371e07f3ab3ce5e7ab4b[0m
+build-and-push (accounting)	Build and Push Docker Image	2026-05-01T17:08:07.6540505Z [36;1mSHORT_TAG=${TAG:0:7}[0m
+build-and-push (accounting)	Build and Push Docker Image	2026-05-01T17:08:07.6540789Z [36;1mecho "short_tag=$SHORT_TAG" >> $GITHUB_OUTPUT[0m
+build-and-push (accounting)	Build and Push Docker Image	2026-05-01T17:08:07.6541068Z [36;1m[0m
+build-and-push (accounting)	Build and Push Docker Image	2026-05-01T17:08:07.6541337Z [36;1m# Path: apps/backend-java/$SERVICE_NAME/Dockerfile[0m
+build-and-push (accounting)	Build and Push Docker Image	2026-05-01T17:08:07.6541761Z [36;1mdocker build -t $IMAGE_NAME:$SHORT_TAG -t $IMAGE_NAME:latest \[0m
+build-and-push (accounting)	Build and Push Docker Image	2026-05-01T17:08:07.6542163Z [36;1m  -f apps/backend-java/$SERVICE_NAME/Dockerfile .[0m
+build-and-push (accounting)	Build and Push Docker Image	2026-05-01T17:08:07.6542454Z [36;1m[0m
+build-and-push (accounting)	Build and Push Docker Image	2026-05-01T17:08:07.6542660Z [36;1mdocker push $IMAGE_NAME:$SHORT_TAG[0m
+build-and-push (accounting)	Build and Push Docker Image	2026-05-01T17:08:07.6542951Z [36;1mdocker push $IMAGE_NAME:latest[0m
+build-and-push (accounting)	Build and Push Docker Image	2026-05-01T17:08:07.6566788Z shell: /usr/bin/bash -e {0}
+build-and-push (accounting)	Build and Push Docker Image	2026-05-01T17:08:07.6567066Z env:
+build-and-push (accounting)	Build and Push Docker Image	2026-05-01T17:08:07.6567410Z   JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/25.0.2-10/x64
+build-and-push (accounting)	Build and Push Docker Image	2026-05-01T17:08:07.6567901Z   JAVA_HOME_25_X64: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/25.0.2-10/x64
+build-and-push (accounting)	Build and Push Docker Image	2026-05-01T17:08:07.6568275Z ##[endgroup]
+build-and-push (accounting)	Build and Push Docker Image	2026-05-01T17:08:08.4031242Z ERROR: failed to build: resolve : lstat apps/backend-java/accounting: no such file or directory
+build-and-push (accounting)	Build and Push Docker Image	2026-05-01T17:08:08.4075856Z ##[error]Process completed with exit code 1.
+build-and-push (accounting)	Post Login to GHCR	﻿2026-05-01T17:08:08.4161449Z Post job cleanup.
+build-and-push (accounting)	Post Login to GHCR	2026-05-01T17:08:08.7142164Z ##[group]Logout from ghcr.io
+build-and-push (accounting)	Post Login to GHCR	2026-05-01T17:08:08.7190456Z [command]/usr/bin/docker logout ghcr.io
+build-and-push (accounting)	Post Login to GHCR	2026-05-01T17:08:08.7316771Z Removing login credentials for ghcr.io
+build-and-push (accounting)	Post Login to GHCR	2026-05-01T17:08:08.7349587Z ##[endgroup]
+build-and-push (accounting)	Post Login to GHCR	2026-05-01T17:08:08.7350323Z ##[group]Post cache
+build-and-push (accounting)	Post Login to GHCR	2026-05-01T17:08:08.7351585Z State not set
+build-and-push (accounting)	Post Login to GHCR	2026-05-01T17:08:08.7352243Z ##[endgroup]
+build-and-push (accounting)	Post Set up JDK 25	﻿2026-05-01T17:08:08.7504863Z Post job cleanup.
+build-and-push (accounting)	Post Run actions/checkout@v4	﻿2026-05-01T17:08:08.9280689Z Post job cleanup.
+build-and-push (accounting)	Post Run actions/checkout@v4	2026-05-01T17:08:09.0264797Z [command]/usr/bin/git version
+build-and-push (accounting)	Post Run actions/checkout@v4	2026-05-01T17:08:09.0305937Z git version 2.53.0
+build-and-push (accounting)	Post Run actions/checkout@v4	2026-05-01T17:08:09.0350836Z Temporarily overriding HOME='/home/runner/work/_temp/e5179122-2a24-4f52-9880-095d252b74ca' before making global git config changes
+build-and-push (accounting)	Post Run actions/checkout@v4	2026-05-01T17:08:09.0352939Z Adding repository directory to the temporary git global config as a safe directory
+build-and-push (accounting)	Post Run actions/checkout@v4	2026-05-01T17:08:09.0355731Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/arda/arda
+build-and-push (accounting)	Post Run actions/checkout@v4	2026-05-01T17:08:09.0402876Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+build-and-push (accounting)	Post Run actions/checkout@v4	2026-05-01T17:08:09.0441488Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+build-and-push (accounting)	Post Run actions/checkout@v4	2026-05-01T17:08:09.0684917Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+build-and-push (accounting)	Post Run actions/checkout@v4	2026-05-01T17:08:09.0708910Z http.https://github.com/.extraheader
+build-and-push (accounting)	Post Run actions/checkout@v4	2026-05-01T17:08:09.0721268Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+build-and-push (accounting)	Post Run actions/checkout@v4	2026-05-01T17:08:09.0754565Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+build-and-push (accounting)	Post Run actions/checkout@v4	2026-05-01T17:08:09.0993118Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+build-and-push (accounting)	Post Run actions/checkout@v4	2026-05-01T17:08:09.1028771Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+build-and-push (accounting)	Complete job	﻿2026-05-01T17:08:09.1384625Z Evaluate and set job outputs
+build-and-push (accounting)	Complete job	2026-05-01T17:08:09.1389259Z Set output 'short_tag'
+build-and-push (accounting)	Complete job	2026-05-01T17:08:09.1391125Z Cleaning up orphan processes
+build-and-push (accounting)	Complete job	2026-05-01T17:08:09.1633662Z ##[warning]Node.js 20 actions are deprecated. The following actions are running on Node.js 20 and may not work as expected: actions/checkout@v4, actions/setup-java@v4, docker/login-action@v3. Actions will be forced to run with Node.js 24 by default starting June 2nd, 2026. Node.js 20 will be removed from the runner on September 16th, 2026. Please check if updated versions of these actions are available that support Node.js 24. To opt into Node.js 24 now, set the FORCE_JAVASCRIPT_ACTIONS_TO_NODE24=true environment variable on the runner or in your workflow file. Once Node.js 24 becomes the default, you can temporarily opt out by setting ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

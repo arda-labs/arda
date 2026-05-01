@@ -6,7 +6,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
-import reactor.core.publisher.Mono;
+
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 @Component
 public class ArdaEventProducer {
@@ -19,25 +22,28 @@ public class ArdaEventProducer {
     }
 
     /**
-     * Send an event with automatic Context propagation (traceId, userId).
+     * Send an event synchronously.
+     * Works perfectly with Virtual Threads.
      */
-    public <T> Mono<Void> send(String topic, String eventType, T data, String serviceName) {
-        return ArdaContext.current().flatMap(ctx -> {
-            ArdaEvent<T> event = new ArdaEvent<>(
-                serviceName,
-                eventType,
-                data,
-                ctx.traceId(),
-                ctx.userId()
-            );
+    public <T> void send(String topic, String eventType, T data, String serviceName) {
+        ArdaContext ctx = ArdaContext.current();
 
-            try {
-                String payload = objectMapper.writeValueAsString(event);
-                return Mono.fromFuture(kafkaTemplate.send(topic, event.id(), payload))
-                    .then();
-            } catch (JsonProcessingException e) {
-                return Mono.error(e);
-            }
-        });
+        ArdaEvent<T> event = new ArdaEvent<>(
+            serviceName,
+            eventType,
+            data,
+            ctx.traceId(),
+            ctx.userId()
+        );
+
+        try {
+            String payload = objectMapper.writeValueAsString(event);
+            // Block and wait for Kafka ACK.
+            // In Virtual Threads, this won't block the OS thread.
+            kafkaTemplate.send(topic, event.id(), payload)
+                .get(5, TimeUnit.SECONDS);
+        } catch (JsonProcessingException | InterruptedException | ExecutionException | TimeoutException e) {
+            throw new RuntimeException("Failed to send Kafka event: " + eventType, e);
+        }
     }
 }

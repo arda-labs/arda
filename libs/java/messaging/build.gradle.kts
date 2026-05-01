@@ -10,7 +10,6 @@ java {
 
 dependencies {
     implementation(project(":libs-java-common"))
-    implementation("io.projectreactor:reactor-core")
     implementation("org.springframework.kafka:spring-kafka")
     implementation("com.fasterxml.jackson.core:jackson-databind")
     implementation("io.cloudevents:cloudevents-kafka:2.5.0")

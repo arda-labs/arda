@@ -13,6 +13,8 @@ rootProject.name = "arda-backend-java"
 
 // Apps
 include("crm-service")
+include("loan-service")
+include("hrm-service")
 
 // Libs - Flattened names for better compatibility
 include("libs-java-common")

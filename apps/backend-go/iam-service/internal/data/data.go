@@ -92,6 +92,7 @@ func (d *Data) ExecInTenant(ctx context.Context, tenantID string, fn func(ctx co
 }
 
 func runMigrations(dsn string) error {
+	log.Info("Checking database migrations...")
 	d, err := iofs.New(migrationsFS, "migrations")
 	if err != nil {
 		return fmt.Errorf("creating migration source: %w", err)
@@ -109,8 +110,19 @@ func runMigrations(dsn string) error {
 	if err != nil {
 		return err
 	}
+
+	version, dirty, _ := m.Version()
+	log.Infof("Current database version: %d, dirty: %v", version, dirty)
+
 	if err := m.Up(); err != nil && err != migrate.ErrNoChange {
 		return err
 	}
+
+	if err == migrate.ErrNoChange {
+		log.Info("Database is up to date (no changes)")
+	} else {
+		log.Info("Database migrations applied successfully")
+	}
+
 	return nil
 }

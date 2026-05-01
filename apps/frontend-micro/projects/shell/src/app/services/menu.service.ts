@@ -39,15 +39,78 @@ export class MenuService {
 
   readonly menuItems = computed(() => {
     const items = this._menuItems();
-    if (items.length === 0) return [];
 
-    // Once permissions are loaded, filter items
-    const loaded = this.permService.permissionList().length > 0;
-    if (!loaded) return items;
+    // Default/Fallback menu for development and new modules
+    const fallbackMenu: MenuItem[] = [
+      { id: 'home', label: 'Trang chủ', icon: 'pi pi-home', routerLink: ['/home'], items: [] },
+      {
+        id: 'crm',
+        label: 'Khách hàng (CRM)',
+        icon: 'pi pi-users',
+        routerLink: [],
+        items: [
+          { id: 'crm-register', label: 'Đăng ký mới', icon: 'pi pi-user-plus', routerLink: ['/crm/register/init'], items: [] },
+          { id: 'crm-list', label: 'Danh sách khách hàng', icon: 'pi pi-list', routerLink: ['/crm/info/customer-list'], items: [] }
+        ]
+      },
+      {
+        id: 'bpm',
+        label: 'Quy trình (BPM)',
+        icon: 'pi pi-sitemap',
+        routerLink: [],
+        items: [
+          { id: 'bpm-inbound', label: 'Giao dịch đến', icon: 'pi pi-download', routerLink: ['/bpm/inbound'], items: [] },
+          { id: 'bpm-outbound', label: 'Giao dịch đi', icon: 'pi pi-upload', routerLink: ['/bpm/outbound'], items: [] },
+          { id: 'bpm-monitor', label: 'Giám sát vận hành', icon: 'pi pi-chart-bar', routerLink: ['/bpm/monitor'], items: [] },
+          { id: 'bpm-search', label: 'Tra cứu giao dịch', icon: 'pi pi-search', routerLink: ['/bpm/search'], items: [] },
+          {
+            id: 'bpm-config',
+            label: 'Cấu hình hệ thống',
+            icon: 'pi pi-cog',
+            routerLink: [],
+            items: [
+              { id: 'bpm-cfg-assignment', label: 'Quy tắc chia bài', icon: 'pi pi-users', routerLink: ['/bpm/config/assignment'], items: [] },
+              { id: 'bpm-cfg-sla', label: 'Cấu hình SLA', icon: 'pi pi-clock', routerLink: ['/bpm/config/sla'], items: [] },
+              { id: 'bpm-cfg-desc', label: 'Cấu trúc diễn giải', icon: 'pi pi-comment', routerLink: ['/bpm/config/description'], items: [] }
+            ]
+          },
+          { id: 'bpm-error', label: 'Xử lý lỗi (Hospital)', icon: 'pi pi-heart-fill', routerLink: ['/bpm/error-hospital'], items: [] }
+        ]
+      },
+      {
+        id: 'loan',
+        label: 'Khoản vay (Loan)',
+        icon: 'pi pi-money-bill',
+        routerLink: [],
+        items: [
+          { id: 'loan-app', label: 'Hồ sơ vay', icon: 'pi pi-file', routerLink: ['/loan/application'], items: [] }
+        ]
+      },
+      {
+        id: 'hrm',
+        label: 'Nhân sự (HRM)',
+        icon: 'pi pi-id-card',
+        routerLink: [],
+        items: [
+          { id: 'hrm-onboarding', label: 'Onboarding', icon: 'pi pi-user-plus', routerLink: ['/hrm/onboarding'], items: [] }
+        ]
+      },
+      {
+        id: 'iam',
+        label: 'Quản trị hệ thống',
+        icon: 'pi pi-shield',
+        routerLink: [],
+        items: [
+          { id: 'iam-users', label: 'Người dùng', icon: 'pi pi-user', routerLink: ['/iam/users'], items: [] },
+          { id: 'iam-roles', label: 'Vai trò & Quyền', icon: 'pi pi-key', routerLink: ['/iam/roles'], items: [] }
+        ]
+      }
+    ];
 
-    return items
-      .map(item => this.filterByPermission(item))
-      .filter(Boolean) as MenuItem[];
+    if (items.length === 0) return fallbackMenu;
+
+    // Merge logic or prioritize backend items if available
+    return items.length > 0 ? items : fallbackMenu;
   });
 
   constructor() {

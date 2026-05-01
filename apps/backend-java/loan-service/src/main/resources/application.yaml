@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: loan-service
+  threads:
+    virtual:
+      enabled: true
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://thinkcenter:5432/loan?options=-c%20timezone=UTC}
+    username: ${SPRING_DATASOURCE_USERNAME:loan}
+    password: ${SPRING_DATASOURCE_PASSWORD:loan@123}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+  kafka:
+    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS:thinkcenter:9092}
+
+zeebe:
+  client:
+    broker:
+      gateway-address: ${ZEEBE_CLIENT_BROKER_GATEWAY_ADDRESS:127.0.0.1:26500}
+    security:
+      plaintext: ${ZEEBE_CLIENT_SECURITY_PLAINTEXT:true}
+
+server:
+  port: 8012
+
+grpc:
+  server:
+    port: 9012

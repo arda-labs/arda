@@ -1,0 +1,56 @@
+<div class="customer-list-page p-4">
+  <div class="flex justify-between items-center mb-6">
+    <h2 class="text-3xl font-bold">Danh sách hồ sơ khách hàng</h2>
+    <p-button label="Thêm khách hàng mới" icon="pi pi-plus" (onClick)="createNew()" />
+  </div>
+
+  <div class="card p-4 bg-white border-1 border-gray-200 rounded-lg">
+    <p-table 
+      [value]="customers()" 
+      [paginator]="true" 
+      [rows]="10" 
+      [tableStyle]="{ 'min-width': '60rem' }"
+      [globalFilterFields]="['name', 'idNo', 'id']">
+      
+      <ng-template pTemplate="caption">
+        <div class="flex justify-end">
+          <p-iconfield>
+            <p-inputicon class="pi pi-search" />
+            <input pInputText type="text" placeholder="Tìm kiếm nhanh..." class="w-full md:w-80" />
+          </p-iconfield>
+        </div>
+      </ng-template>
+
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Mã KH</th>
+          <th>Tên khách hàng</th>
+          <th>Loại</th>
+          <th>Số định danh / MST</th>
+          <th>Trạng thái</th>
+          <th>Ngày cập nhật</th>
+          <th>Thao tác</th>
+        </tr>
+      </ng-template>
+      
+      <ng-template pTemplate="body" let-customer>
+        <tr>
+          <td><span class="font-bold text-blue-600 cursor-pointer" (click)="viewDetails(customer)">{{ customer.id }}</span></td>
+          <td>{{ customer.name }}</td>
+          <td>{{ customer.type }}</td>
+          <td>{{ customer.idNo }}</td>
+          <td>
+            <p-tag [value]="customer.status" [severity]="getStatusSeverity(customer.status)" />
+          </td>
+          <td>{{ customer.lastUpdate }}</td>
+          <td>
+            <div class="flex gap-2">
+              <p-button icon="pi pi-pencil" [text]="true" size="small" />
+              <p-button icon="pi pi-history" [text]="true" severity="secondary" size="small" />
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

@@ -1,0 +1,65 @@
+<div class="monitor-container p-4">
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <!-- TRÁI: SƠ ĐỒ BPMN -->
+    <div class="lg:col-span-2">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-2xl font-bold">Giám sát quy trình hiện thời</h2>
+        <p-togglebutton 
+          [(ngModel)]="showHeatmap" 
+          onLabel="Ẩn Heatmap" 
+          offLabel="Hiện Heatmap" 
+          onIcon="pi pi-eye-slash" 
+          offIcon="pi pi-eye"
+          (onChange)="toggleHeatmap()" />
+      </div>
+      
+      <div #ref class="card border border-gray-300 bg-white rounded-lg min-h-125 w-full relative">
+        <div class="absolute top-2 right-2 flex gap-2">
+          <p-tag value="Instance: wf-999" severity="info" />
+          <p-tag value="Status: RUNNING" severity="success" />
+        </div>
+      </div>
+    </div>
+
+    <!-- PHẢI: DÒNG SỰ KIỆN -->
+    <div>
+      <h2 class="text-2xl font-bold mb-4">Dòng sự kiện (Kafka Stream)</h2>
+      <div class="card p-4 bg-white border border-gray-200 rounded-lg max-h-125 overflow-y-auto">
+        <p-timeline [value]="streamEvents()">
+          <ng-template pTemplate="marker" let-event>
+            <span class="flex w-8 h-8 items-center justify-center text-white rounded-full z-1 shadow-1" [style.backgroundColor]="event.color">
+              <i [class]="event.icon"></i>
+            </span>
+          </ng-template>
+          <ng-template pTemplate="content" let-event>
+            <p-card [header]="event.status" [subheader]="event.date" class="mb-3 custom-timeline-card">
+              <p class="text-sm font-mono bg-gray-50 p-2 rounded">{{ event.description }}</p>
+            </p-card>
+          </ng-template>
+        </p-timeline>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Heatmap Markers */
+  :host ::ng-deep .heatmap-danger .djs-visual > :nth-child(1) { fill: #FEE2E2 !important; stroke: #EF4444 !important; stroke-width: 3px !important; }
+  :host ::ng-deep .heatmap-warn .djs-visual > :nth-child(1) { fill: #FEF3C7 !important; stroke: #F59E0B !important; stroke-width: 3px !important; }
+  :host ::ng-deep .heatmap-success .djs-visual > :nth-child(1) { fill: #D1FAE5 !important; stroke: #10B981 !important; stroke-width: 3px !important; }
+
+  /* Heatmap Badges */
+  :host ::ng-deep .heatmap-badge {
+    position: absolute;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: bold;
+    color: white;
+    transform: translate(50%, 50%);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  }
+  :host ::ng-deep .badge-danger { background-color: #EF4444; }
+  :host ::ng-deep .badge-warn { background-color: #F59E0B; }
+  :host ::ng-deep .badge-success { background-color: #10B981; }
+</style>

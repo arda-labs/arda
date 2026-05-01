@@ -1,0 +1,18 @@
+server:
+  http:
+    addr: 0.0.0.0:8003
+    timeout: 10s
+  grpc:
+    addr: 0.0.0.0:9003
+    timeout: 10s
+
+data:
+  kafka:
+    brokers: ["thinkcenter:9092"]
+  zeebe:
+    addr: "thinkcenter:26500"
+
+jwt:
+  jwks_endpoint: "https://arda.io.vn/oauth/v2/keys"
+  issuer: "https://arda.io.vn"
+  audience: "370596460112183382"

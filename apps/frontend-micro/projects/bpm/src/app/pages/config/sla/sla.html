@@ -1,0 +1,47 @@
+<div class="sla-container p-4">
+  <p-toast />
+
+  <div class="flex justify-between items-center mb-6">
+    <h2 class="text-2xl font-bold">Cấu hình SLA & Cảnh báo</h2>
+    <p-button label="Lưu SLA" icon="pi pi-check" (onClick)="onSave()" />
+  </div>
+
+  <p-table [value]="slaConfigs()" [tableStyle]="{ 'min-width': '60rem' }">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Quy trình</th>
+        <th>Bước xử lý</th>
+        <th>Thời hạn (SLA)</th>
+        <th>Đơn vị</th>
+        <th>Ngưỡng cảnh báo (%)</th>
+        <th>Trạng thái ví dụ</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-config>
+      <tr>
+        <td><span class="font-medium text-blue-600">{{ config.process }}</span></td>
+        <td>{{ config.step }}</td>
+        <td>
+          <p-inputnumber [(ngModel)]="config.duration" [showButtons]="true" [min]="1" size="small" />
+        </td>
+        <td>
+          <p-select [options]="units" [(ngModel)]="config.unit" optionLabel="label" optionValue="value" size="small" />
+        </td>
+        <td>
+          <p-inputnumber [(ngModel)]="config.warningPercent" [showButtons]="true" [min]="1" [max]="99" suffix="%" size="small" />
+        </td>
+        <td>
+          <div class="flex gap-1">
+            <p-tag value="ON TIME" severity="success" />
+            <p-tag value="WARN >{{config.warningPercent}}%" severity="warn" />
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+
+  <div class="mt-6 p-4 bg-blue-50 border-left-4 border-blue-500 rounded text-blue-700">
+    <i class="pi pi-info-circle mr-2"></i>
+    <strong>Lưu ý:</strong> SLA được tính từ thời điểm hồ sơ chuyển đến trạng thái chờ xử lý. Cảnh báo sẽ được gửi qua Kafka cho các dịch vụ liên quan khi đạt ngưỡng.
+  </div>
+</div>

@@ -6,4 +6,5 @@ use (
 	./media-service
 	./iam-service
 	./notification-service
+	./bpm-service
 )

@@ -1,12 +1,13 @@
 package arda.security.filter;
 
 import arda.common.context.ArdaContext;
-import org.springframework.http.server.reactive.ServerHttpRequest;
-import org.springframework.web.server.ServerWebExchange;
-import org.springframework.web.server.WebFilter;
-import org.springframework.web.server.WebFilterChain;
-import reactor.core.publisher.Mono;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.web.filter.OncePerRequestFilter;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -14,9 +15,9 @@ import java.util.stream.Collectors;
 
 /**
  * Security Filter to extract user information from Gateway headers.
- * This follows the "Trust the Gateway" pattern used in large-scale systems.
+ * Synchronous and Virtual Thread safe using ArdaContext (ThreadLocal).
  */
-public class ArdaSecurityFilter implements WebFilter {
+public class ArdaSecurityFilter extends OncePerRequestFilter {
 
     public static final String HEADER_USER_ID = "X-User-Id";
     public static final String HEADER_TENANT_ID = "X-Tenant-Id";
@@ -24,23 +25,32 @@ public class ArdaSecurityFilter implements WebFilter {
     public static final String HEADER_TRACE_ID = "X-Trace-Id";
 
     @Override
-    public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
-        ServerHttpRequest request = exchange.getRequest();
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
 
         ArdaContext context = new ArdaContext(
-            request.getHeaders().getFirst(HEADER_USER_ID),
-            request.getHeaders().getFirst(HEADER_TRACE_ID) != null ? request.getHeaders().getFirst(HEADER_TRACE_ID) : exchange.getRequest().getId(),
-            request.getHeaders().getFirst(HEADER_TENANT_ID),
+            request.getHeader(HEADER_USER_ID),
+            request.getHeader(HEADER_TRACE_ID) != null ? request.getHeader(HEADER_TRACE_ID) : UUID_TRACE(),
+            request.getHeader(HEADER_TENANT_ID),
             extractRoles(request)
         );
 
-        // Propagate the context to the Reactive stream
-        return chain.filter(exchange)
-            .contextWrite(ctx -> ArdaContext.withContext(context));
+        try {
+            // Set context for the current Virtual Thread
+            ArdaContext.set(context);
+            filterChain.doFilter(request, response);
+        } finally {
+            // CRITICAL: Clear context after request finishes to prevent leak
+            ArdaContext.clear();
+        }
     }
 
-    private List<String> extractRoles(ServerHttpRequest request) {
-        String rolesHeader = request.getHeaders().getFirst(HEADER_ROLES);
+    private String UUID_TRACE() {
+        return java.util.UUID.randomUUID().toString().replace("-", "");
+    }
+
+    private List<String> extractRoles(HttpServletRequest request) {
+        String rolesHeader = request.getHeader(HEADER_ROLES);
         if (rolesHeader == null || rolesHeader.isBlank()) {
             return Collections.emptyList();
         }

@@ -1,0 +1,65 @@
+<div class="register-init-page p-4">
+  <p-toast />
+  <div class="mb-6">
+    <h2 class="text-3xl font-bold">Khởi tạo hồ sơ khách hàng mới</h2>
+    <p class="text-gray-600">Vui lòng hoàn thành các bước bên dưới để đăng ký khách hàng.</p>
+  </div>
+
+  <div class="card bg-white border border-gray-200 rounded-lg p-6">
+    <p-stepper [value]="activeStep()" [linear]="true">
+      <p-step-list>
+        <p-step [value]="1">1. Thông tin chung</p-step>
+        <p-step [value]="2">2. Hồ sơ đính kèm</p-step>
+        <p-step [value]="3">3. Xác nhận & Gửi</p-step>
+      </p-step-list>
+
+      <p-step-panels>
+        <!-- BƯỚC 1: THÔNG TIN CHUNG -->
+        <p-step-panel [value]="1">
+          <ng-template #content let-activateCallback="activateCallback">
+            <div class="py-4">
+              <app-basic-info></app-basic-info>
+            </div>
+            <div class="flex pt-6 justify-end">
+              <p-button label="Tiếp theo" icon="pi pi-arrow-right" iconPos="right" (onClick)="activateCallback(2)" />
+            </div>
+          </ng-template>
+        </p-step-panel>
+
+        <!-- BƯỚC 2: HỒ SƠ ĐÍNH KÈM -->
+        <p-step-panel [value]="2">
+          <ng-template #content let-activateCallback="activateCallback">
+            <div class="py-4">
+              <app-attachments></app-attachments>
+            </div>
+            <div class="flex pt-6 justify-between">
+              <p-button label="Quay lại" icon="pi pi-arrow-left" severity="secondary" (onClick)="activateCallback(1)" />
+              <p-button label="Tiếp theo" icon="pi pi-arrow-right" iconPos="right" (onClick)="activateCallback(3)" />
+            </div>
+          </ng-template>
+        </p-step-panel>
+
+        <!-- BƯỚC 3: XÁC NHẬN -->
+        <p-step-panel [value]="3">
+          <ng-template #content let-activateCallback="activateCallback">
+            <div class="py-4 text-center">
+              <i class="pi pi-check-circle text-green-500 text-6xl mb-4"></i>
+              <h3 class="text-2xl font-bold mb-2">Kiểm tra thông tin cuối cùng</h3>
+              <p class="text-gray-600 mb-6">Bạn đang thực hiện khởi tạo hồ sơ cho khách hàng. Vui lòng kiểm tra kỹ các thông tin và tệp đính kèm trước khi bấm gửi duyệt.</p>
+              
+              <div class="bg-gray-50 p-4 rounded text-left inline-block w-full max-w-lg">
+                <p><strong>Loại hồ sơ:</strong> Đăng ký mới</p>
+                <p><strong>Người tạo:</strong> Admin User</p>
+                <p><strong>Thời gian:</strong> 2026-05-02</p>
+              </div>
+            </div>
+            <div class="flex pt-6 justify-between">
+              <p-button label="Quay lại" icon="pi pi-arrow-left" severity="secondary" (onClick)="activateCallback(2)" />
+              <p-button label="Gửi phê duyệt" icon="pi pi-send" severity="success" (onClick)="onSubmit()" />
+            </div>
+          </ng-template>
+        </p-step-panel>
+      </p-step-panels>
+    </p-stepper>
+  </div>
+</div>

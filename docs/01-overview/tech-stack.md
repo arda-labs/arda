@@ -1,6 +1,6 @@
 # Tech Stack
 
-Updated: 2026-04-30
+Updated: 2026-05-02
 
 This file separates technology currently present in the repo from platform
 roadmap choices.
@@ -15,70 +15,58 @@ roadmap choices.
 | Workspace | Angular CLI workspace |
 | Federation | `@angular-architects/native-federation` |
 | Bundler | Angular application builder / esbuild |
-| UI | PrimeNG 21, PrimeIcons |
+| UI | PrimeNG 19+, PrimeIcons |
 | Styling | Tailwind CSS 4, `tailwindcss-primeui` |
 | Auth client | `angular-auth-oidc-client` |
 | Tests | Angular unit-test builder with Vitest/jsdom |
 | Package manager | npm 11 |
 
-Current frontend projects: `shell`, `iam`, `mdm`, and `core`.
+Current frontend projects: `shell`, `iam`, `mdm`, `crm`, `bpm`, `loan`, `hrm`, and `core`.
 
 ### Backend Go
 
 | Component | Current technology |
 | --- | --- |
 | Language | Go 1.26.x |
-| Framework | Kratos v2.9 |
+| Framework | Kratos v2.8+ |
 | Workspace | `apps/backend-go/go.work` |
 | Database driver | pgx v5 |
-| Migration | `golang-migrate` with embedded migrations |
+| Migration | `golang-migrate` |
 | Dependency injection | Google Wire |
-| Transport | HTTP/JSON and gRPC generated from protobuf |
+| Transport | HTTP/JSON and gRPC |
+| Workflow | Zeebe Go Client (Camunda 8) |
+| Messaging | segmentio/kafka-go |
 
-Current active services: `iam-service` and `mdm-service`.
+Current active services: `iam-service`, `mdm-service`, and `bpm-service`.
 
 ### Backend Java
 
 | Component | Current technology |
 | --- | --- |
-| Language | Kotlin / Java 21 target |
+| Language | Java 25 (LTS) |
+| Framework | Spring Boot 4.x / WebFlux |
 | Build | Gradle Kotlin DSL |
-| Current module | `accounting_tmp` prototype |
+| Messaging | Spring Kafka (Reactor) |
+| gRPC | net.devh:grpc-server-spring-boot-starter |
+| Workflow | Spring Zeebe Starter |
 
-The Java production stack is not finalized. Older docs mention Spring Boot,
-R2DBC, and GraalVM Native Image as the target direction, not the current
-production runtime.
+Current modules: `crm-service`, `loan-service`, `hrm-service`.
 
 ### Runtime And Infra
 
 | Component | Current technology |
 | --- | --- |
-| Kubernetes | K3s on `thinkcenter` |
+| Kubernetes | K3s |
 | Gateway | Apache APISIX |
-| Identity provider | Zitadel |
-| GitOps | ArgoCD + Kustomize |
-| Registry | GHCR |
-| Public ingress | Cloudflared |
-| Database | PostgreSQL on `thinkcenter` |
-| Local gateway | Standalone APISIX under `arda-infra/local/apisix` |
-
-## CI/CD
-
-| Workflow | Purpose |
-| --- | --- |
-| `.github/workflows/ci-mfe.yml` | Detects and builds affected frontend apps: `shell`, `iam`, `mdm` |
-| `.github/workflows/ci-go.yml` | Detects and builds Go services: `iam-service`, `mdm-service` |
-| `.github/workflows/ci-java.yml` | Java pipeline placeholder; still expects future `accounting` module |
-| `.github/workflows/gitops-update.yml` | Updates image tags in `arda-infra/apps/<service>/overlays/dev` |
+| Identity provider | Zitadel / Keycloak |
+| Event Bus | Apache Kafka / Redpanda |
+| Workflow Engine | Camunda 8 (Zeebe) |
+| Database | PostgreSQL |
 
 ## Roadmap Stack
 
-These choices are platform direction, not all deployed today:
-
-- Redpanda for event streaming.
-- Outbox pattern for cross-service events.
-- Camunda for workflow orchestration.
-- Garage S3 for object storage.
-- Prometheus, Grafana, Loki, and Alertmanager for observability.
-- Java core services compiled to native images where the resource tradeoff is
-  worth it.
+- Redpanda for distributed event streaming.
+- Outbox pattern for transactional consistency.
+- SeaweedFS / Garage for S3-compatible storage.
+- Prometheus, Grafana, Loki for full observability.
+- GraalVM Native Image for resource-constrained Java modules.

@@ -1,0 +1,71 @@
+<div class="error-hospital-container p-4">
+  <p-toast />
+
+  <div class="flex justify-between items-center mb-6">
+    <div>
+      <h2 class="text-3xl font-bold">Error Hospital (Trung tâm xử lý lỗi)</h2>
+      <p class="text-gray-600 italic">Quản lý và cứu các bước quy trình bị lỗi kỹ thuật (Dead Letter Queue).</p>
+    </div>
+    <p-button label="Làm mới" icon="pi pi-sync" [text]="true" />
+  </div>
+
+  <p-table [value]="failedTasks()" [tableStyle]="{ 'min-width': '70rem' }">
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 120px">Mã Lỗi</th>
+        <th>Quy trình</th>
+        <th>Bước lỗi</th>
+        <th>Nội dung lỗi</th>
+        <th style="width: 150px">Lần thử lại</th>
+        <th style="width: 180px">Thời gian</th>
+        <th style="width: 220px">Thao tác</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-task>
+      <tr>
+        <td><span class="font-mono text-red-600 font-bold">{{ task.id }}</span></td>
+        <td>{{ task.process }}</td>
+        <td>{{ task.step }}</td>
+        <td>
+          <p-tag [value]="task.error" severity="danger" class="text-xs" />
+        </td>
+        <td class="text-center">
+          <p-tag [value]="task.retryCount" [severity]="getRetrySeverity(task.retryCount)" />
+        </td>
+        <td class="text-sm">{{ task.date }}</td>
+        <td>
+          <div class="flex gap-2">
+            <p-button icon="pi pi-refresh" label="Retry" severity="success" size="small" (onClick)="onRetry(task)" />
+            <p-button icon="pi pi-pencil" label="Sửa Payload" severity="info" [text]="true" size="small" (onClick)="showEdit(task)" />
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+
+  <!-- DIALOG SỬA PAYLOAD -->
+  <p-dialog header="Chỉnh sửa Payload để Cứu Task" [(visible)]="displayEdit" [modal]="true" [style]="{ width: '60vw' }" [draggable]="false" [resizable]="false">
+    <div *ngIf="selectedTask()" class="flex flex-col gap-4">
+      <div class="grid grid-cols-2 gap-4 bg-gray-50 p-3 rounded border border-gray-200 text-sm">
+        <div><strong>Task ID:</strong> {{ selectedTask().id }}</div>
+        <div><strong>Process:</strong> {{ selectedTask().process }}</div>
+        <div><strong>Step:</strong> {{ selectedTask().step }}</div>
+        <div><strong>Error:</strong> <span class="text-red-600">{{ selectedTask().error }}</span></div>
+      </div>
+
+      <div class="field">
+        <label class="font-bold block mb-2">Payload (JSON Variables)</label>
+        <textarea
+          rows="12"
+          pTextarea
+          [(ngModel)]="selectedTask().payload"
+          class="w-full font-mono text-sm bg-gray-900 text-green-400 p-4 rounded focus:ring-2 focus:ring-green-500"></textarea>
+      </div>
+
+      <div class="flex justify-end gap-2 mt-2">
+        <p-button label="Hủy" severity="secondary" (onClick)="displayEdit.set(false)" [text]="true" />
+        <p-button label="Lưu & Chạy lại ngay" icon="pi pi-bolt" severity="success" (onClick)="saveAndRetry()" />
+      </div>
+    </div>
+  </p-dialog>
+</div>

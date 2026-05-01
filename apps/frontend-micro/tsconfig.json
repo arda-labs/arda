@@ -55,6 +55,31 @@
     },
     {
       "path": "./projects/core/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/crm/tsconfig.app.json"
+    },
+    {
+      "path": "./projects/crm/tsconfig.spec.json"
+    }
+    ,
+    {
+      "path": "./projects/bpm/tsconfig.app.json"
+    },
+    {
+      "path": "./projects/bpm/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/loan/tsconfig.app.json"
+    },
+    {
+      "path": "./projects/loan/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/hrm/tsconfig.app.json"
+    },
+    {
+      "path": "./projects/hrm/tsconfig.spec.json"
     }
   ]
 }

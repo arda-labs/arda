@@ -2,6 +2,7 @@ rootProject.name = "arda-backend-java"
 
 // Apps
 include("accounting")
+include("crm-service")
 
 // Libs
 include("libs-common")
@@ -12,6 +13,7 @@ include("libs-messaging")
 
 // Map to physical paths
 project(":accounting").projectDir = file("accounting")
+project(":crm-service").projectDir = file("crm-service")
 project(":libs-common").projectDir = file("../../libs/java/common")
 project(":libs-database").projectDir = file("../../libs/java/database")
 project(":libs-grpc-client").projectDir = file("../../libs/java/grpc-client")

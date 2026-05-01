@@ -6,7 +6,6 @@ import org.springframework.boot.runApplication
 @SpringBootApplication
 class CrmApplication
 
-func main(args: Array<String>) {
+fun main(args: Array<String>) {
     runApplication<CrmApplication>(*args)
 }
-// Trigger build

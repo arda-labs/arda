@@ -14,8 +14,8 @@ import { ConfirmDialog } from 'primeng/confirmdialog';
 import { Tooltip } from 'primeng/tooltip';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { MenuAdmin, MenuAdminItem, MenuAdminPayload } from '../../../../services/menu-admin';
-import { TenantService } from '../../../../services/tenant.service';
 import { UserService } from '../../../../services/user.service';
+import { TenantService } from '../../../../services/tenant.service';
 
 interface MenuRow {
   menu: MenuAdminItem;
@@ -46,16 +46,16 @@ interface MenuRow {
 })
 export class MenuManagement {
   private menuAdmin = inject(MenuAdmin);
-  private tenantService = inject(TenantService);
   private userService = inject(UserService);
+  private tenantService = inject(TenantService);
   private messageService = inject(MessageService);
   private confirmationService = inject(ConfirmationService);
 
   readonly menusResource = rxResource({
-    params: () => this.tenantService.selectedTenantId(),
+    params: () => ({} as Record<string, never>),
     stream: (params) => {
       if (!params.params) return of([]);
-      return this.menuAdmin.listMenus(params.params);
+      return this.menuAdmin.listMenus();
     },
   });
 
@@ -129,14 +129,11 @@ export class MenuManagement {
       return;
     }
 
-    const tenantId = this.tenantService.selectedTenantId();
-    if (!tenantId) return;
-
     const payload = this.formPayload();
     const selected = this.selectedMenu();
     const request$ = selected
       ? this.menuAdmin.updateMenu(selected.id, payload)
-      : this.menuAdmin.createMenu(payload, tenantId);
+      : this.menuAdmin.createMenu(payload);
 
     this.isSaving.set(true);
     request$.subscribe({

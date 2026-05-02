@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/arda-labs/arda/arda-be-go/pkg/middleware"
 	"github.com/arda-labs/arda/arda-be-go/services/iam-service/internal/biz"
 	"github.com/jackc/pgx/v5"
 
@@ -20,16 +19,16 @@ func NewMenuRepo(data *Data, logger log.Logger) biz.MenuRepo {
 	return &menuRepo{data: data, log: log.NewHelper(logger)}
 }
 
-func (r *menuRepo) GetByTenant(ctx context.Context, tenantID string) ([]*biz.Menu, error) {
+func (r *menuRepo) GetAll(ctx context.Context) ([]*biz.Menu, error) {
 	var list []*biz.Menu
-	err := r.data.ExecInTenant(ctx, tenantID, func(ctx context.Context, tx pgx.Tx) error {
+	// Use default tenant context for shared tables
+	err := r.data.ExecInTenant(ctx, "shared", func(ctx context.Context, tx pgx.Tx) error {
 		query := `
-			SELECT id, tenant_id, parent_id, name, slug, icon, route, sort_order, enabled, permission_slug, created_at, updated_at
+			SELECT id, parent_id, name, slug, icon, route, sort_order, enabled, permission_slug, created_at, updated_at
 			FROM menus
-			WHERE tenant_id = $1
 			ORDER BY sort_order ASC
 		`
-		rows, err := tx.Query(ctx, query, tenantID)
+		rows, err := tx.Query(ctx, query)
 		if err != nil {
 			return err
 		}
@@ -38,7 +37,7 @@ func (r *menuRepo) GetByTenant(ctx context.Context, tenantID string) ([]*biz.Men
 		for rows.Next() {
 			var m biz.Menu
 			var parentID, icon, route, permSlug *string
-			if err := rows.Scan(&m.ID, &m.TenantID, &parentID, &m.Name, &m.Slug, &icon, &route, &m.SortOrder, &m.Enabled, &permSlug, &m.CreatedAt, &m.UpdatedAt); err != nil {
+			if err := rows.Scan(&m.ID, &parentID, &m.Name, &m.Slug, &icon, &route, &m.SortOrder, &m.Enabled, &permSlug, &m.CreatedAt, &m.UpdatedAt); err != nil {
 				return err
 			}
 			if parentID != nil {
@@ -66,16 +65,15 @@ func (r *menuRepo) GetByTenant(ctx context.Context, tenantID string) ([]*biz.Men
 
 func (r *menuRepo) GetByID(ctx context.Context, id string) (*biz.Menu, error) {
 	var m biz.Menu
-	tenantID := middleware.GetTenantID(ctx)
-	err := r.data.ExecInTenant(ctx, tenantID, func(ctx context.Context, tx pgx.Tx) error {
+	err := r.data.ExecInTenant(ctx, "shared", func(ctx context.Context, tx pgx.Tx) error {
 		query := `
-			SELECT id, tenant_id, parent_id, name, slug, icon, route, sort_order, enabled, permission_slug, created_at, updated_at
+			SELECT id, parent_id, name, slug, icon, route, sort_order, enabled, permission_slug, created_at, updated_at
 			FROM menus
 			WHERE id = $1
 		`
 		var parentID, icon, route, permSlug *string
 		err := tx.QueryRow(ctx, query, id).Scan(
-			&m.ID, &m.TenantID, &parentID, &m.Name, &m.Slug, &icon, &route, &m.SortOrder, &m.Enabled, &permSlug, &m.CreatedAt, &m.UpdatedAt,
+			&m.ID, &parentID, &m.Name, &m.Slug, &icon, &route, &m.SortOrder, &m.Enabled, &permSlug, &m.CreatedAt, &m.UpdatedAt,
 		)
 		if err == pgx.ErrNoRows {
 			return biz.ErrMenuNotFound
@@ -104,14 +102,13 @@ func (r *menuRepo) GetByID(ctx context.Context, id string) (*biz.Menu, error) {
 }
 
 func (r *menuRepo) Create(ctx context.Context, m *biz.Menu) (*biz.Menu, error) {
-	tenantID := middleware.GetTenantID(ctx)
-	err := r.data.ExecInTenant(ctx, tenantID, func(ctx context.Context, tx pgx.Tx) error {
+	err := r.data.ExecInTenant(ctx, "shared", func(ctx context.Context, tx pgx.Tx) error {
 		query := `
-			INSERT INTO menus (tenant_id, parent_id, name, slug, icon, route, sort_order, enabled, permission_slug)
-			VALUES ($1, NULLIF($2, '')::uuid, $3, $4, NULLIF($5, ''), NULLIF($6, ''), $7, $8, NULLIF($9, ''))
+			INSERT INTO menus (parent_id, name, slug, icon, route, sort_order, enabled, permission_slug)
+			VALUES (NULLIF($1, '')::uuid, $2, $3, NULLIF($4, ''), NULLIF($5, ''), $6, $7, NULLIF($8, ''))
 			RETURNING id, created_at, updated_at
 		`
-		return tx.QueryRow(ctx, query, m.TenantID, m.ParentID, m.Name, m.Slug, m.Icon, m.Route, m.SortOrder, m.Enabled, m.PermissionSlug).
+		return tx.QueryRow(ctx, query, m.ParentID, m.Name, m.Slug, m.Icon, m.Route, m.SortOrder, m.Enabled, m.PermissionSlug).
 			Scan(&m.ID, &m.CreatedAt, &m.UpdatedAt)
 	})
 	if err != nil {
@@ -121,8 +118,7 @@ func (r *menuRepo) Create(ctx context.Context, m *biz.Menu) (*biz.Menu, error) {
 }
 
 func (r *menuRepo) Update(ctx context.Context, m *biz.Menu) (*biz.Menu, error) {
-	tenantID := middleware.GetTenantID(ctx)
-	err := r.data.ExecInTenant(ctx, tenantID, func(ctx context.Context, tx pgx.Tx) error {
+	err := r.data.ExecInTenant(ctx, "shared", func(ctx context.Context, tx pgx.Tx) error {
 		query := `
 			UPDATE menus
 			SET parent_id = NULLIF($2, '')::uuid, name = $3, slug = $4, icon = NULLIF($5, ''),
@@ -144,8 +140,7 @@ func (r *menuRepo) Update(ctx context.Context, m *biz.Menu) (*biz.Menu, error) {
 }
 
 func (r *menuRepo) Delete(ctx context.Context, id string) error {
-	tenantID := middleware.GetTenantID(ctx)
-	return r.data.ExecInTenant(ctx, tenantID, func(ctx context.Context, tx pgx.Tx) error {
+	return r.data.ExecInTenant(ctx, "shared", func(ctx context.Context, tx pgx.Tx) error {
 		query := `DELETE FROM menus WHERE id = $1`
 		ct, err := tx.Exec(ctx, query, id)
 		if err != nil {

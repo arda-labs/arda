@@ -28,7 +28,7 @@ type Menu struct {
 }
 
 type MenuRepo interface {
-	GetByTenant(ctx context.Context, tenantID string) ([]*Menu, error)
+	GetAll(ctx context.Context) ([]*Menu, error)
 	GetByID(ctx context.Context, id string) (*Menu, error)
 	Create(ctx context.Context, m *Menu) (*Menu, error)
 	Update(ctx context.Context, m *Menu) (*Menu, error)
@@ -52,7 +52,7 @@ func NewMenuUsecase(repo MenuRepo, permUC *PermissionUsecase, logger log.Logger)
 // GetUserMenu returns the full menu tree for a user (filtered by their permissions).
 func (uc *MenuUsecase) GetUserMenu(ctx context.Context, userID, tenantID string) ([]*Menu, error) {
 	// 1. Get all enabled menus for the tenant
-	allMenus, err := uc.menuRepo.GetByTenant(ctx, tenantID)
+	allMenus, err := uc.menuRepo.GetAll(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -89,8 +89,8 @@ func (uc *MenuUsecase) GetUserMenu(ctx context.Context, userID, tenantID string)
 }
 
 // ListMenus returns flat list of menus for a tenant (admin view).
-func (uc *MenuUsecase) ListMenus(ctx context.Context, tenantID string) ([]*Menu, error) {
-	return uc.menuRepo.GetByTenant(ctx, tenantID)
+func (uc *MenuUsecase) ListMenus(ctx context.Context, _ string) ([]*Menu, error) {
+	return uc.menuRepo.GetAll(ctx)
 }
 
 func (uc *MenuUsecase) CheckMenuPermission(ctx context.Context, userID, tenantID, action string) (bool, error) {

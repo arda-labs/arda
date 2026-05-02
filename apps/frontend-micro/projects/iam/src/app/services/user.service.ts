@@ -182,6 +182,22 @@ export class UserService {
     );
   }
 
+  listUserGroups(userId: string, tenantId: string): Observable<Group[]> {
+    return this.http.get<{ groups: any[] }>(`/api/v1/users/${encodeURIComponent(userId)}/groups`, {
+      params: new HttpParams().set('tenant_id', tenantId),
+    }).pipe(
+      map(resp => (resp.groups ?? []).map(g => this.toGroup(g)))
+    );
+  }
+
+  getUserEffectivePermissions(userId: string, tenantId: string): Observable<string[]> {
+    return this.http.get<{ permissions: string[] }>(`/api/v1/users/${encodeURIComponent(userId)}/effective-permissions`, {
+      params: new HttpParams().set('tenant_id', tenantId),
+    }).pipe(
+      map(resp => resp.permissions ?? [])
+    );
+  }
+
   createUser(userData: any, tenantId: string): Observable<User> {
     return this.http.post<any>('/api/v1/users', {
       ...userData,

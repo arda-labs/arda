@@ -51,8 +51,6 @@ function getInitialPreset() {
 async function initializeSession(): Promise<void> {
   const oidc = inject(OidcSecurityService);
   const tenantService = inject(TenantService);
-  const permService = inject(PermissionService);
-  const menuService = inject(MenuService);
 
   const result = await firstValueFrom(oidc.checkAuth());
   if (!result.isAuthenticated) {
@@ -60,12 +58,7 @@ async function initializeSession(): Promise<void> {
   }
 
   await firstValueFrom(tenantService.loadTenants());
-  if (tenantService.selectedTenantId()) {
-    await Promise.all([
-      permService.loadPermissions(true),
-      menuService.loadMenu(true),
-    ]);
-  }
+  // PermissionService và MenuService tự động load qua effect khi selectedTenantId thay đổi
 }
 
 function initializeLanguage(): Promise<void> {

@@ -74,6 +74,26 @@ export const routes: Routes = [
         loadChildren: () =>
           loadRemoteModule('ntf', './Routes').then((m) => m.remoteRoutes),
       },
+      {
+        path: 'crm',
+        loadChildren: () =>
+          loadRemoteModule('crm', './Routes').then((m) => m.remoteRoutes),
+      },
+      {
+        path: 'hrm',
+        loadChildren: () =>
+          loadRemoteModule('hrm', './Routes').then((m) => m.remoteRoutes),
+      },
+      {
+        path: 'loan',
+        loadChildren: () =>
+          loadRemoteModule('loan', './Routes').then((m) => m.remoteRoutes),
+      },
+      {
+        path: 'bpm',
+        loadChildren: () =>
+          loadRemoteModule('bpm', './Routes').then((m) => m.remoteRoutes),
+      },
     ],
   },
 

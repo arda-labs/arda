@@ -110,6 +110,10 @@ func (uc *RoleUsecase) GetUserRoles(ctx context.Context, userID, tenantID string
 	return uc.repo.GetUserRoles(ctx, userID, tenantID)
 }
 
+func (uc *RoleUsecase) GetRolePermissions(ctx context.Context, roleID string) ([]*Permission, error) {
+	return uc.repo.GetRolePermissions(ctx, roleID)
+}
+
 func (uc *RoleUsecase) RevokeRole(ctx context.Context, userID, roleID, tenantID string, actorID string) error {
 	if err := uc.repo.RevokeRole(ctx, userID, roleID, tenantID); err != nil {
 		return err

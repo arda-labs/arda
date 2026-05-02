@@ -180,3 +180,29 @@ func (r *groupRepo) ListRoles(ctx context.Context, groupID string) ([]*biz.Role,
 	})
 	return roles, err
 }
+
+func (r *groupRepo) ListByUser(ctx context.Context, userID, tenantID string) ([]*biz.Group, error) {
+	var groups []*biz.Group
+	err := r.data.ExecInTenant(ctx, tenantID, func(ctx context.Context, tx pgx.Tx) error {
+		rows, err := tx.Query(ctx,
+			`SELECT g.id, g.tenant_id, g.name, g.description, g.created_at, g.updated_at
+			 FROM groups g JOIN group_members gm ON g.id = gm.group_id
+			 WHERE gm.user_id = $1 AND g.tenant_id = $2 AND g.deleted_at IS NULL
+			 ORDER BY g.name ASC`,
+			userID, tenantID,
+		)
+		if err != nil {
+			return err
+		}
+		defer rows.Close()
+		for rows.Next() {
+			g := &biz.Group{}
+			if err := rows.Scan(&g.ID, &g.TenantID, &g.Name, &g.Description, &g.CreatedAt, &g.UpdatedAt); err != nil {
+				return err
+			}
+			groups = append(groups, g)
+		}
+		return rows.Err()
+	})
+	return groups, err
+}

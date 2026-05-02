@@ -1,5 +1,6 @@
-import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
+import { Component, ChangeDetectionStrategy, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { TagModule } from 'primeng/tag';
@@ -63,7 +64,29 @@ export class InboundComponent {
     { status: 'Đang xử lý', date: '2026-05-01 09:10', user: 'Nhân viên A', icon: 'pi pi-cog', color: '#FF9800' }
   ];
 
-  constructor(private messageService: MessageService) {}
+  constructor(private messageService: MessageService, private router: Router) {}
+
+  navigateToModule(task: any) {
+    const module = task.module;
+    this.displayDetail.set(false);
+    switch (module) {
+      case 'CRM':
+        this.router.navigate(['/crm/info/details', task.customerId]);
+        break;
+      case 'LOAN':
+        this.router.navigate(['/loan/application']);
+        break;
+      case 'HRM':
+        this.router.navigate(['/hrm/onboarding']);
+        break;
+      default:
+        this.messageService.add({
+          severity: 'info',
+          summary: 'Không thể điều hướng',
+          detail: `Module ${module} chưa được hỗ trợ.`
+        });
+    }
+  }
 
   onBulkApprove() {
     const count = this.selectedTasks().length;

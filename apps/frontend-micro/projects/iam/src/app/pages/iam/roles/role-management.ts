@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormControl, FormGroup, Validators } from '@angular/forms';
 import { rxResource } from '@angular/core/rxjs-interop';
@@ -12,9 +12,17 @@ import { Dialog } from 'primeng/dialog';
 import { Toast } from 'primeng/toast';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { ConfirmDialog } from 'primeng/confirmdialog';
-import { MultiSelect } from 'primeng/multiselect';
+import { InputGroup } from 'primeng/inputgroup';
+import { ScrollPanel } from 'primeng/scrollpanel';
 import { UserService, Role } from '../../../services/user.service';
 import { TenantService } from '../../../services/tenant.service';
+
+interface PermissionGroup {
+  resource: string;
+  label: string;
+  permissions: string[];
+  selected: boolean;
+}
 
 @Component({
   selector: 'app-role-management',
@@ -31,7 +39,8 @@ import { TenantService } from '../../../services/tenant.service';
     Dialog,
     Toast,
     ConfirmDialog,
-    MultiSelect,
+    InputGroup,
+    ScrollPanel,
   ],
   providers: [MessageService, ConfirmationService],
   templateUrl: './role-management.html',
@@ -64,7 +73,40 @@ export class RoleManagement {
   // Dialog state
   displayDialog = signal(false);
   selectedRole = signal<Role | null>(null);
-  selectedPermissions = signal<string[]>([]);
+
+  // Permission filtering
+  searchQuery = signal('');
+
+  filteredGroups = computed(() => {
+    const allPerms = this.permissionsResource.value() ?? [];
+    const selected = this.selectedPermissions();
+    const q = this.searchQuery().toLowerCase();
+
+    // Group by resource
+    const grouped = new Map<string, string[]>();
+    for (const perm of allPerms) {
+      const colon = perm.indexOf(':');
+      const resource = colon > 0 ? perm.substring(0, colon) : 'other';
+      if (!grouped.has(resource)) grouped.set(resource, []);
+      grouped.get(resource)!.push(perm);
+    }
+
+    const groups: PermissionGroup[] = [];
+    for (const [resource, perms] of grouped) {
+      const filtered = q ? perms.filter(p => p.toLowerCase().includes(q)) : perms;
+      if (filtered.length === 0) continue;
+      groups.push({
+        resource,
+        label: this.resourceLabel(resource),
+        permissions: filtered,
+        selected: filtered.every(p => selected.has(p)),
+      });
+    }
+    return groups.sort((a, b) => a.label.localeCompare(b.label));
+  });
+
+  // Selected permissions as a Set for O(1) lookup
+  selectedPermissions = signal<Set<string>>(new Set());
 
   // Role form
   roleForm = new FormGroup({
@@ -72,10 +114,48 @@ export class RoleManagement {
     description: new FormControl('', { nonNullable: true })
   });
 
+  private resourceLabel(resource: string): string {
+    const labels: Record<string, string> = {
+      user: 'Người dùng',
+      role: 'Vai trò',
+      'user-group': 'Nhóm người dùng',
+      menu: 'Menu',
+      tenant: 'Workspace',
+      dashboard: 'Dashboard',
+      system: 'Hệ thống',
+      member: 'Thành viên',
+      permission: 'Quyền hạn',
+      approval: 'Phê duyệt',
+      audit: 'Nhật ký',
+      settings: 'Cấu hình',
+      lead: 'Khách hàng tiềm năng',
+      deal: 'Cơ hội',
+      contact: 'Liên hệ',
+      employee: 'Nhân viên',
+      payroll: 'Lương',
+      attendance: 'Chấm công',
+      invoice: 'Hóa đơn',
+      expense: 'Chi phí',
+      report: 'Báo cáo',
+      quote: 'Báo giá',
+      crm: 'CRM',
+      hrm: 'HRM',
+      finance: 'Tài chính',
+      mdm: 'MDM',
+      ntf: 'Thông báo',
+      me: 'Cá nhân',
+      public: 'Công khai',
+      iam: 'IAM',
+      '': 'Khác',
+    };
+    return labels[resource] || resource.charAt(0).toUpperCase() + resource.slice(1);
+  }
+
   openNew() {
     this.selectedRole.set(null);
     this.roleForm.reset({ name: '', description: '' });
-    this.selectedPermissions.set([]);
+    this.selectedPermissions.set(new Set());
+    this.searchQuery.set('');
     this.displayDialog.set(true);
   }
 
@@ -85,8 +165,30 @@ export class RoleManagement {
       name: role.name,
       description: role.description ?? ''
     });
-    this.selectedPermissions.set(role.permissions ?? []);
+    this.selectedPermissions.set(new Set(role.permissions ?? []));
+    this.searchQuery.set('');
     this.displayDialog.set(true);
+  }
+
+  togglePermission(perm: string) {
+    this.selectedPermissions.update(s => {
+      const next = new Set(s);
+      if (next.has(perm)) next.delete(perm);
+      else next.add(perm);
+      return next;
+    });
+  }
+
+  toggleGroup(group: PermissionGroup) {
+    const allSelected = group.permissions.every(p => this.selectedPermissions().has(p));
+    this.selectedPermissions.update(s => {
+      const next = new Set(s);
+      for (const perm of group.permissions) {
+        if (allSelected) next.delete(perm);
+        else next.add(perm);
+      }
+      return next;
+    });
   }
 
   saveRole() {
@@ -96,7 +198,7 @@ export class RoleManagement {
     if (!tenantId) return;
 
     const { name, description } = this.roleForm.getRawValue();
-    const perms = this.selectedPermissions();
+    const perms = [...this.selectedPermissions()];
     this.isSaving.set(true);
     const role = this.selectedRole();
 

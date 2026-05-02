@@ -235,10 +235,20 @@ func (r *roleRepo) SetRolePermissions(ctx context.Context, roleID string, permID
 		if err != nil {
 			return err
 		}
-		for _, pid := range permIDs {
-			_, err = tx.Exec(ctx, `INSERT INTO role_permissions (role_id, permission_id) VALUES ($1, $2) ON CONFLICT DO NOTHING`, roleID, pid)
+		if len(permIDs) == 0 {
+			return nil
+		}
+		// permIDs chứa permission codes dạng "resource:action" → resolve sang UUID từ bảng permissions
+		for _, code := range permIDs {
+			_, err = tx.Exec(ctx,
+				`INSERT INTO role_permissions (role_id, permission_id)
+				 SELECT $1, p.id FROM permissions p
+				 WHERE p.tenant_id = $2 AND (p.resource || ':' || p.action) = $3
+				 ON CONFLICT DO NOTHING`,
+				roleID, tenantID, code,
+			)
 			if err != nil {
-				return fmt.Errorf("inserting role_permission: %w", err)
+				return fmt.Errorf("inserting role_permission for code %q: %w", code, err)
 			}
 		}
 		return nil

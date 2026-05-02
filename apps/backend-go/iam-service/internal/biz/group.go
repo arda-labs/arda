@@ -24,6 +24,7 @@ type GroupRepo interface {
 	AddMember(ctx context.Context, groupID, userID string) error
 	RemoveMember(ctx context.Context, groupID, userID string) error
 	ListMembers(ctx context.Context, groupID string) ([]*User, error)
+	ListByUser(ctx context.Context, userID, tenantID string) ([]*Group, error)
 
 	AssignRole(ctx context.Context, groupID, roleID, tenantID string) error
 	RevokeRole(ctx context.Context, groupID, roleID string) error
@@ -138,4 +139,8 @@ func (uc *GroupUsecase) RevokeRole(ctx context.Context, groupID, roleID string, 
 
 func (uc *GroupUsecase) ListRoles(ctx context.Context, groupID string) ([]*Role, error) {
 	return uc.repo.ListRoles(ctx, groupID)
+}
+
+func (uc *GroupUsecase) GetUserGroups(ctx context.Context, userID, tenantID string) ([]*Group, error) {
+	return uc.repo.ListByUser(ctx, userID, tenantID)
 }

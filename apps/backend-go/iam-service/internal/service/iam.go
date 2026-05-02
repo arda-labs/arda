@@ -583,6 +583,12 @@ func (s *IAMService) ListRoles(ctx context.Context, req *pb.ListRolesRequest) (*
 	}
 	resp := &pb.ListRolesResponse{NextPageToken: next}
 	for _, r := range list {
+		permPtrs, _ := s.roles.GetRolePermissions(ctx, r.ID)
+		perms := make([]biz.Permission, len(permPtrs))
+		for i, p := range permPtrs {
+			perms[i] = *p
+		}
+		r.Permissions = perms
 		resp.Roles = append(resp.Roles, toProtoRole(r))
 	}
 	return resp, nil
@@ -728,6 +734,62 @@ func (s *IAMService) ListGroupRoles(ctx context.Context, req *pb.ListGroupRolesR
 	resp := &pb.ListGroupRolesResponse{}
 	for _, r := range roles {
 		resp.Roles = append(resp.Roles, toProtoRole(r))
+	}
+	return resp, nil
+}
+
+// ─── User Groups (plain JSON, no proto) ─────────────────────────────────
+
+type ListUserGroupsRequest struct {
+	UserID   string `json:"-"`
+	TenantID string `json:"tenant_id"`
+}
+
+type ListUserGroupsResponse struct {
+	Groups []*UserGroupItem `json:"groups"`
+}
+
+type UserGroupItem struct {
+	ID          string `json:"id"`
+	Name        string `json:"name"`
+	Description string `json:"description"`
+}
+
+func (s *IAMService) ListUserGroups(ctx context.Context, req *ListUserGroupsRequest) (*ListUserGroupsResponse, error) {
+	groups, err := s.groups.GetUserGroups(ctx, req.UserID, req.TenantID)
+	if err != nil {
+		return nil, err
+	}
+	resp := &ListUserGroupsResponse{}
+	for _, g := range groups {
+		resp.Groups = append(resp.Groups, &UserGroupItem{
+			ID:          g.ID,
+			Name:        g.Name,
+			Description: g.Description,
+		})
+	}
+	return resp, nil
+}
+
+// ─── User Effective Permissions (plain JSON, no proto) ──────────────────
+
+type GetUserEffectivePermissionsRequest struct {
+	UserID   string `json:"-"`
+	TenantID string `json:"tenant_id"`
+}
+
+type GetUserEffectivePermissionsResponse struct {
+	Permissions []string `json:"permissions"`
+}
+
+func (s *IAMService) GetUserEffectivePermissions(ctx context.Context, req *GetUserEffectivePermissionsRequest) (*GetUserEffectivePermissionsResponse, error) {
+	perms, err := s.perms.GetUserPermissions(ctx, req.UserID, req.TenantID)
+	if err != nil {
+		return nil, err
+	}
+	resp := &GetUserEffectivePermissionsResponse{}
+	for _, p := range perms {
+		resp.Permissions = append(resp.Permissions, p.Resource+":"+p.Action)
 	}
 	return resp, nil
 }
@@ -892,7 +954,7 @@ func toProtoTenantUser(tu *biz.TenantUser) *pb.TenantUser {
 func toProtoRole(r *biz.Role) *pb.Role {
 	permStrs := make([]string, len(r.Permissions))
 	for i, p := range r.Permissions {
-		permStrs[i] = p.ID
+		permStrs[i] = p.Resource + ":" + p.Action
 	}
 	return &pb.Role{
 		Id:          r.ID,

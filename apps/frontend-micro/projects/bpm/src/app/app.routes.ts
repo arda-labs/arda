@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 
-export const routes: Routes = [
+export const remoteRoutes: Routes = [
   {
     path: 'inbound',
     loadComponent: () => import('./pages/inbound/inbound').then(m => m.InboundComponent)
@@ -44,3 +44,5 @@ export const routes: Routes = [
     pathMatch: 'full'
   }
 ];
+
+export const routes: Routes = remoteRoutes;

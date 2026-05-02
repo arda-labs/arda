@@ -76,6 +76,34 @@ func NewHTTPServer(c *conf.Server, jwt *conf.JWT, iam *service.IAMService, menu 
 		}
 		return ctx.Result(200, out)
 	})
+	srv.Route("/").GET("/v1/users/{user_id}/groups", func(ctx khttp.Context) error {
+		in := &service.ListUserGroupsRequest{}
+		_ = ctx.BindQuery(in)
+		in.UserID = ctx.Vars()["user_id"][0]
+		khttp.SetOperation(ctx, "/iam.v1.IAMService/ListUserGroups")
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return iam.ListUserGroups(ctx, req.(*service.ListUserGroupsRequest))
+		})
+		out, err := h(ctx, in)
+		if err != nil {
+			return err
+		}
+		return ctx.Result(200, out)
+	})
+	srv.Route("/").GET("/v1/users/{user_id}/effective-permissions", func(ctx khttp.Context) error {
+		in := &service.GetUserEffectivePermissionsRequest{}
+		_ = ctx.BindQuery(in)
+		in.UserID = ctx.Vars()["user_id"][0]
+		khttp.SetOperation(ctx, "/iam.v1.IAMService/GetUserEffectivePermissions")
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return iam.GetUserEffectivePermissions(ctx, req.(*service.GetUserEffectivePermissionsRequest))
+		})
+		out, err := h(ctx, in)
+		if err != nil {
+			return err
+		}
+		return ctx.Result(200, out)
+	})
 	srv.Route("/").POST("/v1/menus", func(ctx khttp.Context) error {
 		in := &service.CreateMenuRequest{}
 		if err := ctx.Bind(in); err != nil {

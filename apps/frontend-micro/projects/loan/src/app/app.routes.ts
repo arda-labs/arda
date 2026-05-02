@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 
-export const routes: Routes = [
+export const remoteRoutes: Routes = [
   {
     path: 'customer',
     loadChildren: () => import('./customer/customer.routes').then(m => m.CUSTOMER_ROUTES)
@@ -11,3 +11,5 @@ export const routes: Routes = [
     pathMatch: 'full'
   }
 ];
+
+export const routes: Routes = remoteRoutes;

@@ -4,13 +4,15 @@ import { Router } from '@angular/router';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
+import { IconFieldModule } from 'primeng/iconfield';
+import { InputIconModule } from 'primeng/inputicon';
 import { TagModule } from 'primeng/tag';
 import { CustomerService } from '../shared/services/customer.service';
 
 @Component({
   selector: 'app-customer-list',
   standalone: true,
-  imports: [CommonModule, TableModule, ButtonModule, InputTextModule, TagModule],
+  imports: [CommonModule, TableModule, ButtonModule, InputTextModule, IconFieldModule, InputIconModule, TagModule],
   templateUrl: './customer-list.html',
   styleUrl: './customer-list.css',
   changeDetection: ChangeDetectionStrategy.OnPush

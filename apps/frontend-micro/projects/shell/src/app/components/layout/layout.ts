@@ -40,12 +40,7 @@ export class Layout {
   );
 
   constructor() {
-    effect(() => {
-      const tenantId = this.tenantService.selectedTenantId();
-      if (tenantId) {
-        this.menuService.loadMenu();
-      }
-    });
+    // Menu tự động load qua effect trong MenuService
   }
 
   toggleSidebar(): void {

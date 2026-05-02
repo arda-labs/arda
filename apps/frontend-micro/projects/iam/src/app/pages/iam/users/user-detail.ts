@@ -10,8 +10,9 @@ import { Select } from 'primeng/select';
 import { Tag } from 'primeng/tag';
 import { Toast } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { ConfirmDialog } from 'primeng/confirmdialog';
 import { Tabs, TabList, Tab, TabPanels, TabPanel } from 'primeng/tabs';
-import { Role, User, UserService, UserTenantAccess } from '../../../services/user.service';
+import { Group, Role, User, UserService, UserTenantAccess } from '../../../services/user.service';
 import { TenantService } from '../../../services/tenant.service';
 
 interface UserDetailData {
@@ -19,6 +20,8 @@ interface UserDetailData {
   roles: Role[];
   allRoles: Role[];
   tenantAccess: UserTenantAccess[];
+  groups: Group[];
+  effectivePermissions: string[];
 }
 
 @Component({
@@ -68,6 +71,8 @@ export class UserDetail {
         roles: this.userService.listUserRoles(params.userId, params.tenantId),
         allRoles: this.userService.listRoles(params.tenantId, { pageSize: 100 }),
         tenantAccess: this.userService.listUserTenantAccess(params.userId),
+        groups: this.userService.listUserGroups(params.userId, params.tenantId),
+        effectivePermissions: this.userService.getUserEffectivePermissions(params.userId, params.tenantId),
       });
     },
   });
@@ -76,6 +81,8 @@ export class UserDetail {
   readonly user = computed(() => this.detail()?.user ?? null);
   readonly assignedRoles = computed(() => this.detail()?.roles ?? []);
   readonly tenantAccess = computed(() => this.detail()?.tenantAccess ?? []);
+  readonly userGroups = computed(() => this.detail()?.groups ?? []);
+  readonly effectivePermissions = computed(() => this.detail()?.effectivePermissions ?? []);
   readonly totalTenantPermissions = computed(() =>
     this.tenantAccess().reduce((total, tenant) => total + tenant.permissions.length, 0)
   );

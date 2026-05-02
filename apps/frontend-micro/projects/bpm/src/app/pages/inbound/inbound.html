@@ -130,7 +130,10 @@
 
     <ng-template pTemplate="footer">
       <div class="flex justify-between items-center w-full mt-4">
-        <p-button label="Chuyển trả" icon="pi pi-undo" severity="warn" [text]="true" (onClick)="onAction('RETURN')" />
+        <div class="flex gap-2">
+          <p-button label="Mở trong {{ activeTask()?.module }}" icon="pi pi-external-link" severity="info" variant="text" (onClick)="navigateToModule(activeTask())" />
+          <p-button label="Chuyển trả" icon="pi pi-undo" severity="warn" [text]="true" (onClick)="onAction('RETURN')" />
+        </div>
         <div class="flex gap-2">
           <p-button label="Hủy" severity="secondary" (onClick)="displayDetail.set(false)" [text]="true" />
           <p-button label="Từ chối" icon="pi pi-times" severity="danger" (onClick)="onAction('REJECT')" />

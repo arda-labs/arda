@@ -1,177 +1,214 @@
-import { Component, ElementRef, OnInit, ViewChild, ChangeDetectionStrategy, signal, inject, effect } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, ElementRef, OnInit, ViewChild, ChangeDetectionStrategy, signal, inject, effect, resource, computed } from '@angular/core';
+import { CommonModule, DatePipe } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TimelineModule } from 'primeng/timeline';
 import { CardModule } from 'primeng/card';
 import { TagModule } from 'primeng/tag';
 import { ToggleButtonModule } from 'primeng/togglebutton';
-import { FormsModule } from '@angular/forms';
+import { SelectModule } from 'primeng/select';
+import { TableModule } from 'primeng/table';
+import { ButtonModule } from 'primeng/button';
+import { SkeletonModule } from 'primeng/skeleton';
 import BpmnViewer from 'bpmn-js';
-import { KafkaStreamService } from '../../services/kafka-stream.service';
-
-const INITIAL_DIAGRAM = `<?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn">
-  <bpmn:process id="Process_1" isExecutable="false">
-    <bpmn:startEvent id="StartEvent_1" name="Bắt đầu">
-      <bpmn:outgoing>Flow_1</bpmn:outgoing>
-    </bpmn:startEvent>
-    <bpmn:task id="Task_1" name="Nhập liệu hồ sơ">
-      <bpmn:incoming>Flow_1</bpmn:incoming>
-      <bpmn:outgoing>Flow_2</bpmn:outgoing>
-    </bpmn:task>
-    <bpmn:sequenceFlow id="Flow_1" sourceRef="StartEvent_1" targetRef="Task_1" />
-    <bpmn:exclusiveGateway id="Gateway_1" name="Duyệt hồ sơ?">
-      <bpmn:incoming>Flow_2</bpmn:incoming>
-      <bpmn:outgoing>Flow_3</bpmn:outgoing>
-      <bpmn:outgoing>Flow_4</bpmn:outgoing>
-    </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="Flow_2" sourceRef="Task_1" targetRef="Gateway_1" />
-    <bpmn:task id="Task_2" name="Phê duyệt">
-      <bpmn:incoming>Flow_3</bpmn:incoming>
-      <bpmn:outgoing>Flow_5</bpmn:outgoing>
-    </bpmn:task>
-    <bpmn:sequenceFlow id="Flow_3" name="Đồng ý" sourceRef="Gateway_1" targetRef="Task_2" />
-    <bpmn:endEvent id="EndEvent_1" name="Kết thúc">
-      <bpmn:incoming>Flow_5</bpmn:incoming>
-    </bpmn:endEvent>
-    <bpmn:sequenceFlow id="Flow_5" sourceRef="Task_2" targetRef="EndEvent_1" />
-    <bpmn:task id="Task_3" name="Yêu cầu sửa đổi">
-      <bpmn:incoming>Flow_4</bpmn:incoming>
-      <bpmn:outgoing>Flow_6</bpmn:outgoing>
-    </bpmn:task>
-    <bpmn:sequenceFlow id="Flow_4" name="Từ chối" sourceRef="Gateway_1" targetRef="Task_3" />
-    <bpmn:sequenceFlow id="Flow_6" sourceRef="Task_3" targetRef="Task_1" />
-  </bpmn:process>
-  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
-    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
-      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
-        <dc:Bounds x="173" y="102" width="36" height="36" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Task_1_di" bpmnElement="Task_1">
-        <dc:Bounds x="260" y="80" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Gateway_1_di" bpmnElement="Gateway_1" isMarkerVisible="true">
-        <dc:Bounds x="415" y="95" width="50" height="50" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Task_2_di" bpmnElement="Task_2">
-        <dc:Bounds x="520" y="80" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="EndEvent_1_di" bpmnElement="EndEvent_1">
-        <dc:Bounds x="682" y="102" width="36" height="36" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Task_3_di" bpmnElement="Task_3">
-        <dc:Bounds x="390" y="210" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="Flow_1_di" bpmnElement="Flow_1">
-        <di:waypoint x="209" y="120" />
-        <di:waypoint x="260" y="120" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_2_di" bpmnElement="Flow_2">
-        <di:waypoint x="360" y="120" />
-        <di:waypoint x="415" y="120" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_3_di" bpmnElement="Flow_3">
-        <di:waypoint x="465" y="120" />
-        <di:waypoint x="520" y="120" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_5_di" bpmnElement="Flow_5">
-        <di:waypoint x="620" y="120" />
-        <di:waypoint x="682" y="120" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_4_di" bpmnElement="Flow_4">
-        <di:waypoint x="440" y="145" />
-        <di:waypoint x="440" y="210" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_6_di" bpmnElement="Flow_6">
-        <di:waypoint x="390" y="250" />
-        <di:waypoint x="310" y="250" />
-        <di:waypoint x="310" y="160" />
-      </bpmndi:BPMNEdge>
-    </bpmndi:BPMNPlane>
-  </bpmndi:BPMNDiagram>
-</bpmn:definitions>`;
+import { DefinitionService } from '../../services/definition.service';
+import { InstanceService } from '../../services/instance.service';
+import { HeatmapStep, InstanceSummary, ProcessDefinition, ProcessEvent } from '../../models/bpm.models';
 
 @Component({
   selector: 'app-monitor',
   standalone: true,
-  imports: [CommonModule, FormsModule, TimelineModule, CardModule, TagModule, ToggleButtonModule],
+  imports: [CommonModule, FormsModule, TimelineModule, CardModule, TagModule, ToggleButtonModule, SelectModule, TableModule, ButtonModule, SkeletonModule],
   templateUrl: './monitor.html',
   styleUrl: './monitor.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MonitorComponent implements OnInit {
-  @ViewChild('ref', { static: true }) private el!: ElementRef;
+  @ViewChild('bpmnContainer', { static: true }) private bpmnEl!: ElementRef;
   private viewer: any;
-  private kafkaStream = inject(KafkaStreamService);
+  private definitionService = inject(DefinitionService);
+  private instanceService = inject(InstanceService);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
 
+  definitions = signal<ProcessDefinition[]>([]);
+  selectedDef = signal<ProcessDefinition | null>(null);
+  instances = signal<InstanceSummary[]>([]);
+  selectedInstance = signal<InstanceSummary | null>(null);
+  bpmnXml = signal('');
+  events = signal<ProcessEvent[]>([]);
+  heatmapData = signal<HeatmapStep[]>([]);
   showHeatmap = signal(false);
-
-  // Computed-like behavior from Signal stream
-  streamEvents = signal<any[]>([]);
-
-  // Mock data for heatmap (number of active instances per step)
-  heatmapData = [
-    { stepId: 'Task_1', count: 45, severity: 'warn' },
-    { stepId: 'Task_2', count: 120, severity: 'danger' },
-    { stepId: 'Task_3', count: 5, severity: 'success' }
-  ];
+  loadingDef = signal(true);
+  loadingInstances = signal(false);
+  loadingDiagram = signal(false);
 
   constructor() {
-    // React to new Kafka events
     effect(() => {
-      const allEvents = this.kafkaStream.events();
-      this.streamEvents.set(allEvents.map(e => ({
-        status: e.type,
-        date: new Date(e.timestamp).toLocaleTimeString(),
-        icon: this.getIcon(e.type),
-        color: this.getColor(e.source),
-        description: `${e.source}: ${JSON.stringify(e.data)}`
-      })));
+      if (this.bpmnXml() && this.bpmnEl.nativeElement.children.length === 0) {
+        this.renderDiagram();
+      }
     });
   }
 
-  ngOnInit(): void {
-    this.viewer = new BpmnViewer({
-      container: this.el.nativeElement
-    });
+  async ngOnInit() {
+    await this.loadDefinitions();
+    const instanceId = this.route.snapshot.queryParamMap.get('instanceId');
+    if (instanceId) {
+      this.selectInstanceById(instanceId);
+    }
+  }
 
-    this.viewer.importXML(INITIAL_DIAGRAM).then(() => {
-      this.viewer.get('canvas').zoom('fit-viewport');
+  private async loadDefinitions() {
+    this.loadingDef.set(true);
+    try {
+      const res = await this.definitionService.list({ pageSize: 100 }).toPromise();
+      this.definitions.set(res?.items ?? []);
+      if (res?.items?.length && !this.selectedDef()) {
+        this.selectedDef.set(res.items[0]);
+        this.loadInstances(res.items[0].id);
+      }
+    } finally {
+      this.loadingDef.set(false);
+    }
+  }
+
+  onDefChange(def: ProcessDefinition) {
+    this.selectedDef.set(def);
+    this.selectedInstance.set(null);
+    this.bpmnXml.set('');
+    this.events.set([]);
+    this.heatmapData.set([]);
+    this.showHeatmap.set(false);
+    if (def) this.loadInstances(def.id);
+  }
+
+  private async loadInstances(defId: string) {
+    this.loadingInstances.set(true);
+    try {
+      const res = await this.instanceService.list({ processDefinitionId: defId, pageSize: 50 }).toPromise();
+      this.instances.set(res?.items ?? []);
+    } finally {
+      this.loadingInstances.set(false);
+    }
+  }
+
+  private async selectInstanceById(id: string) {
+    try {
+      const detail = await this.instanceService.getById(id).toPromise();
+      if (!detail) return;
+      this.selectedInstance.set({
+        id: detail.id,
+        zeebeInstanceKey: detail.zeebeInstanceKey,
+        processDefinitionId: detail.processDefinitionId,
+        status: detail.status,
+        currentStep: detail.currentStep,
+        assignedAgent: detail.assignedAgent,
+        slaStatus: detail.slaStatus,
+        createdAt: detail.createdAt,
+        completedAt: detail.completedAt,
+      });
+      this.bpmnXml.set(detail.bpmnXml);
+      this.loadEvents(id);
+      this.loadHeatmap(detail.processDefinitionId);
+      // Select the matching definition
+      const def = this.definitions().find(d => d.id === detail.processDefinitionId);
+      if (def) this.selectedDef.set(def);
+      // Re-render with highlighting after view init
+      setTimeout(() => this.renderDiagram(detail.activeElementIds, detail.completedElementIds), 100);
+    } catch { /* not found */ }
+  }
+
+  onSelectInstance(inst: InstanceSummary) {
+    this.selectedInstance.set(inst);
+    this.loadingDiagram.set(true);
+    this.instanceService.getById(inst.id).subscribe({
+      next: (detail) => {
+        this.bpmnXml.set(detail.bpmnXml);
+        this.loadEvents(inst.id);
+        this.loadHeatmap(detail.processDefinitionId);
+        setTimeout(() => this.renderDiagram(detail.activeElementIds, detail.completedElementIds), 100);
+      },
+      error: () => this.loadingDiagram.set(false),
+      complete: () => this.loadingDiagram.set(false),
+    });
+  }
+
+  private loadEvents(instanceId: string) {
+    this.instanceService.getEvents(instanceId).subscribe((res) => this.events.set(res.items));
+  }
+
+  private loadHeatmap(defId: string) {
+    this.instanceService.getHeatmap(defId).subscribe((steps) => this.heatmapData.set(steps));
+  }
+
+  private renderDiagram(activeIds?: string[], completedIds?: string[]) {
+    const el = this.bpmnEl.nativeElement;
+    el.innerHTML = ''; // Clear previous diagram
+    if (!this.bpmnXml()) return;
+
+    this.viewer = new BpmnViewer({ container: el });
+    this.viewer.importXML(this.bpmnXml()).then(() => {
+      const canvas = this.viewer.get('canvas');
+      canvas.zoom('fit-viewport');
+      if (activeIds?.length) activeIds.forEach((id) => canvas.addMarker(id, 'bpmn-active'));
+      if (completedIds?.length) completedIds.forEach((id) => canvas.addMarker(id, 'bpmn-completed'));
     });
   }
 
   toggleHeatmap() {
-    this.showHeatmap.update(v => !v);
+    this.showHeatmap.update((v) => !v);
+    if (!this.viewer) return;
     const overlays = this.viewer.get('overlays');
     const canvas = this.viewer.get('canvas');
 
     if (this.showHeatmap()) {
-      this.heatmapData.forEach(item => {
-        canvas.addMarker(item.stepId, `heatmap-${item.severity}`);
-        overlays.add(item.stepId, {
+      this.heatmapData().forEach((item) => {
+        canvas.addMarker(item.elementId, `heatmap-${item.severity}`);
+        overlays.add(item.elementId, {
           position: { bottom: 0, right: 0 },
-          html: `<div class="heatmap-badge badge-${item.severity}">${item.count}</div>`
+          html: `<div class="heatmap-badge badge-${item.severity}">${item.instanceCount}</div>`,
         });
       });
     } else {
-      this.heatmapData.forEach(item => {
-        canvas.removeMarker(item.stepId, `heatmap-${item.severity}`);
-      });
+      this.heatmapData().forEach((item) => canvas.removeMarker(item.elementId, `heatmap-${item.severity}`));
       overlays.clear();
     }
   }
 
-  private getIcon(type: string): string {
+  getStatusSeverity(s: string) {
+    switch (s) {
+      case 'ACTIVE': return 'info';
+      case 'COMPLETED': return 'success';
+      case 'FAILED': return 'danger';
+      case 'CANCELLED': return 'secondary';
+      default: return 'warn';
+    }
+  }
+
+  getSlaSeverity(s: string) {
+    switch (s) {
+      case 'ON_TRACK': return 'success';
+      case 'WARNING': return 'warn';
+      case 'BREACHED': return 'danger';
+      default: return 'info';
+    }
+  }
+
+  getEventIcon(type: string): string {
     if (type.includes('CREATED')) return 'pi pi-plus';
-    if (type.includes('SUBMITTED')) return 'pi pi-file-export';
-    if (type.includes('WORKFLOW')) return 'pi pi-play';
+    if (type.includes('COMPLETED')) return 'pi pi-check';
+    if (type.includes('ACTIVATED')) return 'pi pi-arrow-right';
+    if (type.includes('ERROR')) return 'pi pi-exclamation-triangle';
     return 'pi pi-bell';
   }
 
-  private getColor(source: string): string {
+  getEventColor(source: string): string {
     switch (source) {
       case 'crm-service': return '#3B82F6';
       case 'loan-service': return '#F59E0B';
       case 'bpm-service': return '#10B981';
+      case 'zeebe': return '#8B5CF6';
       default: return '#6366F1';
     }
   }

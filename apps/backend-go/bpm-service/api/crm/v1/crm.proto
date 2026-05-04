@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package api.crm.v1;
 
-option go_package = "github.com/arda-labs/arda/apps/backend-go/bpm-service/api/crm/v1;v1";
+option go_package = "github.com/arda-labs/arda/arda-be-go/services/bpm-service/api/crm/v1;v1";
 
 service CRM {
   rpc FinalizeCustomer (FinalizeCustomerRequest) returns (FinalizeCustomerReply);

@@ -1,5 +1,5 @@
-import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, ChangeDetectionStrategy, signal, inject, computed } from '@angular/core';
+import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
@@ -9,50 +9,48 @@ import { SelectModule } from 'primeng/select';
 import { TagModule } from 'primeng/tag';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
+import { Router } from '@angular/router';
+import { DefinitionService } from '../../services/definition.service';
+import { InstanceService } from '../../services/instance.service';
+import { ProcessDefinition, InstanceSummary } from '../../models/bpm.models';
 
 @Component({
   selector: 'app-search',
   standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    InputTextModule,
-    ButtonModule,
-    TableModule,
-    DatePickerModule,
-    SelectModule,
-    TagModule,
-    IconFieldModule,
-    InputIconModule
-  ],
+  imports: [CommonModule, FormsModule, InputTextModule, ButtonModule, TableModule, DatePickerModule, SelectModule, TagModule, IconFieldModule, InputIconModule],
   templateUrl: './search.html',
   styleUrl: './search.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchComponent {
-  searchQuery = signal('');
-  dateRange = signal(null);
+  private definitionService = inject(DefinitionService);
+  private instanceService = inject(InstanceService);
+  private router = inject(Router);
 
-  processTypes = [
-    { label: 'Tất cả quy trình', value: 'ALL' },
-    { label: 'Đăng ký khách hàng (CRM)', value: 'CRM' },
-    { label: 'Thẩm định khoản vay (LOAN)', value: 'LOAN' },
-    { label: 'Quản trị nhân sự (HRM)', value: 'HRM' }
+  definitions = signal<ProcessDefinition[]>([]);
+  keyword = signal('');
+  selectedDefId = signal<string>('');
+  selectedStatus = signal<string>('');
+  dateRange = signal<Date[] | null>(null);
+  results = signal<InstanceSummary[]>([]);
+  loading = signal(false);
+
+  statuses = [
+    { label: 'Tất cả trạng thái', value: '' },
+    { label: 'Đang xử lý', value: 'ACTIVE' },
+    { label: 'Hoàn thành', value: 'COMPLETED' },
+    { label: 'Lỗi', value: 'FAILED' },
+    { label: 'Đã hủy', value: 'CANCELLED' },
   ];
 
-  selectedProcess = signal('ALL');
-
-  results = signal([
-    { id: 'P-00123', process: 'CRM Register', customer: 'Nguyễn Văn A', status: 'COMPLETED', completedDate: '2026-05-01 14:20' },
-    { id: 'P-00124', process: 'Loan App', customer: 'Trần Thị B', status: 'RUNNING', completedDate: '-' },
-    { id: 'P-00125', process: 'CRM Register', customer: 'Lê Văn C', status: 'FAILED', completedDate: '2026-05-02 08:30' },
-    { id: 'P-00126', process: 'HRM Onboarding', customer: 'Phạm Văn D', status: 'COMPLETED', completedDate: '2026-05-02 10:15' }
-  ]);
+  constructor() {
+    this.definitionService.list({ pageSize: 100 }).subscribe(r => this.definitions.set(r?.items ?? []));
+  }
 
   getStatusSeverity(status: string) {
     switch (status) {
       case 'COMPLETED': return 'success';
-      case 'RUNNING': return 'info';
+      case 'ACTIVE': return 'info';
       case 'FAILED': return 'danger';
       case 'CANCELLED': return 'secondary';
       default: return 'warn';
@@ -60,10 +58,20 @@ export class SearchComponent {
   }
 
   onSearch() {
-    console.log('Searching for:', this.searchQuery(), this.selectedProcess(), this.dateRange());
+    this.loading.set(true);
+    this.instanceService.list({
+      keyword: this.keyword() || undefined,
+      processDefinitionId: this.selectedDefId() || undefined,
+      status: this.selectedStatus() || undefined,
+      pageSize: 50,
+    }).subscribe({
+      next: (r) => this.results.set(r?.items ?? []),
+      error: () => this.results.set([]),
+      complete: () => this.loading.set(false),
+    });
   }
 
-  onExport() {
-    console.log('Exporting results to Excel/CSV...');
+  viewInstance(id: string) {
+    this.router.navigate(['/bpm/monitor'], { queryParams: { instanceId: id } });
   }
 }

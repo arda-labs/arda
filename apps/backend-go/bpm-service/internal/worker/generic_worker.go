@@ -8,7 +8,7 @@ import (
 	"os"
 	"time"
 
-	v1 "github.com/arda-labs/arda/apps/backend-go/bpm-service/api/crm/v1"
+	v1 "github.com/arda-labs/arda/arda-be-go/services/bpm-service/api/crm/v1"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )

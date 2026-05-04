@@ -1,33 +1,65 @@
-module github.com/arda-labs/arda/apps/backend-go/bpm-service
+module github.com/arda-labs/arda/arda-be-go/services/bpm-service
 
-go 1.23.0
+go 1.25.0
 
 require (
-	github.com/go-kratos/kratos/v2 v2.8.0
+	github.com/arda-labs/arda/arda-be-go/pkg v0.0.0-00010101000000-000000000000
+	github.com/camunda/zeebe/clients/go/v8 v8.5.25
+	github.com/go-kratos/kratos/v2 v2.9.2
+	github.com/golang-migrate/migrate/v4 v4.19.1
 	github.com/google/wire v0.6.0
-	google.golang.org/genproto/googleapis/api v0.0.0-20240528184218-531527333157
-	google.golang.org/grpc v1.64.0
-	google.golang.org/protobuf v1.34.1
+	github.com/jackc/pgx/v5 v5.9.2
+	github.com/segmentio/kafka-go v0.4.51
+	go.uber.org/automaxprocs v1.5.1
+	google.golang.org/grpc v1.74.2
+	google.golang.org/protobuf v1.36.7
 )
 
 require (
+	dario.cat/mergo v1.0.0 // indirect
 	github.com/asaskevich/govalidator v0.0.0-20200108200545-475eaeb16496 // indirect
-	github.com/camunda/zeebe/clients/go/v8 v8.5.25 // indirect
-	github.com/davecgh/go-spew v1.1.1 // indirect
+	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
+	github.com/decred/dcrd/dcrec/secp256k1/v4 v4.4.0 // indirect
+	github.com/fsnotify/fsnotify v1.6.0 // indirect
+	github.com/go-kratos/aegis v0.2.0 // indirect
+	github.com/go-logr/logr v1.4.3 // indirect
+	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/go-ozzo/ozzo-validation/v4 v4.3.0 // indirect
-	github.com/golang/protobuf v1.5.4 // indirect
-	github.com/google/go-cmp v0.6.0 // indirect
+	github.com/go-playground/form/v4 v4.2.1 // indirect
+	github.com/goccy/go-json v0.10.3 // indirect
+	github.com/golang-jwt/jwt/v5 v5.3.1 // indirect
+	github.com/google/go-cmp v0.7.0 // indirect
+	github.com/google/uuid v1.6.0 // indirect
+	github.com/gorilla/mux v1.8.1 // indirect
+	github.com/jackc/pgpassfile v1.0.0 // indirect
+	github.com/jackc/pgservicefile v0.0.0-20240606120523-5a60cdf6a761 // indirect
+	github.com/jackc/puddle/v2 v2.2.2 // indirect
 	github.com/klauspost/compress v1.16.0 // indirect
+	github.com/lestrrat-go/blackmagic v1.0.3 // indirect
+	github.com/lestrrat-go/httpcc v1.0.1 // indirect
+	github.com/lestrrat-go/httprc v1.0.6 // indirect
+	github.com/lestrrat-go/iter v1.0.2 // indirect
+	github.com/lestrrat-go/jwx/v2 v2.1.6 // indirect
+	github.com/lestrrat-go/option v1.0.1 // indirect
+	github.com/lib/pq v1.10.9 // indirect
 	github.com/mitchellh/go-homedir v1.1.0 // indirect
-	github.com/pierrec/lz4/v4 v4.1.15 // indirect
-	github.com/pmezard/go-difflib v1.0.0 // indirect
-	github.com/segmentio/kafka-go v0.4.51 // indirect
-	github.com/stretchr/testify v1.9.0 // indirect
-	golang.org/x/net v0.38.0 // indirect
-	golang.org/x/oauth2 v0.18.0 // indirect
-	golang.org/x/sys v0.31.0 // indirect
-	golang.org/x/text v0.23.0 // indirect
-	google.golang.org/appengine v1.6.8 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20240521202816-d264139d666e // indirect
+	github.com/pierrec/lz4/v4 v4.1.16 // indirect
+	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2 // indirect
+	github.com/segmentio/asm v1.2.0 // indirect
+	github.com/stretchr/testify v1.11.1 // indirect
+	go.opentelemetry.io/auto/sdk v1.1.0 // indirect
+	go.opentelemetry.io/otel v1.37.0 // indirect
+	go.opentelemetry.io/otel/metric v1.37.0 // indirect
+	go.opentelemetry.io/otel/trace v1.37.0 // indirect
+	golang.org/x/crypto v0.45.0 // indirect
+	golang.org/x/net v0.47.0 // indirect
+	golang.org/x/oauth2 v0.30.0 // indirect
+	golang.org/x/sync v0.18.0 // indirect
+	golang.org/x/sys v0.38.0 // indirect
+	golang.org/x/text v0.31.0 // indirect
+	google.golang.org/genproto/googleapis/api v0.0.0-20250818200422-3122310a409c // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20250818200422-3122310a409c // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
+
+replace github.com/arda-labs/arda/arda-be-go/pkg => ../../../libs/go/pkg

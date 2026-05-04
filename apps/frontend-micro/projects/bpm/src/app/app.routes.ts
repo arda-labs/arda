@@ -10,6 +10,14 @@ export const remoteRoutes: Routes = [
     loadComponent: () => import('./pages/outbound/outbound').then(m => m.OutboundComponent)
   },
   {
+    path: 'definitions',
+    loadComponent: () => import('./pages/definitions/definitions').then(m => m.DefinitionsComponent)
+  },
+  {
+    path: 'deploy',
+    loadComponent: () => import('./pages/deploy/deploy').then(m => m.DeployComponent)
+  },
+  {
     path: 'search',
     loadComponent: () => import('./pages/search/search').then(m => m.SearchComponent)
   },

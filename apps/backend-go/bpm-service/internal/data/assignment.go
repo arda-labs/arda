@@ -3,7 +3,8 @@ package data
 import (
 	"context"
 	"sync"
-	"github.com/arda-labs/arda/apps/backend-go/bpm-service/internal/biz"
+
+	"github.com/arda-labs/arda/arda-be-go/services/bpm-service/internal/biz"
 )
 
 type assignmentRepo struct {
@@ -11,8 +12,7 @@ type assignmentRepo struct {
 	mu   sync.RWMutex
 }
 
-func NewAssignmentRepo() biz.AssignmentRepo {
-	// Initialize with some mock data
+func NewAssignmentRepo(data *Data) biz.AssignmentRepo {
 	repo := &assignmentRepo{
 		data: make(map[string]*biz.AssignmentRule),
 	}
@@ -48,7 +48,6 @@ func (r *assignmentRepo) GetRuleByModule(ctx context.Context, module string) (*b
 		return rule, nil
 	}
 
-	// Default rule
 	return &biz.AssignmentRule{
 		Module:   module,
 		Strategy: biz.RoundRobin,

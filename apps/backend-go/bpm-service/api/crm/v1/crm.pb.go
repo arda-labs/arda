@@ -139,7 +139,7 @@ const file_api_crm_v1_crm_proto_rawDesc = "" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x18\n" +
 	"\amessage\x18\x02 \x01(\tR\amessage2a\n" +
 	"\x03CRM\x12Z\n" +
-	"\x10FinalizeCustomer\x12#.api.crm.v1.FinalizeCustomerRequest\x1a!.api.crm.v1.FinalizeCustomerReplyBEZCgithub.com/arda-labs/arda/apps/backend-go/bpm-service/api/crm/v1;v1b\x06proto3"
+	"\x10FinalizeCustomer\x12#.api.crm.v1.FinalizeCustomerRequest\x1a!.api.crm.v1.FinalizeCustomerReplyBIZGgithub.com/arda-labs/arda/arda-be-go/services/bpm-service/api/crm/v1;v1b\x06proto3"
 
 var (
 	file_api_crm_v1_crm_proto_rawDescOnce sync.Once

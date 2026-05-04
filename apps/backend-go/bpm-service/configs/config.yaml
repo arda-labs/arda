@@ -7,6 +7,9 @@ server:
     timeout: 10s
 
 data:
+  database:
+    driver: pgx
+    source: "postgres://bpm:bpm%40123@thinkcenter:5432/bpm?sslmode=disable"
   kafka:
     brokers: ["thinkcenter:9092"]
   zeebe:

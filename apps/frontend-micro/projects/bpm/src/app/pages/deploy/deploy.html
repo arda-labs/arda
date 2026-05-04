@@ -1,0 +1,80 @@
+<div class="p-4 max-w-3xl mx-auto">
+  <div class="flex items-center justify-between mb-6">
+    <h1 class="text-2xl font-semibold m-0">Triển khai BPMN mới</h1>
+    <p-button label="Quay lại danh sách" icon="pi pi-arrow-left" severity="secondary" (onClick)="goBack()" />
+  </div>
+
+  <!-- File upload card -->
+  <p-card>
+    <div class="flex flex-col gap-5">
+      <!-- Step 1: pick file -->
+      <div>
+        <label class="block text-sm font-medium mb-2">Tệp BPMN <span class="text-red-500">*</span></label>
+        <div
+          class="border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors"
+          [class.border-primary]="!selectedFile()"
+          [class.border-green-500]="selectedFile()"
+          (click)="fileInput.click()"
+          (dragover)="$event.preventDefault()"
+          (drop)="onFileDrop($event)"
+        >
+          @if (!selectedFile()) {
+            <div class="flex flex-column align-items-center gap-2 text-muted-color">
+              <i class="pi pi-cloud-upload" style="font-size: 2.5rem"></i>
+              <span class="font-medium">Kéo thả hoặc nhấp để chọn file .bpmn</span>
+              <span class="text-sm">Hỗ trợ file BPMN 2.0 XML (.bpmn)</span>
+            </div>
+          } @else {
+            <div class="flex flex-column align-items-center gap-2 text-green-600">
+              <i class="pi pi-file" style="font-size: 2.5rem"></i>
+              <span class="font-medium">{{ selectedFile()!.name }}</span>
+              <span class="text-sm">Đã chọn {{ (selectedFile()!.size / 1024).toFixed(1) }} KB</span>
+            </div>
+          }
+          <input #fileInput type="file" accept=".bpmn,.xml" class="hidden" (change)="onFileSelected($event)" />
+        </div>
+      </div>
+
+      <!-- Step 2: fields -->
+      <div class="grid grid-cols-2 gap-4">
+        <div class="flex flex-col gap-1.5">
+          <label for="processKey" class="text-sm font-medium">Process Key <span class="text-red-500">*</span></label>
+          <input pInputText id="processKey" placeholder="process.my-process" [ngModel]="processKey()" (ngModelChange)="processKey.set($event)" />
+        </div>
+        <div class="flex flex-col gap-1.5">
+          <label for="name" class="text-sm font-medium">Tên quy trình <span class="text-red-500">*</span></label>
+          <input pInputText id="name" placeholder="Quy trình của tôi" [ngModel]="name()" (ngModelChange)="name.set($event)" />
+        </div>
+        <div class="flex flex-col gap-1.5">
+          <label for="category" class="text-sm font-medium">Danh mục</label>
+          <input pInputText id="category" placeholder="Nghiệp vụ" [ngModel]="category()" (ngModelChange)="category.set($event)" />
+        </div>
+        <div class="flex flex-col gap-1.5">
+          <label for="module" class="text-sm font-medium">Module</label>
+          <p-select [options]="moduleOptions" [(ngModel)]="selectedModule" styleClass="w-full" />
+        </div>
+        <div class="col-span-2 flex flex-col gap-1.5">
+          <label for="description" class="text-sm font-medium">Mô tả</label>
+          <textarea pTextarea id="description" rows="3" placeholder="Mô tả quy trình..." [ngModel]="description()" (ngModelChange)="description.set($event)"></textarea>
+        </div>
+      </div>
+
+      <!-- Submit -->
+      <div class="flex justify-end gap-2 pt-2 border-t">
+        <p-button label="Hủy" severity="secondary" (onClick)="goBack()" />
+        <p-button
+          label="Triển khai"
+          icon="pi pi-upload"
+          severity="success"
+          [loading]="isDeploying()"
+          [disabled]="!canDeploy()"
+          (onClick)="deploy()"
+        />
+      </div>
+    </div>
+  </p-card>
+
+  @if (deployError()) {
+    <p-message severity="error" [text]="deployError()!" styleClass="mt-3 w-full" />
+  }
+</div>

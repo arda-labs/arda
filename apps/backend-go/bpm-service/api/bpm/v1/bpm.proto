@@ -1,0 +1,307 @@
+syntax = "proto3";
+
+package bpm.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/struct.proto";
+
+option go_package = "github.com/arda-labs/arda/arda-be-go/services/bpm-service/api/bpm/v1;v1";
+
+service BPMService {
+  // Process Definitions
+  rpc ListDefinitions(ListDefinitionsRequest) returns (ListDefinitionsResponse) {
+    option (google.api.http) = { get: "/v1/bpm/definitions" };
+  }
+  rpc GetDefinition(GetDefinitionRequest) returns (Definition) {
+    option (google.api.http) = { get: "/v1/bpm/definitions/{id}" };
+  }
+  rpc GetDefinitionDiagram(GetDefinitionDiagramRequest) returns (DefinitionDiagram) {
+    option (google.api.http) = { get: "/v1/bpm/definitions/{id}/diagram" };
+  }
+  rpc DeployDefinition(DeployDefinitionRequest) returns (Definition) {
+    option (google.api.http) = { post: "/v1/bpm/definitions/deploy", body: "*" };
+  }
+
+  // Process Instances
+  rpc ListInstances(ListInstancesRequest) returns (ListInstancesResponse) {
+    option (google.api.http) = { get: "/v1/bpm/instances" };
+  }
+  rpc GetInstance(GetInstanceRequest) returns (InstanceDetail) {
+    option (google.api.http) = { get: "/v1/bpm/instances/{id}" };
+  }
+  rpc GetInstanceEvents(GetInstanceEventsRequest) returns (GetInstanceEventsResponse) {
+    option (google.api.http) = { get: "/v1/bpm/instances/{id}/events" };
+  }
+  rpc GetHeatmap(GetHeatmapRequest) returns (GetHeatmapResponse) {
+    option (google.api.http) = { get: "/v1/bpm/heatmap" };
+  }
+
+  // Templates
+  rpc ListTemplates(ListTemplatesRequest) returns (ListTemplatesResponse) {
+    option (google.api.http) = { get: "/v1/bpm/templates" };
+  }
+  rpc CreateTemplate(CreateTemplateRequest) returns (Template) {
+    option (google.api.http) = { post: "/v1/bpm/templates", body: "*" };
+  }
+  rpc UpdateTemplate(UpdateTemplateRequest) returns (Template) {
+    option (google.api.http) = { put: "/v1/bpm/templates/{id}", body: "*" };
+  }
+  rpc DeleteTemplate(DeleteTemplateRequest) returns (DeleteResponse) {
+    option (google.api.http) = { delete: "/v1/bpm/templates/{id}" };
+  }
+  rpc RenderTemplate(RenderTemplateRequest) returns (RenderTemplateResponse) {
+    option (google.api.http) = { get: "/v1/bpm/templates/{id}/render" };
+  }
+  rpc ListVariableSources(ListVariableSourcesRequest) returns (ListVariableSourcesResponse) {
+    option (google.api.http) = { get: "/v1/bpm/templates/variables/sources" };
+  }
+  rpc ConfigureVariableMapping(ConfigureVariableMappingRequest) returns (VariableMapping) {
+    option (google.api.http) = { post: "/v1/bpm/templates/variables/mappings", body: "*" };
+  }
+}
+
+// === Process Definitions ===
+
+message Definition {
+  string id = 1;
+  string process_key = 2;
+  string name = 3;
+  string description = 4;
+  string category = 5;
+  string module = 6;
+  int32 version = 7;
+  bool is_active = 8;
+  google.protobuf.Timestamp created_at = 9;
+  google.protobuf.Timestamp updated_at = 10;
+}
+
+message ListDefinitionsRequest {
+  string module = 1;
+  string keyword = 2;
+  bool include_inactive = 3;
+  int32 page_size = 4;
+  string page_token = 5;
+}
+
+message ListDefinitionsResponse {
+  repeated Definition definitions = 1;
+  string next_page_token = 2;
+}
+
+message GetDefinitionRequest {
+  string id = 1;
+}
+
+message GetDefinitionDiagramRequest {
+  string id = 1;
+}
+
+message DefinitionDiagram {
+  string id = 1;
+  string bpmn_xml = 2;
+  string process_key = 3;
+  int32 version = 4;
+}
+
+message DeployDefinitionRequest {
+  string bpmn_xml = 1;
+  string process_key = 2;
+  string name = 3;
+  string description = 4;
+  string category = 5;
+  string module = 6;
+}
+
+// === Process Instances ===
+
+message InstanceSummary {
+  string id = 1;
+  int64 zeebe_instance_key = 2;
+  string process_definition_id = 3;
+  string process_name = 4;
+  string status = 5;
+  string current_step = 6;
+  string assigned_agent = 7;
+  string sla_status = 8;
+  google.protobuf.Timestamp created_at = 9;
+  google.protobuf.Timestamp completed_at = 10;
+}
+
+message InstanceDetail {
+  string id = 1;
+  int64 zeebe_instance_key = 2;
+  string process_definition_id = 3;
+  string process_name = 4;
+  string status = 5;
+  string current_step = 6;
+  google.protobuf.Struct variables = 7;
+  string assigned_agent = 8;
+  string sla_status = 9;
+  string bpmn_xml = 10;
+  repeated string active_element_ids = 11;
+  repeated string completed_element_ids = 12;
+  google.protobuf.Timestamp created_at = 13;
+  google.protobuf.Timestamp completed_at = 14;
+}
+
+message ListInstancesRequest {
+  string process_definition_id = 1;
+  string status = 2;
+  string module = 3;
+  string keyword = 4;
+  string from_date = 5;
+  string to_date = 6;
+  int32 page_size = 7;
+  string page_token = 8;
+}
+
+message ListInstancesResponse {
+  repeated InstanceSummary instances = 1;
+  string next_page_token = 2;
+}
+
+message GetInstanceRequest {
+  string id = 1;
+}
+
+message GetInstanceEventsRequest {
+  string id = 1;
+  int32 page_size = 3;
+  string page_token = 4;
+}
+
+message ProcessEvent {
+  string id = 1;
+  string process_instance_id = 2;
+  string event_type = 3;
+  string source = 4;
+  google.protobuf.Struct data = 5;
+  google.protobuf.Timestamp timestamp = 6;
+}
+
+message GetInstanceEventsResponse {
+  repeated ProcessEvent events = 1;
+  string next_page_token = 2;
+}
+
+message GetHeatmapRequest {
+  string process_definition_id = 1;
+}
+
+message HeatmapStep {
+  string element_id = 1;
+  string element_name = 2;
+  int32 instance_count = 3;
+  double avg_duration_seconds = 4;
+  string severity = 5;
+}
+
+message GetHeatmapResponse {
+  repeated HeatmapStep steps = 1;
+}
+
+// === Templates ===
+
+message TemplateVariable {
+  string id = 1;
+  string variable_name = 2;
+  string source_type = 3;
+  string source_field = 4;
+  google.protobuf.Struct resolver_config = 5;
+  string fallback_value = 6;
+}
+
+message Template {
+  string id = 1;
+  string process_definition_id = 2;
+  string name = 3;
+  string template_text = 4;
+  string module = 5;
+  repeated TemplateVariable variables = 6;
+  google.protobuf.Timestamp created_at = 7;
+  google.protobuf.Timestamp updated_at = 8;
+}
+
+message ListTemplatesRequest {
+  string process_definition_id = 1;
+  string module = 2;
+  string keyword = 3;
+  int32 page_size = 4;
+  string page_token = 5;
+}
+
+message ListTemplatesResponse {
+  repeated Template templates = 1;
+  string next_page_token = 2;
+}
+
+message CreateTemplateRequest {
+  string process_definition_id = 1;
+  string name = 2;
+  string template_text = 3;
+  string module = 4;
+  repeated TemplateVariable variables = 5;
+}
+
+message UpdateTemplateRequest {
+  string id = 1;
+  string name = 2;
+  string template_text = 3;
+  string module = 4;
+  repeated TemplateVariable variables = 5;
+}
+
+message DeleteTemplateRequest {
+  string id = 1;
+}
+
+message DeleteResponse {}
+
+message RenderTemplateRequest {
+  string id = 1;
+  string instance_id = 2;
+}
+
+message ResolvedVariable {
+  string variable_name = 1;
+  string resolved_value = 2;
+  bool used_fallback = 3;
+  string source_type = 4;
+}
+
+message RenderTemplateResponse {
+  string rendered_text = 1;
+  repeated ResolvedVariable resolved_variables = 2;
+}
+
+message ListVariableSourcesRequest {}
+
+message VariableSource {
+  string type = 1;
+  string name = 2;
+  string description = 3;
+}
+
+message ListVariableSourcesResponse {
+  repeated VariableSource sources = 1;
+}
+
+message ConfigureVariableMappingRequest {
+  string template_id = 1;
+  string variable_name = 2;
+  string source_type = 3;
+  string source_field = 4;
+  google.protobuf.Struct resolver_config = 5;
+  string fallback_value = 6;
+}
+
+message VariableMapping {
+  string id = 1;
+  string template_id = 2;
+  string variable_name = 3;
+  string source_type = 4;
+  string source_field = 5;
+  google.protobuf.Struct resolver_config = 6;
+  string fallback_value = 7;
+}

@@ -41,3 +41,19 @@ func (z *ZeebeClient) StartInstance(ctx context.Context, processID string, varia
 	log.Printf("Zeebe: Started instance %d for process %s\n", result.ProcessInstanceKey, processID)
 	return result.ProcessInstanceKey, nil
 }
+
+// DeployBPMN deploys a BPMN XML to Zeebe and returns the deployment key.
+func (z *ZeebeClient) DeployBPMN(ctx context.Context, bpmnXML, resourceName string) (int64, error) {
+	cmd, err := z.client.NewDeployResourceCommand().
+		AddResource([]byte(bpmnXML), resourceName).
+		Send(ctx)
+	if err != nil {
+		return 0, fmt.Errorf("zeebe deploy: %w", err)
+	}
+
+	// The deployment key is embedded in the response - use the key from the first deployment
+	key := cmd.GetKey()
+	log.Printf("Zeebe: Deployed process %s, key: %d\n", resourceName, key)
+	return key, nil
+}
+

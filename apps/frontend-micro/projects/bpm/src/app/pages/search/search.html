@@ -1,29 +1,40 @@
 <div class="search-container p-4">
   <div class="flex justify-between items-center mb-6">
     <h2 class="text-3xl font-bold">Tra cứu giao dịch & Tiến trình</h2>
-    <p-button label="Xuất dữ liệu" icon="pi pi-file-export" severity="secondary" [text]="true" (onClick)="onExport()" />
   </div>
 
   <div class="card p-6 border border-gray-200 rounded-lg mb-8 bg-gray-50">
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 items-end">
+    <div class="grid grid-cols-1 md:grid-cols-5 gap-6 items-end">
       <div class="flex flex-col gap-2">
         <label class="font-bold text-sm text-gray-700">Loại quy trình</label>
         <p-select
-          [options]="processTypes"
-          [(ngModel)]="selectedProcess"
+          [options]="definitions()"
+          [(ngModel)]="selectedDefId"
+          optionLabel="name"
+          optionValue="id"
+          placeholder="Tất cả quy trình"
+          class="w-full"
+          [showClear]="true" />
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <label class="font-bold text-sm text-gray-700">Trạng thái</label>
+        <p-select
+          [options]="statuses"
+          [(ngModel)]="selectedStatus"
           optionLabel="label"
           optionValue="value"
           class="w-full" />
       </div>
 
       <div class="flex flex-col gap-2 md:col-span-2">
-        <label class="font-bold text-sm text-gray-700">Mã hồ sơ / Tên khách hàng / ID tiến trình</label>
+        <label class="font-bold text-sm text-gray-700">Từ khóa</label>
         <p-iconfield>
           <p-inputicon class="pi pi-search" />
           <input
             pInputText
-            [(ngModel)]="searchQuery"
-            placeholder="Tìm theo nhiều tiêu chí..."
+            [(ngModel)]="keyword"
+            placeholder="Mã hồ sơ / ID tiến trình..."
             class="w-full" />
         </p-iconfield>
       </div>
@@ -49,28 +60,31 @@
     [paginator]="true"
     [rows]="10"
     [tableStyle]="{ 'min-width': '60rem' }"
+    [loading]="loading()"
     class="custom-table">
     <ng-template pTemplate="header">
       <tr>
         <th style="width: 150px">Mã tiến trình</th>
         <th>Quy trình</th>
-        <th>Đối tượng khách hàng</th>
         <th style="width: 150px">Trạng thái</th>
-        <th style="width: 200px">Ngày hoàn thành</th>
+        <th style="width: 100px">SLA</th>
+        <th style="width: 180px">Ngày tạo</th>
         <th style="width: 100px">Thao tác</th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-item>
       <tr>
-        <td><span class="font-mono text-blue-600 font-bold underline cursor-pointer">{{ item.id }}</span></td>
-        <td>{{ item.process }}</td>
-        <td><span class="font-medium">{{ item.customer }}</span></td>
+        <td><span class="font-mono text-blue-600 font-bold underline cursor-pointer" (click)="viewInstance(item.id)">{{ item.id.substring(0,8) }}...</span></td>
+        <td><span class="font-medium">{{ item.processDefinitionId }}</span></td>
         <td>
           <p-tag [value]="item.status" [severity]="getStatusSeverity(item.status)" />
         </td>
-        <td>{{ item.completedDate }}</td>
         <td>
-          <p-button icon="pi pi-info-circle" [text]="true" rounded pTooltip="Xem chi tiết" />
+          <p-tag [value]="item.slaStatus" [severity]="item.slaStatus === 'BREACHED' ? 'danger' : item.slaStatus === 'WARNING' ? 'warn' : 'success'" />
+        </td>
+        <td>{{ item.createdAt | date:'dd/MM/yyyy HH:mm' }}</td>
+        <td>
+          <p-button icon="pi pi-info-circle" [text]="true" rounded (onClick)="viewInstance(item.id)" />
         </td>
       </tr>
     </ng-template>

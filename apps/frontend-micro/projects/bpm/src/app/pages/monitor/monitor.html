@@ -1,54 +1,146 @@
 <div class="monitor-container p-4">
-  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-    <!-- TRÁI: SƠ ĐỒ BPMN -->
-    <div class="lg:col-span-2">
-      <div class="flex justify-between items-center mb-4">
-        <h2 class="text-2xl font-bold">Giám sát quy trình hiện thời</h2>
-        <p-togglebutton 
-          [(ngModel)]="showHeatmap" 
-          onLabel="Ẩn Heatmap" 
-          offLabel="Hiện Heatmap" 
-          onIcon="pi pi-eye-slash" 
-          offIcon="pi pi-eye"
-          (onChange)="toggleHeatmap()" />
+  <!-- Header -->
+  <div class="flex justify-between items-center mb-4">
+    <h2 class="text-2xl font-bold">Giám sát vận hành</h2>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-4 gap-4">
+    <!-- LEFT: Definitions + Instance list -->
+    <div class="lg:col-span-1 flex flex-col gap-4">
+      <!-- Definition selector -->
+      <div class="card p-3 bg-white border border-gray-200 rounded-lg">
+        <label class="block text-sm font-bold text-gray-700 mb-2">Quy trình</label>
+        @if (loadingDef()) {
+          <p-skeleton width="100%" height="2.5rem" />
+        } @else {
+          <p-select
+            [options]="definitions()"
+            [(ngModel)]="selectedDef"
+            optionLabel="name"
+            placeholder="Chọn quy trình..."
+            class="w-full"
+            (onChange)="onDefChange($event.value)" />
+        }
       </div>
-      
-      <div #ref class="card border border-gray-300 bg-white rounded-lg min-h-125 w-full relative">
-        <div class="absolute top-2 right-2 flex gap-2">
-          <p-tag value="Instance: wf-999" severity="info" />
-          <p-tag value="Status: RUNNING" severity="success" />
-        </div>
+
+      <!-- Instance list -->
+      <div class="card p-3 bg-white border border-gray-200 rounded-lg flex-1">
+        <h3 class="text-sm font-bold text-gray-700 mb-2">Phiên bản xử lý</h3>
+        @if (loadingInstances()) {
+          @for (_ of [1,2,3,4,5]; track _) {
+            <p-skeleton width="100%" height="2rem" class="mb-2" />
+          }
+        } @else if (instances().length === 0) {
+          <p class="text-sm text-gray-400 italic text-center py-4">Chưa có phiên bản xử lý</p>
+        } @else {
+          <div class="max-h-96 overflow-y-auto space-y-1">
+            @for (inst of instances(); track inst.id) {
+              <div
+                class="p-2 rounded cursor-pointer text-sm border transition-colors"
+                [class.bg-blue-50]="selectedInstance()?.id === inst.id"
+                [class.border-blue-300]="selectedInstance()?.id === inst.id"
+                [class.border-transparent]="selectedInstance()?.id !== inst.id"
+                (click)="onSelectInstance(inst)">
+                <div class="flex justify-between items-center">
+                  <span class="font-mono text-xs text-blue-600">{{ inst.id.substring(0,8) }}...</span>
+                  <p-tag [value]="inst.status" [severity]="getStatusSeverity(inst.status)" class="!text-xs" />
+                </div>
+                <div class="text-xs text-gray-500 mt-1">{{ inst.createdAt | date:'dd/MM HH:mm' }}</div>
+              </div>
+            }
+          </div>
+        }
       </div>
     </div>
 
-    <!-- PHẢI: DÒNG SỰ KIỆN -->
-    <div>
-      <h2 class="text-2xl font-bold mb-4">Dòng sự kiện (Kafka Stream)</h2>
-      <div class="card p-4 bg-white border border-gray-200 rounded-lg max-h-125 overflow-y-auto">
-        <p-timeline [value]="streamEvents()">
-          <ng-template pTemplate="marker" let-event>
-            <span class="flex w-8 h-8 items-center justify-center text-white rounded-full z-1 shadow-1" [style.backgroundColor]="event.color">
-              <i [class]="event.icon"></i>
-            </span>
-          </ng-template>
-          <ng-template pTemplate="content" let-event>
-            <p-card [header]="event.status" [subheader]="event.date" class="mb-3 custom-timeline-card">
-              <p class="text-sm font-mono bg-gray-50 p-2 rounded">{{ event.description }}</p>
-            </p-card>
-          </ng-template>
-        </p-timeline>
+    <!-- CENTER: BPMN Diagram -->
+    <div class="lg:col-span-2">
+      <div class="flex justify-between items-center mb-2">
+        <h3 class="text-lg font-bold">
+          @if (selectedInstance(); as inst) {
+            Biểu đồ: {{ inst.id.substring(0,8) }}...
+            <p-tag [value]="inst.status" [severity]="getStatusSeverity(inst.status)" class="ml-2 text-xs!" />
+          } @else {
+            Biểu đồ quy trình
+          }
+        </h3>
+        @if (heatmapData().length) {
+          <p-togglebutton
+            [(ngModel)]="showHeatmap"
+            onLabel="Ẩn Heatmap"
+            offLabel="Hiện Heatmap"
+            onIcon="pi pi-eye-slash"
+            offIcon="pi pi-eye"
+            (onChange)="toggleHeatmap()" />
+        }
+      </div>
+      <div #bpmnContainer class="card border border-gray-300 bg-white rounded-lg min-h-[30rem] w-full relative">
+        @if (loadingDiagram()) {
+          <div class="absolute inset-0 flex items-center justify-center bg-white/70 z-10">
+            <i class="pi pi-spin pi-spinner text-3xl text-blue-500"></i>
+          </div>
+        }
+        @if (!bpmnXml() && !loadingDiagram()) {
+          <div class="absolute inset-0 flex items-center justify-center text-gray-400 italic">
+            Chọn phiên bản xử lý để xem biểu đồ
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- RIGHT: Event Timeline & Details -->
+    <div class="lg:col-span-1">
+      <h3 class="text-lg font-bold mb-2">Dòng sự kiện</h3>
+      <div class="card p-3 bg-white border border-gray-200 rounded-lg max-h-[34rem] overflow-y-auto">
+        @if (events().length === 0) {
+          <p class="text-sm text-gray-400 italic text-center py-8">Chưa có sự kiện</p>
+        } @else {
+          <p-timeline [value]="events()">
+            <ng-template pTemplate="marker" let-event>
+              <span
+                class="flex w-7 h-7 items-center justify-center text-white rounded-full z-1 shadow-1"
+                [style.background-color]="getEventColor(event.source)">
+                <i [class]="getEventIcon(event.eventType)" style="font-size: 12px"></i>
+              </span>
+            </ng-template>
+            <ng-template pTemplate="content" let-event>
+              <p-card [header]="event.eventType" [subheader]="event.timestamp ?? ''" class="mb-2 custom-timeline-card">
+                <p class="text-xs font-mono bg-gray-50 p-1 rounded">{{ event.source }}</p>
+              </p-card>
+            </ng-template>
+          </p-timeline>
+        }
       </div>
     </div>
   </div>
 </div>
 
 <style>
-  /* Heatmap Markers */
-  :host ::ng-deep .heatmap-danger .djs-visual > :nth-child(1) { fill: #FEE2E2 !important; stroke: #EF4444 !important; stroke-width: 3px !important; }
-  :host ::ng-deep .heatmap-warn .djs-visual > :nth-child(1) { fill: #FEF3C7 !important; stroke: #F59E0B !important; stroke-width: 3px !important; }
-  :host ::ng-deep .heatmap-success .djs-visual > :nth-child(1) { fill: #D1FAE5 !important; stroke: #10B981 !important; stroke-width: 3px !important; }
-
-  /* Heatmap Badges */
+  :host ::ng-deep .bpmn-active .djs-visual > :nth-child(1) {
+    fill: #D1FAE5 !important;
+    stroke: #059669 !important;
+    stroke-width: 3px !important;
+  }
+  :host ::ng-deep .bpmn-completed .djs-visual > :nth-child(1) {
+    fill: #DBEAFE !important;
+    stroke: #3B82F6 !important;
+    stroke-width: 2px !important;
+  }
+  :host ::ng-deep .heatmap-danger .djs-visual > :nth-child(1) {
+    fill: #FEE2E2 !important;
+    stroke: #EF4444 !important;
+    stroke-width: 3px !important;
+  }
+  :host ::ng-deep .heatmap-warn .djs-visual > :nth-child(1) {
+    fill: #FEF3C7 !important;
+    stroke: #F59E0B !important;
+    stroke-width: 3px !important;
+  }
+  :host ::ng-deep .heatmap-success .djs-visual > :nth-child(1) {
+    fill: #D1FAE5 !important;
+    stroke: #10B981 !important;
+    stroke-width: 3px !important;
+  }
   :host ::ng-deep .heatmap-badge {
     position: absolute;
     padding: 2px 8px;

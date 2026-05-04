@@ -3,41 +3,262 @@
 
   <div class="flex justify-between items-center mb-6">
     <h2 class="text-2xl font-bold">Cấu trúc diễn giải & Lý do mẫu</h2>
-    <div class="flex gap-2">
-      <p-button label="Lưu thay đổi" icon="pi pi-save" (onClick)="onSave()" />
-      <p-button label="Thêm mẫu mới" icon="pi pi-plus" severity="success" (onClick)="addTemplate()" />
-    </div>
   </div>
 
-  <p-table [value]="templates()" [paginator]="true" [rows]="10" [tableStyle]="{ 'min-width': '60rem' }">
-    <ng-template pTemplate="header">
-      <tr>
-        <th style="width: 150px">Mã lý do</th>
-        <th>Nội dung diễn giải (Mẫu)</th>
-        <th style="width: 250px">Phân loại module</th>
-        <th style="width: 100px">Thao tác</th>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-tpl let-i="rowIndex">
-      <tr>
-        <td>
-          <input pInputText [(ngModel)]="tpl.code" class="w-full font-mono text-sm" />
-        </td>
-        <td>
-          <input pInputText [(ngModel)]="tpl.content" class="w-full" placeholder="Nhập nội dung diễn giải..." />
-        </td>
-        <td>
-          <p-select [options]="modules" [(ngModel)]="tpl.module" optionLabel="label" optionValue="value" class="w-full" />
-        </td>
-        <td class="text-center">
-          <p-button icon="pi pi-trash" severity="danger" [text]="true" (onClick)="deleteTemplate(i)" />
-        </td>
-      </tr>
-    </ng-template>
-  </p-table>
-
-  <div class="mt-6 p-4 bg-gray-50 border border-gray-200 rounded text-gray-600 text-sm">
-    <i class="pi pi-info-circle mr-2"></i>
-    Các mẫu diễn giải này sẽ hiển thị trong danh sách gợi ý khi cán bộ xử lý thực hiện các thao tác: Phê duyệt, Từ chối, hoặc Yêu cầu bổ sung.
+  <!-- Tab buttons -->
+  <div class="flex gap-2 mb-4 border-b border-gray-200">
+    <button
+      class="px-4 py-2 text-sm font-medium border-b-2 transition-colors cursor-pointer"
+      [class.border-blue-500]="activeTab() === 'editor'"
+      [class.border-transparent]="activeTab() !== 'editor'"
+      [class.text-blue-600]="activeTab() === 'editor'"
+      [class.text-gray-500]="activeTab() !== 'editor'"
+      (click)="activeTab.set('editor')">
+      <i class="pi pi-pencil mr-2"></i>Danh sách mẫu
+    </button>
+    <button
+      class="px-4 py-2 text-sm font-medium border-b-2 transition-colors cursor-pointer"
+      [class.border-blue-500]="activeTab() === 'preview'"
+      [class.border-transparent]="activeTab() !== 'preview'"
+      [class.text-blue-600]="activeTab() === 'preview'"
+      [class.text-gray-500]="activeTab() !== 'preview'"
+      (click)="activeTab.set('preview')">
+      <i class="pi pi-eye mr-2"></i>Xem trước
+    </button>
   </div>
+
+  @switch (activeTab()) {
+    @case ('editor') {
+      <div class="flex justify-end gap-2 mb-4">
+        <p-button label="Thêm mẫu mới" icon="pi pi-plus" severity="success" (onClick)="newTemplate()" />
+      </div>
+
+      <p-table [value]="editorTemplates()" [paginator]="true" [rows]="10" [tableStyle]="{ 'min-width': '60rem' }" [loading]="loading()">
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="width: 200px">Tên mẫu</th>
+            <th>Nội dung mẫu</th>
+            <th style="width: 150px">Quy trình</th>
+            <th style="width: 100px">Biến</th>
+            <th style="width: 120px">Ngày tạo</th>
+            <th style="width: 100px">Thao tác</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-tpl>
+          <tr>
+            <td><span class="font-medium">{{ tpl.name }}</span></td>
+            <td><span class="text-sm text-gray-600 truncate block max-w-xs">{{ tpl.templateText.substring(0, 60) }}{{ tpl.templateText.length > 60 ? '...' : '' }}</span></td>
+            <td>{{ tpl.processDefinitionId.substring(0, 8) }}...</td>
+            <td>
+              <p-tag [value]="(tpl.variables?.length ?? 0).toString()" [severity]="(tpl.variables?.length ?? 0) > 0 ? 'info' : 'secondary'" />
+            </td>
+            <td>{{ tpl.createdAt | date:'dd/MM/yyyy' }}</td>
+            <td>
+              <div class="flex gap-1">
+                <p-button icon="pi pi-pencil" [text]="true" rounded (onClick)="editTemplate(tpl)" />
+                <p-button icon="pi pi-trash" severity="danger" [text]="true" rounded (onClick)="deleteTemplate(tpl.id)" />
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="6" class="text-center p-8 text-gray-500 italic">
+              Chưa có mẫu diễn giải nào.
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+
+      <!-- Template Editor Dialog -->
+      @if (showEditor()) {
+        <p-dialog
+          [(visible)]="showEditor"
+          [header]="(editingTemplate()?.id ? 'Sửa' : 'Tạo') + ' mẫu diễn giải'"
+          [modal]="true"
+          [style]="{ width: '50rem' }"
+          (onHide)="showEditor.set(false)">
+          @if (editingTemplate(); as tpl) {
+            <div class="flex flex-col gap-4">
+              @if (!tpl.id) {
+                <div class="flex flex-col gap-2">
+                  <label class="font-bold text-sm">Quy trình</label>
+                  <p-select
+                    [options]="definitions()"
+                    [(ngModel)]="tpl.processDefinitionId"
+                    optionLabel="name"
+                    optionValue="id"
+                    placeholder="Chọn quy trình..."
+                    class="w-full" />
+                </div>
+              }
+              <div class="flex flex-col gap-2">
+                <label class="font-bold text-sm">Tên mẫu</label>
+                <input pInputText [(ngModel)]="tpl.name" placeholder="Nhập tên mẫu..." class="w-full" />
+              </div>
+              <div class="flex flex-col gap-2">
+                <label class="font-bold text-sm">Nội dung mẫu <span class="text-gray-400 font-normal">(dùng @VARIABLE để chèn biến)</span></label>
+                <textarea [(ngModel)]="tpl.templateText" rows="5" class="w-full font-mono border border-gray-300 rounded p-2" placeholder="Nhập nội dung diễn giải với @VARIABLE..."></textarea>
+              </div>
+              <div class="flex flex-col gap-2">
+                <div class="flex justify-between items-center">
+                  <label class="font-bold text-sm">Biến số ({{ tpl.variables.length }})</label>
+                  <p-button label="Thêm biến" icon="pi pi-plus" severity="info" [text]="true" size="small" (onClick)="addVariable(tpl)" />
+                </div>
+                @if (tpl.variables.length > 0) {
+                  <p-table [value]="tpl.variables" [tableStyle]="{ 'min-width': '30rem' }">
+                    <ng-template pTemplate="header">
+                      <tr>
+                        <th>Tên biến</th>
+                        <th>Nguồn</th>
+                        <th>Trường</th>
+                        <th>Giá trị mặc định</th>
+                        <th style="width: 80px">Thao tác</th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-v let-idx="rowIndex">
+                      <tr>
+                        <td><span class="font-mono text-blue-600">@{{ v.variableName }}</span></td>
+                        <td>{{ getSourceName(v.sourceType) }}</td>
+                        <td><span class="text-sm">{{ v.sourceField }}</span></td>
+                        <td><span class="text-sm text-gray-500 italic">{{ v.fallbackValue || '—' }}</span></td>
+                        <td>
+                          <div class="flex gap-1">
+                            <p-button icon="pi pi-pencil" [text]="true" rounded size="small" (onClick)="editVariable(tpl, idx)" />
+                            <p-button icon="pi pi-trash" severity="danger" [text]="true" rounded size="small" (onClick)="removeVariable(tpl, idx)" />
+                          </div>
+                        </td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                } @else {
+                  <p class="text-sm text-gray-400 italic py-2">Chưa có biến nào. Thêm biến để gán nguồn dữ liệu cho @VARIABLE.</p>
+                }
+              </div>
+              <div class="flex justify-end gap-2 pt-2 border-t">
+                <p-button label="Hủy" severity="secondary" [text]="true" (onClick)="showEditor.set(false)" />
+                <p-button label="Lưu mẫu" icon="pi pi-check" (onClick)="saveTemplate()" />
+              </div>
+            </div>
+          }
+        </p-dialog>
+      }
+
+      <!-- Variable Mapping Dialog -->
+      @if (showVarDialog()) {
+        <p-dialog
+          [(visible)]="showVarDialog"
+          header="Cấu hình biến"
+          [modal]="true"
+          [style]="{ width: '35rem' }"
+          (onHide)="showVarDialog.set(false)">
+          @if (editingVar(); as v) {
+            <div class="flex flex-col gap-4">
+              <div class="flex flex-col gap-2">
+                <label class="font-bold text-sm">Tên biến</label>
+                <input pInputText [(ngModel)]="v.variableName" placeholder="VD: EMPLOYEE_NAME" class="w-full font-mono" />
+              </div>
+              <div class="flex flex-col gap-2">
+                <label class="font-bold text-sm">Loại nguồn</label>
+                <p-select
+                  [options]="variableSources()"
+                  [(ngModel)]="v.sourceType"
+                  optionLabel="name"
+                  optionValue="type"
+                  placeholder="Chọn loại nguồn..."
+                  class="w-full" />
+              </div>
+              @if (v.sourceType) {
+                <div class="flex flex-col gap-2">
+                  <label class="font-bold text-sm">Trường dữ liệu</label>
+                  <input pInputText [(ngModel)]="v.sourceField" placeholder="Tên field trong dữ liệu nguồn..." class="w-full" />
+                </div>
+              }
+              <div class="flex flex-col gap-2">
+                <label class="font-bold text-sm">Giá trị mặc định (fallback)</label>
+                <input pInputText [(ngModel)]="v.fallbackValue" placeholder="Dùng khi không thể lấy từ nguồn..." class="w-full" />
+              </div>
+              <div class="flex justify-end gap-2 pt-2 border-t">
+                <p-button label="Hủy" severity="secondary" [text]="true" (onClick)="showVarDialog.set(false)" />
+                <p-button label="Lưu" icon="pi pi-check" (onClick)="saveVariable()" />
+              </div>
+            </div>
+          }
+        </p-dialog>
+      }
+    }
+
+    @case ('preview') {
+      <div class="card p-6 border border-gray-200 rounded-lg bg-white">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+          <div class="flex flex-col gap-2">
+            <label class="font-bold text-sm text-gray-700">Chọn mẫu</label>
+            <p-select
+              [options]="templates()"
+              [(ngModel)]="previewTemplateId"
+              optionLabel="name"
+              optionValue="id"
+              placeholder="Chọn mẫu diễn giải..."
+              class="w-full"
+              (onChange)="onSelectPreviewTemplate($event.value)" />
+          </div>
+          <div class="flex flex-col gap-2">
+            <label class="font-bold text-sm text-gray-700">Chọn phiên bản xử lý</label>
+            <p-select
+              [options]="instances()"
+              [(ngModel)]="previewInstanceId"
+              optionLabel="id"
+              optionValue="id"
+              placeholder="Chọn instance..."
+              class="w-full" />
+          </div>
+          <div class="flex items-end">
+            <p-button label="Xem trước" icon="pi pi-play" (onClick)="onPreview()" [loading]="loadingPreview()" class="w-full" />
+          </div>
+        </div>
+
+        @if (previewResult(); as result) {
+          <div class="border rounded-lg overflow-hidden">
+            <div class="p-4 bg-gray-50 border-b">
+              <h3 class="font-bold">Kết quả render</h3>
+            </div>
+            <div class="p-4 bg-white">
+              <p class="text-lg whitespace-pre-wrap">{{ result.renderedText }}</p>
+            </div>
+            @if (result.resolvedVariables.length > 0) {
+              <div class="border-t">
+                <div class="p-3 bg-gray-50 border-b">
+                  <h4 class="font-semibold text-sm">Biến đã phân giải</h4>
+                </div>
+                <p-table [value]="result.resolvedVariables" [tableStyle]="{ 'min-width': '30rem' }">
+                  <ng-template pTemplate="header">
+                    <tr>
+                      <th>Biến</th>
+                      <th>Giá trị</th>
+                      <th>Nguồn</th>
+                      <th>Trạng thái</th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-rv>
+                    <tr>
+                      <td><span class="font-mono text-blue-600">@{{ rv.variableName }}</span></td>
+                      <td><span class="font-mono text-sm">{{ rv.resolvedValue }}</span></td>
+                      <td><span class="text-sm">{{ rv.sourceType }}</span></td>
+                      <td>
+                        @if (rv.usedFallback) {
+                          <p-tag value="Fallback" severity="warn" />
+                        } @else {
+                          <p-tag value="Resolved" severity="success" />
+                        }
+                      </td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    }
+  }
 </div>
